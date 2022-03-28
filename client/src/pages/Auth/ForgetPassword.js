@@ -10,7 +10,8 @@ import './auth.css';
 function ForgetPassword() {
     const { register, reset, handleSubmit } = useForm();
     const onSubmit = data => {
-        console.log(data)
+    console.log(data) 
+console.log(reset)
     };
     return (
         <>

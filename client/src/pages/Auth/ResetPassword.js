@@ -19,7 +19,8 @@ function ResetPassword() {
         showPassword: false,
     });
     const onSubmit = data => {
-        console.log(data)
+    console.log(data) 
+console.log(reset)
     };
     const handleChange = (prop) => (event) => {
         setValues({ ...values, [prop]: event.target.value });
