@@ -1,0 +1,19 @@
+.auth-form {
+  padding: 15px 25px;
+  background-color: transparent;
+  box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.2);
+  border-radius: 6px;
+}
+.auth-form h2 {
+  margin: 0px;
+}
+@media (min-width: "768px") {
+  .container-auth {
+    width: 400px;
+  }
+}
+.text-center {
+  text-align: center;
+  display: block;
+  padding-bottom: 10px;
+}
