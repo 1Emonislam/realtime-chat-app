@@ -14,11 +14,8 @@ import './auth.css';
 function Register() {
   const { register, reset, handleSubmit } = useForm();
   const [values, setValues] = React.useState({
-    amount: '',
     password: '',
     password2: '',
-    weight: '',
-    weightRange: '',
     showPassword: false,
   });
   const onSubmit = data => {
