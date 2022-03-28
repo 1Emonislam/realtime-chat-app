@@ -27,5 +27,5 @@ const connectedDb = async (req, res) => {
 };
 
 // api
-// https://soilight.herokuapp.com/
+// https://chat-app-demos.herokuapp.com/
 module.exports = connectedDb;
