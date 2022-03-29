@@ -31,3 +31,7 @@ input:focus {
 input::placeholder {
   background-color: transparent !important;
 }
+.selectedColor {
+  background-color: "#5A078B";
+  border-radius: "10px 10px 0px 25px";
+}
