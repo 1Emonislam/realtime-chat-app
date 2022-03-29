@@ -4,12 +4,12 @@ import ChatBodyPage from '../../../Ashikur/ChatBodyPage/ChatBodyPage';
 import Nav from '../../../Ashikur/Nav/Nav';
 import styles from './Chat.module.scss';
 
-function Chat() {
+function Chat({ children }) {
   return (
     <>
       <Box className={styles.mainDiv}>
         <Box className={styles.chatMenus}>
-          <Nav></Nav>
+          <Nav>{children}</Nav>
         </Box>
         <Box className={styles.chatBody}>
           <ChatBodyPage></ChatBodyPage>

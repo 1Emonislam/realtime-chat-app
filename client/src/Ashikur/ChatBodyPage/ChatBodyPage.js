@@ -5,7 +5,7 @@ const ChatBodyPage = () => {
     return (
         <div>
         <Typography>
-            one
+            {/* one */}
         </Typography>
         </div>
     );

@@ -1,10 +1,8 @@
-import Brightness4Icon from '@mui/icons-material/Brightness4';
-import Brightness7Icon from '@mui/icons-material/Brightness7';
 import Box from '@mui/material/Box';
-import IconButton from '@mui/material/IconButton';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import * as React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { ThemeSwitch } from './hooks/useThemes';
 import Chat from './pages/Auth/Chat/Chat';
 import ForgetPassword from './pages/Auth/ForgetPassword';
 import Login from './pages/Auth/Login';
@@ -18,6 +16,7 @@ export default function ToggleColorMode() {
   }
   if (mode === 'light') {
     document.body.style.background = '#fefefe';
+
   } if (mode === 'dark') {
     document.body.style.background = ' #111';
   }
@@ -40,7 +39,6 @@ export default function ToggleColorMode() {
       }),
     [mode],
   );
-
   return (
     <ColorModeContext.Provider value={colorMode}>
       <ThemeProvider theme={theme}>
@@ -52,12 +50,14 @@ export default function ToggleColorMode() {
             width: "100%",
           }}
         >
-          <IconButton sx={{ ml: 1 }} onClick={colorMode.toggleColorMode} color="inherit">
-            {theme.palette.mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
-          </IconButton>
           <BrowserRouter>
             <Routes>
-              <Route path="/" element={<Chat />}> </Route>
+              <Route path="/" element={<Chat>
+                {/* <IconButton sx={{ ml: 1 }} onClick={colorMode.toggleColorMode} color="inherit">
+                  {theme.palette.mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
+                </IconButton> */}
+                <ThemeSwitch onClick={colorMode.toggleColorMode} style={{ fontSize: '20px' }} checked={!(theme.palette.mode === 'light')} />
+              </Chat>}></Route>
               <Route path="/login" element={<Login />}> </Route>
               <Route path="/forget-password" element={<ForgetPassword />}> </Route>
               <Route path="/reset-password" element={<ResetPassword />}> </Route>

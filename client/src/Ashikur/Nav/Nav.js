@@ -10,83 +10,71 @@ import LocationOnIcon from '@mui/icons-material/LocationOn';
 import PhoneIcon from '@mui/icons-material/Phone';
 import GroupAddIcon from '@mui/icons-material/GroupAdd';
 import AddIcon from '@mui/icons-material/Add';
-import DarkModeOutlinedIcon from '@mui/icons-material/DarkModeOutlined';
-import { useThemes } from '../../hooks/useThemes';
-
-const Nav = () => {
+import './nav.css'
+const Nav = ({ children }) => {
     const [selected, setSelected] = useState('');
-    // const [theme] = useThemes();
-    // console.log(theme)
     return (
-        <div className={styles.nav}>
+        <div className={styles.nav} id="nav-dash">
             <Box className={styles.singleMenu}>
                 <Link to='/'>
                     <ToggleButton
-                        style={{backgroundColor:`${selected === 'one' ? '#5A078B' : 'rgba(255, 255, 255, 0.26)'}`, color:`${selected === 'one' && 'whiteSmoke'}`, borderRadius:'10px 10px 0px 25px'}}
                         value="one"
-                        onChange={()=>{
+                        onChange={() => {
                             setSelected(selected === 'one' ? '' : 'one')
                         }}
-                        >
-                        <LocationOnIcon sx={{transform: 'rotate(-55deg)'}} />
+                    >
+                        <LocationOnIcon sx={{ transform: 'rotate(-55deg)' }} />
                     </ToggleButton>
                 </Link>
             </Box>
             <Box className={styles.middleMenus}>
                 <Link to='/'>
                     <ToggleButton
-                        style={{backgroundColor:`${selected === 'two' ? '#5A078B' : 'rgba(255, 255, 255, 0.26)'}`, color:`${selected === 'two' && 'whiteSmoke'}`}}
                         value="two"
-                        onChange={()=>{
+                        onChange={() => {
                             setSelected(selected === 'two' ? '' : 'two')
                         }}
-                        >
-                        <MessageIcon/>
+                    >
+                        <MessageIcon />
                     </ToggleButton>
                 </Link>
                 <Link to='/'>
                     <ToggleButton
-                        style={{backgroundColor:`${selected === 'three' ? '#5A078B' : 'rgba(255, 255, 255, 0.26)'}`, color:`${selected === 'three' && 'whiteSmoke'}`}}
                         value="three"
-                        onChange={()=>{
+                        onChange={() => {
                             setSelected(selected === 'three' ? '' : 'three')
                         }}
-                        >
-                        <PeopleIcon/>
+                    >
+                        <PeopleIcon />
                     </ToggleButton>
                 </Link>
                 <Link to='/'>
                     <ToggleButton
-                        variant='inherit'
-                        style={{backgroundColor:`${selected === 'four' ? '#5A078B' : 'rgba(255, 255, 255, 0.26)'}`, color:`${selected ==='four' ? 'whiteSmoke' : '#000000'}`}}
                         value="four"
-                        onChange={()=>{
+                        onChange={() => {
                             setSelected(selected === 'four' ? '' : 'four')
                         }}
-                        >
-                        <ArticleIcon/>
+                    >
+                        <ArticleIcon />
                     </ToggleButton>
                 </Link>
                 <Link to='/'>
                     <ToggleButton
-                        style={{backgroundColor:`${selected === 'five' ? '#5A078B' : 'rgba(255, 255, 255, 0.26)'}`, color:`${selected === 'five' && 'whiteSmoke'}`}}
                         value="five"
-                        onChange={()=>{
+                        onChange={() => {
                             setSelected(selected === 'five' ? '' : 'five')
                         }}
-                        >
-                        <PhoneIcon />
+                    ><PhoneIcon />
                     </ToggleButton>
                 </Link>
                 <Link to='/'>
                     <ToggleButton
-                        style={{backgroundColor:`${selected === 'six' ? '#5A078B' : 'rgba(255, 255, 255, 0.26)'}`, color:`${selected ==='six' && 'whiteSmoke'}`}}
                         value="six"
-                        onChange={()=>{
+                        onChange={() => {
                             setSelected(selected === 'six' ? '' : 'six')
                         }}
-                        >
-                        <SettingsIcon/>
+                    >
+                        <SettingsIcon />
                     </ToggleButton>
                 </Link>
             </Box>
@@ -95,26 +83,24 @@ const Nav = () => {
                 <Link to='/'>
                     <IconButton className={styles.singleMenu} aria-label="Example">
                         {/* <FontAwesomeSvgIcon icon={faEllipsisV} /> */}
-                        <GroupAddIcon sx={{fontSize:20}} />
+                        <GroupAddIcon sx={{ fontSize: 20 }} />
                     </IconButton>
                 </Link>
                 <Link to='/'>
                     <IconButton className={styles.singleMenu} aria-label="Example">
                         {/* <FontAwesomeSvgIcon icon={faEllipsisV} /> */}
-                        <AddIcon sx={{bgcolor:'#ec407a', color:'whiteSmoke', borderRadius:15, fontSize:20, p:0.3,}} />
+                        <AddIcon sx={{ bgcolor: '#ec407a', color: 'whiteSmoke', borderRadius: 15, fontSize: 20, p: 0.3, }} />
                     </IconButton>
                 </Link>
+
                 <Link to='/'>
-                    <IconButton className={styles.singleMenu} aria-label="Example">
-                        {/* <FontAwesomeSvgIcon icon={faEllipsisV} /> */}
-                        <DarkModeOutlinedIcon sx={{bgcolor:'#304ffe', color:'whiteSmoke', borderRadius:1, fontSize:20, p:0.8,}} />
-                    </IconButton>
+                    {children}
                 </Link>
                 <Avatar className={styles.profileAvatar} alt="" src="https://mui.com/static/images/avatar/3.jpg" />
             </Box>
             {/* <Link to='/'>
                 <ToggleButton
-                     style={{backgroundColor:`${selected === '' ? '#5A078B' : 'rgba(255, 255, 255, 0.26)'}`, color:`${selected && 'whiteSmoke'}`}}
+                     style={{backgroundColor:`${selected === '' ? '#5A078B' : ''}`, color:`${selected && 'whiteSmoke'}`}}
                     value="one"
                     onChange={()=>{
                         setSelected(selected === '' ? '' : '')
