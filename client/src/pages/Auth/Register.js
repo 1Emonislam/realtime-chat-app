@@ -42,7 +42,6 @@ console.log(reset)
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
-
   return (
     <>
       <Container maxWidth="xs">
@@ -57,6 +56,13 @@ console.log(reset)
               <Input
                 type="text"
                 autoComplete="off"{...register("firstName", { min: 0 })} required
+                sx={{ paddingBottom: '10px' }} />
+            </FormControl>
+            <FormControl sx={{ m: 1, width: '95%' }} variant="standard">
+              <InputLabel htmlFor="standard-adornment-name">Last Name</InputLabel>
+              <Input
+                type="text"
+                autoComplete="off"{...register("lastName", { min: 0 })} required
                 sx={{ paddingBottom: '10px' }} />
             </FormControl>
             <FormControl sx={{ m: 1, width: '95%' }} variant="standard">
