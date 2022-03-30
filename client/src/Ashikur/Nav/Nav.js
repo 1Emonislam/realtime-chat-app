@@ -10,7 +10,8 @@ import LocationOnIcon from '@mui/icons-material/LocationOn';
 import PhoneIcon from '@mui/icons-material/Phone';
 import GroupAddIcon from '@mui/icons-material/GroupAdd';
 import AddIcon from '@mui/icons-material/Add';
-import './nav.css'
+import './nav.css';
+
 const Nav = ({ children }) => {
     const [selected, setSelected] = useState('');
     return (
