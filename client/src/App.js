@@ -2,6 +2,7 @@ import Box from '@mui/material/Box';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import * as React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import ChatHome from './components/ChatHome';
 import { ThemeSwitch } from './hooks/useThemes';
 import Chat from './pages/Auth/Chat/Chat';
 import ForgetPassword from './pages/Auth/ForgetPassword';
@@ -59,6 +60,7 @@ export default function ToggleColorMode() {
                 <ThemeSwitch onClick={colorMode.toggleColorMode} style={{ fontSize: '20px' }} checked={!(theme.palette.mode === 'light')} />
               </Chat>}></Route>
               <Route path="/login" element={<Login />}> </Route>
+              <Route path="/chat-child"element={<ChatHome/>}> </Route>
               <Route path="/forget-password" element={<ForgetPassword />}> </Route>
               <Route path="/reset-password" element={<ResetPassword />}> </Route>
               <Route path="/register" element={< Register />}> </Route>

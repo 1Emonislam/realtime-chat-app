@@ -1,20 +1,19 @@
-import { Box } from '@mui/material';
-import React from 'react'
+import { Grid } from '@mui/material';
+import React from 'react';
 import ChatBodyPage from '../../../Ashikur/ChatBodyPage/ChatBodyPage';
 import Nav from '../../../Ashikur/Nav/Nav';
-import styles from './Chat.module.scss';
 
 function Chat({ isDark, children }) {
   return (
     <>
-      <Box className={styles.mainDiv}>
-        <Box className={styles.chatMenus}>
+      <Grid container spacing={0}>
+        <Grid item xs={12}sm={1}>
           <Nav>{children}</Nav>
-        </Box>
-        <Box className={styles.chatBody}>
+        </Grid>
+        <Grid item xs={11}>
           <ChatBodyPage isDark={isDark}></ChatBodyPage>
-        </Box>
-      </Box>
+        </Grid>
+      </Grid>
     </>
   )
 }
