@@ -1,4 +1,3 @@
-import { Grid, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import '../ChatMiddle.css'
 import React, { useState } from 'react';
@@ -12,6 +11,7 @@ import AllModal from './Modal/AllModal';
 import InventoryIcon from '@mui/icons-material/Inventory';
 import VolumeOffIcon from '@mui/icons-material/VolumeOff';
 import DeleteIcon from '@mui/icons-material/Delete';
+import { Grid } from '@mui/material';
 
 const Header = () => {
     const [search,setSearch]=useState('')
