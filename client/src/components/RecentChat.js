@@ -146,8 +146,11 @@ function RecentChat() {
                     lg: '10px 20px',
                     md: '10px 15px',
                     sm: '10px 40px',
-                    xs: '10px 40px'
-                }
+                    xs: '5px 40px'
+                },
+                marginTop: {
+                    xs: '20px',
+                },
             }} alignItems="center" justifyContent="space-around">
                 <Grid item xs={8}>
                     <Typography sx={{
@@ -158,11 +161,12 @@ function RecentChat() {
                             sm: 15,
                             xs: 10
                         },
+
                         fontWeight: {
                             lg: 700,
                             md: 600,
                             sm: 500,
-                            xs: 400
+                            xs: 500
                         },
                     }} gutterBottom component="div">
                         RECENT CHATS
@@ -193,26 +197,26 @@ function RecentChat() {
                     </ToggleButton>
                 </Grid>
             </Grid>
-            <Grid container spacing={0} padding={'10px 0px'}justifyContent="center">
+            <Grid container spacing={0} padding={'10px 0px'} justifyContent="center">
                 {data.map((people, index) => (
                     <Grid key={index} item xs={12} className="user-list" alignItems="center" justifyContent="center">
                         <div style={{ padding: '10px 20px', margin: '0 20px' }} className={toggleActiveStyle(index)} onClick={(e) => handleSingleUser(index, toggleActive(index))} >
-                            <Grid container spacing={0}alignItems="center" sx={{
+                            <Grid container spacing={0} alignItems="center" sx={{
                                 justifyContent: {
-                                    lg:'space-betwen',
+                                    lg: 'space-betwen',
                                     md: 'space-between',
                                     sm: 'space-between',
-                                    xs:'space-between'
+                                    xs: 'space-between'
                                 },
                             }}>
-                                <Grid item xs={1.5} sm={1.5} md={2.5} lg={2.5}>
+                                <Grid item xs={1.5} sm={1} md={2.5} lg={2.5}>
                                     <div className="people-img-box2">
                                         <img src={people.img} alt={people?.name} />
                                         <div className={people?.online ? 'online-active status' : 'online-inactive status'}>
                                         </div>
                                     </div>
                                 </Grid>
-                                <Grid item xs={10} sm={10} md={9} lg={9}>
+                                <Grid item xs={9.5} sm={10.6} md={9} lg={9}>
                                     <Grid container spacing={0} alignItems="center" justifyContent="center">
                                         <Grid item xs={8}>
                                             <Typography sx={{
