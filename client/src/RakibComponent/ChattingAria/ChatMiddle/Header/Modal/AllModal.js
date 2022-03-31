@@ -3,15 +3,11 @@ import Backdrop from '@mui/material/Backdrop';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import Fade from '@mui/material/Fade';
-import Button from '@mui/material/Button';
 import chatImg from '../../../../../assets/images/avatar-8.jpg'
 import './AllModal.css'
 import CloseIcon from '@mui/icons-material/Close';
 import SettingsVoiceIcon from '@mui/icons-material/SettingsVoice';
 import VideocamIcon from '@mui/icons-material/Videocam';
-
-
-
 
 const style = {
     position: 'absolute',
