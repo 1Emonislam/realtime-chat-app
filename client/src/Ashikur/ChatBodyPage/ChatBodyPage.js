@@ -1,13 +1,11 @@
-import { Typography } from '@mui/material';
 import React from 'react';
+import ChatMaincontener from '../../RakibComponent/ChattingAria/ChatMaincontener';
 
 const ChatBodyPage = () => {
     return (
-        <div>
-        <Typography>
-            {/* one */}
-        </Typography>
-        </div>
+        < >
+            <ChatMaincontener/>
+        </>
     );
 };
 
