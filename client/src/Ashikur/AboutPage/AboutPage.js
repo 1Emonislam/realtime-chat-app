@@ -81,7 +81,7 @@ const AboutPage = () => {
             <Box className={styles.mainAboutSection}>
                 <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                     <Typography className={styles.subtitles} variant="subtitle2" gutterBottom component="div">
-                        h6. Heading
+                     Profile
                     </Typography>
                     <IconButton sx={{ p: 0 }} aria-label="Example">
                         {/* <FontAwesomeSvgIcon icon={faEllipsisV} /> */}

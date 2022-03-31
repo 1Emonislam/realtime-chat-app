@@ -6,14 +6,16 @@
     height: 99%;
     overflow-y: scroll;
     scrollbar-width: thin;
+    top: 0;
   }
   .current-chat-box-container {
     position: fixed;
     overflow-y: scroll;
     width: 43%;
     height: 99%;
-    padding: 10px 20px;
+    padding: 20px;
     scrollbar-width: thin;
+    top: 0;
   }
   .current-user-about {
     position: fixed;
@@ -21,6 +23,12 @@
     width: 20%;
     height: 99%;
     right: 0;
+    top: 0;
+  }
+}
+@media (max-width: 899px) {
+  .chat-box-container {
+    margin-top: 60px;
   }
 }
 .chat-box-container::-webkit-scrollbar,

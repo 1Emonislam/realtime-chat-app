@@ -14,180 +14,231 @@ const Nav = ({ children }) => {
     const [selected, setSelected] = useState('');
     return (
         <div id="nav-dash">
-            <Grid container spacing={0} justifyContent="space-around" alignItems="center" textAlign="center">
-                <Grid item sx={{
-                    padding: {
-                        lg: '8px',
-                        md: '5px',
-                        sm: '4px',
-                        xs: '0px'
-                    }
-                }}xs={12}>
-                    <Link to='/'>
-                        <ToggleButton
-                            value="one"
-                            onChange={() => {
-                                setSelected(selected === 'one' ? '' : 'one')
-                            }}
-                        >
-                            <LocationOnIcon sx={{
-                                transform: 'rotate(-55deg)', display: {
-                                        lg: 'block',
-                                        md: 'block',
-                                        sm: 'block',
-                                        xs: 'block'
+            <>
+                <Grid container spacing={0} className="mobile-menu" justifyContent="center" alignItems="center" textAlign="center">
+                    <Grid item sx={{
+                        padding: {
+                            lg: '8px',
+                            md: '0px',
+                            sm: '0px',
+                            xs: '0px'
+                        }
+                    }} xs={1} md={12}>
+                        <Link to='/'>
+                            <ToggleButton
+                                value="one"
+                                onChange={() => {
+                                    setSelected(selected === 'one' ? '' : 'one')
+                                }}
+                            >
+                                <LocationOnIcon sx={{
+                                    transform: 'rotate(-55deg)', fontSize: {
+                                        lg: '25px',
+                                        md: '15px',
+                                        sm: '10px',
+                                        xs: '10px'
+                                    }
+                                }} />
+                            </ToggleButton>
+                        </Link>
+                    </Grid>
+                    <Grid item sx={{
+                        padding: {
+                            lg: '8px',
+                            md: '0px',
+                            sm: '0px',
+                            xs: '0px'
+                        }
+                    }} xs={1} md={12}>
+                        <Link to='/'>
+                            <ToggleButton
+                                value="two"
+                                onChange={() => {
+                                    setSelected(selected === 'two' ? '' : 'two')
+                                }}
+                            >
+                                <MessageIcon sx={{
+                                    fontSize: {
+                                        lg: '25px',
+                                        md: '15px',
+                                        sm: '10px',
+                                        xs: '10px'
+                                    }
+                                }} />
+                            </ToggleButton>
+                        </Link>
+                    </Grid>
+                    <Grid item sx={{
+                        padding: {
+                            lg: '8px',
+                            md: '0px',
+                            sm: '0px',
+                            xs: '0px'
+                        }
+                    }} xs={1} md={12}>
+                        <Link to='/'>
+                            <ToggleButton
+                                value="three"
+                                onChange={() => {
+                                    setSelected(selected === 'three' ? '' : 'three')
+                                }}
+                            >
+                                <PeopleIcon sx={{
+                                    fontSize: {
+                                        lg: '25px',
+                                        md: '15px',
+                                        sm: '10px',
+                                        xs: '10px'
+                                    }
+                                }} />
+                            </ToggleButton>
+                        </Link>
+                    </Grid>
+                    <Grid item sx={{
+                        padding: {
+                            lg: '8px',
+                            md: '0px',
+                            sm: '0px',
+                            xs: '0px'
+                        }
+                    }} xs={1} md={12}>
+                        <Link to='/'>
+                            <ToggleButton
+                                value="four"
+                                onChange={() => {
+                                    setSelected(selected === 'four' ? '' : 'four')
+                                }}
+                            >
+                                <ArticleIcon sx={{
+                                    fontSize: {
+                                        lg: '25px',
+                                        md: '15px',
+                                        sm: '10px',
+                                        xs: '10px'
+                                    }
+                                }} />
+                            </ToggleButton>
+                        </Link>
+                    </Grid>
+                    <Grid item sx={{
+                        padding: {
+                            lg: '8px',
+                            md: '0px',
+                            sm: '0px',
+                            xs: '0px'
+                        }
+                    }} xs={1} md={12}>
+                        <Link to='/'>
+                            <ToggleButton
+                                value="five"
+                                onChange={() => {
+                                    setSelected(selected === 'five' ? '' : 'five')
+                                }}
+                            ><PhoneIcon sx={{
+                                fontSize: {
+                                    lg: '25px',
+                                    md: '15px',
+                                    sm: '10px',
+                                    xs: '10px'
                                 }
                             }} />
-                        </ToggleButton>
-                    </Link>
+                            </ToggleButton>
+                        </Link>
+                    </Grid>
+                    <Grid item sx={{
+                        padding: {
+                            lg: '8px',
+                            md: '0px',
+                            sm: '0px',
+                            xs: '0px'
+                        }
+                    }}>
+                        <Link to='/'>
+                            <ToggleButton
+                                value="six"
+                                onChange={() => {
+                                    setSelected(selected === 'six' ? '' : 'six')
+                                }}
+                            >
+                                <SettingsIcon sx={{
+                                    fontSize: {
+                                        lg: '25px',
+                                        md: '15px',
+                                        sm: '10px',
+                                        xs: '10px'
+                                    }
+                                }} />
+                            </ToggleButton>
+                        </Link>
+                    </Grid>
+                    <Grid item sx={{
+                        padding: {
+                            lg: '8px',
+                            md: '0px',
+                            sm: '0px',
+                            xs: '0px'
+                        }
+                    }} xs={1} md={12}>
+                        <Link to='/'>
+                            <ToggleButton
+                                value="seven">
+                                {/* <FontAwesomeSvgIcon icon={faEllipsisV} /> */}
+                                <GroupAddIcon sx={{
+                                    fontSize: {
+                                        lg: '25px',
+                                        md: '15px',
+                                        sm: '10px',
+                                        xs: '10px'
+                                    }
+                                }} />
+                            </ToggleButton>
+                        </Link>
+                    </Grid>
+                    <Grid item sx={{
+                        padding: {
+                            lg: '8px',
+                            md: '0px',
+                            sm: '0px',
+                            xs: '0px'
+                        }
+                    }} xs={1} md={12}>
+                        <Link to='/'>
+                            <ToggleButton
+                                value="eight">
+                                {/* <FontAwesomeSvgIcon icon={faEllipsisV} /> */}
+                                <AddIcon sx={{
+                                    fontSize: {
+                                        lg: '25px',
+                                        md: '15px',
+                                        sm: '10px',
+                                        xs: '10px'
+                                    }
+                                }} />
+                            </ToggleButton>
+                        </Link>
+                    </Grid>
+                    <Grid item sx={{
+                        padding: {
+                            lg: '8px',
+                            md: '0px',
+                            sm: '0px',
+                            xs: '0px'
+                        }
+                    }} xs={1} md={12}>
+                        <Avatar alt=""style={{display:'block',margin:'0 auto'}} src="https://mui.com/static/images/avatar/3.jpg" />
+                    </Grid>
+                    <Grid item sx={{
+                        padding: {
+                            lg: '8px',
+                            md: '0px',
+                            sm: '0px',
+                            xs: '0px'
+                        }
+                    }} xs={1} md={12}>
+                        {children}
+                    </Grid>
                 </Grid>
-                <Grid item sx={{
-                    padding: {
-                        lg: '8px',
-                        md: '5px',
-                        sm: '4px',
-                        xs: '0px'
-                    }
-                }}xs={12}>
-                    <Link to='/'>
-                        <ToggleButton
-                            value="two"
-                            onChange={() => {
-                                setSelected(selected === 'two' ? '' : 'two')
-                            }}
-                        >
-                            <MessageIcon />
-                        </ToggleButton>
-                    </Link>
-                </Grid>
-                <Grid item sx={{
-                    padding: {
-                        lg: '8px',
-                        md: '5px',
-                        sm: '4px',
-                        xs: '0px'
-                    }
-                }}xs={12}>
-                    <Link to='/'>
-                        <ToggleButton
-                            value="three"
-                            onChange={() => {
-                                setSelected(selected === 'three' ? '' : 'three')
-                            }}
-                        >
-                            <PeopleIcon />
-                        </ToggleButton>
-                    </Link>
-                </Grid>
-                <Grid item sx={{
-                    padding: {
-                        lg: '8px',
-                        md: '5px',
-                        sm: '4px',
-                        xs: '0px'
-                    }
-                }}xs={12}>
-                    <Link to='/'>
-                        <ToggleButton
-                            value="four"
-                            onChange={() => {
-                                setSelected(selected === 'four' ? '' : 'four')
-                            }}
-                        >
-                            <ArticleIcon />
-                        </ToggleButton>
-                    </Link>
-                </Grid>
-                <Grid item sx={{
-                    padding: {
-                        lg: '8px',
-                        md: '5px',
-                        sm: '4px',
-                        xs: '0px'
-                    }
-                }}xs={12}>
-                    <Link to='/'>
-                        <ToggleButton
-                            value="five"
-                            onChange={() => {
-                                setSelected(selected === 'five' ? '' : 'five')
-                            }}
-                        ><PhoneIcon />
-                        </ToggleButton>
-                    </Link>
-                </Grid>
-                <Grid item sx={{
-                    padding: {
-                        lg: '8px',
-                        md: '5px',
-                        sm: '4px',
-                        xs: '0px'
-                    }
-                }}>
-                    <Link to='/'>
-                        <ToggleButton
-                            value="six"
-                            onChange={() => {
-                                setSelected(selected === 'six' ? '' : 'six')
-                            }}
-                        >
-                            <SettingsIcon />
-                        </ToggleButton>
-                    </Link>
-                </Grid>
-                <Grid item sx={{
-                    padding: {
-                        lg: '8px',
-                        md: '5px',
-                        sm: '4px',
-                        xs: '0px'
-                    }
-                }}xs={12}>
-                    <Link to='/'>
-                        <ToggleButton
-                            value="seven">
-                            {/* <FontAwesomeSvgIcon icon={faEllipsisV} /> */}
-                            <GroupAddIcon />
-                        </ToggleButton>
-                    </Link>
-                </Grid>
-                <Grid item sx={{
-                    padding: {
-                        lg: '8px',
-                        md: '5px',
-                        sm: '4px',
-                        xs: '0px'
-                    }
-                }}xs={12}>
-                    <Link to='/'>
-                        <ToggleButton
-                            value="eight">
-                            {/* <FontAwesomeSvgIcon icon={faEllipsisV} /> */}
-                            <AddIcon sx={{ bgcolor: '#ec407a', color: 'whiteSmoke', borderRadius: 15, p: 0.3, }} />
-                        </ToggleButton>
-                    </Link>
-                </Grid>
-                <Grid item sx={{
-                    padding: {
-                        lg: '8px',
-                        md: '5px',
-                        sm: '4px',
-                        xs: '0px'
-                    }
-                }}xs={12}>
-                    {children}
-                </Grid>
-                <Grid item sx={{
-                    padding: {
-                        lg: '8px',
-                        md: '5px',
-                        sm: '4px',
-                        xs: '0px'
-                    }
-                }}xs={12}>
-                    <Avatar alt="" style={{ display: 'block', margin: '10px auto' }} src="https://mui.com/static/images/avatar/3.jpg" />
-                </Grid>
-            </Grid>
+            </>
         </div>
     );
 };

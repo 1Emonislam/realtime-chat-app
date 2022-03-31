@@ -34,8 +34,12 @@
 }
 .user-box-latest {
   display: block;
-  margin: 0 auto;
   text-align: center;
+  background: rgba(0, 255, 179, 0.151);
+  border-radius: 5px;
+  margin: 0 4px;
+  color: inherit;
+  padding: 2px 0px;
 }
 .user-box-latest img {
   border-radius: 6px;
@@ -82,7 +86,7 @@
 @media (max-width: 899px) {
   .people-img-box img {
     width: 80%;
-    height: 140px;
+    height: 100px;
   }
 }
 
@@ -109,8 +113,8 @@
 }
 @media (max-width: 899px) {
   .people-img-box2 img {
-    width: 80px;
-    height: 80px;
+    width: 50px;
+    height: 50px;
     border-radius: 100px;
   }
 }
