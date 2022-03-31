@@ -5,6 +5,7 @@ import { Grid, ToggleButton, Typography } from '@mui/material';
 import React from 'react';
 import './Chat.css';
 import RecentChat from './RecentChat';
+import './__Container.css'
 function ChatHome() {
     const data = [
         {
@@ -25,8 +26,15 @@ function ChatHome() {
         },
     ]
     return (
-        <div className="header-box">
-            <Grid container spacing={0} padding={'10px 20px'} alignItems="center" justifyContent="space-evenly">
+        <div className="chat-box-container">
+            <Grid container spacing={0} sx={{
+                padding: {
+                    lg: '25px 20px',
+                    md: '25px 15px',
+                    sm: '25px 40px',
+                    xs: '25px 40px'
+                }
+            }} alignItems="center" justifyContent="space-evenly">
                 <Grid item xs={6}>
                     <Typography sx={{
                         color: "inherit",
@@ -52,8 +60,8 @@ function ChatHome() {
                             fontSize: {
                                 lg: 20,
                                 md: 20,
-                                sm: 15,
-                                xs: 15
+                                sm: 12,
+                                xs: 11
                             },
                             fontWeight: {
                                 lg: 700,
@@ -80,8 +88,8 @@ function ChatHome() {
                             fontSize: {
                                 lg: 20,
                                 md: 20,
-                                sm: 15,
-                                xs: 15
+                                sm: 12,
+                                xs: 11
                             },
                             fontWeight: {
                                 lg: 700,
@@ -92,42 +100,40 @@ function ChatHome() {
                         }} />
                     </ToggleButton>
                 </Grid>
-                <Grid item xs={12}>
+                <Grid item xs={12} style={{ padding: '6px 0', }}>
                     <div className='search-field-box'>
                         <SearchIcon />
-                        <input type="text" placeholder='Search Contacts' style={{ color: 'inherit'}} />
+                        <input type="text" placeholder='Search Contacts' style={{ color: 'inherit' }} />
                     </div>
                 </Grid>
             </Grid>
-            <Grid item xs={12}>
-                <Grid container spacing={0} justifyContent="center" alignItems="center">
-                    {data?.map((people, index) => (<Grid item key={index} xs={3}>
-                        <div className="user-box-latest">
-                            <div className="people-img-box">
-                                <img src={people?.img} alt={people?.name} />
-                            </div>
-                            <div className="name">
-                                <Typography sx={{
-                                    color: "inherit",
-                                    fontSize: {
-                                        lg: 15,
-                                        md: 15,
-                                        sm: 15,
-                                        xs: 10
-                                    },
-                                    fontWeight: {
-                                        lg: 700,
-                                        md: 600,
-                                        sm: 500,
-                                        xs: 400
-                                    },
-                                }} gutterBottom component="div">
-                                    {people?.name}
-                                </Typography>
-                            </div>
+            <Grid container spacing={0} justifyContent="center" alignItems="center">
+                {data?.map((people, index) => (<Grid item key={index} xs={2.6}>
+                    <div className="user-box-latest">
+                        <div className="people-img-box">
+                            <img src={people?.img} alt={people?.name} />
                         </div>
-                    </Grid>))}
-                </Grid>
+                        <div className="name">
+                            <Typography sx={{
+                                color: "inherit",
+                                fontSize: {
+                                    lg: 11,
+                                    md: 11,
+                                    sm: 15,
+                                    xs: 15
+                                },
+                                fontWeight: {
+                                    lg: 700,
+                                    md: 600,
+                                    sm: 500,
+                                    xs: 400
+                                },
+                            }} gutterBottom component="div">
+                                {people?.name}
+                            </Typography>
+                        </div>
+                    </div>
+                </Grid>))}
             </Grid>
             <RecentChat />
         </div>

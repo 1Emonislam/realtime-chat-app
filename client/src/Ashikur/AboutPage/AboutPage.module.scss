@@ -1,13 +1,6 @@
 @import "../../partials/mixins";
 
 .mainAboutSection {
-  height: 100%;
-  overflow: hidden;
-  overflow-y: scroll;
-  padding: 10px;
-  ::-webkit-scrollbar-track {
-    box-shadow: 0px 0px 0px 15px rgba(0, 0, 0, 0.1);
-  }
   .subtitles {
     @include subTitle;
   }
