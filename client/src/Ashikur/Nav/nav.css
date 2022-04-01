@@ -10,6 +10,7 @@
     top: 0;
     box-shadow: 0px 4px 4px rgb(66 11 161 / 20%);
     z-index: 999;
+    border-right: 1px solid rgba(0, 192, 226, 0.226);
   }
 }
 @media (min-width: 1200px) and (max-width: 900px) {
@@ -21,6 +22,7 @@
     top: 0;
     box-shadow: 0px 4px 4px rgb(66 11 161 / 20%);
     z-index: 999;
+    border-right: 1px solid rgba(0, 192, 226, 0.226);
   }
 }
 
@@ -31,6 +33,7 @@
     padding: 15px;
     box-shadow: 0px 0px 10px rgb(0 0 0 / 10%);
     padding: 8px 0;
+    border-bottom: 1px solid rgba(0, 192, 226, 0.226);
   }
   .mobile-menu button {
     margin: 0px !important;
