@@ -5,7 +5,6 @@
   #nav-dash {
     width: 100px;
     height: 100%;
-    background: rgba(0, 255, 179, 0.151);
     position: fixed;
     left: 0;
     top: 0;
@@ -17,7 +16,6 @@
   #nav-dash {
     width: 70px;
     height: 100%;
-    background: rgba(0, 255, 179, 0.151);
     position: fixed;
     left: 0;
     top: 0;
@@ -30,8 +28,8 @@
   .mobile-menu {
     position: fixed;
     z-index: 11111;
+    padding: 15px;
     box-shadow: 0px 0px 10px rgb(0 0 0 / 10%);
-    background: rgb(245 245 245 / 24%);
     padding: 8px 0;
   }
   .mobile-menu button {

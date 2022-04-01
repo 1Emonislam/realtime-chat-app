@@ -9,8 +9,9 @@ import ForgetPassword from './pages/Auth/ForgetPassword';
 import Login from './pages/Auth/Login';
 import Register from './pages/Auth/Register';
 import ResetPassword from './pages/Auth/ResetPassword';
+export const ThemeSelectContext = React.createContext();
 const ColorModeContext = React.createContext({ toggleColorMode: () => { } });
-export default function ToggleColorMode() {
+export  default function ToggleColorMode() {
   const [mode, setMode] = React.useState(JSON.parse(window.localStorage.getItem("theme")));
   if (!mode) {
     window.localStorage.setItem("theme", JSON.stringify(mode === 'light' ? 'dark' : 'light'))
@@ -40,35 +41,38 @@ export default function ToggleColorMode() {
       }),
     [mode],
   );
+ 
   return (
     <ColorModeContext.Provider value={colorMode}>
-      <ThemeProvider theme={theme}>
-        <Box
-          sx={{
-            bgcolor: 'background.default',
-            color: 'text.primary',
-            borderRadius: 1,
-            width: "100%",
-          }}
-        >
-          <BrowserRouter>
-            <Routes>
-              <Route path="/" element={<Chat>
-                {/* <IconButton sx={{ ml: 1 }} onClick={colorMode.toggleColorMode} color="inherit">
+      <ThemeSelectContext.Provider value={theme}>
+        <ThemeProvider theme={theme}>
+          <Box
+            sx={{
+              bgcolor: 'background.default',
+              color: 'text.primary',
+              borderRadius: 1,
+              width: "100%",
+            }}
+          >
+            <BrowserRouter>
+              <Routes>
+                <Route path="/" element={<Chat>
+                  {/* <IconButton sx={{ ml: 1 }} onClick={colorMode.toggleColorMode} color="inherit">
                   {theme.palette.mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
                 </IconButton> */}
-                <ThemeSwitch onClick={colorMode.toggleColorMode} style={{ fontSize: '20px' }} checked={!(theme.palette.mode === 'light')} />
-              </Chat>}></Route>
-              <Route path="/login" element={<Login />}> </Route>
-              <Route path="/chat-child"element={<ChatHome/>}> </Route>
-              <Route path="/forget-password" element={<ForgetPassword />}> </Route>
-              <Route path="/reset-password" element={<ResetPassword />}> </Route>
-              <Route path="/register" element={< Register />}> </Route>
-              <Route path="*" element={<><h2> Not Founds</h2> </>}> </Route>
-            </Routes>
-          </BrowserRouter>
-        </Box>
-      </ThemeProvider>
+                  <ThemeSwitch onClick={colorMode.toggleColorMode} style={{ fontSize: '20px' }} checked={!(theme.palette.mode === 'light')} />
+                </Chat>}></Route>
+                <Route path="/login" element={<Login />}> </Route>
+                <Route path="/chat-child" element={<ChatHome />}> </Route>
+                <Route path="/forget-password" element={<ForgetPassword />}> </Route>
+                <Route path="/reset-password" element={<ResetPassword />}> </Route>
+                <Route path="/register" element={< Register />}> </Route>
+                <Route path="*" element={<><h2> Not Founds</h2> </>}> </Route>
+              </Routes>
+            </BrowserRouter>
+          </Box>
+        </ThemeProvider>
+      </ThemeSelectContext.Provider>
     </ColorModeContext.Provider>
   );
 }

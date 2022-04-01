@@ -1,5 +1,5 @@
 import { Badge, Box, FormControlLabel, FormGroup, Grid, IconButton, Switch, Tab, Tabs, Typography } from '@mui/material';
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import styles from './AboutPage.module.scss';
 import CloseIcon from '@mui/icons-material/Close';
 import FacebookOutlinedIcon from '@mui/icons-material/FacebookOutlined';
@@ -14,9 +14,10 @@ import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import CloudDownloadIcon from '@mui/icons-material/CloudDownload';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
-import { useThemesColors } from '../../hooks/useThemes';
 import './../../components/__Container.css'
+import { ThemeSelectContext } from '../../App';
 // switch Button
+
 const IOSSwitch = styled((props) => (
     <Switch focusVisibleClassName=".Mui-focusVisible" disableRipple {...props} />
 ))(({ theme }) => ({
@@ -72,16 +73,17 @@ const IOSSwitch = styled((props) => (
 
 const AboutPage = () => {
     const [value, setValue] = useState('one');
-    const [theme] = useThemesColors()
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
+    const { palette } = useContext(ThemeSelectContext);
+    const theme = palette?.mode;
     return (
         <div className='current-user-about'>
             <Box className={styles.mainAboutSection}>
                 <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                     <Typography className={styles.subtitles} variant="subtitle2" gutterBottom component="div">
-                     Profile
+                        Profile
                     </Typography>
                     <IconButton sx={{ p: 0 }} aria-label="Example">
                         {/* <FontAwesomeSvgIcon icon={faEllipsisV} /> */}
@@ -184,7 +186,7 @@ const AboutPage = () => {
                     <Box sx={{ mt: 6 }}>
                         <Grid container spacing={1}>
                             <Grid sx={{ position: 'relative' }} item xs={6}>
-                                <img style={{ width: '100%',height:'100px' }} src="https://i.ibb.co/cXGVxJP/product-9.jpg" alt="" />
+                                <img style={{ width: '100%', height: '100px' }} src="https://i.ibb.co/cXGVxJP/product-9.jpg" alt="" />
                                 <Box sx={{ display: 'flex', position: 'absolute', right: 2, bottom: 8 }}>
                                     <IconButton sx={{ p: 0 }} aria-label="Example">
                                         <CloudDownloadIcon sx={{ fontSize: 20, zIndex: 5, color: 'white', marginRight: 1 }} />
@@ -195,7 +197,7 @@ const AboutPage = () => {
                                 </Box>
                             </Grid>
                             <Grid sx={{ position: 'relative' }} item xs={6}>
-                                <img style={{ width: '100%',height:'100px' }} src="https://i.ibb.co/cXGVxJP/product-9.jpg" alt="" />
+                                <img style={{ width: '100%', height: '100px' }} src="https://i.ibb.co/cXGVxJP/product-9.jpg" alt="" />
                                 <Box sx={{ display: 'flex', position: 'absolute', right: 2, bottom: 8 }}>
                                     <IconButton sx={{ p: 0 }} aria-label="Example">
                                         <CloudDownloadIcon sx={{ fontSize: 20, zIndex: 5, color: 'white', marginRight: 1 }} />
@@ -206,7 +208,7 @@ const AboutPage = () => {
                                 </Box>
                             </Grid>
                             <Grid sx={{ position: 'relative' }} item xs={6}>
-                                <img style={{ width: '100%',height:'100px' }} src="https://i.ibb.co/cXGVxJP/product-9.jpg" alt="" />
+                                <img style={{ width: '100%', height: '100px' }} src="https://i.ibb.co/cXGVxJP/product-9.jpg" alt="" />
                                 <Box sx={{ display: 'flex', position: 'absolute', right: 2, bottom: 8 }}>
                                     <IconButton sx={{ p: 0 }} aria-label="Example">
                                         <CloudDownloadIcon sx={{ fontSize: 20, zIndex: 5, color: 'white', marginRight: 1 }} />
@@ -217,7 +219,7 @@ const AboutPage = () => {
                                 </Box>
                             </Grid>
                             <Grid sx={{ position: 'relative' }} item xs={6}>
-                                <img style={{ width: '100%',height:'100px' }} src="https://i.ibb.co/cXGVxJP/product-9.jpg" alt="" />
+                                <img style={{ width: '100%', height: '100px' }} src="https://i.ibb.co/cXGVxJP/product-9.jpg" alt="" />
                                 <Box sx={{ display: 'flex', position: 'absolute', right: 2, bottom: 8 }}>
                                     <IconButton sx={{ p: 0 }} aria-label="Example">
                                         <CloudDownloadIcon sx={{ fontSize: 20, zIndex: 5, color: 'white', marginRight: 1 }} />
@@ -228,7 +230,7 @@ const AboutPage = () => {
                                 </Box>
                             </Grid>
                             <Grid sx={{ position: 'relative' }} item xs={6}>
-                                <img style={{ width: '100%',height:'100px' }} src="https://i.ibb.co/cXGVxJP/product-9.jpg" alt="" />
+                                <img style={{ width: '100%', height: '100px' }} src="https://i.ibb.co/cXGVxJP/product-9.jpg" alt="" />
                                 <Box sx={{ display: 'flex', position: 'absolute', right: 2, bottom: 8 }}>
                                     <IconButton sx={{ p: 0 }} aria-label="Example">
                                         <CloudDownloadIcon sx={{ fontSize: 20, zIndex: 5, color: 'white', marginRight: 1 }} />
@@ -239,7 +241,7 @@ const AboutPage = () => {
                                 </Box>
                             </Grid>
                             <Grid sx={{ position: 'relative' }} item xs={6}>
-                                <img style={{ width: '100%',height:'100px' }} src="https://i.ibb.co/cXGVxJP/product-9.jpg" alt="" />
+                                <img style={{ width: '100%', height: '100px' }} src="https://i.ibb.co/cXGVxJP/product-9.jpg" alt="" />
                                 <Box sx={{ display: 'flex', position: 'absolute', right: 2, bottom: 8 }}>
                                     <IconButton sx={{ p: 0 }} aria-label="Example">
                                         <CloudDownloadIcon sx={{ fontSize: 20, zIndex: 5, color: 'white', marginRight: 1 }} />

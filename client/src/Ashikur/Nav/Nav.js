@@ -7,15 +7,25 @@ import PeopleIcon from '@mui/icons-material/People';
 import PhoneIcon from '@mui/icons-material/Phone';
 import SettingsIcon from '@mui/icons-material/Settings';
 import { Avatar, Grid, ToggleButton } from '@mui/material';
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { ThemeSelectContext } from '../../App';
 import './nav.css';
 const Nav = ({ children }) => {
     const [selected, setSelected] = useState('');
+    const { palette } = useContext(ThemeSelectContext);
+    const theme = palette?.mode;
+    const themeMode = () => {
+        if (theme === 'light') {
+            return 'mobile-menu light"'
+        } if (theme === 'dark') {
+            return 'mobile-menu dark '
+        }
+    }
     return (
         <div id="nav-dash">
             <>
-                <Grid container spacing={0} className="mobile-menu" justifyContent="center" alignItems="center" textAlign="center">
+                <Grid container spacing={0} className={themeMode()} justifyContent="center" alignItems="center" textAlign="center">
                     <Grid item sx={{
                         padding: {
                             lg: '8px',
@@ -225,7 +235,7 @@ const Nav = ({ children }) => {
                             xs: '0px'
                         }
                     }} xs={1} md={12}>
-                        <Avatar alt=""style={{display:'block',margin:'0 auto'}} src="https://mui.com/static/images/avatar/3.jpg" />
+                        <Avatar alt="" style={{ display: 'block', margin: '0 auto' }} src="https://mui.com/static/images/avatar/3.jpg" />
                     </Grid>
                     <Grid item sx={{
                         padding: {

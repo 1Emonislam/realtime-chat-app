@@ -1,13 +1,6 @@
-import { useEffect, useState } from "react"
 import { styled } from '@mui/material/styles';
 import Switch from '@mui/material/Switch';
-export const useThemesColors = () => {
-    const [theme, setColors] = useState(JSON.parse(window.localStorage.getItem("theme")))
-    useEffect(() => {
-        setColors(JSON.parse(window.localStorage.getItem("theme")))
-    }, [theme]);
-    return [theme];
-}
+
 export const ThemeSwitch = styled(Switch)(({ theme }) => ({
     width: 60,
     height: 34,
