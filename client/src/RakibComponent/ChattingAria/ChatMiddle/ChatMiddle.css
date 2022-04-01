@@ -320,8 +320,9 @@ h4.hedding_4 {
   border: 1px solid #f4eeff;
   box-shadow: 0px 4px 4px #f5f8ff;
   height: 30px;
-  padding: 10px 30px;
+  padding: 5px 30px;
   justify-content: space-between !important;
+  padding-top: 18px;
 }
 .flex_div {
   display: flex !important;
