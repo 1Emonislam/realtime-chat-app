@@ -19,8 +19,8 @@ function ResetPassword() {
         showPassword: false,
     });
     const onSubmit = data => {
-    console.log(data) 
-console.log(reset)
+        console.log(data)
+        console.log(reset)
     };
     const handleChange = (prop) => (event) => {
         setValues({ ...values, [prop]: event.target.value });
@@ -94,15 +94,8 @@ console.log(reset)
                                 }
                             />
                         </FormControl>
-                        <Button type="submit" variant="contained" style={{ margin: '20px auto', padding: '11px 60px', fontSize: '15px', textTransform: 'capitalize', display: 'block', }}> Login</Button>
+                        <Button type="submit" variant="contained" id="auth-btn" style={{ margin: '20px auto', padding: '11px 60px', fontSize: '15px', textTransform: 'capitalize', display: 'block', }}> Reset Password</Button>
                     </form>
-                    {/* <Stack sx={{ width: '100%' }} spacing={2}>
-            {error && <Alert severity="error">{error}</Alert>}
-            {err && <Alert severity="error">{err}</Alert>}
-            {success && <Alert severity="success">{success}</Alert>}
-            {msgError && <Alert severity="success">{msgError}</Alert>}
-          </Stack> */}
-
                 </div>
             </Container>
         </>

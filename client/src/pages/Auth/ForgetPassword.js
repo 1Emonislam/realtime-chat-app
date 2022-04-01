@@ -29,7 +29,7 @@ console.log(reset)
                                 {...register("email", { min: 0 })} required
                                 sx={{ paddingBottom: '6px' }} />
                         </FormControl>
-                        <Button type="submit" variant="contained" style={{ margin: '20px auto', padding: '11px 60px', fontSize: '15px', textTransform: 'capitalize', display: 'block', }}> Forget Password</Button>
+                        <Button type="submit"id="auth-btn" variant="contained" style={{ margin: '20px auto', padding: '11px 60px', fontSize: '15px', textTransform: 'capitalize', display: 'block', }}> Forget Password</Button>
                     </form>
                     <span className="text-center">New user? <span><Link to="/register" style={{ color: 'blueviolet' }} className="text text-links">Create an account</Link></span>
                     </span>

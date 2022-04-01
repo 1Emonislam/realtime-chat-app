@@ -20,7 +20,40 @@ module.exports.login = async (req, res, next) => {
 module.exports.register = async (req, res, next) => {
   try {
     const { username, email, password } = req.body;
+    function generateUniqueAccountName(proposedName) {
+      return Account
+        .findOne({ accountName: proposedName })
+        .then(function (account) {
+          if (account) {
+            console.log('no can do try again: ' + proposedName);
+            proposedName += Math.floor((Math.random() * 100) + 1);
+            return generateUniqueAccountName(proposedName); // <== return statement here
+          }
+          console.log('proposed name is unique' + proposedName);
+          return proposedName;
+        })
+        .catch(function (err) {
+          console.error(err);
+          throw err;
+        });
+    }
     const usernameCheck = await User.findOne({ username });
+    email?.toLowerCase();
+    function validateEmail(elementValue) {
+      const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+      return emailPattern.test(elementValue);
+    }
+    if (!(validateEmail(email))) {
+      return res.status(400).json({ error: { email: "Email Invalid! Please provide a valid Email!" } })
+    }
+    const userExist = await User.findOne({ email });
+    const phoneExist = await User.findOne({ phone });
+    if (userExist) {
+      return res.status(302).json({ error: { "email": "Email Already exists!" } })
+    }
+    if (phoneExist) {
+      return res.status(302).json({ error: { "phone": "This phone number is linked to another account, please enter another number." } })
+    }
     if (usernameCheck)
       return res.json({ msg: "Username already used", status: false });
     const emailCheck = await User.findOne({ email });

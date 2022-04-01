@@ -74,17 +74,10 @@ function Login() {
                             />
                         </FormControl>
                         <span><Link to="/forget-password" style={{ color: 'blueviolet', paddingLeft: '8px', fontSize: '14px' }} className="text text-links">Forget password?</Link></span>
-                        <Button type="submit" variant="contained" style={{ margin: '20px auto', padding: '11px 60px', fontSize: '15px', textTransform: 'capitalize', display: 'block', }}> Login</Button>
+                        <Button type="submit" variant="contained"id="auth-btn" style={{ margin: '20px auto', padding: '11px 60px', fontSize: '15px', textTransform: 'capitalize', display: 'block', }}> Login</Button>
                     </form>
                     <span className="text-center">New user? <span><Link to="/register" style={{ color: 'blueviolet' }} className="text text-links">Create an account</Link></span>
                     </span>
-                    {/* <Stack sx={{ width: '100%' }} spacing={2}>
-            {error && <Alert severity="error">{error}</Alert>}
-            {err && <Alert severity="error">{err}</Alert>}
-            {success && <Alert severity="success">{success}</Alert>}
-            {msgError && <Alert severity="success">{msgError}</Alert>}
-          </Stack> */}
-
                 </div>
             </Container>
         </>
