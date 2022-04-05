@@ -6,6 +6,7 @@ const { Server } = require("socket.io");
 const connectedDb = require('./config/db');
 const { errorLog, errorHandlerNotify } = require('express-error-handle');
 const socketServer = require('./socket/socketServer');
+const userRoutes = require('./routes/userRoutes')
 const app = express();
 const PORT = process.env.PORT || 5000;
 //middlewares 
@@ -23,6 +24,8 @@ global.io = io;
 //Database Connected
 connectedDb();
 socketServer();
+//Use Routes
+app.use('/api/auth', userRoutes)
 app.get('/', (req, res) => {
     res.send('server connected')
 })

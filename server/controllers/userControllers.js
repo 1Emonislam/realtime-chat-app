@@ -1,6 +1,6 @@
 const User = require("../models/userModel");
 const genToken = require("../utils/genToken");
-module.exports.login = async (req, res, next) => {
+module.exports.userLogin = async (req, res, next) => {
   let { email, phone, password } = req.body;
   email?.toLowerCase();
   const user = email ? await User.findOne({ email }) : await User.findOne({ phone });
@@ -34,7 +34,7 @@ module.exports.login = async (req, res, next) => {
   }
 }
 
-module.exports.register = async (req, res, next) => {
+module.exports.userRegister = async (req, res, next) => {
   try {
     const { email, firstName, lastName, phone, password2, birthDate, gender, password } = req.body;
     const username = (firstName + lastName)?.toString();
