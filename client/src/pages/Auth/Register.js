@@ -8,10 +8,13 @@ import InputAdornment from '@mui/material/InputAdornment';
 import InputLabel from '@mui/material/InputLabel';
 import React from 'react';
 import { useForm } from 'react-hook-form';
+import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import logo from '../../assets/logo/logo.png';
+import { userRegister } from '../../store/actions/authAction';
 import './auth.css';
 function Register() {
+  const dispatch = useDispatch()
   const { register, reset, handleSubmit } = useForm();
   const [values, setValues] = React.useState({
     password: '',
@@ -19,8 +22,7 @@ function Register() {
     showPassword: false,
   });
   const onSubmit = data => {
-    console.log(data)
-    console.log(reset)
+    dispatch(userRegister(data, reset));
   };
   const handleChange = (prop) => (event) => {
     setValues({ ...values, [prop]: event.target.value });

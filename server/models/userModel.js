@@ -6,7 +6,13 @@ const userSchema = new mongoose.Schema({
     },
     lastOneline: {
         type: Date,
-        default: null
+    },
+    firstName: {
+        type: String,
+        required: [true, 'First Name is Required']
+    },
+    lastName: {
+        type: String
     },
     username: {
         type: String,
@@ -36,7 +42,7 @@ const userSchema = new mongoose.Schema({
     },
     birthDate: {
         type: Date,
-        default: null
+        required: [true, 'Birth Date is requied!'],
     },
     pic: {
         type: String,
