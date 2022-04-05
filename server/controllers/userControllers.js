@@ -36,7 +36,7 @@ module.exports.userLogin = async (req, res, next) => {
 
 module.exports.userRegister = async (req, res, next) => {
   try {
-    const { email, firstName, lastName, phone, password2, birthDate, gender, password } = req.body;
+    const { email, firstName, lastName, phone, birthDate, gender, password } = req.body;
     const username = (firstName + lastName)?.toString();
     function checkPassword(password) {
       var re = /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
@@ -44,9 +44,6 @@ module.exports.userRegister = async (req, res, next) => {
     }
     if (!(checkPassword(password))) {
       return res.status(400).json({ error: { "passowrd": "Password should contain min 8 letter password, with at least a symbol, upper and lower case" } })
-    }
-    if (password !== password2) {
-      return res.status(400).json({ error: { "password2": "Password and Confirm Password doesn't match!" } })
     }
     function validateEmail(elementValue) {
       const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
@@ -108,29 +105,28 @@ module.exports.userRegister = async (req, res, next) => {
   }
 };
 
-
 module.exports.changedPassword = async (req, res) => {
   // console.log(req.body)
   const { oldPassword, password, password2 } = req.body;
   const user = await User.findOne({ _id: req?.user?._id });
-  if (!(oldPassword && (await user.matchPassword(oldPassword)))) {
-    return res.status(404).json({ error: "old password does not match!" });
+  if (!(oldPassword && (await user?.matchPassword(oldPassword)))) {
+    return res.status(400).json({ error: { password: "old password does not match!" } });
   }
   if (!(password === password2)) {
-    return res.status(403).json({ error: "new password and confirm password are not the same!" });
+    return res.status(403).json({ error: { password: "New Password and Confirm Password are not the same!" } });
   }
   function checkPassword(password) {
     var re = /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
     return re.test(password);
   }
   if (!(checkPassword(password))) {
-    return res.status(400).json({ error: { password: "password should contain min 8 letter password, with at least a symbol, upper and lower case" } })
+    return res.status(400).json({ error: { password: "Password should contain min 8 letter password, with at least a symbol, upper and lower case" } })
   }
   if (oldPassword && (await user.matchPassword(oldPassword))) {
-    user.password = password || user.password;
+    user.password = password;
     const updatedPassword = await user.save();
     if (!updatedPassword) {
-      return res.status(400).json({ error: "password change failed, please try again!" });
+      return res.status(400).json({ error: "Password change failed, please try again!" });
     } else {
       const resData = await User.findOne({ _id: user._id }).select("-password")
       const data = {
@@ -140,8 +136,8 @@ module.exports.changedPassword = async (req, res) => {
       const options = {
         expires: new Date(new Date().getTime() + process.env.COOKIE_EXPIRES * 60 * 1000)
       }
-      return res.status(201).cookie('user', data, options).json({
-        message: "You have successfully changes Password",
+      return res.status(200).cookie('user', data, options).json({
+        message: "Password has been successfully changed",
         data
       });
     }
@@ -151,7 +147,7 @@ module.exports.changedPassword = async (req, res) => {
 module.exports.logOut = (req, res, next) => {
   try {
     if (!req.params.id) return res.json({ message: "user credentials invalid! please login!" });
-    onlineUsers.delete(req.params.id);
+    // onlineUsers.delete(req.params.id);
     return res.status(200).send();
   } catch (ex) {
     next(ex);

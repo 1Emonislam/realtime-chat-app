@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const bcrypt = require('bcryptjs');
 const userSchema = new mongoose.Schema({
     online: {
-        type: Boolean,
+        type: String,
     },
     lastOneline: {
         type: Date,
@@ -16,9 +16,7 @@ const userSchema = new mongoose.Schema({
     },
     username: {
         type: String,
-        required: [true, 'Must be at least 3 characters'],
-        min: 3,
-        max: 20,
+        trim: true,
         unique: true,
     },
     email: {
@@ -34,10 +32,12 @@ const userSchema = new mongoose.Schema({
     },
     phone: {
         type: String,
+        trim: true,
         default: 'N/A'
     },
     gender: {
         type: String,
+        lowercase: true,
         default: 'N/A'
     },
     birthDate: {
@@ -51,6 +51,9 @@ const userSchema = new mongoose.Schema({
     info: {
         type: String,
         trim: true
+    },
+    status: {
+        type: String,
     },
     socialMedia: [
         {
