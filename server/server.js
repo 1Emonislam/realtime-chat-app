@@ -16,7 +16,7 @@ const io = new Server(serverApp, {
     pingTimeout: 60000,
     cors: {
         origin: "*",
-        methods: ["GET", "POST", "PUT"],
+        methods: ["GET", "POST"],
     },
 });
 global.io = io;
