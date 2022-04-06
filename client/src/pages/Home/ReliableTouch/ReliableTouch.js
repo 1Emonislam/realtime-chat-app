@@ -30,8 +30,8 @@ const ReliableTouch = () => {
                         mr: 2,
 
                         '&:hover': {
-                            background: '#5865f2',
-                            boxShadow: '1px 1px 1px #5865f2'
+                            background: '#7c86f7',
+                            boxShadow: '1px 1px 1px #7c86f7'
                         }
 
                     }}> <Typography sx={{ mr: 1 }}><i className="fa-solid fa-circle-arrow-down"></i> </Typography> Download for Windows</Button>
