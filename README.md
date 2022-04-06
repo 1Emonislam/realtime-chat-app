@@ -44,6 +44,7 @@ fetch('https://collaballapp.herokuapp.com/api/auth/change-password',{
     method: 'PUT',
     headers: {
     'Content-Type': 'application/json',
+    'Authorization':`Bearer ${token}`
     },
     body:JSON.stringify({
       oldPassword,
@@ -74,6 +75,7 @@ fetch('https://collaballapp.herokuapp.com/api/auth/reset-password',{
     method: 'POST',
     headers: {
     'Content-Type': 'application/json',
+    'Authorization':`Bearer ${token}`
     },
     body:JSON.stringify({
      password,
