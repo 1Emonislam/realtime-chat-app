@@ -68,8 +68,7 @@ export const userLogin = (data, reset) => {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify(data)
-            })
-                .then(res => res.json())
+            }).then(res => res.json())
                 .then(data => {
                     // console.log(data)
                     if (data?.data) {
