@@ -1,7 +1,6 @@
 import Box from '@mui/material/Box';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import * as React from 'react';
-import { useDispatch } from 'react-redux';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import ChatHome from './components/ChatHome';
 import { ThemeSwitch } from './hooks/useThemes';
@@ -10,21 +9,19 @@ import ForgetPassword from './pages/Auth/ForgetPassword';
 import Login from './pages/Auth/Login';
 import Register from './pages/Auth/Register';
 import ResetPassword from './pages/Auth/ResetPassword';
-import { themeAction } from './store/actions/themeAction';
+import Home from './pages/Home/Home';
 export const ThemeSelectContext = React.createContext();
 const ColorModeContext = React.createContext({ toggleColorMode: () => { } });
 export default function ToggleColorMode() {
-  const dispatch = useDispatch();
   const [mode, setMode] = React.useState(JSON.parse(window.localStorage.getItem("theme")));
   if (!mode) {
     window.localStorage.setItem("theme", JSON.stringify(mode === 'light' ? 'dark' : 'light'))
   }
   if (mode === 'light') {
     document.body.style.background = '#fefefe';
-    dispatch(themeAction(false))
+
   } if (mode === 'dark') {
     document.body.style.background = ' #111';
-    dispatch(themeAction(true))
   }
   const colorMode = React.useMemo(
     () => ({
@@ -66,6 +63,7 @@ export default function ToggleColorMode() {
                 </IconButton> */}
                   <ThemeSwitch onClick={colorMode.toggleColorMode} style={{ fontSize: '20px' }} checked={!(theme.palette.mode === 'light')} />
                 </Chat>}></Route>
+                <Route path="/home" element={<Home />}> </Route>
                 <Route path="/login" element={<Login />}> </Route>
                 <Route path="/chat-child" element={<ChatHome />}> </Route>
                 <Route path="/forget-password" element={<ForgetPassword />}> </Route>
