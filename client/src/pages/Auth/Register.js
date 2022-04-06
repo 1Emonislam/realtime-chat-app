@@ -6,16 +6,20 @@ import IconButton from '@mui/material/IconButton';
 import Input from '@mui/material/Input';
 import InputAdornment from '@mui/material/InputAdornment';
 import InputLabel from '@mui/material/InputLabel';
-import React from 'react';
+import React, { useRef } from 'react';
 import { useForm } from 'react-hook-form';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import logo from '../../assets/logo/logo.png';
 import { userRegister } from '../../store/actions/authAction';
 import './auth.css';
+import { ToastContainer} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 function Register() {
   const dispatch = useDispatch()
   const { register, reset, handleSubmit } = useForm();
+  const userRef = useRef(useSelector(state => state))
+  console.log(userRef.current)
   const [values, setValues] = React.useState({
     password: '',
     password2: '',
@@ -149,7 +153,19 @@ function Register() {
           <span className="text-center">Already user? <span><Link to="/login" style={{ color: 'blueviolet' }} className="text text-links">Login</Link></span>
           </span>
         </div>
+        <ToastContainer
+          position="bottom-right"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+        />
       </Container>
+
     </>
   )
 }

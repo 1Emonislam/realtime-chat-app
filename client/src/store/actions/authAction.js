@@ -1,4 +1,3 @@
-import axios from "axios";
 import { baseUrl } from "../../utils/baseUrl"
 import { REGISTER_FAIL, REGISTER_SUCCESS } from "../type/authType"
 
