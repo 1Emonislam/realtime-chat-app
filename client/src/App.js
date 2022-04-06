@@ -9,9 +9,10 @@ import ForgetPassword from './pages/Auth/ForgetPassword';
 import Login from './pages/Auth/Login';
 import Register from './pages/Auth/Register';
 import ResetPassword from './pages/Auth/ResetPassword';
+import Home from './pages/Home/Home';
 export const ThemeSelectContext = React.createContext();
 const ColorModeContext = React.createContext({ toggleColorMode: () => { } });
-export  default function ToggleColorMode() {
+export default function ToggleColorMode() {
   const [mode, setMode] = React.useState(JSON.parse(window.localStorage.getItem("theme")));
   if (!mode) {
     window.localStorage.setItem("theme", JSON.stringify(mode === 'light' ? 'dark' : 'light'))
@@ -41,7 +42,7 @@ export  default function ToggleColorMode() {
       }),
     [mode],
   );
- 
+
   return (
     <ColorModeContext.Provider value={colorMode}>
       <ThemeSelectContext.Provider value={theme}>
@@ -62,6 +63,7 @@ export  default function ToggleColorMode() {
                 </IconButton> */}
                   <ThemeSwitch onClick={colorMode.toggleColorMode} style={{ fontSize: '20px' }} checked={!(theme.palette.mode === 'light')} />
                 </Chat>}></Route>
+                <Route path="/home" element={<Home />}> </Route>
                 <Route path="/login" element={<Login />}> </Route>
                 <Route path="/chat-child" element={<ChatHome />}> </Route>
                 <Route path="/forget-password" element={<ForgetPassword />}> </Route>
