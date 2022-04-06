@@ -8,24 +8,59 @@ import InputAdornment from '@mui/material/InputAdornment';
 import InputLabel from '@mui/material/InputLabel';
 import React from 'react';
 import { useForm } from 'react-hook-form';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import logo from '../../assets/logo/logo.png';
+import Loading from '../../components/Spinner/Loading';
+import { userLogin } from '../../store/actions/authAction';
+import { AUTH_ERROR, AUTH_MESSAGE } from '../../store/type/authType';
 import './auth.css';
 function Login() {
     const { register, reset, handleSubmit } = useForm();
+    const dispatch = useDispatch();
     const [values, setValues] = React.useState({
         password: '',
         password2: '',
         showPassword: false,
     });
     const onSubmit = data => {
-        console.log(data)
-        console.log(reset)
+        dispatch(userLogin(data, reset))
     };
+    const { loading, error, message } = useSelector(state => state.auth)
+
+    if (message) {
+        toast.success(`${message}`, {
+            position: "bottom-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+        });
+        dispatch({
+            type: AUTH_MESSAGE
+        })
+    }
+    if (error) {
+        toast.error(`${error?.passowrd || error?.email || error?.phone || error?.birthDate || error?.username || error?.firstName || error}`, {
+            position: "bottom-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+        });
+        dispatch({
+            type: AUTH_ERROR
+        })
+    }
+
     const handleChange = (prop) => (event) => {
         setValues({ ...values, [prop]: event.target.value });
     };
-
     const handleClickShowPassword = () => {
         setValues({
             ...values,
@@ -74,7 +109,10 @@ function Login() {
                             />
                         </FormControl>
                         <span><Link to="/forget-password" style={{ color: 'blueviolet', paddingLeft: '8px', fontSize: '14px' }} className="text text-links">Forget password?</Link></span>
-                        <Button type="submit" variant="contained"id="auth-btn" style={{ margin: '20px auto', padding: '11px 60px', fontSize: '15px', textTransform: 'capitalize', display: 'block', }}> Login</Button>
+                        {loading ? <div style={{ margin: '20px 0' }}>
+                            <Loading />
+                        </div> :
+                            <Button type="submit" variant="contained" id="auth-btn" style={{ margin: '20px auto', fontSize: '15px', textTransform: 'capitalize', display: 'block', }}> Login</Button>}
                     </form>
                     <span className="text-center">New user? <span><Link to="/register" style={{ color: 'blueviolet' }} className="text text-links">Create an account</Link></span>
                     </span>
