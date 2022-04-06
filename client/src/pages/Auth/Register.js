@@ -15,16 +15,14 @@ import 'react-toastify/dist/ReactToastify.css';
 import logo from '../../assets/logo/logo.png';
 import Loading from '../../components/Spinner/Loading';
 import { userRegister } from '../../store/actions/authAction';
-import { REGISTER_ERROR, REGISTER_SUCCESS } from '../../store/type/authType';
+import { AUTH_ERROR, AUTH_MESSAGE } from '../../store/type/authType';
 import './auth.css';
 function Register() {
   const dispatch = useDispatch()
   const { register, reset, handleSubmit } = useForm();
-
   // console.log(userRef.current)
   const { loading, error, message } = useSelector(state => state.auth)
-
-
+  
   if (message) {
     toast.success(`${message}`, {
       position: "bottom-right",
@@ -36,7 +34,7 @@ function Register() {
       progress: undefined,
     });
     dispatch({
-      type: REGISTER_SUCCESS
+      type: AUTH_MESSAGE
     })
   }
   if (error) {
@@ -50,7 +48,7 @@ function Register() {
       progress: undefined,
     });
     dispatch({
-      type: REGISTER_ERROR
+      type: AUTH_ERROR
     })
   }
 

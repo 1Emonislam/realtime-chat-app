@@ -1,11 +1,11 @@
 import { baseUrlLive } from "../../utils/baseUrl"
-import { REGISTER_FAIL, REGISTER_LOADING, REGISTER_SUCCESS } from "../type/authType"
+import { AUTH_FAILED, AUTH_LOADING, AUTH_SUCCESS } from "../type/authType"
 
 export const userRegister = (data, reset) => {
     return async (dispatch) => {
         try {
             dispatch({
-                type: REGISTER_LOADING,
+                type: AUTH_LOADING,
                 payload: {
                     loading: true,
                 }
@@ -24,7 +24,7 @@ export const userRegister = (data, reset) => {
                     if (data?.data) {
                         reset()
                         dispatch({
-                            type: REGISTER_SUCCESS,
+                            type: AUTH_SUCCESS,
                             payload: {
                                 message: data.message,
                                 data: data.data
@@ -34,7 +34,7 @@ export const userRegister = (data, reset) => {
                     if (data?.error) {
                         reset()
                         dispatch({
-                            type: REGISTER_FAIL,
+                            type: AUTH_FAILED,
                             payload: {
                                 error: data.error
                             }
@@ -45,7 +45,60 @@ export const userRegister = (data, reset) => {
         catch (error) {
             reset()
             dispatch({
-                type: REGISTER_FAIL,
+                type: AUTH_FAILED,
+                payload: {
+                    error: error.message
+                }
+            })
+        }
+    }
+}
+
+export const userLogin = (data, reset) => {
+    return async (dispatch) => {
+        try {
+            dispatch({
+                type: AUTH_LOADING,
+                payload: {
+                    loading: true,
+                }
+            })
+            fetch(`${baseUrlLive}/api/auth/login`, {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                },
+                body: JSON.stringify(data)
+            })
+                .then(res => res.json())
+                .then(data => {
+                    // console.log(data)
+                    if (data?.data) {
+                        reset()
+                        dispatch({
+                            type: AUTH_SUCCESS,
+                            payload: {
+                                message: data.message,
+                                data: data.data
+                            }
+                        })
+                    }
+                    if (data?.error) {
+                        reset()
+                        dispatch({
+                            type: AUTH_FAILED,
+                            payload: {
+                                error: data.error
+                            }
+                        })
+                    }
+                })
+        }
+        catch (error) {
+            reset()
+            dispatch({
+                type: AUTH_FAILED,
                 payload: {
                     error: error.message
                 }
