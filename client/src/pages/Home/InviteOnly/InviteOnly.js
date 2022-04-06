@@ -15,8 +15,8 @@ const InviteOnly = () => {
                     </Grid>
                     <Grid item xs={12} md={5}>
                         <Box sx={{ px: 4, mt: 4 }}>
-                            <Typography variant='h2' sx={{ fontSize: '48px', fontWeight: 'bold', pb: 4 }}>Create an invite-only place where you belong</Typography>
-                            <Typography sx={{ fontSize: '20px', fontWeight: 300 }} variant='p'>Discord servers are organized into topic-based channels where you can collaborate, share, and just talk about your day without clogging up a group chat.</Typography>
+                            <Typography variant='h2' sx={{ fontSize: { md: '48px', xs: '27px' }, fontWeight: 'bold', pb: 4 }}>Create an invite-only place where you belong</Typography>
+                            <Typography sx={{ fontSize: { md: '20px', xs: '18px' }, fontWeight: 300 }} variant='p'>Discord servers are organized into topic-based channels where you can collaborate, share, and just talk about your day without clogging up a group chat.</Typography>
                         </Box>
                     </Grid>
                 </Grid>
