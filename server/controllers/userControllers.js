@@ -96,7 +96,7 @@ module.exports.userRegister = async (req, res, next) => {
       const options = {
         expires: new Date(new Date().getTime() + process.env.COOKIE_EXPIRES * 60 * 1000)
       }
-      return res.status(201).cookie('user', data, options).json({
+      return res.status(201).cookie('userToken', data, options).json({
         message: 'Registration Successfully',
         data
       });
@@ -303,7 +303,7 @@ module.exports.changedPassword = async (req, res) => {
       const options = {
         expires: new Date(new Date().getTime() + process.env.COOKIE_EXPIRES * 60 * 1000)
       }
-      return res.status(200).cookie('user', data, options).json({
+      return res.status(200).cookie('userToken', data, options).json({
         message: "Password has been successfully changed",
         data
       });
