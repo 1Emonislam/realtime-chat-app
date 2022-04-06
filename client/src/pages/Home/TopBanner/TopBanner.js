@@ -67,7 +67,10 @@ const TopBanner = () => {
                 sx={{
                     position: 'absolute',
                     bottom: 0,
-                    left: '-17%'
+                    left: {
+                        lg: '-17%',
+                        md: '-40%'
+                    }
                 }}
             />
             <Typography component='img' src={bannerRight}
