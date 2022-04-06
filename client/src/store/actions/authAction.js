@@ -1,4 +1,4 @@
-import { baseUrl } from "../../utils/baseUrl"
+import { baseUrlLive } from "../../utils/baseUrl"
 import { REGISTER_FAIL, REGISTER_LOADING, REGISTER_SUCCESS } from "../type/authType"
 
 export const userRegister = (data, reset) => {
@@ -10,7 +10,7 @@ export const userRegister = (data, reset) => {
                     loading: true,
                 }
             })
-            fetch(`${baseUrl}/register`, {
+            fetch(`${baseUrlLive}/api/auth/register`, {
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/json',

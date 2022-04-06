@@ -40,7 +40,7 @@ function Register() {
     })
   }
   if (error) {
-    toast.error(`${error?.passowrd || error?.email || error?.phone || error?.birthDate || error?.username || error?.firstName}`, {
+    toast.error(`${error?.passowrd || error?.email || error?.phone || error?.birthDate || error?.username || error?.firstName || error}`, {
       position: "bottom-right",
       autoClose: 5000,
       hideProgressBar: false,
