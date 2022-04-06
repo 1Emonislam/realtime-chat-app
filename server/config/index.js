@@ -4,6 +4,6 @@ if (process.env.NODE_ENV !== "production") {
 const env = process.env;
 module.exports = {
 	saltOrRounds: 11,
-	adminEmailAddress: "support@test.com",
+	adminEmailAddress: "emonislamweb@gmail.com",
 	JWT_SECRET: env.JWT_SECRET
 }

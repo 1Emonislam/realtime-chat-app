@@ -2,6 +2,9 @@ require('dotenv').config();
 const express = require('express')
 const http = require('http');
 const cors = require('cors');
+var morgan = require('morgan');
+var moment = require('moment')
+var bodyParser = require('body-parser')
 const { Server } = require("socket.io");
 const connectedDb = require('./config/db');
 const { errorLog, errorHandlerNotify } = require('express-error-handle');
@@ -10,8 +13,16 @@ const userRoutes = require('./routes/userRoutes')
 const app = express();
 const PORT = process.env.PORT || 5000;
 //middlewares 
-app.use(cors());
-app.use(express.json());
+// Middleware
+const middleware = [
+    cors(),
+    morgan("tiny"),
+    express.json(),
+    express.static("public"),
+    bodyParser.urlencoded({ extended: false }),
+    bodyParser.json(),
+];
+app.use(middleware);
 const serverApp = http.createServer(app);
 const io = new Server(serverApp, {
     pingTimeout: 60000,
@@ -21,6 +32,7 @@ const io = new Server(serverApp, {
     },
 });
 global.io = io;
+global.moment = moment;
 //Database Connected
 connectedDb();
 socketServer();

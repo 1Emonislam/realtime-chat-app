@@ -1,8 +1,9 @@
-const LoginSession = require("../models/LoginSession");
-const config = {...require("../config/mail"), ...require("../config")};
-const User = require("../models/Users");
+const config = { ...require("../config/mail"), ...require("../config") };
 const nodemailer = require("nodemailer");
+const { google } = require("googleapis")
 const jwt = require("jsonwebtoken");
+const LoginSession = require("../models/loginSession");
+const User = require("../models/userModel");
 
 function generate_jwt_token(user) {
 	const token = jwt.sign({ id: user._id }, config.JWT_SECRET, {
@@ -24,22 +25,26 @@ function generate_token(length) {
 	}
 	return b.join("");
 }
-
+const oAuth2Client = new google.auth.OAuth2(config.gmail_client_id, config.gmail_client_secret, config.gmail_redirect_uri)
+oAuth2Client.setCredentials({ refresh_token: config.gmail_refresh_token })
 async function mailSending(sentTo, subject, htmlMsg) {
 	try {
+		const accessToken = await oAuth2Client.getAccessToken();
 		const option = {
-			host: config.host,
-			port: config.port,
-			secure: true,
+			gmail_service: '',
 			auth: {
-				user: config.email,
-				pass: config.password
+				type: 'OAuth2',
+				user: config.admin_sender_email,
+				clientId: config.gmail_client_id,
+				clientSecret: config.gmail_client_secret,
+				refresh_token: config.gmail_refresh_token,
+				accessToken: accessToken
 			}
 		}
 		const transporter = nodemailer.createTransport(option);
 		const mailOptions = {
-			from: `Support <${config.email}>`,
-			to: sentTo,
+			from: `Collaball <${config.admin_sender_email}>`,
+			to: sentTo.email,
 			subject,
 			html: htmlMsg,
 		};
@@ -47,6 +52,7 @@ async function mailSending(sentTo, subject, htmlMsg) {
 		return true;
 	} catch (error) {
 		console.log(error);
+		return false;
 	}
 
 }

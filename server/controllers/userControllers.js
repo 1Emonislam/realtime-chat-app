@@ -1,5 +1,6 @@
 const User = require("../models/userModel");
-const genToken = require("../utils/genToken");
+const { mailSending } = require("../utils/func");
+const { genToken_fourHours, genToken } = require("../utils/genToken");
 module.exports.userLogin = async (req, res, next) => {
   let { email, phone, password } = req.body;
   email?.toLowerCase();
@@ -133,6 +134,15 @@ module.exports.changedPassword = async (req, res) => {
         resData,
         token: genToken(resData?._id)
       }
+      const mailInfo = {
+        subject: `Check your account privacy. You have recently changed your password`,
+        msg: `Check your account privacy. You have recently changed your password`,
+        date: moment().format(),
+        link: `https://collaball.netlify.app`
+        // `https://wesoftin.com/user/verify-email/${(genToken_fourHours(userExist._id?.toString())}
+      }
+
+      await mailSending(user, mailInfo.subject, htmlMsg(mailInfo));
       const options = {
         expires: new Date(new Date().getTime() + process.env.COOKIE_EXPIRES * 60 * 1000)
       }
