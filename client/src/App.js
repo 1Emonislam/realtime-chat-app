@@ -69,7 +69,7 @@ export default function ToggleColorMode() {
                 <Route path="/login" element={<Login />}> </Route>
                 <Route path="/chat-child" element={<ChatHome />}> </Route>
                 <Route path="/forget-password" element={<ForgetPassword />}> </Route>
-                <Route path="/reset-password" element={<ResetPassword />}> </Route>
+                <Route path="/reset-password/:token" element={<ResetPassword />}> </Route>
                 <Route path="/register" element={< Register />}> </Route>
                 <Route path="*" element={<><h2> Not Founds</h2> </>}> </Route>
               </Routes>
