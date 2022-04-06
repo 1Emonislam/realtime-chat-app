@@ -62,8 +62,7 @@ fetch('https://collaballapp.herokuapp.com/api/auth/forget-password',{
     'Content-Type': 'application/json',
     },
     body:JSON.stringify({
-     email,
-     phone
+     email
     })
     })
 ```

@@ -53,7 +53,6 @@ async function mailSending(sentTo, mailInfo, htmlMSG) {
 		// console.log(transporter)
 		return true;
 	} catch (error) {
-		console.log(error);
 		return false;
 	}
 
