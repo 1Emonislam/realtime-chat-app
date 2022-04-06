@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken')
-function genToken() {
+function genToken(id) {
     return jwt.sign({ id }, process.env.JWT_SECRET, {
         expiresIn: process.env.AUTH_TOKEN_EXPIRES
     })

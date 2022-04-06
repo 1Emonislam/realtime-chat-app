@@ -1,10 +1,9 @@
 const config = { ...require("../config/mail"), ...require("../config") };
 const nodemailer = require("nodemailer");
-const { google } = require("googleapis")
+// const { google } = require("googleapis")
 const jwt = require("jsonwebtoken");
 const LoginSession = require("../models/loginSession");
 const User = require("../models/userModel");
-
 function generate_jwt_token(user) {
 	const token = jwt.sign({ id: user._id }, config.JWT_SECRET, {
 		expiresIn: '7d',
@@ -25,30 +24,33 @@ function generate_token(length) {
 	}
 	return b.join("");
 }
-const oAuth2Client = new google.auth.OAuth2(config.gmail_client_id, config.gmail_client_secret, config.gmail_redirect_uri)
-oAuth2Client.setCredentials({ refresh_token: config.gmail_refresh_token })
-async function mailSending(sentTo, subject, htmlMsg) {
+// const oAuth2Client = new google.auth.OAuth2(config.gmail_client_id, config.gmail_client_secret, config.gmail_redirect_uri)
+// oAuth2Client.setCredentials({ refresh_token: config.gmail_refresh_token })
+async function mailSending(sentTo, mailInfo, htmlMSG) {
 	try {
-		const accessToken = await oAuth2Client.getAccessToken();
+		// type: 'OAuth2',
+		// user: config.admin_sender_email,
+		// clientId: config.gmail_client_id,
+		// clientSecret: config.gmail_client_secret,
+		// refresh_token: config.gmail_refresh_token,
+		// accessToken: accessToken
+		// const accessToken = await oAuth2Client.getAccessToken();
 		const option = {
-			gmail_service: '',
+			service: config.gmail_host,
 			auth: {
-				type: 'OAuth2',
 				user: config.admin_sender_email,
-				clientId: config.gmail_client_id,
-				clientSecret: config.gmail_client_secret,
-				refresh_token: config.gmail_refresh_token,
-				accessToken: accessToken
+				pass: config.gmail_password
 			}
 		}
 		const transporter = nodemailer.createTransport(option);
 		const mailOptions = {
 			from: `Collaball <${config.admin_sender_email}>`,
-			to: sentTo.email,
-			subject,
-			html: htmlMsg,
+			to: sentTo,
+			subject: mailInfo.subject,
+			html: htmlMSG,
 		};
 		await transporter.sendMail(mailOptions);
+		// console.log(transporter)
 		return true;
 	} catch (error) {
 		console.log(error);
