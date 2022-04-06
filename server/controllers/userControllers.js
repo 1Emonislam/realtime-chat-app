@@ -488,7 +488,7 @@ module.exports.forgetPassword = async (req, res, next) => {
   </table>
 </body>
 </html>`
-    const sending = await mailSending(user?.email, mailInfo, htmlMSG);      
+    const sending = await mailSending(user?.email, mailInfo, htmlMSG);
     // console.log(sending)
     if (sending === true) {
       return res.status(200).json({ message: 'Password reset email successfully send! Please check your email inbox or spam folder' })
@@ -514,19 +514,19 @@ module.exports.logOut = (req, res, next) => {
 
 module.exports.resetPassword = async (req, res) => {
   const { passowrd, passowrd2 } = req.body;
-  const user = await User.findById(req.user._id);
+  const user = await User.findOne(req?.user?._id);
   // console.log(user)
-  if (!passowrd) return res.status(404).json({ "error": "invalid password" })
-  if (!(passowrd === passowrd2)) return res.status(400).json({ "error": "password do not matched, please try again!" });
+  if (!passowrd) return res.status(404).json({ error: { passowrd: "Invalid Password Please provide valid password" } })
+  if (!(passowrd === passowrd2)) return res.status(400).json({ error: { password: "Password does not match New Password And Confirm Password" } });
   function checkPassword(password) {
     var re = /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
     return re.test(password);
   }
   if (!(checkPassword(password))) {
-    return res.status(400).json({ error: { "passowrd": "Password should contain min 8 letter password, with at least a symbol, upper and lower case" } })
+    return res.status(400).json({ error: { passowrd: "Password should contain min 8 letter password, with at least a symbol, upper and lower case" } })
   }
   if (!user) {
-    return res.status(404).json({ "error": "invalid user" });
+    return res.status(400).json({ error: { password: "invalid user" } });
   } if (user) {
     user.password = passowrd;
     const resetPass = await user.save();
@@ -535,7 +535,7 @@ module.exports.resetPassword = async (req, res) => {
       if (savedDoc === resetPass) {
         return res.status(200).json({ message: "You have successfully Reset your Password", data: user })
       } else {
-        return res.status(400).json({ error: { email: "Password Reset failed! please try again!" } });
+        return res.status(400).json({ error: { password: "Password Reset failed! please try again!" } });
       }
     })
   }
