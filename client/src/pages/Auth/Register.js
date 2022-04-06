@@ -6,20 +6,54 @@ import IconButton from '@mui/material/IconButton';
 import Input from '@mui/material/Input';
 import InputAdornment from '@mui/material/InputAdornment';
 import InputLabel from '@mui/material/InputLabel';
-import React, { useRef } from 'react';
+import React from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import logo from '../../assets/logo/logo.png';
-import { userRegister } from '../../store/actions/authAction';
-import './auth.css';
-import { ToastContainer} from 'react-toastify';
+import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import logo from '../../assets/logo/logo.png';
+import Loading from '../../components/Spinner/Loading';
+import { userRegister } from '../../store/actions/authAction';
+import { REGISTER_ERROR, REGISTER_SUCCESS } from '../../store/type/authType';
+import './auth.css';
 function Register() {
   const dispatch = useDispatch()
   const { register, reset, handleSubmit } = useForm();
-  const userRef = useRef(useSelector(state => state))
-  console.log(userRef.current)
+
+  // console.log(userRef.current)
+  const { loading, error, message } = useSelector(state => state.auth)
+
+
+  if (message) {
+    toast.success(`${message}`, {
+      position: "bottom-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
+    dispatch({
+      type: REGISTER_SUCCESS
+    })
+  }
+  if (error) {
+    toast.error(`${error?.passowrd || error?.email || error?.phone || error?.birthDate || error?.username || error?.firstName}`, {
+      position: "bottom-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
+    dispatch({
+      type: REGISTER_ERROR
+    })
+  }
+
   const [values, setValues] = React.useState({
     password: '',
     password2: '',
@@ -148,7 +182,10 @@ function Register() {
                 </FormControl>
               </Grid>
             </Grid>
-            <Button type="submit" variant="contained" id="auth-btn" style={{ margin: '20px auto', fontSize: '15px', textTransform: 'capitalize', display: 'block', }}> Register</Button>
+            {loading ? <div style={{ margin: '20px 0' }}>
+              <Loading />
+            </div> :
+              <Button type="submit" variant="contained" id="auth-btn" style={{ margin: '20px auto', fontSize: '15px', textTransform: 'capitalize', display: 'block', }}> Register</Button>}
           </form>
           <span className="text-center">Already user? <span><Link to="/login" style={{ color: 'blueviolet' }} className="text text-links">Login</Link></span>
           </span>

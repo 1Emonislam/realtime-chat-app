@@ -1,1 +1,1 @@
-export const  baseUrl = 'http://localhost:5000/api/auth/register'
+export const  baseUrl = 'http://localhost:5000/api/auth'

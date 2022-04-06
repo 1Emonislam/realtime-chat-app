@@ -1,11 +1,16 @@
 import { baseUrl } from "../../utils/baseUrl"
-import { REGISTER_FAIL, REGISTER_SUCCESS } from "../type/authType"
+import { REGISTER_FAIL, REGISTER_LOADING, REGISTER_SUCCESS } from "../type/authType"
 
 export const userRegister = (data, reset) => {
     return async (dispatch) => {
         try {
-
-            fetch(`${baseUrl}/users`, {
+            dispatch({
+                type: REGISTER_LOADING,
+                payload: {
+                    loading: true,
+                }
+            })
+            fetch(`${baseUrl}/register`, {
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/json',
@@ -15,6 +20,7 @@ export const userRegister = (data, reset) => {
             })
                 .then(res => res.json())
                 .then(data => {
+                    // console.log(data)
                     if (data?.data) {
                         reset()
                         dispatch({
@@ -25,7 +31,7 @@ export const userRegister = (data, reset) => {
                             }
                         })
                     }
-                    if (data.error) {
+                    if (data?.error) {
                         reset()
                         dispatch({
                             type: REGISTER_FAIL,
