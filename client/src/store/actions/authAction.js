@@ -14,7 +14,6 @@ export const userRegister = (data, reset) => {
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/json',
-                    'Accept': 'application/json',
                 },
                 body: JSON.stringify(data)
             })
@@ -53,7 +52,7 @@ export const userRegister = (data, reset) => {
         }
     }
 }
-
+// console.log(baseUrlLive)
 export const userLogin = (data, reset) => {
     return async (dispatch) => {
         try {
@@ -67,7 +66,6 @@ export const userLogin = (data, reset) => {
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/json',
-                    'Accept': 'application/json',
                 },
                 body: JSON.stringify(data)
             })
