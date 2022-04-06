@@ -15,13 +15,13 @@ const PORT = process.env.PORT || 5000;
 //middlewares 
 // Middleware
 const middleware = [
-    cors(),
     morgan("tiny"),
-    express.json(),
     express.static("public"),
     bodyParser.urlencoded({ extended: false }),
     bodyParser.json(),
 ];
+app.use(cors())
+app.use(express.json())
 app.use(middleware);
 const serverApp = http.createServer(app);
 const io = new Server(serverApp, {
