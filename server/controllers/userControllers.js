@@ -329,7 +329,7 @@ module.exports.forgetPassword = async (req, res, next) => {
       following link and follow the instructions.`,
       user: user,
       date: moment().format(),
-      link: `https://collaball.netlify.app/api/auth/reset-password/${genToken_fourHours(user?._id)}`
+      link: `https://collaball.netlify.app/reset-password/${genToken_fourHours(user?._id)}`
     }
     const htmlMSG = `<!DOCTYPE html>
 <html lang="en-US">
