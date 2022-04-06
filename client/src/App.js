@@ -57,7 +57,9 @@ export default function ToggleColorMode() {
           >
             <BrowserRouter>
               <Routes>
-                <Route path="/" element={<Chat>
+                <Route path='/home'element={<Home/>}></Route>
+                <Route path='/'element={<Home/>}></Route>
+                <Route path="/chat" element={<Chat>
                   {/* <IconButton sx={{ ml: 1 }} onClick={colorMode.toggleColorMode} color="inherit">
                   {theme.palette.mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
                 </IconButton> */}
