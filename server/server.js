@@ -8,7 +8,8 @@ const { Server } = require("socket.io");
 const connectedDb = require('./config/db');
 const { errorLog, errorHandlerNotify } = require('express-error-handle');
 const socketServer = require('./socket/socketServer');
-const userRoutes = require('./routes/userRoutes')
+const userRoutes = require('./routes/userRoutes');
+const profileRoutes = require('./routes/proflieRoutes')
 const app = express();
 const PORT = process.env.PORT || 5000;
 //middlewares
@@ -34,7 +35,8 @@ global.moment = moment;
 connectedDb();
 socketServer();
 //Use Routes
-app.use('/api/auth', userRoutes)
+app.use('/api/auth', userRoutes);
+app.use('/api/profile',profileRoutes)
 app.get('/', (req, res) => {
     res.send('server connected')
 })

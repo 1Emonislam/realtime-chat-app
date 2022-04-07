@@ -45,7 +45,13 @@ module.exports.userLogin = async (req, res, next) => {
 
 module.exports.userRegister = async (req, res, next) => {
   try {
-    const { email, firstName, lastName, phone, birthDate, gender, password } = req.body;
+    const { email, firstName, lastName, phone, birthDate, userInfo, gender, password } = req.body;
+    const latitude = req?.body?.location?.latitude || 0;
+    const longitude = req?.body?.location?.longitude || 0;
+    const address = req?.body?.location?.address;
+    const houseNumber = req?.body?.location?.houseNumber;
+    const floor = req?.body?.location?.floor;
+    const information = req?.body?.location?.information;
     const username = (firstName + lastName)?.toString();
     function checkPassword(password) {
       var re = /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
@@ -87,14 +93,9 @@ module.exports.userRegister = async (req, res, next) => {
     const userName = await generateUniqueAccountName(username);
     if (!(phoneExist || userExist)) {
       const user = await User.create({
-        email,
         username: userName,
         password,
-        birthDate,
-        gender,
-        firstName,
-        lastName,
-        phone
+        firstName, lastName, email, phone, gender, birthDate, userInfo, socialMedia, phone, pic,location: { latitude, longitude, address, houseNumber, floor, information }, geometry: { type: "Point", "coordinates": [Number(longitude), Number(latitude)] }
       });
       const resData = await User.findOne({ _id: user._id }).select("-password")
       const data = {
