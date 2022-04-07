@@ -6,7 +6,7 @@ import MessageIcon from '@mui/icons-material/Message';
 import PeopleIcon from '@mui/icons-material/People';
 import PhoneIcon from '@mui/icons-material/Phone';
 import SettingsIcon from '@mui/icons-material/Settings';
-import { Avatar, Box, Button, Grid, Modal, ToggleButton, Typography } from '@mui/material';
+import { Avatar, Grid, ToggleButton } from '@mui/material';
 import React, { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ThemeSelectContext } from '../../App';
@@ -14,17 +14,6 @@ import AddContact from '../../components/AddContact/AddContact';
 import AddGroups from '../../components/AddGroups/AddGroups';
 import './nav.css';
 
-const style = {
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    width: 700,
-    bgcolor: 'background.paper',
-    border: '2px solid #000',
-    boxShadow: 24,
-    p: 4,
-  };
 const Nav = ({ children }) => {
     const [selected, setSelected] = useState('');
     const [open, setOpen] = React.useState(false);

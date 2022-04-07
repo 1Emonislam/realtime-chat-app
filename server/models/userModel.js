@@ -1,7 +1,20 @@
-const mongoose = require("mongoose");
+const{ mongoose,Schema} = require("mongoose");
 const bcrypt = require('bcryptjs');
+const geometrySchema = new mongoose.Schema({
+    type: {
+        type: String,
+        default: "Point"
+    },
+    coordinates: {
+        type: [Number],
+        index: "2dsphere"
+    }
+});
 const userSchema = new mongoose.Schema({
     online: {
+        type: String,
+    },
+    socketId: {
         type: String,
     },
     lastOneline: {
@@ -25,6 +38,15 @@ const userSchema = new mongoose.Schema({
         lowercase: true,
         trim: true
     },
+    emailVerified: {
+        type: Boolean
+    },
+    phoneVerified: {
+        type: Boolean,
+    },
+    verifiedBadge: {
+        type: Boolean,
+    },
     password: {
         type: String,
         required: [true, 'Must be at least 8 characters'],
@@ -35,6 +57,36 @@ const userSchema = new mongoose.Schema({
         trim: true,
         default: 'N/A'
     },
+    location: {
+        latitude: {
+            type: Number,
+            default: 0,
+        },
+        longitude: {
+            type: Number,
+            default: 0
+        },
+        address: {
+            type: String,
+            default: 'N/A'
+        },
+        houseNumber: {
+            type: String,
+            default: 'N/A'
+        },
+        floor: {
+            type: String,
+            default: 'N/A'
+        },
+        information: {
+            type: String,
+            default: 'N/A'
+        }
+    },
+    role: {
+        type: String,
+    },
+    geometry: geometrySchema,
     gender: {
         type: String,
         lowercase: true,
@@ -42,13 +94,12 @@ const userSchema = new mongoose.Schema({
     },
     birthDate: {
         type: Date,
-        required: [true, 'Birth Date is requied!'],
     },
     pic: {
         type: String,
         default: "https://i.ibb.co/BGbPkX9/dummy-avatar-300x300-1.jpg",
     },
-    info: {
+    userInfo: {
         type: String,
         trim: true
     },

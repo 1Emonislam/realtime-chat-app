@@ -16,11 +16,14 @@ import Loading from '../../components/Spinner/Loading';
 import { resetPassword } from '../../store/actions/authAction';
 import { AUTH_ERROR, AUTH_MESSAGE } from '../../store/type/authType';
 import './auth.css';
-function ResetPassword() {
+function ChangePassword() {
     const [values, setValues] = React.useState({
         password: '',
         password2: '',
+        password3: '',
         showPassword: false,
+        showPassword2: false,
+        showPassword3: false,
     });
     const handleChange = (prop) => (event) => {
         setValues({ ...values, [prop]: event.target.value });
@@ -42,11 +45,22 @@ function ResetPassword() {
     const handleMouseDownPassword = (event) => {
         event.preventDefault();
     };
+    const handleClickShowOldPassword = () => {
+        setValues({
+            ...values,
+            showPassword3: !values.showPassword3,
+        });
+    };
+
+    const handleMouseDownOldPassword = (event) => {
+        event.preventDefault();
+    };
     const { register, reset, handleSubmit } = useForm();
     const dispatch = useDispatch();
     const { auth, theme } = useSelector(state => state);
     const { loading, error, message } = auth;
     const onSubmit = data => {
+        // console.log(data)
         dispatch(resetPassword(data, reset))
     };
     if (message) {
@@ -66,7 +80,7 @@ function ResetPassword() {
             })
         }, 5000)
     }
-    if (error?.password) {
+    if (error?.password2) {
         toast.error(`${error?.password}`, {
             position: "bottom-right",
             theme: theme?.theme,
@@ -83,25 +97,25 @@ function ResetPassword() {
             })
         }, 5000)
     }
-    if (error?.password2) {
-        toast.error(`${error?.password}`, {
-          position: "bottom-right",
-          theme: theme?.theme,
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        });
-        setTimeout(() => {
-          dispatch({
-            type: AUTH_ERROR
-          })
-        }, 5000)
-      }
     if (error?.token) {
         toast.error(`${error?.token}`, {
+            position: "bottom-right",
+            theme: theme?.theme,
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+        });
+        setTimeout(() => {
+            dispatch({
+                type: AUTH_ERROR
+            })
+        }, 5000)
+    }
+    if (error?.password) {
+        toast.error(`${error?.password}`, {
             position: "bottom-right",
             theme: theme?.theme,
             autoClose: 5000,
@@ -214,7 +228,28 @@ function ResetPassword() {
                     <h2 className="text text-large">Reset Password</h2>
                     <form onSubmit={handleSubmit(onSubmit)}>
                         <FormControl sx={{ m: 1, width: '95%' }} variant="standard">
-                            <InputLabel htmlFor="standard-adornment-password">Password</InputLabel>
+                            <InputLabel htmlFor="standard-adornment-password">Old Password</InputLabel>
+                            <Input
+                                sx={{ paddingBottom: '6px' }}
+                                autoComplete="off"{...register("oldPassword", { min: 0 })} required
+                                type={values.showPassword3 ? 'text' : 'password'}
+                                value={values.password3}
+                                onChange={handleChange('password3')}
+                                endAdornment={
+                                    <InputAdornment position="end">
+                                        <IconButton
+                                            aria-label="toggle password visibility"
+                                            onClick={handleClickShowOldPassword}
+                                            onMouseDown={handleMouseDownOldPassword}
+                                        >
+                                            {values.showPassword3 ? <VisibilityOff /> : <Visibility />}
+                                        </IconButton>
+                                    </InputAdornment>
+                                }
+                            />
+                        </FormControl>
+                        <FormControl sx={{ m: 1, width: '95%' }} variant="standard">
+                            <InputLabel htmlFor="standard-adornment-password">New Password</InputLabel>
                             <Input
                                 sx={{ paddingBottom: '6px' }}
                                 autoComplete="off"{...register("password", { min: 0 })} required
@@ -277,4 +312,4 @@ function ResetPassword() {
     )
 }
 
-export default ResetPassword
+export default ChangePassword

@@ -2,27 +2,22 @@ const User = require("../models/userModel");
 const { mailSending } = require("../utils/func");
 const { genToken_fourHours, genToken } = require("../utils/genToken");
 module.exports.userLogin = async (req, res, next) => {
-  let { email, phone, password } = req.body;
+  const email = req?.body?.email;
+  const phone = req?.body?.phone;
+  const userName = req?.body?.username;
+  const password = req?.body?.password;
   email?.toLowerCase();
-  const user = email ? await User.findOne({ email }) : await User.findOne({ phone });
+  // console.log(req.body)
+  if (!(email || phone || userName)) {
+    return res.status(400).json({ error: { "email": "Could not find user Please provide Email or Phone Number or UserName" } })
+  }
+  const checkUser = email || phone || userName;
+  const user = await User.findOne({ checkUser });
   // console.log(user)
   try {
     if (!user) {
       return res.status(400).json({ error: { "email": "Could not find user" } })
     }
-    // if (user?.phoneVerified === false) {
-    //   const send = await sendOtpVia(user?.phone);
-    //   // console.log(send)
-    //   const data = await User.findOneAndUpdate({ _id: user._id }, {
-    //     role: role
-    //   }, { new: true });
-    //   if (send?.sent === false) {
-    //     return res.status(400).json({ error: { "phone": "Phone Number UnVerified! Verify Your Phone Number. Otp Sending failed! Please try again!" }, message: `Switch Mode ${data?.role}`, role: data?.role, token: genToken(data?._id), sent: false })
-    //   }
-    //   if (send?.sent === true) {
-    //     return res.status(200).json({ message: "Phone Number UnVerified! Verify Your Phone Number. Otp Sending Successfully!", message: `Switch Mode ${data?.role}`, role: data?.role, token: genToken(user?._id), sent: true })
-    //   }
-    // }
     if (!(user && (await user.matchPassword(password)))) {
       return res.status(400).json({ error: { "password": "Password invalid! please provide valid password!" } });
     } else if (user && (await user.matchPassword(password))) {
@@ -37,29 +32,36 @@ module.exports.userLogin = async (req, res, next) => {
 
 module.exports.userRegister = async (req, res, next) => {
   try {
-    const { email, firstName, lastName, phone, birthDate, gender, password } = req.body;
+    let { email, firstName, lastName, phone, birthDate, socialMedia, pic, userInfo, gender, password } = req.body;
+    const latitude = req?.body?.location?.latitude || 0;
+    const longitude = req?.body?.location?.longitude || 0;
+    const address = req?.body?.location?.address;
+    const houseNumber = req?.body?.location?.houseNumber;
+    const floor = req?.body?.location?.floor;
+    const information = req?.body?.location?.information;
     const username = (firstName + lastName)?.toString();
+    const issue = {}
+    const userExist = await User.findOne({ email });
+    const phoneExist = await User.findOne({ phone });
     function checkPassword(password) {
       var re = /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
       return re.test(password);
     }
     if (!(checkPassword(password))) {
-      return res.status(400).json({ error: { "passowrd": "Password should contain min 8 letter password, with at least a symbol, upper and lower case" } })
+      issue.password = 'Password should contain min 8 letter password, with at least a symbol, upper and lower case'
     }
     function validateEmail(elementValue) {
       const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
       return emailPattern.test(elementValue);
     }
-    if (!(validateEmail(email))) {
-      return res.status(400).json({ error: { "email": "Email Invalid! Please provide a valid Email!" } })
-    }
-    const userExist = await User.findOne({ email });
-    const phoneExist = await User.findOne({ phone });
     if (userExist) {
-      return res.status(400).json({ error: { "email": "Email Already exists!" } })
+      issue.email = 'user Already exists!'
+    }
+    if (!(validateEmail(email))) {
+      issue.email = 'Email Invalid! Please provide a valid Email!'
     }
     if (phoneExist) {
-      return res.status(400).json({ error: { "phone": "This phone number is linked to another account, please enter another number." } })
+      issue.phone = 'This phone number is linked to another account, please enter another number.'
     }
     async function generateUniqueAccountName(proposedName) {
       return User.findOne({ username: proposedName })
@@ -76,17 +78,15 @@ module.exports.userRegister = async (req, res, next) => {
           next(err)
         });
     }
+    if (Object.keys(issue)?.length) {
+      return res.status(400).json({ error: issue })
+    }
     const userName = await generateUniqueAccountName(username);
     if (!(phoneExist || userExist)) {
       const user = await User.create({
-        email,
         username: userName,
         password,
-        birthDate,
-        gender,
-        firstName,
-        lastName,
-        phone
+        firstName, lastName, email, phone, gender, birthDate, userInfo, socialMedia, phone, pic, location: { latitude, longitude, address, houseNumber, floor, information }, geometry: { type: "Point", "coordinates": [Number(longitude), Number(latitude)] }
       });
       const resData = await User.findOne({ _id: user._id }).select("-password")
       const data = {
@@ -110,24 +110,28 @@ module.exports.changedPassword = async (req, res) => {
   // console.log(req.body)
   const { oldPassword, password, password2 } = req.body;
   const user = await User.findOne({ _id: req?.user?._id });
-  if (!(oldPassword && (await user?.matchPassword(oldPassword)))) {
-    return res.status(400).json({ error: { password: "old password does not match!" } });
-  }
+  const issue = {}
   if (!(password === password2)) {
-    return res.status(403).json({ error: { password: "New Password and Confirm Password are not the same!" } });
+    issue.passowrd2 = 'New Password and Confirm Password are not the same!'
   }
   function checkPassword(password) {
     var re = /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
     return re.test(password);
   }
   if (!(checkPassword(password))) {
-    return res.status(400).json({ error: { password: "Password should contain min 8 letter password, with at least a symbol, upper and lower case" } })
+    issue.passowrd = "Password should contain min 8 letter password, with at least a symbol, upper and lower case";
+  }
+  if (!(oldPassword && (await user?.matchPassword(oldPassword)))) {
+    issue.passowrd = 'old password does not match!'
+  }
+  if (Object.keys(issue)?.length) {
+    return res.status(400).json({ error: issue })
   }
   if (oldPassword && (await user.matchPassword(oldPassword))) {
     user.password = password;
     const updatedPassword = await user.save();
     if (!updatedPassword) {
-      return res.status(400).json({ error: "Password change failed, please try again!" });
+      return res.status(400).json({ error: { password: 'Password change failed, please try again!' } })
     } else {
       const resData = await User.findOne({ _id: user._id }).select("-password")
       const mailInfo = {
@@ -313,13 +317,17 @@ module.exports.changedPassword = async (req, res) => {
 
 module.exports.forgetPassword = async (req, res, next) => {
   const { email } = req.body;
+  const issue = {};
   if (!email) {
-    return res.status(400).json({ error: { email: "Email invalid Please Provide valid Email" } });
+    issue.email = "Email invalid Please Provide valid Email"
   }
   try {
     const user = await User.findOne({ email });
     if (!user) {
-      return res.status(400).json({ error: { email: 'Could not find user!' } })
+      issue.email = 'Could not find user!'
+    }
+    if (Object.keys(issue)?.length) {
+      return res.status(400).json({ error: issue })
     }
     const mailInfo = {
       subject: `You have
@@ -504,11 +512,11 @@ module.exports.forgetPassword = async (req, res, next) => {
 }
 module.exports.logOut = (req, res, next) => {
   try {
-    if (!req.params.id) return res.json({ message: "user credentials invalid! please login!" });
+    if (!req.params.id) return res.json({ error: "user credentials invalid! please login!" });
     // onlineUsers.delete(req.params.id);
     return res.status(200).send();
-  } catch (ex) {
-    next(ex);
+  } catch (error) {
+    next(error);
   }
 };
 
@@ -516,18 +524,27 @@ module.exports.resetPassword = async (req, res) => {
   const { passowrd, passowrd2 } = req.body;
   const user = await User.findOne(req?.user?._id);
   // console.log(user)
-  if (!passowrd) return res.status(404).json({ error: { passowrd: "Invalid Password Please provide valid password" } })
-  if (!(passowrd === passowrd2)) return res.status(400).json({ error: { password: "Password does not match New Password And Confirm Password" } });
+  const issue = {};
+  if (!user) {
+    issue.email = 'user credentials invalid!'
+  }
+  if (!passowrd) {
+    issue.passowrd = 'Invalid Password Please provide valid password'
+  }
+  if (!(passowrd === passowrd2)) {
+    issue.passowrd2 = 'Password does not match New Password And Confirm Password'
+  }
   function checkPassword(password) {
     var re = /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
     return re.test(password);
   }
   if (!(checkPassword(password))) {
-    return res.status(400).json({ error: { passowrd: "Password should contain min 8 letter password, with at least a symbol, upper and lower case" } })
+    issue.passowrd = "Password should contain min 8 letter password, with at least a symbol, upper and lower case"
   }
-  if (!user) {
-    return res.status(400).json({ error: { password: "invalid user" } });
-  } if (user) {
+  if (Object.keys(issue)?.length) {
+    return res.status(400).json({ error: issue })
+  }
+  if (user) {
     user.password = passowrd;
     const resetPass = await user.save();
     resetPass.save().then(savedDoc => {

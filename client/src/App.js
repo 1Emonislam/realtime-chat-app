@@ -11,6 +11,7 @@ import Login from './pages/Auth/Login';
 import Register from './pages/Auth/Register';
 import ResetPassword from './pages/Auth/ResetPassword';
 import Home from './pages/Home/Home';
+import ChangePassword from './pages/Auth/ChangePassword';
 export const ThemeSelectContext = React.createContext();
 const ColorModeContext = React.createContext({ toggleColorMode: () => { } });
 export default function ToggleColorMode() {
@@ -71,6 +72,7 @@ export default function ToggleColorMode() {
                 <Route path="/chat-child" element={<ChatHome />}> </Route>
                 <Route path="/forget-password" element={<ForgetPassword />}> </Route>
                 <Route path="/reset-password/:token" element={<ResetPassword />}> </Route>
+                <Route path="/change-password" element={<ChangePassword />}> </Route>
                 <Route path="/register" element={< Register />}> </Route>
                 
                 <Route path="*" element={<><h2> Not Founds</h2> </>}> </Route>
