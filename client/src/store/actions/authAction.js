@@ -1,4 +1,3 @@
-import { baseUrl } from "../../utils/baseUrl"
 import { AUTH_FAILED, AUTH_LOADING, AUTH_SUCCESS } from "../type/authType"
 
 export const userRegister = (data, reset) => {
@@ -56,12 +55,12 @@ export const userRegister = (data, reset) => {
 export const userLogin = (data, reset) => {
     return async (dispatch) => {
         try {
-            // dispatch({
-            //     type: AUTH_LOADING,
-            //     payload: {
-            //         loading: true,
-            //     }
-            // })
+            dispatch({
+                type: AUTH_LOADING,
+                payload: {
+                    loading: true,
+                }
+            })
             console.log(data)
             fetch("http://localhost:5000/api/auth/login", {
                 method: "POST",
@@ -71,7 +70,7 @@ export const userLogin = (data, reset) => {
                 body: JSON.stringify(data)
             }).then(res => res.json())
                 .then(data => {
-                    console.log(data)
+                    // console.log(data)
                     if (data?.data) {
                         reset()
                         dispatch({
