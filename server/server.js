@@ -13,7 +13,7 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 //middlewares
 app.use(cors({
-    origin: "https://collaball.netlify.app",
+    origin: "*",
     credentials: true
 }));
 app.use(express.json())
@@ -24,7 +24,7 @@ const serverApp = http.createServer(app);
 const io = new Server(serverApp, {
     pingTimeout: 60000,
     cors: {
-        origin: "https://collaball.netlify.app",
+        origin: "*",
         methods: ["GET", "POST"],
     },
 });
