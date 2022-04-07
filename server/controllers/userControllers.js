@@ -32,7 +32,7 @@ module.exports.userLogin = async (req, res, next) => {
 
 module.exports.userRegister = async (req, res, next) => {
   try {
-    const { email, firstName, lastName, phone, birthDate, userInfo, gender, password } = req.body;
+    const { email, firstName, lastName, phone, birthDate,socialMedia,pic, userInfo, gender, password } = req.body;
     const latitude = req?.body?.location?.latitude || 0;
     const longitude = req?.body?.location?.longitude || 0;
     const address = req?.body?.location?.address;
@@ -40,27 +40,28 @@ module.exports.userRegister = async (req, res, next) => {
     const floor = req?.body?.location?.floor;
     const information = req?.body?.location?.information;
     const username = (firstName + lastName)?.toString();
+    const issue = {}
+    const userExist = await User.findOne({ email });
+    const phoneExist = await User.findOne({ phone });
     function checkPassword(password) {
       var re = /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
       return re.test(password);
     }
     if (!(checkPassword(password))) {
-      return res.status(400).json({ error: { "passowrd": "Password should contain min 8 letter password, with at least a symbol, upper and lower case" } })
+      issue.password = 'Password should contain min 8 letter password, with at least a symbol, upper and lower case'
     }
     function validateEmail(elementValue) {
       const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
       return emailPattern.test(elementValue);
     }
-    if (!(validateEmail(email))) {
-      return res.status(400).json({ error: { "email": "Email Invalid! Please provide a valid Email!" } })
-    }
-    const userExist = await User.findOne({ email });
-    const phoneExist = await User.findOne({ phone });
     if (userExist) {
-      return res.status(400).json({ error: { "email": "Email Already exists!" } })
+      issue.email = 'user Already exists!'
+    }
+    if (!(validateEmail(email))) {
+      issue.email = 'Email Invalid! Please provide a valid Email!'
     }
     if (phoneExist) {
-      return res.status(400).json({ error: { "phone": "This phone number is linked to another account, please enter another number." } })
+      issue.phone = 'This phone number is linked to another account, please enter another number.'
     }
     async function generateUniqueAccountName(proposedName) {
       return User.findOne({ username: proposedName })
@@ -77,12 +78,15 @@ module.exports.userRegister = async (req, res, next) => {
           next(err)
         });
     }
+    if (Object.keys(issue)?.length) {
+      return res.status(400).json({ error: issue })
+    }
     const userName = await generateUniqueAccountName(username);
     if (!(phoneExist || userExist)) {
       const user = await User.create({
         username: userName,
         password,
-        firstName, lastName, email, phone, gender, birthDate, userInfo, socialMedia, phone, pic,location: { latitude, longitude, address, houseNumber, floor, information }, geometry: { type: "Point", "coordinates": [Number(longitude), Number(latitude)] }
+        firstName, lastName, email, phone, gender, birthDate, userInfo, socialMedia, phone, pic, location: { latitude, longitude, address, houseNumber, floor, information }, geometry: { type: "Point", "coordinates": [Number(longitude), Number(latitude)] }
       });
       const resData = await User.findOne({ _id: user._id }).select("-password")
       const data = {
