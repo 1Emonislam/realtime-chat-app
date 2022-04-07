@@ -12,32 +12,14 @@ const socketServer = require('./socket/socketServer');
 const userRoutes = require('./routes/userRoutes')
 const app = express();
 const PORT = process.env.PORT || 5000;
-//middlewares 
+//middlewares
+app.use(express.static("public"))
+app.use(express.json())  
+app.use(cors())
+bodyParser.urlencoded({ extended: false }),
+bodyParser.json(),
+app.use( morgan("tiny"))
 // Middleware
-const middleware = [
-    morgan("tiny"),
-    express.static("public"),
-    bodyParser.urlencoded({ extended: false }),
-    bodyParser.json(),
-];
-if (process.env.NODE_ENV !== "production") {
-    require("dotenv").config()
-  }
-const domainsFromEnv = process.env.CORS_DOMAINS || ""
-const whitelist = domainsFromEnv.split(",").map(item => item.trim())
-const corsOptions = {
-  origin: function (origin, callback) {
-    if (!origin || whitelist.indexOf(origin) !== -1) {
-      callback(null, true)
-    } else {
-      callback(new Error("Not allowed by CORS"))
-    }
-  },
-  credentials: true,
-}
-app.use(cors(corsOptions))
-app.use(express.json())
-app.use(middleware);
 const serverApp = http.createServer(app);
 const io = new Server(serverApp, {
     pingTimeout: 60000,
