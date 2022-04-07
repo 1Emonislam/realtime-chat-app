@@ -1,4 +1,4 @@
-import { baseUrlLive } from "../../utils/baseUrl"
+import { baseUrl } from "../../utils/baseUrl"
 import { AUTH_FAILED, AUTH_LOADING, AUTH_SUCCESS } from "../type/authType"
 
 export const userRegister = (data, reset) => {
@@ -10,7 +10,7 @@ export const userRegister = (data, reset) => {
                     loading: true,
                 }
             })
-            fetch(`${baseUrlLive}/api/auth/register`, {
+            fetch(`${baseUrl}/api/auth/register`, {
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/json',
@@ -62,7 +62,7 @@ export const userLogin = (data, reset) => {
                     loading: true,
                 }
             })
-            fetch(`${baseUrlLive}/api/auth/login`, {
+            fetch(`${baseUrl}/api/auth/login`, {
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/json',
