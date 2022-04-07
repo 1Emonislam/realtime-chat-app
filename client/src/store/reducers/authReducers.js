@@ -1,4 +1,4 @@
-import { REGISTER_FAIL, REGISTER_SUCCESS } from "../type/authType";
+import { AUTH_ERROR, AUTH_FAILED, AUTH_LOADING, AUTH_SUCCESS,AUTH_MESSAGE } from "../type/authType";
 const authState = {
     loading: false,
     authenticate: false,
@@ -8,16 +8,17 @@ const authState = {
 }
 export const authReducer = (state = authState, action) => {
     const { payload, type } = action;
-    if (type === REGISTER_FAIL) {
+    if (type === AUTH_FAILED) {
+        // console.log(payload.error)
         return {
             ...state,
             error: payload.error,
             authenticate: false,
             user: null,
-            loading: true
+            loading: false
         }
     }
-    if (type === REGISTER_SUCCESS) {
+    if (type === AUTH_SUCCESS) {
         return {
             ...state,
             message: payload.message,
@@ -25,6 +26,26 @@ export const authReducer = (state = authState, action) => {
             authenticate: true,
             error: '',
             loading: false
+        }
+    }
+    if (type === AUTH_LOADING) {
+        return {
+            ...state,
+            loading: true
+        }
+    }
+    if (type === AUTH_ERROR) {
+        return {
+            ...state,
+            loading: false,
+            error: '',
+        }
+    }
+    if (type === AUTH_MESSAGE) {
+        return {
+            ...state,
+            loading: false,
+            message: '',
         }
     }
     return state;
