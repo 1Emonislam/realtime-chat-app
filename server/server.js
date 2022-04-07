@@ -2,7 +2,6 @@ require('dotenv').config();
 const express = require('express')
 const http = require('http');
 const cors = require('cors');
-var morgan = require('morgan');
 var moment = require('moment')
 var bodyParser = require('body-parser')
 const { Server } = require("socket.io");
@@ -13,15 +12,10 @@ const userRoutes = require('./routes/userRoutes')
 const app = express();
 const PORT = process.env.PORT || 5000;
 //middlewares
-app.use(express.static("public"))
+app.use(cors());
 app.use(express.json())
-app.use(cors({
-    origin: '*',
-    credentials: true
-}));
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
-app.use(morgan("tiny"))
 // Middleware
 const serverApp = http.createServer(app);
 const io = new Server(serverApp, {
