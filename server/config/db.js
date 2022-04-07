@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const connectedDb = async () => {
-    if (process.env.MONGO_URL) {
+    if (process.env?.MONGO_URL) {
         try {
             const uri = process.env.MONGO_URL;
             await mongoose.connect(uri, {
@@ -13,14 +13,14 @@ const connectedDb = async () => {
             process.exit();
         }
     }
-    // if (process.env.MONGO_URI) {
-    //     try {
-    //         // console.log(moment(new Date()).fromNow())
-    //         await mongoose.connect(process.env.MONGO_URI);
-    //         console.log('Database Connected Successfully')
-    //     } catch (error) {
-    //         console.log(error.message);
-    //     }
-    // }
+    if (process.env?.MONGO_URI) {
+        try {
+            // console.log(moment(new Date()).fromNow())
+            await mongoose.connect(process.env.MONGO_URI);
+            console.log('Database Connected Successfully')
+        } catch (error) {
+            console.log(error.message);
+        }
+    }
 }
 module.exports = connectedDb;
