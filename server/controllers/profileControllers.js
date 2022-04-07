@@ -54,3 +54,15 @@ module.exports.profileUpdate = async (req, res, next) => {
         next(error)
     }
 }
+
+module.exports.removeUserProfile = async (req, res, next) => {
+    if(req?.user?._id){
+        return res.status(400).json({error:{}})
+    }
+    try {
+
+    }
+    catch (error) {
+        next(error)
+    }
+}

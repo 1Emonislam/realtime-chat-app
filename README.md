@@ -121,5 +121,26 @@ fetch('https://collaballapp.herokuapp.com/api/profile/update',{
     'Content-Type': 'application/json',
     'Authorization':`Bearer ${token}`
     },
+    body:JSON.stringify({
+        firstName,
+        lastName,
+        email,
+        phone,
+        gender,
+        birthDate,
+        pic,
+        userInfo,
+    "socialMedia": [
+        {
+            "facebook": ""
+        },
+        {
+            "linkedin": ""
+        },
+        {
+            "twitter": ""
+        }
+    ]
+})
     })
 ```

@@ -18,19 +18,6 @@ module.exports.userLogin = async (req, res, next) => {
     if (!user) {
       return res.status(400).json({ error: { "email": "Could not find user" } })
     }
-    // if (user?.phoneVerified === false) {
-    //   const send = await sendOtpVia(user?.phone);
-    //   // console.log(send)
-    //   const data = await User.findOneAndUpdate({ _id: user._id }, {
-    //     role: role
-    //   }, { new: true });
-    //   if (send?.sent === false) {
-    //     return res.status(400).json({ error: { "phone": "Phone Number UnVerified! Verify Your Phone Number. Otp Sending failed! Please try again!" }, message: `Switch Mode ${data?.role}`, role: data?.role, token: genToken(data?._id), sent: false })
-    //   }
-    //   if (send?.sent === true) {
-    //     return res.status(200).json({ message: "Phone Number UnVerified! Verify Your Phone Number. Otp Sending Successfully!", message: `Switch Mode ${data?.role}`, role: data?.role, token: genToken(user?._id), sent: true })
-    //   }
-    // }
     if (!(user && (await user.matchPassword(password)))) {
       return res.status(400).json({ error: { "password": "Password invalid! please provide valid password!" } });
     } else if (user && (await user.matchPassword(password))) {
