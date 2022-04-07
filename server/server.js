@@ -12,7 +12,10 @@ const userRoutes = require('./routes/userRoutes')
 const app = express();
 const PORT = process.env.PORT || 5000;
 //middlewares
-app.use(cors());
+app.use(cors({
+    origin: "https://collaball.netlify.app",
+    credentials: true
+}));
 app.use(express.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
@@ -21,7 +24,7 @@ const serverApp = http.createServer(app);
 const io = new Server(serverApp, {
     pingTimeout: 60000,
     cors: {
-        origin: "*",
+        origin: "https://collaball.netlify.app",
         methods: ["GET", "POST"],
     },
 });
