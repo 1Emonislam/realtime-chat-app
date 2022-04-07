@@ -13,14 +13,12 @@ const userRoutes = require('./routes/userRoutes')
 const app = express();
 const PORT = process.env.PORT || 5000;
 //middlewares
+app.use(express.static("public"))
+app.use(express.json())
 app.use(cors({
     origin: '*',
     credentials: true
 }));
-//Use Routes
-app.use('/api/auth', userRoutes)
-app.use(express.static("public"))
-app.use(express.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 app.use(morgan("tiny"))
@@ -38,7 +36,8 @@ global.moment = moment;
 //Database Connected
 connectedDb();
 socketServer();
-
+//Use Routes
+app.use('/api/auth', userRoutes)
 app.get('/', (req, res) => {
     res.send('server connected')
 })

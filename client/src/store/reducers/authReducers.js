@@ -1,4 +1,4 @@
-import { AUTH_ERROR, AUTH_FAILED, AUTH_LOADING, AUTH_SUCCESS,AUTH_MESSAGE } from "../type/authType";
+import { AUTH_ERROR, AUTH_FAILED, AUTH_LOADING, AUTH_SUCCESS, AUTH_MESSAGE } from "../type/authType";
 const authState = {
     loading: false,
     authenticate: false,
@@ -31,7 +31,9 @@ export const authReducer = (state = authState, action) => {
     if (type === AUTH_LOADING) {
         return {
             ...state,
-            loading: true
+            loading: true,
+            error: '',
+            message: ''
         }
     }
     if (type === AUTH_ERROR) {

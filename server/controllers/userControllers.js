@@ -2,9 +2,17 @@ const User = require("../models/userModel");
 const { mailSending } = require("../utils/func");
 const { genToken_fourHours, genToken } = require("../utils/genToken");
 module.exports.userLogin = async (req, res, next) => {
-  let { email, phone, password } = req.body;
+  const email = req?.body?.email;
+  const phone = req?.body?.phone;
+  const userName = req?.body?.username;
+  const password = req?.body?.password;
   email?.toLowerCase();
-  const user = email ? await User.findOne({ email }) : await User.findOne({ phone });
+  // console.log(req.body)
+  if (!(email || phone || userName)) {
+    return res.status(400).json({ error: { "email": "Could not find user Please provide Email or Phone Number or UserName" } })
+  }
+  const checkUser = email || phone || userName;
+  const user = await User.findOne({ checkUser });
   // console.log(user)
   try {
     if (!user) {

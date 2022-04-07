@@ -2,8 +2,6 @@ const mongoose = require('mongoose');
 const connectedDb = async () => {
     try {
         // console.log(moment(new Date()).fromNow())
-        var m = moment().format();
-        console.log(m)
         await mongoose.connect(process.env.MONGO_URI);
         console.log('Database Connected Successfully')
     } catch (error) {

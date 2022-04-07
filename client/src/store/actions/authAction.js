@@ -10,7 +10,7 @@ export const userRegister = (data, reset) => {
                     loading: true,
                 }
             })
-            fetch(`${baseUrl}/api/auth/register`, {
+            fetch("http://localhost:5000/api/auth/register", {
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/json',
@@ -56,13 +56,14 @@ export const userRegister = (data, reset) => {
 export const userLogin = (data, reset) => {
     return async (dispatch) => {
         try {
-            dispatch({
-                type: AUTH_LOADING,
-                payload: {
-                    loading: true,
-                }
-            })
-            fetch(`${baseUrl}/api/auth/login`, {
+            // dispatch({
+            //     type: AUTH_LOADING,
+            //     payload: {
+            //         loading: true,
+            //     }
+            // })
+            console.log(data)
+            fetch("http://localhost:5000/api/auth/login", {
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/json',
@@ -70,7 +71,7 @@ export const userLogin = (data, reset) => {
                 body: JSON.stringify(data)
             }).then(res => res.json())
                 .then(data => {
-                    // console.log(data)
+                    console.log(data)
                     if (data?.data) {
                         reset()
                         dispatch({
