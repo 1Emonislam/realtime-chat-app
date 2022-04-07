@@ -10,7 +10,7 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { toast } from 'react-toastify';
+import { toast, ToastContainer } from 'react-toastify';
 import logo from '../../assets/logo/logo.png';
 import Loading from '../../components/Spinner/Loading';
 import { userLogin } from '../../store/actions/authAction';
@@ -19,6 +19,8 @@ import './auth.css';
 function Login() {
     const { register, reset, handleSubmit } = useForm();
     const dispatch = useDispatch();
+    const { auth, theme } = useSelector(state => state);
+    const { loading, error, message } = auth;
     const [values, setValues] = React.useState({
         password: '',
         password2: '',
@@ -27,11 +29,10 @@ function Login() {
     const onSubmit = data => {
         dispatch(userLogin(data, reset))
     };
-    const { loading, error, message } = useSelector(state => state.auth)
-
     if (message) {
         toast.success(`${message}`, {
             position: "bottom-right",
+            theme: theme?.theme,
             autoClose: 5000,
             hideProgressBar: false,
             closeOnClick: true,
@@ -39,13 +40,16 @@ function Login() {
             draggable: true,
             progress: undefined,
         });
-        dispatch({
-            type: AUTH_MESSAGE
-        })
+        setTimeout(() => {
+            dispatch({
+                type: AUTH_MESSAGE
+            })
+        }, 5000)
     }
-    if (error) {
-        toast.error(`${error?.passowrd || error?.email || error?.phone || error?.birthDate || error?.username || error?.firstName || error}`, {
+    if (error?.password) {
+        toast.error(`${error?.password}`, {
             position: "bottom-right",
+            theme: theme?.theme,
             autoClose: 5000,
             hideProgressBar: false,
             closeOnClick: true,
@@ -53,11 +57,98 @@ function Login() {
             draggable: true,
             progress: undefined,
         });
-        dispatch({
-            type: AUTH_ERROR
-        })
+        setTimeout(() => {
+            dispatch({
+                type: AUTH_ERROR
+            })
+        }, 5000)
+    }
+    if (error?.email) {
+        toast.error(`${error?.email}`, {
+            position: "bottom-right",
+            theme: theme?.theme,
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+        });
+        setTimeout(() => {
+            dispatch({
+                type: AUTH_ERROR
+            })
+        }, 5000)
+    }
+    if (error?.phone) {
+        toast.error(`${error?.phone}`, {
+            position: "bottom-right",
+            theme: theme?.theme,
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+        });
+        setTimeout(() => {
+            dispatch({
+                type: AUTH_ERROR
+            })
+        }, 5000)
     }
 
+    if (error?.birthDate) {
+        toast.error(`${error?.birthDate}`, {
+            position: "bottom-right",
+            theme: theme?.theme,
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+        });
+        setTimeout(() => {
+            dispatch({
+                type: AUTH_ERROR
+            })
+        }, 5000)
+    }
+    if (error?.username) {
+        toast.error(`${error?.username}`, {
+            position: "bottom-right",
+            theme: theme?.theme,
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+        });
+        setTimeout(() => {
+            dispatch({
+                type: AUTH_ERROR
+            })
+        }, 5000)
+    }
+    if (error?.firstName) {
+        toast.error(`${error?.firstName}`, {
+            position: "bottom-right",
+            theme: theme?.theme,
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+        });
+        setTimeout(() => {
+            dispatch({
+                type: AUTH_ERROR
+            })
+        }, 5000)
+    }
     const handleChange = (prop) => (event) => {
         setValues({ ...values, [prop]: event.target.value });
     };
@@ -117,6 +208,17 @@ function Login() {
                     <span className="text-center">New user? <span><Link to="/register" style={{ color: 'blueviolet' }} className="text text-links">Create an account</Link></span>
                     </span>
                 </div>
+                <ToastContainer
+                    position="bottom-right"
+                    autoClose={5000}
+                    hideProgressBar={false}
+                    newestOnTop={false}
+                    closeOnClick
+                    rtl={false}
+                    pauseOnFocusLoss
+                    draggable
+                    pauseOnHover
+                />
             </Container>
         </>
     )

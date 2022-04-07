@@ -40,14 +40,14 @@ export const authReducer = (state = authState, action) => {
         return {
             ...state,
             loading: false,
-            error: '',
+            error: ''
         }
     }
     if (type === AUTH_MESSAGE) {
         return {
             ...state,
             loading: false,
-            message: '',
+            message: ''
         }
     }
     return state;
