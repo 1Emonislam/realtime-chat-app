@@ -112,6 +112,18 @@ fetch('https://collaballapp.herokuapp.com/api/profile/:id',{
     })
 ```
 
+## delete public single profile https://collaballapp.herokuapp.com/api/profile/:id
+
+```
+fetch('https://collaballapp.herokuapp.com/api/profile/:id',{
+    method: 'DELETE',
+    headers: {
+    'Content-Type': 'application/json',
+    'Authorization':`Bearer ${token}`
+    },
+    })
+```
+
 ## update my profile https://collaballapp.herokuapp.com/api/profile/update
 
 ```

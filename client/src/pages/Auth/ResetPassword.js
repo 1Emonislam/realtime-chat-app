@@ -83,6 +83,23 @@ function ResetPassword() {
             })
         }, 5000)
     }
+    if (error?.password2) {
+        toast.error(`${error?.password}`, {
+          position: "bottom-right",
+          theme: theme?.theme,
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+        setTimeout(() => {
+          dispatch({
+            type: AUTH_ERROR
+          })
+        }, 5000)
+      }
     if (error?.token) {
         toast.error(`${error?.token}`, {
             position: "bottom-right",
