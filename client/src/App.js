@@ -1,7 +1,9 @@
 import Box from '@mui/material/Box';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import * as React from 'react';
+import "./App.css";
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import AddContact from './components/AddContact/AddContact';
 import ChatHome from './components/ChatHome';
 import { ThemeSwitch } from './hooks/useThemes';
 import Chat from './pages/Auth/Chat/Chat';
@@ -71,6 +73,7 @@ export default function ToggleColorMode() {
                 <Route path="/forget-password" element={<ForgetPassword />}> </Route>
                 <Route path="/reset-password/:token" element={<ResetPassword />}> </Route>
                 <Route path="/register" element={< Register />}> </Route>
+                <Route path="/add-modal" element={< AddContact />}> </Route>
                 <Route path="*" element={<><h2> Not Founds</h2> </>}> </Route>
               </Routes>
             </BrowserRouter>

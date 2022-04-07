@@ -1,0 +1,41 @@
+.modal-content{
+    font-family: "Poppins", sans-serif;
+
+}
+.buttonContact1{
+    background-color: transparent;
+    border: none;
+    color: #b7b7b7;
+    font-weight: 500;
+    font-size: 14px;
+    font-family: "Poppins", sans-serif;
+}
+.buttonContact2{
+    background-color: #76228F;
+    color: #fff;
+    font-weight: 500;
+    font-size: 14px;
+    font-family: "Poppins", sans-serif;
+    padding: 20px ;
+    border: 2px solid #76228F;
+    border-radius: 6px;
+    margin-left: 20px;
+}
+.buttonContact2:hover{
+    background-color: #76228fe7;
+    border: 2px solid #76228fe7;
+}
+
+
+    input[type="file"] {
+    display: none;
+}
+.browseFile {
+    border: 1px solid #420ba1;
+    color: #fff;
+    display: inline-block;
+    cursor: pointer;
+    padding: 6px 12px;
+    font-size: 17px;
+    background-color: #420BA1;
+}
