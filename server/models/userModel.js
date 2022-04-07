@@ -94,7 +94,6 @@ const userSchema = new mongoose.Schema({
     },
     birthDate: {
         type: Date,
-        required: [true, 'Birth Date is requied!'],
     },
     pic: {
         type: String,

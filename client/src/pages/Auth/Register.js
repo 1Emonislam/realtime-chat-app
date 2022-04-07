@@ -270,7 +270,7 @@ function Register() {
                   />
                 </FormControl>
               </Grid>
-              <Grid item xs={6}>
+              {/* <Grid item xs={6}>
                 <FormControl>
                   <InputLabel htmlFor="standard-adornment-birth">Date Of Birth</InputLabel>
                   <input type="date" className="input-birth" {...register("birthDate", { min: 0 })} required />
@@ -285,7 +285,7 @@ function Register() {
                     <option value="other">Other</option>
                   </select>
                 </FormControl>
-              </Grid>
+              </Grid> */}
             </Grid>
             {loading ? <div style={{ margin: '20px 0' }}>
               <Loading />
