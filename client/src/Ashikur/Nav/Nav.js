@@ -91,7 +91,7 @@ const Nav = ({ children }) => {
               xs={1}
               md={12}
             >
-              <Link to="/">
+              <Link to="/chat">
                 <ToggleButton
                   value="two"
                   onChange={() => {
@@ -157,7 +157,7 @@ const Nav = ({ children }) => {
               xs={1}
               md={12}
             >
-              <Link to="/">
+              <Link to="/status">
                 <ToggleButton
                   value="four"
                   onChange={() => {
@@ -221,7 +221,7 @@ const Nav = ({ children }) => {
                 },
               }}
             >
-              <Link to="/">
+              <Link to="/settings">
                 <ToggleButton
                   value="six"
                   onChange={() => {

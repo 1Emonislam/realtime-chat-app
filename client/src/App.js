@@ -12,6 +12,8 @@ import Register from './pages/Auth/Register';
 import ResetPassword from './pages/Auth/ResetPassword';
 import Home from './pages/Home/Home';
 import ChangePassword from './pages/Auth/ChangePassword';
+import Settings from './components/Settings/Settings/Settings';
+import Status from './components/Status/Status/Status';
 export const ThemeSelectContext = React.createContext();
 const ColorModeContext = React.createContext({ toggleColorMode: () => { } });
 export default function ToggleColorMode() {
@@ -67,6 +69,18 @@ export default function ToggleColorMode() {
                 </IconButton> */}
                   <ThemeSwitch onClick={colorMode.toggleColorMode} style={{ fontSize: '20px' }} checked={!(theme.palette.mode === 'light')} />
                 </Chat>}></Route>
+                <Route path="/settings" element={<Settings>
+                  {/* <IconButton sx={{ ml: 1 }} onClick={colorMode.toggleColorMode} color="inherit">
+                  {theme.palette.mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
+                </IconButton> */}
+                  <ThemeSwitch onClick={colorMode.toggleColorMode} style={{ fontSize: '20px' }} checked={!(theme.palette.mode === 'light')} />
+                </Settings>}></Route>
+                <Route path="/status" element={<Status>
+                  {/* <IconButton sx={{ ml: 1 }} onClick={colorMode.toggleColorMode} color="inherit">
+                  {theme.palette.mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
+                </IconButton> */}
+                  <ThemeSwitch onClick={colorMode.toggleColorMode} style={{ fontSize: '20px' }} checked={!(theme.palette.mode === 'light')} />
+                </Status>}></Route>
                 <Route path="/home" element={<Home />}> </Route>
                 <Route path="/login" element={<Login />}> </Route>
                 <Route path="/chat-child" element={<ChatHome />}> </Route>
@@ -74,6 +88,7 @@ export default function ToggleColorMode() {
                 <Route path="/reset-password/:token" element={<ResetPassword />}> </Route>
                 <Route path="/change-password" element={<ChangePassword />}> </Route>
                 <Route path="/register" element={< Register />}> </Route>
+                
                 
                 <Route path="*" element={<><h2> Not Founds</h2> </>}> </Route>
               </Routes>
