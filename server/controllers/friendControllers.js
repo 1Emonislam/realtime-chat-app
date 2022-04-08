@@ -60,6 +60,6 @@ module.exports.addFriend = async (req, res, next) => {
         }
     }
     catch (error) {
-
+        next(error)
     }
 } 
