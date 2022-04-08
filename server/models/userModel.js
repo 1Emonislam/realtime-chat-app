@@ -1,5 +1,21 @@
-const{ mongoose,Schema} = require("mongoose");
+const { mongoose, Schema } = require("mongoose");
 const bcrypt = require('bcryptjs');
+const friendsSchema = new Schema({
+    user: {
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+    },
+    status: {
+        type: String,
+    },
+    enums: [
+        0,    //'add friend',
+        1,    //'requested',
+        2,    //'pending',
+        3,    //'friends'
+    ]
+}, { timestamps: true })
+module.exports = mongoose.model('Friends', friendsSchema)
 const geometrySchema = new mongoose.Schema({
     type: {
         type: String,
@@ -20,6 +36,7 @@ const userSchema = new mongoose.Schema({
     lastOneline: {
         type: Date,
     },
+    friends: [friendsSchema],
     firstName: {
         type: String,
         required: [true, 'First Name is Required']
@@ -85,6 +102,8 @@ const userSchema = new mongoose.Schema({
     },
     role: {
         type: String,
+        enums: ['admin', 'user'],
+        default: 'user'
     },
     geometry: geometrySchema,
     gender: {
