@@ -7,13 +7,19 @@ const friendsSchema = new Schema({
     },
     status: {
         type: String,
+        enum: [
+            'addfriend',
+            'requested',
+            'pending',
+            'friends'
+        ],
+        default: 'requested'
     },
-    enums: [
-        0,    //'add friend',
-        1,    //'requested',
-        2,    //'pending',
-        3,    //'friends'
-    ]
+    action: {
+        type: String,
+        enum: ['block', 'accept'],
+        default: 'accept'
+    },
 }, { timestamps: true })
 module.exports = mongoose.model('Friends', friendsSchema)
 const geometrySchema = new mongoose.Schema({
@@ -102,7 +108,7 @@ const userSchema = new mongoose.Schema({
     },
     role: {
         type: String,
-        enums: ['admin', 'user'],
+        enum: ['admin', 'user'],
         default: 'user'
     },
     geometry: geometrySchema,

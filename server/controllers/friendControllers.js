@@ -37,11 +37,27 @@ exports.getFriends = async (req, res, next) => {
 }
 
 module.exports.addFriend = async (req, res, next) => {
-    const { username, phone } = req.body;
-    let checkUser = username || phone;
+    const issue = {};
+    if (!(req?.user?._id)) {
+        issue.email = 'User Credentials expired! Please login'
+    }
     try {
-        const user = await User.findOne({ _id: req?.user?._id });
-
+        const user = await User.findOne({ _id: req?.params?.id?.trim() });
+        if (!user) {
+            issue?.username = 'Could not find user please provide email or phone number or username';
+        }
+        if (Object.keys(issue)?.length) {
+            return res.status(400).json({ error: issue })
+        }
+        if (user) {
+            const payload = {
+                user: req?.params?.id?.trim()
+            }
+            const friendAdd = await User.findOneAndUpdate({ _id: req?.params?.id?.trim() }, {
+                $addToSet: { friends: [payload] }
+            })
+            return res.status(200).json({ message: 'You have added new friend', data: friendAdd })
+        }
     }
     catch (error) {
 

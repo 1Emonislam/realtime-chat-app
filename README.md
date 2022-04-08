@@ -21,6 +21,18 @@ fetch('https://collaballapp.herokuapp.com/api/auth',{
     })
 ```
 
+## User log Out https://collaballapp.herokuapp.com/api/auth/logout
+
+```
+fetch('https://collaballapp.herokuapp.com/api/auth/logout',{
+    method: 'POST',
+    headers: {
+    'Content-Type': 'application/json',
+    'Authorization':`Bearer ${token}`
+    },
+    })
+```
+
 ## User Register https://collaballapp.herokuapp.com/api/auth/register
 
 ```
