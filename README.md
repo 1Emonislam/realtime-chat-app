@@ -159,30 +159,27 @@ fetch('https://collaballapp.herokuapp.com/api/profile/update',{
 
 # Friend Routes api
 
-## router.post('/api/add',protect)
-
-## router.put('/remove',protect)
+```
+router.post('/api/add',protect)
+router.put('/remove',protect)
+```
 
 # Message Routes
 
-## router.post('api/message/message',protect)
-
-## router.get('api/message/message/:chatId',protect)
-
-## router.delete('api/message/message/:chatId',protect)
-
-## router.put('api/message/message/:chatId',protect)
+```
+ router.post('api/message/message',protect)
+ router.get('api/message/message/:chatId',protect)
+ router.delete('api/message/message/:chatId',protect)
+ router.put('api/message/message/:chatId',protect)
+```
 
 # chat Routes api
 
-## router.post('/api/chat', protect, acessChat)
-
-## router.get('/api/chat', protect,getChat)
-
-## router.put('/api/chat/group/addTo', protect, groupAddTo)
-
-## router.put('/api/chat/group/rename', protect, groupRename)
-
-## router.post('/api/chat/group/create', protect, groupCreate)
-
-## router.put('/api/chat/group/removeTo', protect, groupRemoveTo)
+```
+router.post('/api/chat', protect, acessChat)
+router.get('/api/chat', protect,getChat)
+router.put('/api/chat/group/addTo', protect, groupAddTo)
+router.put('/api/chat/group/rename', protect, groupRename)
+router.post('/api/chat/group/create', protect, groupCreate)
+router.put('/api/chat/group/removeTo', protect, groupRemoveTo)
+```
