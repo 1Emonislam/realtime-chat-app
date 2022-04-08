@@ -1,4 +1,6 @@
-const User = require('../models/userModel')
+const User = require('../models/userModel');
+const Notificatin = require('../models/notificationModel');
+const Friend = require('./FriendModel');
 exports.getFriends = async (req, res, next) => {
     let { id } = req.params
     try {
@@ -38,25 +40,45 @@ exports.getFriends = async (req, res, next) => {
 
 module.exports.addFriend = async (req, res, next) => {
     const issue = {};
+    const username = req.body?.username?.toLowerCase();
+    const email = req.body?.email?.toLowerCase();
+    const phone = req.body?.phone;
     if (!(req?.user?._id)) {
         issue.email = 'User Credentials expired! Please login'
     }
+    const checkUser = await username || phone || email || req?.params?.id?.trim();
     try {
-        const user = await User.findOne({ _id: req?.params?.id?.trim() });
-        if (!user) {
-            issue?.username = 'Could not find user please provide email or phone number or username';
+        const friend = await User.findOne({ checkUser });
+        if (!friend) {
+            issue.username = 'Could not find user please provide email or phone number or username';
+        }
+        const friendExits = await User.findOne({ _id: req?.user?._id, friends: friend?._id })
+        if (friendExits) {
+            issue.username = 'friend list already exists!'
         }
         if (Object.keys(issue)?.length) {
             return res.status(400).json({ error: issue })
         }
-        if (user) {
+        if (!friendExits) {
             const payload = {
-                user: req?.params?.id?.trim()
+                me: req?.user?.id,
+                friend: friend?._id
             }
-            const friendAdd = await User.findOneAndUpdate({ _id: req?.params?.id?.trim() }, {
-                $addToSet: { friends: [payload] }
+            await Friend.create(payload);
+            const notifyPayload = {
+                receiver: friend?._id,
+                type: 'contact',
+                subject: `Aded New Contact from ${req?.user?.firstName}`,
+                message: 'Messages and calls are end-to-end encrypted',
+            }
+            let myFriend = await User.findOneAndUpdate({ _id: req.user?._id }, {
+                $addToSet: { friends: [friend?._id] },
             })
-            return res.status(200).json({ message: 'You have added new friend', data: friendAdd })
+            await Notificatin.create(notifyPayload);
+            const resDatafriend = await User.findOne({ _id: req.user?._id }).populate('friends');
+            if (resDatafriend) {
+                return res.status(200).json({ message: 'You have added new friend', data: resDatafriend.friends })
+            }
         }
     }
     catch (error) {

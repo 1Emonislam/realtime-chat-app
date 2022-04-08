@@ -10,7 +10,7 @@ const NotificationSchema = new Schema(
         ],
         type: {
             type: String,
-            enum: ["chat", "group", "status",'call','inbox','others'],
+            enum: ["chat", "group", "status", 'call', 'inbox', 'contact', 'others'],
             default: 'chat'
         },
         subject: String,
