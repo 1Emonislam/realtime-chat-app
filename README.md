@@ -160,17 +160,17 @@ fetch('https://collaballapp.herokuapp.com/api/profile/update',{
 # Friend Routes api
 
 ```
-router.post('/api/add',protect)
-router.put('/remove',protect)
+router.post('/api/friend/add',protect)
+router.put('/api/friend/remove',protect)
 ```
 
 # Message Routes
 
 ```
- router.post('api/message/message',protect)
- router.get('api/message/message/:chatId',protect)
- router.delete('api/message/message/:chatId',protect)
- router.put('api/message/message/:chatId',protect)
+ router.post('/api/message/message',protect)
+ router.get('/api/message/message/:chatId',protect)
+ router.delete('/api/message/message/:chatId',protect)
+ router.put('/api/message/message/:chatId',protect)
 ```
 
 # chat Routes api
