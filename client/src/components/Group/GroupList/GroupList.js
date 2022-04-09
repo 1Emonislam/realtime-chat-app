@@ -3,121 +3,122 @@ import EditRoadIcon from '@mui/icons-material/EditRoad';
 import { Grid, ToggleButton, Typography } from '@mui/material';
 import '../Group.css';
 import TypingIndicatior from '../../Typing/TypingIndicatior';
+import { FamilyRestroomTwoTone } from '@mui/icons-material';
+import GroupListMap from './GroupListMap';
 
 const GroupList = () => {
     const data = [
-        {
-            name: 'Helen',
-            img: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=400&q=80',
-            message: 't seems logical that the',
-            createdAt: new Date(),
-            typing: false,
-            read: [],
-            online: false
-        },
-        {
-            name: 'Alen',
-            img: 'https://images.unsplash.com/flagged/photo-1570612861542-284f4c12e75f?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8cGVyc29ufGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60',
-            message: 'It seems logical that the',
-            createdAt: new Date(),
-            typing: true,
-            read: ['2342342342', '2354234234', '2342ahfw432', '234523423'],
-            online: true
-        },
-        {
-            name: 'Samira',
-            img: 'https://images.unsplash.com/photo-1499952127939-9bbf5af6c51c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8OXx8cGVyc29ufGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60',
-            message: 'It seems logical that the',
-            createdAt: new Date(),
-
-            typing: false,
-            read: [],
-            online: true
-        },
-        {
-            name: 'Fario',
-            img: 'https://images.unsplash.com/photo-1491349174775-aaafddd81942?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8OHx8cGVyc29ufGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60',
-            message: 'It seems logical that the',
-            createdAt: new Date(),
-            typing: false,
-            read: [],
-            online: true
-        },
-        {
-            name: 'Helen',
-            img: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=400&q=80',
-            message: 't seems logical that the',
-            createdAt: new Date(),
-            typing: false,
-            read: [],
-            online: false
-        },
-        {
-            name: 'Alen',
-            img: 'https://images.unsplash.com/flagged/photo-1570612861542-284f4c12e75f?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8cGVyc29ufGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60',
-            message: 'It seems logical that the',
-            createdAt: new Date(),
-            typing: true,
-            read: ['2342342342', '2354234234', '2342ahfw432', '234523423'],
-            online: true
-        },
-        {
-            name: 'Samira',
-            img: 'https://images.unsplash.com/photo-1499952127939-9bbf5af6c51c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8OXx8cGVyc29ufGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60',
-            message: 'It seems logical that the',
-            createdAt: new Date(),
-
-            typing: false,
-            read: [],
-            online: true
-        },
-        {
-            name: 'Fario',
-            img: 'https://images.unsplash.com/photo-1491349174775-aaafddd81942?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8OHx8cGVyc29ufGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60',
-            message: 'It seems logical that the',
-            createdAt: new Date(),
-            typing: false,
-            read: [],
-            online: true
-        },
-        {
-            name: 'Helen',
-            img: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=400&q=80',
-            message: 't seems logical that the',
-            createdAt: new Date(),
-            typing: false,
-            read: [],
-            online: false
-        },
-        {
-            name: 'Alen',
-            img: 'https://images.unsplash.com/flagged/photo-1570612861542-284f4c12e75f?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8cGVyc29ufGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60',
-            message: 'It seems logical that the',
-            createdAt: new Date(),
-            typing: true,
-            read: ['2342342342', '2354234234', '2342ahfw432', '234523423'],
-            online: true
-        },
-        {
-            name: 'Samira',
-            img: 'https://images.unsplash.com/photo-1499952127939-9bbf5af6c51c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8OXx8cGVyc29ufGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60',
-            message: 'It seems logical that the',
-            createdAt: new Date(),
-
-            typing: false,
-            read: [],
-            online: true
-        },
-        {
-            name: 'Fario',
-            img: 'https://images.unsplash.com/photo-1491349174775-aaafddd81942?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8OHx8cGVyc29ufGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60',
-            message: 'It seems logical that the',
-            createdAt: new Date(),
-            typing: false,
-            read: [],
-            online: true
-        },
-    ]
+      {
+        id: 1,
+        name: "Fashion Plus",
+        pic: "https://dreamschat-reactjs.dreamguystech.com/template2/11c49a9c1cc550ba5638759ece5e2fe8.jpg",
+        lastMsgBy: "Moien",
+        lastMsg: "Hi!!!",
+        isPrivateGroup: true,
+        time: 20,
+        unreadMsg: 11,
+        online: true,
+      },
+      {
+        id: 2,
+        name: "Tech Support",
+        pic: "https://dreamschat-reactjs.dreamguystech.com/template2/c1bef1fe26f16d517d297b0c1b528a87.jpg",
+        lastMsgBy: "Haider",
+        lastMsg: "Hey, Everyone",
+        isPrivateGroup: false,
+        time: 22,
+        unreadMsg: 13,
+        online: false,
+      },
+      {
+        id: 3,
+        name: "Home Decor",
+        pic: "https://dreamschat-reactjs.dreamguystech.com/template2/1a549a96b96553628894614e63e88f66.jpg",
+        lastMsgBy: "Jonathon",
+        lastMsg: "no man",
+        isPrivateGroup: false,
+        time: 23,
+        unreadMsg: 50,
+        online: true,
+      },
+      {
+        id: 4,
+        name: "Interior Design",
+        pic: "https://dreamschat-reactjs.dreamguystech.com/template2/d8d2cb3f0fd61fce5941626678a6da48.jpg",
+        lastMsgBy: "Judy",
+        lastMsg: "I can't",
+        isPrivateGroup: true,
+        time: 33,
+        unreadMsg: 21,
+        online: true,
+      },
+      {
+        id: 5,
+        name: "Photography",
+        pic: "https://dreamschat-reactjs.dreamguystech.com/template2/01d930c3c77a6913c6ff448c51bc404c.jpg",
+        lastMsgBy: "Degro",
+        lastMsg: "Yeah",
+        isPrivateGroup: false,
+        time: 35,
+        unreadMsg: 34,
+        online: false,
+      },
+      {
+        id: 6,
+        name: "Interiors",
+        pic: "https://dreamschat-reactjs.dreamguystech.com/template2/d4b622bdb3beef25063aede138d39f28.jpg",
+        lastMsgBy: "Jean",
+        lastMsg: "nope",
+        isPrivateGroup: true,
+        time: 36,
+        unreadMsg: 52,
+        online: true,
+      },
+      {
+        id: 7,
+        name: "Inspiration",
+        pic: "https://dreamschat-reactjs.dreamguystech.com/template2/72b51ec6c83dc6819daf751b8db6b3f8.jpg",
+        lastMsgBy: "Robert",
+        lastMsg: "solved",
+        isPrivateGroup: false,
+        time: 40,
+        unreadMsg: 36,
+        online: false,
+      },
+      {
+        id: 8,
+        name: "Artwork",
+        pic: "https://dreamschat-reactjs.dreamguystech.com/template2/c1bef1fe26f16d517d297b0c1b528a87.jpg",
+        lastMsgBy: "Josh",
+        lastMsg: "lovely",
+        isPrivateGroup: false,
+        time: 41,
+        unreadMsg: 34,
+        online: true,
+      },
+      {
+        id: 9,
+        name: "Handmade",
+        pic: "https://dreamschat-reactjs.dreamguystech.com/template2/d22b19c4c5ab4297d011191f7fb14503.jpg",
+        lastMsgBy: "Susan",
+        lastMsg: "great",
+        isPrivateGroup: false,
+        time: 45,
+        unreadMsg: 12,
+        online: true,
+      },
+      {
+        id: 10,
+        name: "Design",
+        pic: "https://dreamschat-reactjs.dreamguystech.com/template2/2cfd5ba6f0dee8d1d076293e37106695.jpg",
+        lastMsgBy: "Hamit",
+        lastMsg: "I can do that",
+        isPrivateGroup: true,
+        time: 56,
+        unreadMsg: 14,
+        online: true,
+      },
+    ];
     const [dataState, setDataState] = React.useState({
         activeObject: null,
         objects: [...data]
@@ -141,177 +142,72 @@ const GroupList = () => {
 
     }
     return (
-        <div>
-            <Grid container spacing={0} sx={{
-                padding: {
-                    lg: '10px 20px',
-                    md: '10px 15px',
-                    sm: '10px 40px',
-                    xs: '5px 40px'
+      <div style={{ marginTop: "-40px" }}>
+        <Grid
+          container
+          spacing={0}
+          sx={{
+            padding: {
+              lg: "10px 20px",
+              md: "10px 15px",
+              sm: "10px 40px",
+              xs: "5px 40px",
+            },
+            marginTop: {
+              xs: "20px",
+            },
+          }}
+          alignItems="center"
+          justifyContent="space-around"
+        >
+          <Grid item xs={8}>
+            <Typography
+              sx={{
+                color: "#5A078B",
+                fontSize: {
+                  lg: 16,
+                  md: 16,
+                  sm: 15,
+                  xs: 10,
                 },
-                marginTop: {
-                    xs: '20px',
-                },
-            }} alignItems="center" justifyContent="space-around">
-                <Grid item xs={8}>
-                    <Typography sx={{
-                        color: "inherit",
-                        fontSize: {
-                            lg: 16,
-                            md: 16,
-                            sm: 15,
-                            xs: 10
-                        },
 
-                        fontWeight: {
-                            lg: 700,
-                            md: 600,
-                            sm: 500,
-                            xs: 500
-                        },
-                    }} gutterBottom component="div">
-                        RECENT CHATS
-                    </Typography>
-                </Grid>
-                <Grid item xs={4} className="headIcon" sx={{ display: 'flex', justifyContent: 'end', color: 'rgba(0, 0, 0, 0.54)' }}>
-                    <ToggleButton value="one">
-                        <EditRoadIcon sx={{
-                            fontSize: {
-                                lg: 20,
-                                md: 20,
-                                sm: 15,
-                                xs: 15
-                            },
-                            fontWeight: {
-                                lg: 700,
-                                md: 600,
-                                sm: 500,
-                                xs: 400
-                            },
-                            borderRadius: {
-                                lg: '5px',
-                                md: '4px',
-                                sm: '3px',
-                                xs: '2px'
-                            }
-                        }} />
-                    </ToggleButton>
-                </Grid>
-            </Grid>
-            <Grid container spacing={0} padding={'10px 0px'} justifyContent="center">
-                {data.map((people, index) => (
-                    <Grid key={index} item xs={12} className="user-list" alignItems="center" justifyContent="center">
-                        <div style={{ padding: '10px 20px', margin: '0 20px' }} className={toggleActiveStyle(index)} onClick={(e) => handleSingleUser(index, toggleActive(index))} >
-                            <Grid container spacing={0} alignItems="center" sx={{
-                                justifyContent: {
-                                    lg: 'space-betwen',
-                                    md: 'space-between',
-                                    sm: 'space-between',
-                                    xs: 'space-between'
-                                },
-                            }}>
-                                <Grid item xs={1.5} sm={1} md={2.5} lg={2.5}>
-                                    <div className="people-img-box2">
-                                        <img src={people.img} alt={people?.name} />
-                                        <div className={people?.online ? 'online-active status' : 'online-inactive status'}>
-                                        </div>
-                                    </div>
-                                </Grid>
-                                <Grid item xs={9.5} sm={10.6} md={9} lg={9}>
-                                    <Grid container spacing={0} alignItems="center" justifyContent="center">
-                                        <Grid item xs={8}>
-                                            <Typography sx={{
-                                                color: "inherit",
-                                                fontSize: {
-                                                    lg: 15,
-                                                    md: 14,
-                                                    sm: 14,
-                                                    xs: 14
-                                                },
-                                                fontWeight: {
-                                                    lg: 600,
-                                                    md: 600,
-                                                    sm: 500,
-                                                    xs: 400
-                                                },
-                                            }}>
-                                                {people.name}
-                                            </Typography>
-                                            {people?.typing ? <TypingIndicatior /> : <>
-                                                <Typography sx={{
-                                                    color: "inherit",
-                                                    fontSize: {
-                                                        lg: 13,
-                                                        md: 11,
-                                                        sm: 11,
-                                                        xs: 11
-                                                    },
-                                                    fontWeight: {
-                                                        lg: 400,
-                                                        md: 400,
-                                                        sm: 300,
-                                                        xs: 300
-                                                    },
-                                                }} gutterBottom component="div">
-                                                    {people.message?.slice(0, 30)}
-                                                </Typography>
-                                            </>}
-                                        </Grid>
-                                        <Grid item xs={4}>
-                                            <Grid item textAlign="right">
-                                                {/*  xs={2}  */}
-                                                <Typography sx={{
-                                                    color: "inherit",
-                                                    fontSize: {
-                                                        lg: 13,
-                                                        md: 10,
-                                                        sm: 10,
-                                                        xs: 10
-                                                    },
-                                                    fontWeight: {
-                                                        lg: 200,
-                                                        md: 200,
-                                                        sm: 200,
-                                                        xs: 200
-                                                    },
-                                                }}>
-                                                    05 min
-                                                </Typography>
-                                                {people?.read?.length !== 0 && <Typography sx={{
-                                                    textAlign: 'center',
-                                                    background: 'rgba(0, 255, 179, 0.151)',
-                                                    borderRadius: '15px',
-                                                    width: '16px',
-                                                    height: '16px',
-                                                    marginLeft: 'auto',
-                                                    padding: '2px',
-                                                    color: "inherit",
-                                                    fontSize: {
-                                                        lg: 10,
-                                                        md: 10,
-                                                        sm: 10,
-                                                        xs: 10
-                                                    },
-                                                    fontWeight: {
-                                                        lg: 300,
-                                                        md: 300,
-                                                        sm: 300,
-                                                        xs: 200
-                                                    },
-                                                }}>
-                                                    {people.read.length}
-                                                </Typography>}
-                                            </Grid>
-                                        </Grid>
-                                    </Grid>
-                                </Grid>
-                            </Grid>
-                        </div>
-                    </Grid>
-                ))}
-            </Grid>
-        </div>
-    )
+                fontWeight: {
+                  lg: 700,
+                  md: 600,
+                  sm: 500,
+                  xs: 500,
+                },
+                fontFamily: `"Poppins", sans-serif`,
+              }}
+              gutterBottom
+              component="div"
+            >
+              RECENT CHATS
+            </Typography>
+          </Grid>
+          <Grid
+            item
+            xs={4}
+            className="headIcon"
+            sx={{
+              display: "flex",
+              justifyContent: "end",
+              color: "rgba(0, 0, 0, 0.54)",
+            }}
+          ></Grid>
+        </Grid>
+        <Grid
+          container
+          spacing={0}
+          padding={"10px 0px"}
+          justifyContent="center"
+        >
+          {data.map((p) => (
+            <GroupListMap p={p} key={p.id} />
+          ))}
+        </Grid>
+      </div>
+    );
 }
 
 export default GroupList;
