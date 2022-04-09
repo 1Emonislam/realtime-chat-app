@@ -1,0 +1,219 @@
+.chat-box-container .headIcon svg {
+  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+}
+
+.chat-box-container .search-field-box {
+  display: flex;
+  align-items: center;
+  position: relative;
+  width: 100%;
+  margin: 12px auto;
+}
+.chat-box-container .search-field-box input {
+  border: none;
+  padding: 16px 40px;
+  position: relative;
+  width: 100%;
+  border-radius: 3px;
+  background-color: rgba(0, 255, 179, 0.151) !important;
+  display: block;
+  margin: 0 auto;
+}
+.chat-box-container .search-field-box input:focus {
+  outline: none;
+}
+.chat-box-container .search-field-box svg {
+  left: 14px;
+  position: absolute;
+}
+.inputDarkUi input {
+  color: black;
+}
+.inputlightui input {
+  color: white;
+}
+.user-box-latest {
+  display: block;
+  text-align: center;
+  background: rgba(0, 255, 179, 0.151);
+  border-radius: 5px;
+  margin: 0 4px;
+  color: inherit;
+  padding: 2px 0px;
+}
+.user-box-latest img {
+  border-radius: 6px;
+}
+.user-box-latest .people-img-box {
+  position: relative;
+  cursor: pointer;
+}
+
+.user-box-latest .people-img-box::before {
+  width: 7px;
+  height: 7px;
+  border-radius: 20px;
+  background-color: rgb(14, 185, 14);
+  text-align: center;
+  position: absolute;
+  content: "";
+  bottom: 0;
+  margin: 0 auto;
+  left: 0;
+  right: 0;
+  z-index: 1;
+}
+.user-box-latest .people-img-box::after {
+  width: 9px;
+  height: 9px;
+  border-radius: 5px;
+  background-color: white;
+  text-align: center;
+  position: absolute;
+  content: "";
+  bottom: 0;
+  margin: 0 auto;
+  left: 0;
+  right: 0;
+}
+@media (min-width: 768px) {
+  .people-img-box img {
+    width: 80%;
+    height: 70px;
+    margin: 0;
+  }
+}
+@media (max-width: 899px) {
+  .people-img-box img {
+    width: 80%;
+    height: 100px;
+  }
+}
+
+@media (min-width: 768px) {
+  .people-img-box2 img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50px;
+  }
+}
+@media (max-width: 1200px) and (min-width: 993px) {
+  .people-img-box2 img {
+    width: 45px;
+    height: 45px;
+    border-radius: 50px;
+  }
+}
+@media (max-width: 992px) {
+  .people-img-box2 img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50px;
+  }
+}
+@media (max-width: 899px) {
+  .people-img-box2 img {
+    width: 50px;
+    height: 50px;
+    border-radius: 100px;
+  }
+}
+
+.people-img-box2 {
+  position: relative;
+  cursor: pointer;
+}
+.people-img-box2 img {
+  display: block;
+}
+.people-img-box2 .online-active.status::before {
+  width: 9px;
+  height: 9px;
+  border-radius: 5px;
+  background-color: #06c706;
+  text-align: center;
+  position: absolute;
+  content: "";
+  bottom: 0;
+  margin: 0 auto;
+  left: 0;
+  right: 0;
+}
+.people-img-box2 .online-inactive.status::before {
+  width: 9px;
+  height: 9px;
+  border-radius: 5px;
+  background-color: #c70687;
+  text-align: center;
+  position: absolute;
+  content: "";
+  bottom: 0;
+  margin: 0 auto;
+  left: 0;
+  right: 0;
+}
+.people-img-box2 .online-active.status {
+  width: 10px;
+  height: 10px;
+  position: absolute;
+  background-color: white;
+  left: 19px;
+  right: 0;
+  margin: 0 auto;
+  bottom: 0px;
+  border-radius: 50px;
+}
+
+.people-img-box2 .online-inactive.status {
+  width: 10px;
+  height: 10px;
+  position: absolute;
+  background-color: white;
+  left: 19px;
+  right: 0;
+  margin: 0 auto;
+  bottom: 0px;
+  border-radius: 50px;
+}
+@media (max-width: 899px) {
+  .people-img-box2 .online-active.status {
+    width: 10px;
+    height: 10px;
+    position: absolute;
+    background-color: white;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    bottom: 0px;
+    border-radius: 50px;
+  }
+  .people-img-box2 .online-inactive.status {
+    width: 10px;
+    height: 10px;
+    position: absolute;
+    background-color: white;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    bottom: 0px;
+    border-radius: 50px;
+  }
+}
+.user-list {
+  cursor: pointer;
+}
+.user-list > .active {
+  background-color: rgba(0, 255, 179, 0.151);
+  border-radius: 5px;
+}
+.user-list > .inactive {
+  background-color: transparent;
+}
+.online-un-active {
+  width: 400px;
+  height: 20px;
+}
+button {
+  padding: 5px !important;
+  margin-bottom: 8px !important;
+}

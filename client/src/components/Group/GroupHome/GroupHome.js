@@ -3,10 +3,11 @@ import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import SearchIcon from '@mui/icons-material/Search';
 import { Grid, ToggleButton, Typography } from '@mui/material';
 import React from 'react';
-import './Group/Group.css';
-import RecentChat from './RecentChat';
-import './Group/__Groupcontainer.css'
-function ChatHome() {
+import GroupList from '../GroupList/GroupList';
+import '../Group.css';
+import '../__Groupcontainer.css'
+
+const GroupHome = () => {
     const data = [
         {
             name: 'Helen',
@@ -39,7 +40,7 @@ function ChatHome() {
                     <Typography sx={{
                         color: "inherit",
                         fontSize: {
-                            lg: 20,
+                            lg: 14,
                             md: 20,
                             sm: 16,
                             xs: 14
@@ -51,14 +52,14 @@ function ChatHome() {
                             xs: 400
                         },
                     }} gutterBottom component="div">
-                        Chats
+                        GROUP CHAT
                     </Typography>
                 </Grid>
                 <Grid item xs={6} className="headIcon" sx={{ display: 'flex', justifyContent: 'end', color: 'rgba(0, 0, 0, 0.54)' }}>
                     <ToggleButton value="one">
                         <PeopleIcon sx={{
                             fontSize: {
-                                lg: 20,
+                                lg: 15,
                                 md: 20,
                                 sm: 12,
                                 xs: 11
@@ -77,28 +78,7 @@ function ChatHome() {
                             }
                         }} />
                     </ToggleButton>
-                    <ToggleButton value="two" sx={{ marginLeft: '12px' }}>
-                        <PersonAddIcon color="inherit" sx={{
-                            borderRadius: {
-                                lg: '5px',
-                                md: '4px',
-                                sm: '3px',
-                                xs: '2px'
-                            },
-                            fontSize: {
-                                lg: 20,
-                                md: 20,
-                                sm: 12,
-                                xs: 11
-                            },
-                            fontWeight: {
-                                lg: 700,
-                                md: 600,
-                                sm: 500,
-                                xs: 400
-                            }
-                        }} />
-                    </ToggleButton>
+
                 </Grid>
                 <Grid item xs={12} style={{ padding: '6px 0', }}>
                     <div className='search-field-box'>
@@ -107,37 +87,9 @@ function ChatHome() {
                     </div>
                 </Grid>
             </Grid>
-            <Grid container spacing={0} justifyContent="center" alignItems="center">
-                {data?.map((people, index) => (<Grid item key={index} xs={2.6}>
-                    <div className="user-box-latest">
-                        <div className="people-img-box">
-                            <img src={people?.img} alt={people?.name} />
-                        </div>
-                        <div className="name">
-                            <Typography sx={{
-                                color: "inherit",
-                                fontSize: {
-                                    lg: 11,
-                                    md: 11,
-                                    sm: 15,
-                                    xs: 15
-                                },
-                                fontWeight: {
-                                    lg: 700,
-                                    md: 600,
-                                    sm: 500,
-                                    xs: 400
-                                },
-                            }} gutterBottom component="div">
-                                {people?.name}
-                            </Typography>
-                        </div>
-                    </div>
-                </Grid>))}
-            </Grid>
-            <RecentChat />
+            <GroupList />
         </div>
-    )
-}
+    );
+};
 
-export default ChatHome
+export default GroupHome;
