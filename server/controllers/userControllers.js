@@ -4,7 +4,7 @@ const { genToken_fourHours, genToken } = require("../utils/genToken");
 module.exports.userLogin = async (req, res, next) => {
   const email = req?.body?.email;
   const phone = req?.body?.phone;
-  const userName = req?.body?.username;
+  const userName = req?.body?.username?.toLowerCase();
   const password = req?.body?.password;
   email?.toLowerCase();
   // console.log(req.body)
@@ -21,8 +21,19 @@ module.exports.userLogin = async (req, res, next) => {
     if (!(user && (await user.matchPassword(password)))) {
       return res.status(400).json({ error: { "password": "Password invalid! please provide valid password!" } });
     } else if (user && (await user.matchPassword(password))) {
-      const user = await User.findOne({ _id: user?._id }).select("-password");
-      return res.status(200).json({ message: "Login Successfully!", data: user, token: genToken(user._id) });
+      const resData = await User.findOne({ _id: user?._id }).select("-password");
+      const data = {
+        data: resData,
+        token: genToken(resData?._id)
+      }
+      const options = {
+        expires: new Date(new Date().getTime() + process.env.COOKIE_EXPIRES * 60 * 1000)
+      }
+      return res.status(201).cookie('user', data, options).json({
+        message: 'Login Successfully',
+        data: resData,
+        token: genToken(resData?._id)
+      });
     }
   }
   catch (error) {
@@ -90,7 +101,7 @@ module.exports.userRegister = async (req, res, next) => {
       });
       const resData = await User.findOne({ _id: user._id }).select("-password")
       const data = {
-        resData,
+        data: resData,
         token: genToken(resData?._id)
       }
       const options = {
@@ -98,7 +109,8 @@ module.exports.userRegister = async (req, res, next) => {
       }
       return res.status(201).cookie('user', data, options).json({
         message: 'Registration Successfully',
-        data
+        data: resData,
+        token: genToken(resData?._id)
       });
     }
   } catch (error) {
@@ -301,7 +313,7 @@ module.exports.changedPassword = async (req, res) => {
       // `https://wesoftin.com/user/verify-email/${(genToken_fourHours(userExist._id?.toString())}
       await mailSending(user?.email, mailInfo, htmlMSG);
       const data = {
-        resData,
+        data: resData,
         token: genToken(resData?._id)
       }
       const options = {
@@ -309,7 +321,8 @@ module.exports.changedPassword = async (req, res) => {
       }
       return res.status(200).cookie('user', data, options).json({
         message: "Password has been successfully changed",
-        data
+        data: resData,
+        token: genToken(resData?._id)
       });
     }
   }

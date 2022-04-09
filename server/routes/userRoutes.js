@@ -3,7 +3,7 @@ const { protect } = require('../middlewares/protect');
 const router = require('express').Router();
 router.post("/register", userRegister)
 router.post("/login", userLogin)
-router.post("/logout", logOut)
+router.post("/logout", protect, logOut)
 router.put("/change-password", protect, changedPassword);
 router.post("/forget-password", forgetPassword);
 router.put("/reset-password", protect, resetPassword);

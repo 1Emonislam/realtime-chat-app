@@ -20,5 +20,4 @@ const loginSessionSchema = new Schema(
 );
 
 const LoginSession = model("LoginSession", loginSessionSchema);
-
 module.exports = LoginSession;
