@@ -14,6 +14,7 @@ import Home from './pages/Home/Home';
 import ChangePassword from './pages/Auth/ChangePassword';
 import Settings from './components/Settings/Settings/Settings';
 import Status from './components/Status/Status/Status';
+import Call from './components/Call/Call';
 export const ThemeSelectContext = React.createContext();
 const ColorModeContext = React.createContext({ toggleColorMode: () => { } });
 export default function ToggleColorMode() {
@@ -69,6 +70,12 @@ export default function ToggleColorMode() {
                 </IconButton> */}
                   <ThemeSwitch onClick={colorMode.toggleColorMode} style={{ fontSize: '20px' }} checked={!(theme.palette.mode === 'light')} />
                 </Chat>}></Route>
+                <Route path="/call" element={<Call>
+                  {/* <IconButton sx={{ ml: 1 }} onClick={colorMode.toggleColorMode} color="inherit">
+                  {theme.palette.mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
+                </IconButton> */}
+                  <ThemeSwitch onClick={colorMode.toggleColorMode} style={{ fontSize: '20px' }} checked={!(theme.palette.mode === 'light')} />
+                </Call>}></Route>
                 <Route path="/settings" element={<Settings>
                   {/* <IconButton sx={{ ml: 1 }} onClick={colorMode.toggleColorMode} color="inherit">
                   {theme.palette.mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}

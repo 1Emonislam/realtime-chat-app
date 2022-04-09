@@ -190,7 +190,7 @@ const Nav = ({ children }) => {
               xs={1}
               md={12}
             >
-              <Link to="/">
+              <Link to="/call">
                 <ToggleButton
                   value="five"
                   onChange={() => {
