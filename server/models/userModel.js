@@ -1,12 +1,29 @@
-const mongoose = require("mongoose");
+const { mongoose, Schema } = require("mongoose");
 const bcrypt = require('bcryptjs');
+const geometrySchema = new mongoose.Schema({
+    type: {
+        type: String,
+        default: "Point"
+    },
+    coordinates: {
+        type: [Number],
+        index: "2dsphere"
+    }
+});
 const userSchema = new mongoose.Schema({
     online: {
+        type: String,
+    },
+    socketId: {
         type: String,
     },
     lastOneline: {
         type: Date,
     },
+    friends: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Friends',
+    }],
     firstName: {
         type: String,
         required: [true, 'First Name is Required']
@@ -17,6 +34,7 @@ const userSchema = new mongoose.Schema({
     username: {
         type: String,
         trim: true,
+        lowercase: true,
         unique: true,
     },
     email: {
@@ -24,6 +42,15 @@ const userSchema = new mongoose.Schema({
         required: [true, 'invalid email'],
         lowercase: true,
         trim: true
+    },
+    emailVerified: {
+        type: Boolean
+    },
+    phoneVerified: {
+        type: Boolean,
+    },
+    verifiedBadge: {
+        type: Boolean,
     },
     password: {
         type: String,
@@ -35,20 +62,52 @@ const userSchema = new mongoose.Schema({
         trim: true,
         default: 'N/A'
     },
+    location: {
+        latitude: {
+            type: Number,
+            default: 0,
+        },
+        longitude: {
+            type: Number,
+            default: 0
+        },
+        address: {
+            type: String,
+            default: 'N/A'
+        },
+        houseNumber: {
+            type: String,
+            default: 'N/A'
+        },
+        floor: {
+            type: String,
+            default: 'N/A'
+        },
+        information: {
+            type: String,
+            default: 'N/A'
+        }
+    },
+    role: {
+        type: String,
+        enum: ['admin', 'user'],
+        default: 'user'
+    },
+    geometry: geometrySchema,
     gender: {
         type: String,
         lowercase: true,
+        enum: ['male', 'female', 'others', 'N/A'],
         default: 'N/A'
     },
     birthDate: {
         type: Date,
-        required: [true, 'Birth Date is requied!'],
     },
     pic: {
         type: String,
         default: "https://i.ibb.co/BGbPkX9/dummy-avatar-300x300-1.jpg",
     },
-    info: {
+    userInfo: {
         type: String,
         trim: true
     },

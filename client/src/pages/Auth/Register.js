@@ -8,14 +8,20 @@ import InputAdornment from '@mui/material/InputAdornment';
 import InputLabel from '@mui/material/InputLabel';
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import logo from '../../assets/logo/logo.png';
+import Loading from '../../components/Spinner/Loading';
 import { userRegister } from '../../store/actions/authAction';
+import { AUTH_ERROR, AUTH_MESSAGE } from '../../store/type/authType';
 import './auth.css';
 function Register() {
   const dispatch = useDispatch()
   const { register, reset, handleSubmit } = useForm();
+  const { auth, theme } = useSelector(state => state);
+  const { loading, error, message } = auth;
   const [values, setValues] = React.useState({
     password: '',
     password2: '',
@@ -27,6 +33,143 @@ function Register() {
   const handleChange = (prop) => (event) => {
     setValues({ ...values, [prop]: event.target.value });
   };
+  if (message) {
+    toast.success(`${message}`, {
+      position: "bottom-right",
+      theme: theme?.theme,
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
+    setTimeout(() => {
+      dispatch({
+        type: AUTH_MESSAGE
+      })
+    }, 5000)
+  }
+  if (error?.password) {
+    toast.error(`${error?.password}`, {
+      position: "bottom-right",
+      theme: theme?.theme,
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
+    setTimeout(() => {
+      dispatch({
+        type: AUTH_ERROR
+      })
+    }, 5000)
+  }
+  if (error?.password2) {
+    toast.error(`${error?.password}`, {
+      position: "bottom-right",
+      theme: theme?.theme,
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
+    setTimeout(() => {
+      dispatch({
+        type: AUTH_ERROR
+      })
+    }, 5000)
+  }
+  if (error?.email) {
+    toast.error(`${error?.email}`, {
+      position: "bottom-right",
+      theme: theme?.theme,
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
+    setTimeout(() => {
+      dispatch({
+        type: AUTH_ERROR
+      })
+    }, 5000)
+  }
+  if (error?.phone) {
+    toast.error(`${error?.phone}`, {
+      position: "bottom-right",
+      theme: theme?.theme,
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
+    setTimeout(() => {
+      dispatch({
+        type: AUTH_ERROR
+      })
+    }, 5000)
+  }
+  
+  if (error?.birthDate) {
+    toast.error(`${error?.birthDate}`, {
+      position: "bottom-right",
+      theme: theme?.theme,
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
+    setTimeout(() => {
+      dispatch({
+        type: AUTH_ERROR
+      })
+    }, 5000)
+  }
+  if (error?.username) {
+    toast.error(`${error?.username}`, {
+      position: "bottom-right",
+      theme: theme?.theme,
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
+    setTimeout(() => {
+      dispatch({
+        type: AUTH_ERROR
+      })
+    }, 5000)
+  }
+  if (error?.firstName) {
+    toast.error(`${error?.firstName}`, {
+      position: "bottom-right",
+      theme: theme?.theme,
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
+    setTimeout(() => {
+      dispatch({
+        type: AUTH_ERROR
+      })
+    }, 5000)
+  }
 
   const handleClickShowPassword = () => {
     setValues({
@@ -127,7 +270,7 @@ function Register() {
                   />
                 </FormControl>
               </Grid>
-              <Grid item xs={6}>
+              {/* <Grid item xs={6}>
                 <FormControl>
                   <InputLabel htmlFor="standard-adornment-birth">Date Of Birth</InputLabel>
                   <input type="date" className="input-birth" {...register("birthDate", { min: 0 })} required />
@@ -142,14 +285,29 @@ function Register() {
                     <option value="other">Other</option>
                   </select>
                 </FormControl>
-              </Grid>
+              </Grid> */}
             </Grid>
-            <Button type="submit" variant="contained" id="auth-btn" style={{ margin: '20px auto', fontSize: '15px', textTransform: 'capitalize', display: 'block', }}> Register</Button>
+            {loading ? <div style={{ margin: '20px 0' }}>
+              <Loading />
+            </div> :
+              <Button type="submit" variant="contained" id="auth-btn" style={{ margin: '20px auto', fontSize: '15px', textTransform: 'capitalize', display: 'block', }}> Register</Button>}
           </form>
           <span className="text-center">Already user? <span><Link to="/login" style={{ color: 'blueviolet' }} className="text text-links">Login</Link></span>
           </span>
         </div>
+        <ToastContainer
+          position="bottom-right"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+        />
       </Container>
+
     </>
   )
 }

@@ -2,27 +2,28 @@ require('dotenv').config();
 const express = require('express')
 const http = require('http');
 const cors = require('cors');
-var morgan = require('morgan');
 var moment = require('moment')
 var bodyParser = require('body-parser')
 const { Server } = require("socket.io");
 const connectedDb = require('./config/db');
 const { errorLog, errorHandlerNotify } = require('express-error-handle');
 const socketServer = require('./socket/socketServer');
-const userRoutes = require('./routes/userRoutes')
+const userRoutes = require('./routes/userRoutes');
+const profileRoutes = require('./routes/proflieRoutes')
+const friendRoutes = require('./routes/friendRoutes')
+const messageRoutes = require('./routes/messageRoutes')
+const chatRoutes = require('./routes/chatRoutes')
 const app = express();
 const PORT = process.env.PORT || 5000;
-//middlewares 
+//middlewares
+app.use(cors({
+    origin: "*",
+    credentials: true
+}));
+app.use(express.json())
+app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.json())
 // Middleware
-const middleware = [
-    cors(),
-    morgan("tiny"),
-    express.json(),
-    express.static("public"),
-    bodyParser.urlencoded({ extended: false }),
-    bodyParser.json(),
-];
-app.use(middleware);
 const serverApp = http.createServer(app);
 const io = new Server(serverApp, {
     pingTimeout: 60000,
@@ -37,7 +38,11 @@ global.moment = moment;
 connectedDb();
 socketServer();
 //Use Routes
-app.use('/api/auth', userRoutes)
+app.use('/api/auth', userRoutes);
+app.use('/api/chat', chatRoutes)
+app.use('/api/friend', friendRoutes);
+app.use('/api/profile', profileRoutes);
+app.use('/api/message', messageRoutes);
 app.get('/', (req, res) => {
     res.send('server connected')
 })

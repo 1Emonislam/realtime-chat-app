@@ -4,15 +4,160 @@ import Input from '@mui/material/Input';
 import InputLabel from '@mui/material/InputLabel';
 import React from 'react';
 import { useForm } from 'react-hook-form';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { toast, ToastContainer } from 'react-toastify';
 import logo from '../../assets/logo/logo.png';
+import Loading from '../../components/Spinner/Loading';
+import { forgetPassword } from '../../store/actions/authAction';
+import { AUTH_ERROR, AUTH_MESSAGE } from '../../store/type/authType';
 import './auth.css';
 function ForgetPassword() {
     const { register, reset, handleSubmit } = useForm();
+    const dispatch = useDispatch();
+    const { auth, theme } = useSelector(state => state);
+    const { loading, error, message } = auth;
     const onSubmit = data => {
-    console.log(data) 
-console.log(reset)
+        //console.log(data)
+        dispatch(forgetPassword(data, reset))
     };
+    if (message) {
+        toast.success(`${message}`, {
+            position: "bottom-right",
+            theme: theme?.theme,
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+        });
+        setTimeout(() => {
+            dispatch({
+                type: AUTH_MESSAGE
+            })
+        }, 5000)
+    }
+    if (error?.token) {
+        toast.error(`${error?.token}`, {
+            position: "bottom-right",
+            theme: theme?.theme,
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+        });
+        setTimeout(() => {
+            dispatch({
+                type: AUTH_ERROR
+            })
+        }, 5000)
+    }
+    if (error?.password) {
+        toast.error(`${error?.password}`, {
+            position: "bottom-right",
+            theme: theme?.theme,
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+        });
+        setTimeout(() => {
+            dispatch({
+                type: AUTH_ERROR
+            })
+        }, 5000)
+    }
+    if (error?.email) {
+        toast.error(`${error?.email}`, {
+            position: "bottom-right",
+            theme: theme?.theme,
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+        });
+        setTimeout(() => {
+            dispatch({
+                type: AUTH_ERROR
+            })
+        }, 5000)
+    }
+    if (error?.phone) {
+        toast.error(`${error?.phone}`, {
+            position: "bottom-right",
+            theme: theme?.theme,
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+        });
+        setTimeout(() => {
+            dispatch({
+                type: AUTH_ERROR
+            })
+        }, 5000)
+    }
+
+    if (error?.birthDate) {
+        toast.error(`${error?.birthDate}`, {
+            position: "bottom-right",
+            theme: theme?.theme,
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+        });
+        setTimeout(() => {
+            dispatch({
+                type: AUTH_ERROR
+            })
+        }, 5000)
+    }
+    if (error?.username) {
+        toast.error(`${error?.username}`, {
+            position: "bottom-right",
+            theme: theme?.theme,
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+        });
+        setTimeout(() => {
+            dispatch({
+                type: AUTH_ERROR
+            })
+        }, 5000)
+    }
+    if (error?.firstName) {
+        toast.error(`${error?.firstName}`, {
+            position: "bottom-right",
+            theme: theme?.theme,
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+        });
+        setTimeout(() => {
+            dispatch({
+                type: AUTH_ERROR
+            })
+        }, 5000)
+    }
     return (
         <>
             <Container maxWidth="xs">
@@ -29,17 +174,26 @@ console.log(reset)
                                 {...register("email", { min: 0 })} required
                                 sx={{ paddingBottom: '6px' }} />
                         </FormControl>
-                        <Button type="submit"id="auth-btn" variant="contained" style={{ margin: '20px auto', padding: '11px 60px', fontSize: '15px', textTransform: 'capitalize', display: 'block', }}> Forget Password</Button>
+                        {loading ? <div style={{ margin: '20px 0' }}>
+                            <Loading />
+                        </div> :
+                            <Button type="submit" variant="contained" id="auth-btn" style={{ margin: '20px auto', fontSize: '15px', textTransform: 'capitalize', display: 'block', }}> Forget Password</Button>}
                     </form>
                     <span className="text-center">New user? <span><Link to="/register" style={{ color: 'blueviolet' }} className="text text-links">Create an account</Link></span>
                     </span>
-                    {/* <Stack sx={{ width: '100%' }} spacing={2}>
-            {error && <Alert severity="error">{error}</Alert>}
-            {err && <Alert severity="error">{err}</Alert>}
-            {success && <Alert severity="success">{success}</Alert>}
-            {msgError && <Alert severity="success">{msgError}</Alert>}
-          </Stack> */}
+
                 </div>
+                <ToastContainer
+                    position="bottom-right"
+                    autoClose={5000}
+                    hideProgressBar={false}
+                    newestOnTop={false}
+                    closeOnClick
+                    rtl={false}
+                    pauseOnFocusLoss
+                    draggable
+                    pauseOnHover
+                />
             </Container>
         </>
     )
