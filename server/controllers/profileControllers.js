@@ -60,7 +60,7 @@ module.exports.removeUserProfile = async (req, res, next) => {
         return res.status(400).json({ error: { email: 'user permission denied! Please provide valid user credentials!' } })
     }
     try {
-        User.deleteOne({ _id: req?.params?.id?.trim() }, function (err) {
+        await User.deleteOne({ _id: req?.params?.id?.trim() }, function (err) {
             if (err) {
                 return res.status(400).json({ error: { email: "User Remove failed!" } })
             }

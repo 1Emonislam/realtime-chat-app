@@ -1,7 +1,8 @@
 const express = require('express');
-const { addFriend } = require('../controllers/friendControllers');
+const { addFriend, getFriends, removeFriend } = require('../controllers/friendControllers');
 const { protect } = require('../middlewares/protect');
 const router = express.Router();
 router.post('/add', protect, addFriend)
-router.put('/remove', protect)
+router.get('/my', protect,getFriends)
+router.put('/remove', protect,removeFriend)
 module.exports = router;

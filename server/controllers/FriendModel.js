@@ -14,13 +14,13 @@ const friendsSchema = new Schema({
             'addfriend',
             'requested',
             'pending',
-            'friends'
+            'friend'
         ],
         default: 'requested'
     },
     action: {
         type: String,
-        enum: ['block', 'accept'],
+        enum: ['block','spam','igonre','accept'],
         default: 'accept'
     },
 }, { timestamps: true })
