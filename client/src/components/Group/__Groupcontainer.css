@@ -1,0 +1,51 @@
+@media (min-width: 900px) {
+  .chat-box-container {
+    position: fixed;
+    left: 8%;
+    width: 27%;
+    height: 99%;
+    overflow-y: scroll;
+    scrollbar-width: thin;
+    top: 0;
+  }
+  .current-chat-box-container {
+    position: fixed;
+    overflow-y: scroll;
+    width: 43%;
+    height: 99%;
+    padding: 20px;
+    scrollbar-width: thin;
+    top: 0;
+  }
+  .current-user-about {
+    position: fixed;
+    overflow-y: scroll;
+    width: 20%;
+    height: 99%;
+    right: 0;
+    top: 0;
+  }
+}
+@media (max-width: 899px) {
+  .chat-box-container {
+    margin-top: 60px;
+  }
+}
+.chat-box-container::-webkit-scrollbar,
+.current-chat-box-container::-webkit-scrollbar,
+.current-user-about::-webkit-scrollbar {
+  width: 5px;
+  height: auto;
+}
+.chat-box-container::-webkit-scrollbar-track,
+.current-chat-box-container::-webkit-scrollbar-track,
+.current-user-about::-webkit-scrollbar-track {
+  background-color: rgba(0, 255, 179, 0.151);
+}
+.chat-box-container::-webkit-scrollbar-thumb,
+.current-chat-box-container::-webkit-scrollbar-thumb,
+.current-user-about::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 217, 255, 0.275);
+  border-radius: 20px;
+  border: 3px solid rgba(0, 255, 179, 0.151);
+}
