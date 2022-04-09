@@ -1,9 +1,5 @@
 # chat-app
 
-## Please join WhatsApp invitation link My team daily work and updated projects if you have any suggestions
-
-# https://chat.whatsapp.com/DqPpq0YwEP2HgE508d2G43
-
 # back end api
 
 ## User login https://collaballapp.herokuapp.com/api/authlogin
