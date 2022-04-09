@@ -2,6 +2,9 @@ const Chat = require("../models/chatModel");
 const User = require("../models/userModel");
 
 module.exports.acessChat = async (req, res, next) => {
+    if (req?.user?._id) {
+        return res.status(400).json({ error: { email: 'User Credentials expired! Please login' } })
+    }
     {
         const { userId } = req.body;
         try {
@@ -11,13 +14,12 @@ module.exports.acessChat = async (req, res, next) => {
             }
             let isChat = await Chat.find({
                 isGroupChat: false,
-
                 $and: [
-                    { users: { $elemMatch: { $eq: req.user._id } } },
-                    { users: { $elemMatch: { $eq: userId } } },
+                    { members: { $elemMatch: { $eq: req.user._id } } },
+                    { members: { $elemMatch: { $eq: userId } } },
                 ],
             })
-                .populate("users", "-password")
+                .populate("members", "-password")
                 .populate("latestMessage");
             isChat = await User.populate(isChat, {
                 path: "latesetMessage.sender",
@@ -29,13 +31,13 @@ module.exports.acessChat = async (req, res, next) => {
                 let chatData = {
                     chatName: "sender",
                     isGroupChat: false,
-                    users: [req.user._id, userId],
+                    members: [req.user._id, userId],
                 };
                 try {
                     const createdChat = await Chat.create(chatData);
                     const fullChat = await Chat.findOne({
                         _id: createdChat._id,
-                    }).populate("users", "-password");
+                    }).populate("members", "-password");
                     return res.status(200).json({ data: fullChat });
                 } catch (error) {
                     next(error);
@@ -47,8 +49,11 @@ module.exports.acessChat = async (req, res, next) => {
     }
 };
 module.exports.getChat = async (req, res, next) => {
+    if (req?.user?._id) {
+        return res.status(400).json({ error: { email: 'User Credentials expired! Please login' } })
+    }
     try {
-        Chat.find({ users: { $elemMatch: { $eq: req.user._id } } }).populate("users", "-password").populate("latestMessage").populate("groupAdmin", "-password").sort({ updatedAt: -1 }).then(async (results) => {
+        Chat.find({ members: { $elemMatch: { $eq: req.user._id } } }).populate("members", "-password").populate("latestMessage").populate("groupAdmin", "-password").sort({ updatedAt: -1 }).then(async (results) => {
             // console.log(results)
             results = await User.populate(results, {
                 path: "latestMessage.sender",
@@ -62,22 +67,22 @@ module.exports.getChat = async (req, res, next) => {
 };
 
 module.exports.groupCreate = async (req, res, next) => {
-    if (!req.body.users || !req.body.name) {
-        return res.status(400).json({ message: "Please Fill all the feilds!" })
+    if (req?.user?._id) {
+        return res.status(400).json({ error: { email: 'User Credentials expired! Please login' } })
     }
-    let users = JSON.parse(req.body.users);
-    if (users?.length < 2) {
-        return res.status(400).json({ message: "more than 2 users are required to form a group chat" });
+    let members = [];
+    members.push(req?.user?._id);
+    if (!req.body.members || !req.body.chatName) {
+        return res.status(400).json({ error: "Please Fill all the feilds!" })
     }
-    users.push(req.user);
     try {
         const groupChat = await Chat.create({
-            chatName: req.body.name,
-            users: users,
+            chatName: req.body.chatName,
+            members: members,
             isGroupChat: true,
-            groupAdmin: req.user,
+            groupAdmin: req?.user?._id,
         });
-        const fullGroupChat = await Chat.findOne({ _id: groupChat._id }).populate("users", "-password").populate("groupAdmin", "-password");
+        const fullGroupChat = await Chat.findOne({ _id: groupChat._id }).populate("members", "-password").populate("groupAdmin", "-password");
         return res.status(200).json({ data: fullGroupChat })
     } catch (error) {
         error.status = 400;
@@ -85,11 +90,14 @@ module.exports.groupCreate = async (req, res, next) => {
     }
 };
 module.exports.groupRename = async (req, res, next) => {
+    if (req?.user?._id) {
+        return res.status(400).json({ error: { email: 'User Credentials expired! Please login' } })
+    }
     const { chatId, chatName } = req.body;
     try {
         const updatedChat = await Chat.findByIdAndUpdate(chatId, {
             chatName
-        }, { new: true }).populate("users", "-password").populate("groupAdmin", "-password");
+        }, { new: true }).populate("members", "-password").populate("groupAdmin", "-password");
         if (!updatedChat) {
             return res.status(404).json({ error: "chat not founds!" });
         } if (updatedChat) {
@@ -100,11 +108,14 @@ module.exports.groupRename = async (req, res, next) => {
     }
 };
 module.exports.groupAddTo = async (req, res, next) => {
+    if (req?.user?._id) {
+        return res.status(400).json({ error: { email: 'User Credentials expired! Please login' } })
+    }
     const { chatId, userId } = req.body;
     try {
         const added = await Chat.findByIdAndUpdate(chatId, {
-            $push: { users: userId },
-        }, { new: true }).populate("users", "-password").populate("groupAdmin", "-password");
+            $push: { members: userId },
+        }, { new: true }).populate("members", "-password").populate("groupAdmin", "-password");
         // console.log(added)
         if (!added) {
             return res.status(404).json({ error: "chat not founds!" });
@@ -116,11 +127,14 @@ module.exports.groupAddTo = async (req, res, next) => {
     }
 }
 module.exports.groupRemoveTo = async (req, res, next) => {
+    if (req?.user?._id) {
+        return res.status(400).json({ error: { email: 'User Credentials expired! Please login' } })
+    }
     const { chatId, userId } = req.body;
     try {
         const remove = await Chat.findByIdAndUpdate(chatId, {
-            $pull: { users: userId },
-        }, { new: true }).populate("users", "-password").populate("groupAdmin", "-password");
+            $pull: { members: userId },
+        }, { new: true }).populate("members", "-password").populate("groupAdmin", "-password");
         if (!remove) {
             return res.status(404).json({ error: "chat not founds!" });
         }
