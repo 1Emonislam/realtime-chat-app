@@ -2,7 +2,7 @@ const Chat = require("../models/chatModel");
 const User = require("../models/userModel");
 
 module.exports.acessChat = async (req, res, next) => {
-    if (req?.user?._id) {
+    if (!req?.user?._id) {
         return res.status(400).json({ error: { email: 'User Credentials expired! Please login' } })
     }
     {
@@ -49,11 +49,11 @@ module.exports.acessChat = async (req, res, next) => {
     }
 };
 module.exports.getChat = async (req, res, next) => {
-    if (req?.user?._id) {
+    if (!req?.user?._id) {
         return res.status(400).json({ error: { email: 'User Credentials expired! Please login' } })
     }
     try {
-        Chat.find({ members: { $elemMatch: { $eq: req.user._id } } }).populate("members", "-password").populate("latestMessage").populate("groupAdmin", "-password").sort({ updatedAt: -1 }).then(async (results) => {
+        await Chat.find({ members: { $elemMatch: { $eq: req.user._id } } }).populate("members", "-password").populate("latestMessage").populate("groupAdmin", "-password").sort({ updatedAt: -1 }).then(async (results) => {
             // console.log(results)
             results = await User.populate(results, {
                 path: "latestMessage.sender",
@@ -67,19 +67,18 @@ module.exports.getChat = async (req, res, next) => {
 };
 
 module.exports.groupCreate = async (req, res, next) => {
-    if (req?.user?._id) {
+    if (!req?.user?._id) {
         return res.status(400).json({ error: { email: 'User Credentials expired! Please login' } })
     }
-    let members = [];
-    members.push(req?.user?._id);
+    // console.log(req.body.members)
     if (!req.body.members || !req.body.chatName) {
-        return res.status(400).json({ error: "Please Fill all the feilds!" })
+        return res.status(400).json({ error: "Please Fill all the feilds! Members and ChatName" })
     }
     try {
         const groupChat = await Chat.create({
             chatName: req.body.chatName,
-            members: members,
             isGroupChat: true,
+            members: [req?.user?._id, ...req?.body?.members],
             groupAdmin: req?.user?._id,
         });
         const fullGroupChat = await Chat.findOne({ _id: groupChat._id }).populate("members", "-password").populate("groupAdmin", "-password");
@@ -90,16 +89,16 @@ module.exports.groupCreate = async (req, res, next) => {
     }
 };
 module.exports.groupRename = async (req, res, next) => {
-    if (req?.user?._id) {
+    if (!req?.user?._id) {
         return res.status(400).json({ error: { email: 'User Credentials expired! Please login' } })
     }
     const { chatId, chatName } = req.body;
     try {
-        const updatedChat = await Chat.findByIdAndUpdate(chatId, {
+        const updatedChat = await Chat.findOneAndUpdate({ _id: chatId, groupAdmin: req?.user?._id }, {
             chatName
         }, { new: true }).populate("members", "-password").populate("groupAdmin", "-password");
         if (!updatedChat) {
-            return res.status(404).json({ error: "chat not founds!" });
+            return res.status(400).json({ error: "you can perform only Admin Group Rename!" });
         } if (updatedChat) {
             return res.status(200).json({ message: "chat successfully updated!", data: updatedChat })
         }
@@ -108,26 +107,30 @@ module.exports.groupRename = async (req, res, next) => {
     }
 };
 module.exports.groupAddTo = async (req, res, next) => {
-    if (req?.user?._id) {
+    if (!req?.user?._id) {
         return res.status(400).json({ error: { email: 'User Credentials expired! Please login' } })
     }
     const { chatId, userId } = req.body;
     try {
+        const exist = await Chat.findOne({ _id: chatId, members: userId });
+        if (exist) {
+            return res.status(400).json({ error: "Already Members This Group" })
+        }
         const added = await Chat.findByIdAndUpdate(chatId, {
-            $push: { members: userId },
+            $addToSet: { members: userId },
         }, { new: true }).populate("members", "-password").populate("groupAdmin", "-password");
         // console.log(added)
         if (!added) {
-            return res.status(404).json({ error: "chat not founds!" });
+            return res.status(404).json({ error: "chat not founds!", data: [] });
         }
-        if (added) return res.status(200).json({ message: "added successfully!", data: added })
+        if (added) return res.status(200).json({ message: "Member added successfully!", data: added })
     }
     catch (error) {
         next(error)
     }
 }
 module.exports.groupRemoveTo = async (req, res, next) => {
-    if (req?.user?._id) {
+    if (!req?.user?._id) {
         return res.status(400).json({ error: { email: 'User Credentials expired! Please login' } })
     }
     const { chatId, userId } = req.body;
@@ -136,7 +139,7 @@ module.exports.groupRemoveTo = async (req, res, next) => {
             $pull: { members: userId },
         }, { new: true }).populate("members", "-password").populate("groupAdmin", "-password");
         if (!remove) {
-            return res.status(404).json({ error: "chat not founds!" });
+            return res.status(404).json({ error: "member not founds!" });
         }
         if (remove) return res.status(200).json({ message: "removed successfully!", data: remove })
     }
