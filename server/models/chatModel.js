@@ -5,6 +5,10 @@ const chatSchema = mongoose.Schema(
             type: String,
             required: true,
         },
+        img: {
+            type: String,
+            default:'https://i.ibb.co/dKKKKH4/groupicon2.png'
+        },
         isGroupChat: {
             type: Boolean,
             required: true,
