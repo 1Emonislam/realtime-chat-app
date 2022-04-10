@@ -5,10 +5,6 @@ const messageSchema = mongoose.Schema({
         ref: "User",
 
     },
-    receiver: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User",
-    }],
     content: {
         text: {
             type: String
@@ -17,15 +13,15 @@ const messageSchema = mongoose.Schema({
         video: [],
         others: [],
     },
-    lastSeen: {
-        type: Date,
-        default: new Date(),
-    },
-    seen: {
-        type: Boolean,
-        required: true,
-        default: false,
-    },
+    seen: [{
+        lastSeen: {
+            type: Date
+        },
+        user: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "User"
+        }
+    }],
     chat: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Chat",
