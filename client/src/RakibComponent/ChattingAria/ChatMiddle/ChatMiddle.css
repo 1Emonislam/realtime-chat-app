@@ -45,6 +45,11 @@ h4.hedding_4 {
   color: #008024;
   font-weight: 500;
 }
+.online2{
+  color: #008024;
+  font-weight: 400;
+  font-size: 13px;
+}
 .chat_Header_icon {
   display: flex;
   justify-content: right;

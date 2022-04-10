@@ -1,7 +1,7 @@
 import { Grid } from '@mui/material';
 import React from 'react';
-import AboutPage from '../../../Ashikur/AboutPage/AboutPage';
 import GroupChatMiddle from '../GroupChattingAria/GroupChatMiddle/GroupChatMiddle';
+import GroupInfo from '../GroupInfo/GroupInfo';
 // import ChatMiddle from '../../../RakibComponent/ChattingAria/ChatMiddle/ChatMiddle';
 
 const GroupChat = () => {
@@ -12,7 +12,7 @@ const GroupChat = () => {
                     <GroupChatMiddle />
                 </Grid>
                 <Grid item xs={12} md={4}>
-                    <AboutPage></AboutPage>
+                    <GroupInfo />
                 </Grid>
             </Grid>
         </div>
