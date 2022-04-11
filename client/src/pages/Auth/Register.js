@@ -50,6 +50,7 @@ function Register() {
       })
     }, 5000)
   }
+
   if (error?.password) {
     toast.error(`${error?.password}`, {
       position: "bottom-right",

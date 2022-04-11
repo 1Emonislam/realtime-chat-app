@@ -19,7 +19,8 @@ export const userRegister = (data, reset) => {
                 .then(data => {
                     // console.log(data)
                     if (data?.data) {
-                        reset()
+                        reset();
+                        window.location?.replace("/login")
                         dispatch({
                             type: AUTH_SUCCESS,
                             payload: {
