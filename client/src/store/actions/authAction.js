@@ -73,6 +73,7 @@ export const userLogin = (data, reset) => {
                     // console.log(data)
                     if (data?.data) {
                         reset()
+                        window.location?.replace('/chat');
                         dispatch({
                             type: AUTH_SUCCESS,
                             payload: {
@@ -256,3 +257,55 @@ export const changedPassword = (data, reset) => {
         }
     }
 }
+export const logOut = (data, reset) => {
+    return async (dispatch) => {
+        try {
+            dispatch({
+                type: AUTH_LOADING,
+                payload: {
+                    loading: true,
+                }
+            })
+            // console.log(data)
+            fetch("https://collaballapp.herokuapp.com/api/auth/logout", {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data)
+            }).then(res => res.json())
+                .then(data => {
+                    // console.log(data)
+                    if (data?.data) {
+                        reset()
+                        dispatch({
+                            type: AUTH_SUCCESS,
+                            payload: {
+                                message: data.message,
+                                data: data.data
+                            }
+                        })
+                    }
+                    if (data?.error) {
+                        reset()
+                        dispatch({
+                            type: AUTH_FAILED,
+                            payload: {
+                                error: data.error
+                            }
+                        })
+                    }
+                })
+        }
+        catch (error) {
+            reset()
+            dispatch({
+                type: AUTH_FAILED,
+                payload: {
+                    error: error.message
+                }
+            })
+        }
+    }
+}
+

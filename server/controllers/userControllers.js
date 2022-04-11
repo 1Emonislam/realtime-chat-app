@@ -528,7 +528,7 @@ module.exports.logOut = (req, res, next) => {
   try {
     if (!req.params.id) return res.json({ error: "user credentials invalid! please login!" });
     // onlineUsers.delete(req.params.id);
-    return res.status(200).send();
+    return res.status(200).send({ data: {} });
   } catch (error) {
     next(error);
   }
