@@ -18,7 +18,6 @@
     top: 0;
   }
   .current-user-about {
-    margin-top: 20px;
     position: fixed;
     overflow-y: scroll;
     width: 20%;

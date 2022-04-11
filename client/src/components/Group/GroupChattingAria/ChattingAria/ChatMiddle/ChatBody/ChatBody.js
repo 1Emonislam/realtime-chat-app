@@ -44,7 +44,7 @@ const ChatBody = () => {
                 <Link to='/'>
                     <MoreVertIcon onClick={moreActionLef}/>
                 </Link>
-                <ul className={menuOpen?'dropdown-menu displayBlock':'dropdown-menu'}>
+                <ul className={menuOpen?'dropdown-menu displeyBlock':'dropdown-menu'}>
                     <li><span>Copy</span><FileCopyIcon/></li>
                     <li><span>Save</span><SaveIcon/></li>
                     <li><span>Forward </span><RedoIcon/></li>

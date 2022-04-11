@@ -39,3 +39,50 @@
     font-size: 17px;
     background-color: #420BA1;
 }
+.callListItem{
+    padding: 2px 0 8px 10px;
+    margin-left: -10px;
+    margin-right: 5px;
+}
+.callListItem:hover{
+    background-color: #F1F6FF;
+}
+
+.callbar{
+    margin-top: -25px;
+    margin-bottom: 5px;
+    padding: 20px 0;
+    background-color: #aea4b413;
+    margin-left: -10px;
+    padding-left: 10px;
+}
+.upbar{
+    display: flex;
+    justify-content: space-between;
+    padding-right: 25px;
+}
+.downbar{
+    position: sticky;
+    display: flex;
+    overflow: hidden;
+    flex: auto;
+}
+
+.barButton{
+    background-color: #420BA1;
+    border: 1px solid #420BA1;
+    color: #fff;
+    font-family: "Poppins", sans-serif;
+    padding: 100px 20px !important;
+    border-radius: 20px;
+    margin: 0 5px;
+}
+
+.barButton:nth-child(1){
+    background-color: #420BA1;
+    border: 1px solid #420BA1;
+    color: #fff;
+    font-family: "Poppins", sans-serif;
+    padding: 8px 10px !important;
+    border-radius: 20px;
+}

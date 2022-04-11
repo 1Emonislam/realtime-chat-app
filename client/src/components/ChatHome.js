@@ -3,9 +3,9 @@ import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import SearchIcon from '@mui/icons-material/Search';
 import { Grid, ToggleButton, Typography } from '@mui/material';
 import React from 'react';
-import './Chat.css';
+import './Group/Group.css';
 import RecentChat from './RecentChat';
-import './__Container.css'
+import './Group/__Groupcontainer.css'
 function ChatHome() {
     const data = [
         {
