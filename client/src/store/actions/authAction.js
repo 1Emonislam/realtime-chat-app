@@ -73,6 +73,7 @@ export const userLogin = (data, reset) => {
                     // console.log(data)
                     if (data?.data) {
                         reset()
+                        window?.localStorage?.setItem("user", JSON.stringify(data?.data))
                         window.location?.replace('/chat');
                         dispatch({
                             type: AUTH_SUCCESS,
@@ -104,7 +105,59 @@ export const userLogin = (data, reset) => {
         }
     }
 }
-export const resetPassword = (data, reset) => {
+
+export const logOut = (data, token) => {
+    return async (dispatch) => {
+        try {
+            dispatch({
+                type: AUTH_LOADING,
+                payload: {
+                    loading: true,
+                }
+            })
+            // console.log(data)
+            fetch("https://collaballapp.herokuapp.com/api/auth/logout", {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify(data)
+            }).then(res => res.json())
+                .then(data => {
+                    // console.log(data)
+                    if (data?.data) {
+                        dispatch({
+                            type: AUTH_SUCCESS,
+                            payload: {
+                                message: data?.message,
+                                data: data.data
+                            }
+                        })
+                    }
+                    if (data?.error) {
+                        dispatch({
+                            type: AUTH_FAILED,
+                            payload: {
+                                error: data.error
+                            }
+                        })
+                    }
+                })
+        }
+        catch (error) {
+            dispatch({
+                type: AUTH_FAILED,
+                payload: {
+                    error: error.message
+                }
+            })
+        }
+    }
+}
+
+
+export const resetPassword = (data, reset, token) => {
     return async (dispatch) => {
         try {
             dispatch({
@@ -118,6 +171,7 @@ export const resetPassword = (data, reset) => {
                 method: "PUT",
                 headers: {
                     'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
                 },
                 body: JSON.stringify(data)
             }).then(res => res.json())
@@ -206,7 +260,7 @@ export const forgetPassword = (data, reset) => {
         }
     }
 }
-export const changedPassword = (data, reset) => {
+export const changedPassword = (data, reset, token) => {
     return async (dispatch) => {
         try {
             dispatch({
@@ -220,6 +274,7 @@ export const changedPassword = (data, reset) => {
                 method: "PUT",
                 headers: {
                     'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
                 },
                 body: JSON.stringify(data)
             }).then(res => res.json())
@@ -257,55 +312,3 @@ export const changedPassword = (data, reset) => {
         }
     }
 }
-export const logOut = (data, reset) => {
-    return async (dispatch) => {
-        try {
-            dispatch({
-                type: AUTH_LOADING,
-                payload: {
-                    loading: true,
-                }
-            })
-            // console.log(data)
-            fetch("https://collaballapp.herokuapp.com/api/auth/logout", {
-                method: "POST",
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(data)
-            }).then(res => res.json())
-                .then(data => {
-                    // console.log(data)
-                    if (data?.data) {
-                        reset()
-                        dispatch({
-                            type: AUTH_SUCCESS,
-                            payload: {
-                                message: data.message,
-                                data: data.data
-                            }
-                        })
-                    }
-                    if (data?.error) {
-                        reset()
-                        dispatch({
-                            type: AUTH_FAILED,
-                            payload: {
-                                error: data.error
-                            }
-                        })
-                    }
-                })
-        }
-        catch (error) {
-            reset()
-            dispatch({
-                type: AUTH_FAILED,
-                payload: {
-                    error: error.message
-                }
-            })
-        }
-    }
-}
-

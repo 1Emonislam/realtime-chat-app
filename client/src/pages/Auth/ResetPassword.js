@@ -46,6 +46,7 @@ function ResetPassword() {
     const dispatch = useDispatch();
     const { auth, theme } = useSelector(state => state);
     const { loading, error, message } = auth;
+    // console.log(auth)
     const onSubmit = data => {
         dispatch(resetPassword(data, reset))
     };

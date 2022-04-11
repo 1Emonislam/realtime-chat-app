@@ -1,4 +1,4 @@
-import { AUTH_ERROR, AUTH_FAILED, AUTH_LOADING, AUTH_SUCCESS, AUTH_MESSAGE } from "../type/authType";
+import { AUTH_ERROR, AUTH_FAILED, AUTH_LOADING, AUTH_SUCCESS, AUTH_MESSAGE, LOG_OUT_AUTH } from "../type/authType";
 const authState = {
     loading: false,
     authenticate: false,
@@ -48,6 +48,15 @@ export const authReducer = (state = authState, action) => {
             ...state,
             loading: false,
             message: ''
+        }
+    }
+    if (type === LOG_OUT_AUTH) {
+        return {
+            ...state,
+            loading: false,
+            message: '',
+            error: '',
+            user: null
         }
     }
     return state;

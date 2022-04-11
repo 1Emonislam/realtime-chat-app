@@ -528,7 +528,7 @@ module.exports.logOut = (req, res, next) => {
   try {
     if (!req.user?._id) return res.json({ error: "You are not a login User Please log in Before log out!" });
     // onlineUsers.delete(req.params.id);
-    return res.status(200).send({ data: {} });
+    return res.status(200).send({message:"You have successfully Log Out!", data: {} });
   } catch (error) {
     next(error);
   }
