@@ -526,7 +526,7 @@ module.exports.forgetPassword = async (req, res, next) => {
 }
 module.exports.logOut = (req, res, next) => {
   try {
-    if (!req.params.id) return res.json({ error: "user credentials invalid! please login!" });
+    if (!req.user?._id) return res.json({ error: "You are not a login User Please log in Before log out!" });
     // onlineUsers.delete(req.params.id);
     return res.status(200).send({ data: {} });
   } catch (error) {
