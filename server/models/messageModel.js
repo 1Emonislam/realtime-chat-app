@@ -13,15 +13,9 @@ const messageSchema = mongoose.Schema({
         video: [],
         others: [],
     },
-    seen: [
-        {
-            lastSeen: Date,
-            user: {
-                type: mongoose.Schema.Types.ObjectId,
-                ref: "User"
-            }
-        }
-    ],
+    lastActive: {
+        type: Date,
+    },
     chat: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Chat",

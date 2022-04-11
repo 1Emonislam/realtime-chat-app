@@ -28,11 +28,11 @@ module.exports.sendMessage = async (req, res, next) => {
         message = await message.populate("chat")
         message = await User.populate(message, {
             path: 'chat.members',
-            select: '_id pic name email'
+            select: '_id pic firstName lastName email'
         })
         message = await User.populate(message, {
             path: 'chat.groupAdmin',
-            select: '_id pic name email'
+            select: '_id pic firstName lastName email'
         })
         await Chat.findByIdAndUpdate(req.body.chatId, {
             latestMessage: message,
@@ -44,25 +44,32 @@ module.exports.sendMessage = async (req, res, next) => {
 }
 module.exports.allMessage = async (req, res, next) => {
     try {
-        let messages = await Message.find({ chat: req.params.chatId }).populate("sender", "_id pic name email").populate("chat").populate({
-            path: "seen.user",
-            select: "_id pic name email"
+        const { page = 1, limit = 10 } = req.query;
+        let messages = await Message.find({ chat: req.params.chatId }).populate("sender", "_id pic firstName lastName email").populate("chat")
+        await Message.updateMany({ chat: req.params.chatId }, {
+            lastActive: new Date(),
+        }, { new: true })
+        messages = await Chat.populate(messages, {
+            path: 'chat.members',
+            select: '_id pic firstName lastName email',
         })
         messages = await User.populate(messages, {
             path: 'chat.groupAdmin',
-            select: '_id pic name email'
+            select: '_id pic firstName lastName email'
         })
-        messages = messages?.reduce((acc, curr) => {
-            const messages = curr._doc;
-            // console.log(messages)
-            acc.push({
-                ...messages,
-            });
-            return acc;
-        }, []);
+        const me = {
+            msgLastSeen: new Date(),
+            info: {
+                firstName: req?.user?.firstName,
+                lastName: req?.user?.lastName,
+                pic: req?.user?.pic,
+                email: req?.user?.email
+            }
+        }
         return res.status(200).json({
             message: "messagess fetched successfully",
-            data: messages,
+            me: messages?.length > 0 ? me : {},
+            data: messages
         });
     } catch (error) {
         res.status(400)
@@ -113,13 +120,13 @@ module.exports.messageEdit = async (req, res, next) => {
         }
         // console.log(message)
         if (message) {
-            message = await Message.find({ chat: chatId }).populate("sender", "_id pic name email").populate("chat").populate({
+            message = await Message.find({ chat: chatId }).populate("sender", "_id pic firstName lastName email").populate("chat").populate({
                 path: "seen.user",
-                select: "_id pic name email"
+                select: "_id pic firstName lastName email"
             })
             message = await User.populate(message, {
                 path: 'chat.groupAdmin',
-                select: '_id pic name email'
+                select: '_id pic firstName lastName email'
             })
             return res.status(200).json({ message: "Message Successfully Updated!", data: message })
         }
