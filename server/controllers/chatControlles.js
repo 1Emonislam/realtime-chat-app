@@ -27,7 +27,7 @@ module.exports.acessChat = async (req, res, next) => {
         .populate("latestMessage");
       isChat = await User.populate(isChat, {
         path: "latesetMessage.sender",
-        select: "name pic email",
+        select: "_id pic name email",
       });
       if (isChat?.length > 0) {
         return res.json(isChat[0]);
@@ -66,7 +66,7 @@ module.exports.getChat = async (req, res, next) => {
       // console.log(results)
       results = await User.populate(results, {
         path: "latestMessage.sender",
-        select: "name pic email"
+        select: "_id pic name email"
       })
       const viewsChatId = await Chat.findOne({ members: { $elemMatch: { $eq: req.user._id } } });
       await ViewsChat.create({
