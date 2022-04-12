@@ -26,8 +26,9 @@ const chatSchema = mongoose.Schema(
         },
         status: {
             type: String,
+            required: [true,'Select Group Type'],
         },
-        Description: {
+        description: {
             type: String,
             trim: true,
         },

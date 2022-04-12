@@ -34,7 +34,7 @@ module.exports.userLogin = async (req, res, next) => {
         expires: new Date(new Date().getTime() + process.env.COOKIE_EXPIRES * 60 * 1000)
       }
 
-      return res.status(201).cookie('user', data, options).json({
+      return res.status(200).cookie('user', data, options).json({
         message: 'Login Successfully',
         data: userData
       });

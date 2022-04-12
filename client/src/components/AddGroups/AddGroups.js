@@ -1,11 +1,11 @@
 import CancelIcon from "@mui/icons-material/Cancel";
 import GroupAddIcon from "@mui/icons-material/GroupAdd";
-import { Button, FormControlLabel, Input, Modal, Radio, RadioGroup, TextField, Typography } from "@mui/material";
+import { Button, FormControlLabel, Modal, Radio, RadioGroup, TextField, Typography } from "@mui/material";
 import { Box } from "@mui/system";
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
-import { getGroupData, postGroupData } from "../../store/actions/groupActions";
+import { postGroupData } from "../../store/actions/groupActions";
 
 const style = {
   position: "absolute",
@@ -20,15 +20,16 @@ const style = {
 };
 //   {...register("email", { min: 0 })} required
 const AddGroups = ({ handleGroupOpen, handleGroupClose, groupOpen }) => {
+  const [images, setImages] = useState([])
   const { register, reset, handleSubmit } = useForm();
   const dispatch = useDispatch();
   const auth = useSelector(state => state?.auth)
   // console.log(auth?.user)
-  const onSubmit = data => {
-    const dataSent = {
-      content
-    }
-    dispatch(postGroupData(data,auth?.user?.token))
+  const onSubmit = async data => {
+    const formData = new FormData();
+    formData.append("file", images);
+    data.img = formData;
+    dispatch(postGroupData(data, auth?.user?.token, reset))
   };
   return (
     <Modal
@@ -97,7 +98,7 @@ const AddGroups = ({ handleGroupOpen, handleGroupClose, groupOpen }) => {
               <Box style={{ display: "flex" }}>
                 <TextField fullWidth size="small" style={{ width: 280 }} />
                 <label className="browseFile">
-                  <input type="file"{...register("file")} />
+                  <input type="file" accept=".jpg, .jpeg, .png" onChange={(e) => setImages(e.target.files[0])} />
                   Browse File
                 </label>
               </Box>
@@ -114,7 +115,7 @@ const AddGroups = ({ handleGroupOpen, handleGroupClose, groupOpen }) => {
               >
                 Topic (Optional)
               </Typography>
-              <TextField fullWidth size="small"{...register("topic")} />
+              <TextField fullWidth size="small"{...register("topic", { min: 0 })} />
             </Box>
             <Box sx={{ mb: 2 }}>
               <Typography
@@ -143,7 +144,7 @@ const AddGroups = ({ handleGroupOpen, handleGroupClose, groupOpen }) => {
             >
               <FormControlLabel
                 value="private"
-                {...register("status", { min: 0 })}
+                {...register("status", { min: 1 })} required
                 control={<Radio color="secondary" />}
                 label="Private Group"
                 style={{ fontFamily: `"Poppins", sans-serif` }}

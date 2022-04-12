@@ -1,6 +1,6 @@
 export const getGroupData = (data, token) => {
     return (dispatch) => {
-        fetch('https://collaballapp.herokuapp.com/api/chat/group/create', {
+        fetch('http://localhost:5000/api/chat/group/create', {
             method: 'POST',
             headers: {
                 'Content-Type': "application/json",
@@ -14,10 +14,10 @@ export const getGroupData = (data, token) => {
             })
     }
 }
-export const postGroupData = (data, token) => {
+export const postGroupData = (data, token,reset) => {
     // console.log(data,token)
     return (dispatch) => {
-        fetch('https://collaballapp.herokuapp.com/api/chat/group/create', {
+        fetch('http://localhost:5000/api/chat/group/create', {
             method: 'POST',
             headers: {
                 'Content-Type': "application/json",
@@ -27,7 +27,9 @@ export const postGroupData = (data, token) => {
         })
             .then(res => res.json())
             .then(data => {
-                console.log(data)
+                if(data?.data){
+                    reset();
+                }
             })
     }
 }

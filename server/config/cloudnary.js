@@ -10,10 +10,10 @@ const configure = () => {
             api_secret: CLOUDINARY_API_SECRET,
         });
 
-        console.log("Configured succesfull.");
+    // console.log("Configured succesfull.");
     } catch (error) {
-        console.log("Configured failed!");
-        console.error(error);
+        // console.log("Configured failed!");
+        // console.error(error);
         next(error)
         process.exit(1);
     }

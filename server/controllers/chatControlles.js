@@ -3,6 +3,7 @@ const ViewsChat = require("../models/ChatViewsModel");
 const JoinGroup = require("../models/JoinGroupModel");
 const Notification = require('../models/notificationModel')
 const User = require("../models/userModel");
+const { upload } = require("../utils/file");
 const { mailSending } = require("../utils/func");
 const { genToken, genInviteGroup } = require("../utils/genToken");
 
@@ -84,7 +85,15 @@ module.exports.groupCreate = async (req, res, next) => {
   if (!req?.user?._id) {
     return res.status(400).json({ error: 'User Credentials expired! Please login' })
   }
-  // console.log(req.body.members)
+  console.log(req.body)
+  let img;
+  if (img === {}) {
+    img = ''
+  }
+  if (img) {
+    console.log(img)
+  }
+  console.log(req.body)
   try {
     const groupChat = await Chat.create({
       chatName: req.body.chatName,
@@ -92,21 +101,24 @@ module.exports.groupCreate = async (req, res, next) => {
       status: req.body?.status,
       description: req.body?.description,
       isGroupChat: true,
-      img: req.body?.img,
-      members: [req?.user?._id, ...req?.body?.members],
+      img: img,
+      members: [req?.user?._id, req?.body?.members],
       groupAdmin: req?.user?._id,
     });
-    for (let i = 0; i < groupChat?.members?.length; i++) {
-      await JoinGroup.create({
-        joinChatId: groupChat?._id,
-        userJoin: groupChat?.members[i]
-      })
-      await Notification.create({
-        receiver: groupChat?.members[i],
-        type: 'group',
-        subject: `added new group from ${groupChat?.chatName}`,
-        message: `${req?.user?.firstName} ${req?.user?.lastName} added group`,
-      })
+
+    if (groupChat) {
+      for (let i = 0; i < groupChat?.members?.length; i++) {
+        await JoinGroup.create({
+          joinChatId: groupChat?._id,
+          userJoin: groupChat?.members[i]
+        })
+        await Notification.create({
+          receiver: groupChat?.members[i],
+          type: 'group',
+          subject: `added new group from ${groupChat?.chatName}`,
+          message: `${req?.user?.firstName} ${req?.user?.lastName} added group`,
+        })
+      }
     }
 
     const fullGroupChat = await Chat.findOne({ _id: groupChat._id }).populate("members", "-password").populate("groupAdmin", "-password");
@@ -399,7 +411,7 @@ module.exports.groupRemoveTo = async (req, res, next) => {
       return res.status(404).json({ error: "member not founds!" });
     }
     if (remove) {
-      const member = await User.find({_id:userId});
+      const member = await User.find({ _id: userId });
       await Notification.create({
         receiver: userId,
         type: 'group',
