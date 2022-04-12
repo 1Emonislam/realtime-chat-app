@@ -83,8 +83,8 @@ const RecentCalls = () => {
        
 
         <div>
-          {data?.map((p) => (
-            <RecentCallList p={p}></RecentCallList>
+          {data?.map((p,index) => (
+            <RecentCallList p={p}key={index}></RecentCallList>
           ))}
         </div>
       </Box>

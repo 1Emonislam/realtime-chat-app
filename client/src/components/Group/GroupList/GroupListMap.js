@@ -4,9 +4,9 @@ import LockIcon from "@mui/icons-material/Lock";
 
 const GroupListMap = (props) => {
 
-    const {id, name, pic, lastMsg, lastMsgBy, isPrivateGroup, time, unreadMsg, online} = props.p;
+    const { name, pic, lastMsg, lastMsgBy, isPrivateGroup, time, unreadMsg} = props.p;
 
-    const handleSingleUser = () => {};
+    // const handleSingleUser = () => {};
     return (
       <Grid
         item

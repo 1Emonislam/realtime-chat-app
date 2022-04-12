@@ -1,5 +1,5 @@
+import { Box, Grid, Typography } from "@mui/material";
 import React from "react";
-import { Box, Grid, ToggleButton, Typography } from "@mui/material";
 
 const ViewedStatuses = (props) => {
   const { name, pic, status } = props.p;

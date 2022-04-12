@@ -1,8 +1,4 @@
-import { Grid, ToggleButton, Typography } from '@mui/material';
 import React from 'react';
-import PeopleIcon from "@mui/icons-material/People";
-import PersonAddIcon from "@mui/icons-material/PersonAdd";
-import SearchIcon from "@mui/icons-material/Search";
 import { Box } from '@mui/system';
 import HeaderContainer from '../../../pages/Shared/HeaderContainer';
 
@@ -26,25 +22,16 @@ const ProfileSettings = () => {
         twoStepVerification: "disable",
       },
     ];
-
-    const [person, setPerson] = React.useState({
-      objects: [...data],
-    });
-    React.useEffect(() => {
-      setPerson({
-        objects: [...data],
-      });
-    }, []);
     return (
       <Box>
         <HeaderContainer />
 
         <Box>
-          {data?.map((per) => {
-            <div>
-              <h3>{per.name}</h3>
-            </div>;
-          })}
+        {data.map((per, index) => (
+             <div key={index}>
+             <h3>{per.name}</h3>
+           </div>
+          ))}
         </Box>
       </Box>
     );

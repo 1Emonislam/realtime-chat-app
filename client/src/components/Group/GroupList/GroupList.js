@@ -1,9 +1,6 @@
+import { Grid, Typography } from '@mui/material';
 import React from 'react';
-import EditRoadIcon from '@mui/icons-material/EditRoad';
-import { Grid, ToggleButton, Typography } from '@mui/material';
 import '../Group.css';
-import TypingIndicatior from '../../Typing/TypingIndicatior';
-import { FamilyRestroomTwoTone } from '@mui/icons-material';
 import GroupListMap from './GroupListMap';
 
 const GroupList = () => {
@@ -128,19 +125,19 @@ const GroupList = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
-    function toggleActive(index) {
-        setDataState({ ...dataState, activeObject: dataState.objects[index] })
-    }
-    function toggleActiveStyle(index) {
-        if (dataState.objects[index] === dataState.activeObject) {
-            return 'active'
-        } else {
-            return 'inactive'
-        }
-    }
-    const handleSingleUser = () => {
+    // function toggleActive(index) {
+    //     setDataState({ ...dataState, activeObject: dataState.objects[index] })
+    // }
+    // function toggleActiveStyle(index) {
+    //     if (dataState.objects[index] === dataState.activeObject) {
+    //         return 'active'
+    //     } else {
+    //         return 'inactive'
+    //     }
+    // }
+    // const handleSingleUser = () => {
 
-    }
+    // }
     return (
       <div style={{ marginTop: "-40px" }}>
         <Grid
