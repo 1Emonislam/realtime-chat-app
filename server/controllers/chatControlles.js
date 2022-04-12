@@ -85,9 +85,6 @@ module.exports.groupCreate = async (req, res, next) => {
     return res.status(400).json({ error: 'User Credentials expired! Please login' })
   }
   // console.log(req.body.members)
-  if (!req.body.members || !req.body.chatName) {
-    return res.status(400).json({ error: "Please Fill all the feilds! Members and ChatName" })
-  }
   try {
     const groupChat = await Chat.create({
       chatName: req.body.chatName,

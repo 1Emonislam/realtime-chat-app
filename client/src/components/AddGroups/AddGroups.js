@@ -5,7 +5,7 @@ import { Box } from "@mui/system";
 import React from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
-import { getGroupData } from "../../store/actions/groupActions";
+import { getGroupData, postGroupData } from "../../store/actions/groupActions";
 
 const style = {
   position: "absolute",
@@ -23,9 +23,12 @@ const AddGroups = ({ handleGroupOpen, handleGroupClose, groupOpen }) => {
   const { register, reset, handleSubmit } = useForm();
   const dispatch = useDispatch();
   const auth = useSelector(state => state?.auth)
-  console.log(auth?.user?.token)
+  // console.log(auth?.user)
   const onSubmit = data => {
-    dispatch(getGroupData(data,auth?.user?.token))
+    const dataSent = {
+      content
+    }
+    dispatch(postGroupData(data,auth?.user?.token))
   };
   return (
     <Modal
@@ -94,7 +97,7 @@ const AddGroups = ({ handleGroupOpen, handleGroupClose, groupOpen }) => {
               <Box style={{ display: "flex" }}>
                 <TextField fullWidth size="small" style={{ width: 280 }} />
                 <label className="browseFile">
-                  <input type="file"{...register("file", { min: 0 })} />
+                  <input type="file"{...register("file")} />
                   Browse File
                 </label>
               </Box>
@@ -111,7 +114,7 @@ const AddGroups = ({ handleGroupOpen, handleGroupClose, groupOpen }) => {
               >
                 Topic (Optional)
               </Typography>
-              <TextField fullWidth size="small"{...register("topic", { min: 0 })} />
+              <TextField fullWidth size="small"{...register("topic")} />
             </Box>
             <Box sx={{ mb: 2 }}>
               <Typography

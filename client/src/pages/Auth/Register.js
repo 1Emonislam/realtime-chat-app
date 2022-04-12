@@ -32,11 +32,11 @@ function Register() {
   };
   useEffect(() => {
     setTimeout(() => {
-      if (auth?.user?.email) {
+      if (auth?.user?.user?.email) {
         window?.location.replace("/login")
       }
     }, 5000)
-  }, [auth?.user?.email])
+  }, [auth?.user?.user?.email])
   const handleChange = (prop) => (event) => {
     setValues({ ...values, [prop]: event.target.value });
   };

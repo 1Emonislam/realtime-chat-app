@@ -3,7 +3,7 @@ const chatSchema = mongoose.Schema(
     {
         chatName: {
             type: String,
-            required: true,
+            required: [true,'Please provide Group Name'],
         },
         img: {
             type: String,

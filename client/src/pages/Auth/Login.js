@@ -31,11 +31,11 @@ function Login() {
     };
     useEffect(() => {
         setTimeout(() => {
-            if (auth?.user?.email) {
+            if (auth?.user?.user?.email) {
                 window?.location.replace("/chat")
             }
         }, 2000)
-    }, [auth?.user?.email])
+    }, [auth?.user?.user?.email])
     if (message) {
         toast.success(`${message}`, {
             position: "bottom-right",
