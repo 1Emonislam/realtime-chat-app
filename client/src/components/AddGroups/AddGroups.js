@@ -3,6 +3,9 @@ import GroupAddIcon from "@mui/icons-material/GroupAdd";
 import { Button, FormControlLabel, Input, Modal, Radio, RadioGroup, TextField, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import React from "react";
+import { useForm } from "react-hook-form";
+import { useDispatch, useSelector } from "react-redux";
+import { getGroupData } from "../../store/actions/groupActions";
 
 const style = {
   position: "absolute",
@@ -15,15 +18,22 @@ const style = {
   boxShadow: 24,
   p: 4,
 };
-
+//   {...register("email", { min: 0 })} required
 const AddGroups = ({ handleGroupOpen, handleGroupClose, groupOpen }) => {
+  const { register, reset, handleSubmit } = useForm();
+  const dispatch = useDispatch();
+  const auth = useSelector(state => state?.auth)
+  console.log(auth?.user?.token)
+  const onSubmit = data => {
+    dispatch(getGroupData(data,auth?.user?.token))
+  };
   return (
     <Modal
       open={groupOpen}
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
     >
-      <>
+      <form onSubmit={handleSubmit(onSubmit)}>
         <Box sx={style}>
           <div
             style={{
@@ -51,7 +61,7 @@ const AddGroups = ({ handleGroupOpen, handleGroupClose, groupOpen }) => {
             </Box>
 
             <Box sx={{ ml: 5 }}>
-              <CancelIcon style={{cursor:'pointer'}}sx={{ color: "#ee00ab" }} onClick={handleGroupClose} />
+              <CancelIcon style={{ cursor: 'pointer' }} sx={{ color: "#ee00ab" }} onClick={handleGroupClose} />
             </Box>
           </div>
           <Box sx={{ my: 2 }} style={{ fontFamily: `"Poppins", sans-serif` }}>
@@ -67,7 +77,7 @@ const AddGroups = ({ handleGroupOpen, handleGroupClose, groupOpen }) => {
               >
                 Group Name
               </Typography>
-              <TextField fullWidth size="small" />
+              <TextField fullWidth size="small"    {...register("chatName", { min: 0 })} required />
             </Box>
             <Box sx={{ mb: 2 }}>
               <Typography
@@ -84,7 +94,7 @@ const AddGroups = ({ handleGroupOpen, handleGroupClose, groupOpen }) => {
               <Box style={{ display: "flex" }}>
                 <TextField fullWidth size="small" style={{ width: 280 }} />
                 <label className="browseFile">
-                  <input type="file" />
+                  <input type="file"{...register("file", { min: 0 })} />
                   Browse File
                 </label>
               </Box>
@@ -101,7 +111,7 @@ const AddGroups = ({ handleGroupOpen, handleGroupClose, groupOpen }) => {
               >
                 Topic (Optional)
               </Typography>
-              <TextField fullWidth size="small" />
+              <TextField fullWidth size="small"{...register("topic", { min: 0 })} />
             </Box>
             <Box sx={{ mb: 2 }}>
               <Typography
@@ -115,12 +125,10 @@ const AddGroups = ({ handleGroupOpen, handleGroupClose, groupOpen }) => {
               >
                 Description
               </Typography>
-              <TextField fullWidth size="large" />
+              <TextField fullWidth size="large"    {...register("description", { min: 0 })} required />
               <Button
                 variant="inherit" // <-- Just add me!
-                label="My Label"
-              >
-                <Input type="file" />
+                label="My Label">
               </Button>
             </Box>
           </Box>
@@ -131,13 +139,15 @@ const AddGroups = ({ handleGroupOpen, handleGroupClose, groupOpen }) => {
               name="row-radio-buttons-group"
             >
               <FormControlLabel
-                value="private-group"
+                value="private"
+                {...register("status", { min: 0 })}
                 control={<Radio color="secondary" />}
                 label="Private Group"
                 style={{ fontFamily: `"Poppins", sans-serif` }}
               />
               <FormControlLabel
-                value="public-group"
+                value="public"
+                {...register("status", { min: 0 })}
                 control={<Radio color="secondary" />}
                 label="Public Group"
                 style={{ fontFamily: `"Poppins", sans-serif` }}
@@ -145,13 +155,13 @@ const AddGroups = ({ handleGroupOpen, handleGroupClose, groupOpen }) => {
             </RadioGroup>
           </Box>
           <Box className="but" style={{ textAlign: "right" }} sx={{ mt: 5 }}>
-            <button  style={{cursor:'pointer'}} className="buttonContact1" onClick={handleGroupClose}>
+            <button style={{ cursor: 'pointer' }} className="buttonContact1" onClick={handleGroupClose}>
               Cancel
             </button>
-            <button className="buttonContact2">Add Participants</button>
+            <button type="submit" className="buttonContact2">Add Participants</button>
           </Box>
         </Box>
-      </>
+      </form>
     </Modal>
   );
 };

@@ -23,6 +23,7 @@ module.exports.userLogin = async (req, res, next) => {
       return res.status(400).json({ error: { "password": "Password invalid! please provide valid password!" } });
     } else if (user && (await user.matchPassword(password))) {
       const resData = await User.findOne({ _id: user?._id }).select("-password");
+      resData.token = genToken(resData?._id);
       const data = {
         data: resData,
         token: genToken(resData?._id)
@@ -30,10 +31,10 @@ module.exports.userLogin = async (req, res, next) => {
       const options = {
         expires: new Date(new Date().getTime() + process.env.COOKIE_EXPIRES * 60 * 1000)
       }
+
       return res.status(201).cookie('user', data, options).json({
         message: 'Login Successfully',
-        data: resData,
-        token: genToken(resData?._id)
+        data: resData
       });
     }
   }
@@ -100,7 +101,8 @@ module.exports.userRegister = async (req, res, next) => {
         password,
         firstName, lastName, email, phone, gender, birthDate, userInfo, socialMedia, phone, pic, location: { latitude, longitude, address, houseNumber, floor, information }, geometry: { type: "Point", "coordinates": [Number(longitude), Number(latitude)] }
       });
-      const resData = await User.findOne({ _id: user._id }).select("-password")
+      const resData = await User.findOne({ _id: user._id }).select("-password");
+      resData.token = genToken(resData?._id);
       const data = {
         data: resData,
         token: genToken(resData?._id)
@@ -111,7 +113,6 @@ module.exports.userRegister = async (req, res, next) => {
       return res.status(201).cookie('userToken', data, options).json({
         message: 'Registration Successfully',
         data: resData,
-        token: genToken(resData?._id)
       });
     }
   } catch (error) {
@@ -146,7 +147,8 @@ module.exports.changedPassword = async (req, res) => {
     if (!updatedPassword) {
       return res.status(400).json({ error: { password: 'Password change failed, please try again!' } })
     } else {
-      const resData = await User.findOne({ _id: user._id }).select("-password")
+      const resData = await User.findOne({ _id: user._id }).select("-password");
+      resData.token = genToken(resData?._id);
       const mailInfo = {
         subject: `Check your account privacy. You have recently changed your password`,
         msg: `Check your account privacy. You have recently changed your password`,
@@ -320,10 +322,10 @@ module.exports.changedPassword = async (req, res) => {
       const options = {
         expires: new Date(new Date().getTime() + process.env.COOKIE_EXPIRES * 60 * 1000)
       }
+  
       return res.status(200).cookie('userToken', data, options).json({
         message: "Password has been successfully changed",
         data: resData,
-        token: genToken(resData?._id)
       });
     }
   }
@@ -528,7 +530,7 @@ module.exports.logOut = (req, res, next) => {
   try {
     if (!req.user?._id) return res.json({ error: "You are not a login User Please log in Before log out!" });
     // onlineUsers.delete(req.params.id);
-    return res.status(200).send({message:"You have successfully Log Out!", data: {} });
+    return res.status(200).send({ message: "You have successfully Log Out!", data: {} });
   } catch (error) {
     next(error);
   }
@@ -564,6 +566,7 @@ module.exports.resetPassword = async (req, res) => {
     resetPass.save().then(savedDoc => {
       //password saving
       if (savedDoc === resetPass) {
+        user.token = genToken(user?._id);
         return res.status(200).json({ message: "You have successfully Reset your Password", data: user })
       } else {
         return res.status(400).json({ error: { password: "Password Reset failed! please try again!" } });

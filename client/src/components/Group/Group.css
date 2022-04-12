@@ -1,7 +1,6 @@
 .chat-box-container .headIcon svg {
   box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
 }
-
 .chat-box-container .search-field-box {
   display: flex;
   align-items: center;
