@@ -23,7 +23,9 @@ module.exports.userLogin = async (req, res, next) => {
       return res.status(400).json({ error: { "password": "Password invalid! please provide valid password!" } });
     } else if (user && (await user.matchPassword(password))) {
       const resData = await User.findOne({ _id: user?._id }).select("-password");
-      resData.token = genToken(resData?._id);
+      const userData = {};
+      userData.data = resData;
+      userData.token = genToken(resData?._id);
       const data = {
         data: resData,
         token: genToken(resData?._id)
@@ -34,7 +36,7 @@ module.exports.userLogin = async (req, res, next) => {
 
       return res.status(201).cookie('user', data, options).json({
         message: 'Login Successfully',
-        data: resData
+        data: userData
       });
     }
   }
@@ -102,7 +104,9 @@ module.exports.userRegister = async (req, res, next) => {
         firstName, lastName, email, phone, gender, birthDate, userInfo, socialMedia, phone, pic, location: { latitude, longitude, address, houseNumber, floor, information }, geometry: { type: "Point", "coordinates": [Number(longitude), Number(latitude)] }
       });
       const resData = await User.findOne({ _id: user._id }).select("-password");
-      resData.token = genToken(resData?._id);
+      const userData = {};
+      userData.data = resData;
+      userData.token = genToken(resData?._id);
       const data = {
         data: resData,
         token: genToken(resData?._id)
@@ -112,7 +116,7 @@ module.exports.userRegister = async (req, res, next) => {
       }
       return res.status(201).cookie('userToken', data, options).json({
         message: 'Registration Successfully',
-        data: resData,
+        data: userData,
       });
     }
   } catch (error) {
@@ -148,7 +152,9 @@ module.exports.changedPassword = async (req, res) => {
       return res.status(400).json({ error: { password: 'Password change failed, please try again!' } })
     } else {
       const resData = await User.findOne({ _id: user._id }).select("-password");
-      resData.token = genToken(resData?._id);
+      const userData = {};
+      userData.data = resData;
+      userData.token = genToken(resData?._id);
       const mailInfo = {
         subject: `Check your account privacy. You have recently changed your password`,
         msg: `Check your account privacy. You have recently changed your password`,
@@ -322,10 +328,10 @@ module.exports.changedPassword = async (req, res) => {
       const options = {
         expires: new Date(new Date().getTime() + process.env.COOKIE_EXPIRES * 60 * 1000)
       }
-  
+
       return res.status(200).cookie('userToken', data, options).json({
         message: "Password has been successfully changed",
-        data: resData,
+        data: userData,
       });
     }
   }
@@ -564,10 +570,14 @@ module.exports.resetPassword = async (req, res) => {
     user.password = passowrd;
     const resetPass = await user.save();
     resetPass.save().then(savedDoc => {
+      const userData = {};
+      delete resetPass.password;
+      userData.data = resetPass;
+      userData.token = genToken(resetPass?._id);
       //password saving
       if (savedDoc === resetPass) {
         user.token = genToken(user?._id);
-        return res.status(200).json({ message: "You have successfully Reset your Password", data: user })
+        return res.status(200).json({ message: "You have successfully Reset your Password", data: userData })
       } else {
         return res.status(400).json({ error: { password: "Password Reset failed! please try again!" } });
       }
