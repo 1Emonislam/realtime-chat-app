@@ -24,7 +24,7 @@ module.exports.userLogin = async (req, res, next) => {
     } else if (user && (await user.matchPassword(password))) {
       const resData = await User.findOne({ _id: user?._id }).select("-password");
       const userData = {};
-      userData.data = resData;
+      userData.user = resData;
       userData.token = genToken(resData?._id);
       const data = {
         data: resData,
@@ -105,7 +105,7 @@ module.exports.userRegister = async (req, res, next) => {
       });
       const resData = await User.findOne({ _id: user._id }).select("-password");
       const userData = {};
-      userData.data = resData;
+      userData.user = resData;
       userData.token = genToken(resData?._id);
       const data = {
         data: resData,
@@ -153,7 +153,7 @@ module.exports.changedPassword = async (req, res) => {
     } else {
       const resData = await User.findOne({ _id: user._id }).select("-password");
       const userData = {};
-      userData.data = resData;
+      userData.user = resData;
       userData.token = genToken(resData?._id);
       const mailInfo = {
         subject: `Check your account privacy. You have recently changed your password`,
@@ -572,7 +572,7 @@ module.exports.resetPassword = async (req, res) => {
     resetPass.save().then(savedDoc => {
       const userData = {};
       delete resetPass.password;
-      userData.data = resetPass;
+      userData.user = resetPass;
       userData.token = genToken(resetPass?._id);
       //password saving
       if (savedDoc === resetPass) {
