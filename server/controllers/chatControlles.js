@@ -10,7 +10,7 @@ module.exports.acessChat = async (req, res, next) => {
     return res.status(400).json({ error: { email: 'User Credentials expired! Please login' } })
   }
   {
-    const { userId, img } = req.body;
+    const { userId } = req.body;
     try {
       if (!userId) {
         console.log("user Id sent with requset");
@@ -35,7 +35,6 @@ module.exports.acessChat = async (req, res, next) => {
         let chatData = {
           chatName: "sender",
           isGroupChat: false,
-          img: img,
           members: [req.user._id, userId],
         };
         try {
@@ -82,7 +81,7 @@ module.exports.getChat = async (req, res, next) => {
 
 module.exports.groupCreate = async (req, res, next) => {
   if (!req?.user?._id) {
-    return res.status(400).json({ error: { email: 'User Credentials expired! Please login' } })
+    return res.status(400).json({ error: 'User Credentials expired! Please login' })
   }
   // console.log(req.body.members)
   if (!req.body.members || !req.body.chatName) {
@@ -91,6 +90,9 @@ module.exports.groupCreate = async (req, res, next) => {
   try {
     const groupChat = await Chat.create({
       chatName: req.body.chatName,
+      topic: req.body?.topic,
+      status: req.body?.status,
+      description: req.body?.description,
       isGroupChat: true,
       img: req.body?.img,
       members: [req?.user?._id, ...req?.body?.members],
@@ -102,11 +104,12 @@ module.exports.groupCreate = async (req, res, next) => {
         userJoin: groupChat?.members[i]
       })
     }
-    const memberJoinedInfo = {
-      joinMemberCount: groupChat?.members?.length,
-      showMemberFront: groupChat?.members?.slice(0, 5)
-    }
+
     const fullGroupChat = await Chat.findOne({ _id: groupChat._id }).populate("members", "-password").populate("groupAdmin", "-password");
+    const memberJoinedInfo = {
+      joinMemberCount: fullGroupChat?.members?.length,
+      showMemberFront: fullGroupChat?.members?.slice(0, 5)
+    }
     return res.status(200).json({ memberJoinedInfo, data: fullGroupChat })
   } catch (error) {
     error.status = 400;
@@ -117,10 +120,10 @@ module.exports.groupRename = async (req, res, next) => {
   if (!req?.user?._id) {
     return res.status(400).json({ error: { email: 'User Credentials expired! Please login' } })
   }
-  const { chatId, chatName } = req.body;
+  const { chatId, chatName,topic,status,description,img } = req.body;
   try {
     const updatedChat = await Chat.findOneAndUpdate({ _id: chatId, groupAdmin: req?.user?._id }, {
-      chatName, img: req?.body?.img
+      chatName,topic,status,description,img 
     }, { new: true }).populate("members", "-password").populate("groupAdmin", "-password");
     if (!updatedChat) {
       return res.status(400).json({ error: "you can perform only Admin Group Rename!" });

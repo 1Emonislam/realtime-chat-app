@@ -7,7 +7,7 @@ const chatSchema = mongoose.Schema(
         },
         img: {
             type: String,
-            default:'https://i.ibb.co/dKKKKH4/groupicon2.png'
+            default: 'https://i.ibb.co/dKKKKH4/groupicon2.png'
         },
         isGroupChat: {
             type: Boolean,
@@ -20,6 +20,17 @@ const chatSchema = mongoose.Schema(
                 ref: "User",
             },
         ],
+        topic: {
+            type: String,
+            trim: true,
+        },
+        status: {
+            type: String,
+        },
+        Description: {
+            type: String,
+            trim: true,
+        },
         latestMessage: {
             type: mongoose.Schema.Types.ObjectId,
             ref: "Message",
