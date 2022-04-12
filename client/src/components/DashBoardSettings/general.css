@@ -1,0 +1,22 @@
+button.viewButton{
+padding:10px 45px !important;
+}
+button.subbmitButton{
+padding:5px 10px !important;
+}
+button.viewButton:hover{
+    color: black;
+}
+.s{
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+}
+.camera{
+    border: 3px solid white;
+    background-color: blue;
+    border-radius: 100%;
+    position: absolute;
+    top:110px;
+    left: 88px;
+    color:white;
+    cursor: pointer;
+}

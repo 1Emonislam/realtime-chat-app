@@ -1,21 +1,26 @@
 import Box from "@mui/material/Box";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import * as React from "react";
-import "./App.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import "./App.css";
+import Call from "./components/Call/Call";
 import ChatHome from "./components/ChatHome";
+import DashBoardHome from "./components/DashBoardSettings/DashBoardHome";
+import SettingAdmob from "./components/DashBoardSettings/SettingAdmob";
+import SettingsFirebase from "./components/DashBoardSettings/SettingsFirebase";
+import SettingsGeneral from "./components/DashBoardSettings/SettingsGeneral";
+import SettingSinch from "./components/DashBoardSettings/SettingSinch";
+import Group from "./components/Group/Group";
+import Settings from "./components/Settings/Settings/Settings";
+import Status from "./components/Status/Status/Status";
 import { ThemeSwitch } from "./hooks/useThemes";
+import ChangePassword from "./pages/Auth/ChangePassword";
 import Chat from "./pages/Auth/Chat/Chat";
 import ForgetPassword from "./pages/Auth/ForgetPassword";
 import Login from "./pages/Auth/Login";
 import Register from "./pages/Auth/Register";
 import ResetPassword from "./pages/Auth/ResetPassword";
 import Home from "./pages/Home/Home";
-import Call from "./components/Call/Call";
-import ChangePassword from "./pages/Auth/ChangePassword";
-import Settings from "./components/Settings/Settings/Settings";
-import Status from "./components/Status/Status/Status";
-import Group from "./components/Group/Group";
 export const ThemeSelectContext = React.createContext();
 const ColorModeContext = React.createContext({ toggleColorMode: () => {} });
 export default function ToggleColorMode() {
@@ -172,7 +177,13 @@ export default function ToggleColorMode() {
                 <Route path="/register" element={<Register />}>
                   {" "}
                 </Route>
-
+                {/* Dashboard  start*/}
+                <Route path="/general-setting" element={< SettingsGeneral/>}> </Route>
+                <Route path="/admob-setting" element={< SettingAdmob />}> </Route>
+                <Route path="/snich-setting" element={< SettingSinch />}> </Route>
+                <Route path="/firebase-setting" element={< SettingsFirebase />}> </Route>
+                <Route path="/dashboard" element={< DashBoardHome />}> </Route>
+                {/* dashboard end */}
                 <Route
                   path="*"
                   element={
