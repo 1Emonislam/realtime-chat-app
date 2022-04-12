@@ -1,5 +1,9 @@
+import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+import CloseIcon from "@mui/icons-material/Close";
+import CloudDownloadIcon from "@mui/icons-material/CloudDownload";
+import EditRoadIcon from '@mui/icons-material/EditRoad';
+import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import {
-  Badge,
   Box,
   FormControlLabel,
   FormGroup,
@@ -7,28 +11,14 @@ import {
   IconButton,
   Switch,
   Tab,
-  Tabs,
-  ToggleButton,
-  Typography,
+  Tabs, Typography
 } from "@mui/material";
-import React, { useContext, useState } from "react";
-import styles from "./../../../Ashikur/AboutPage/AboutPage.module.scss";
-import CloseIcon from "@mui/icons-material/Close";
-import FacebookOutlinedIcon from "@mui/icons-material/FacebookOutlined";
-import TwitterIcon from "@mui/icons-material/Twitter";
-import YouTubeIcon from "@mui/icons-material/YouTube";
-import InstagramIcon from "@mui/icons-material/Instagram";
-import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import { styled } from "@mui/material/styles";
-import ReportProblemIcon from "@mui/icons-material/ReportProblem";
+import React, {  useState } from "react";
 import { Link } from "react-router-dom";
-import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
-import CloudDownloadIcon from "@mui/icons-material/CloudDownload";
-import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
-import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+// import { ThemeSelectContext } from "./../../../App";
+import styles from "./../../../Ashikur/AboutPage/AboutPage.module.scss";
 import "./../../../components/__Container.css";
-import { ThemeSelectContext } from "./../../../App";
-import EditRoadIcon from '@mui/icons-material/EditRoad';
 // switch Button
 
 const IOSSwitch = styled((props) => (
@@ -82,58 +72,58 @@ const IOSSwitch = styled((props) => (
   },
 }));
 
-const memberData = [
-  {
-    name: "Brala",
-    status: "At Work",
-    isAdmin: false,
-  },
-  {
-    name: "Shaun",
-    status: "At Work",
-    isAdmin: false,
-  },
-  {
-    name: "Jams",
-    status: "At Work",
-    isAdmin: false,
-  },
-  {
-    name: "Wolder",
-    status: "At Work",
-    isAdmin: false,
-  },
-  {
-    name: "Messi",
-    status: "At Work",
-    isAdmin: false,
-  },
-  {
-    name: "Lewis",
-    status: "At Work",
-    isAdmin: false,
-  },
-  {
-    name: "Smith",
-    status: "At Work",
-    isAdmin: false,
-  },
-  {
-    name: "LLook",
-    status: "At Work",
-    isAdmin: false,
-  },
-  {
-    name: "Alexandar",
-    status: "At Work",
-    isAdmin: false,
-  },
-  {
-    name: "Dickerson",
-    status: "At Work",
-    isAdmin: false,
-  },
-];
+// const memberData = [
+//   {
+//     name: "Brala",
+//     status: "At Work",
+//     isAdmin: false,
+//   },
+//   {
+//     name: "Shaun",
+//     status: "At Work",
+//     isAdmin: false,
+//   },
+//   {
+//     name: "Jams",
+//     status: "At Work",
+//     isAdmin: false,
+//   },
+//   {
+//     name: "Wolder",
+//     status: "At Work",
+//     isAdmin: false,
+//   },
+//   {
+//     name: "Messi",
+//     status: "At Work",
+//     isAdmin: false,
+//   },
+//   {
+//     name: "Lewis",
+//     status: "At Work",
+//     isAdmin: false,
+//   },
+//   {
+//     name: "Smith",
+//     status: "At Work",
+//     isAdmin: false,
+//   },
+//   {
+//     name: "LLook",
+//     status: "At Work",
+//     isAdmin: false,
+//   },
+//   {
+//     name: "Alexandar",
+//     status: "At Work",
+//     isAdmin: false,
+//   },
+//   {
+//     name: "Dickerson",
+//     status: "At Work",
+//     isAdmin: false,
+//   },
+// ];
 
 //   switch button functionality end
 
@@ -142,8 +132,8 @@ const GroupInfo = () => {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-  const { palette } = useContext(ThemeSelectContext);
-  const theme = palette?.mode;
+  // const { palette } = useContext(ThemeSelectContext);
+  // const theme = palette?.mode;
   return (
     <div className="current-user-about">
       <Box className={styles.mainAboutSection}>
@@ -154,7 +144,7 @@ const GroupInfo = () => {
             justifyContent: "space-between",
           }}
         >
-          <Typography
+         ssss <Typography
             sx={{
               color: "#5A078B",
               textTransform: "uppercase",

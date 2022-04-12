@@ -1,8 +1,6 @@
-import { Grid, ToggleButton, Typography } from "@mui/material";
-import React from "react";
-import PeopleIcon from "@mui/icons-material/People";
-import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import SearchIcon from "@mui/icons-material/Search";
+import { Grid, Typography } from "@mui/material";
+import React from "react";
 
 const HeaderContainer = () => {
   return (

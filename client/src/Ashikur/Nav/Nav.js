@@ -16,12 +16,13 @@ import "./nav.css";
 
 const Nav = ({ children }) => {
   const [selected, setSelected] = useState("");
-  const [open, setOpen] = React.useState(false);
+  const [contactOpen, setContactOpen] = React.useState(false);
   const [groupOpen, setGroupOpen] = React.useState(false);
 
-  const handleOpen = () => setOpen(true);
-  const handleGroupOpen = () => setGroupOpen(true);
-  const handleClose = () => setOpen(false);
+  const handleContactOpen = () => setContactOpen(true);
+  const handleGroupOpen = () => { setGroupOpen(true) };
+  // console.log(groupOpen)
+  const handleContactClose = () => setContactOpen(false);
   const handleGroupClose = () => setGroupOpen(false);
 
   const { palette } = useContext(ThemeSelectContext);
@@ -255,7 +256,7 @@ const Nav = ({ children }) => {
             xs={1}
             md={12}
           >
-            <ToggleButton value="seven" onClick={handleGroupOpen}>
+            <ToggleButton value="seven">
               <AddGroups
                 handleGroupOpen={handleGroupOpen}
                 handleGroupClose={handleGroupClose}
@@ -263,6 +264,7 @@ const Nav = ({ children }) => {
               ></AddGroups>
               {/* <FontAwesomeSvgIcon icon={faEllipsisV} /> */}
               <GroupAddIcon
+                onClick={handleGroupOpen}
                 sx={{
                   fontSize: {
                     lg: "25px",
@@ -287,25 +289,25 @@ const Nav = ({ children }) => {
             xs={1}
             md={12}
           >
-            <ToggleButton onClick={handleOpen} value="eight">
-              <AddContact
-                handleOpen={handleOpen}
-                handleClose={handleClose}
-                open={open}
-              ></AddContact>
-
-              {/* <FontAwesomeSvgIcon icon={faEllipsisV} /> */}
-              <AddIcon
-                sx={{
-                  fontSize: {
-                    lg: "25px",
-                    md: "15px",
-                    sm: "10px",
-                    xs: "10px",
-                  },
-                }}
-              />
-            </ToggleButton>
+        <ToggleButton value="nine">
+            <AddContact
+              handleContactOpen={handleContactOpen}
+              handleContactClose={handleContactClose}
+              contactOpen={contactOpen}
+            ></AddContact>
+            {/* <FontAwesomeSvgIcon icon={faEllipsisV} /> */}
+            <AddIcon
+              onClick={handleContactOpen}
+              sx={{
+                fontSize: {
+                  lg: "25px",
+                  md: "15px",
+                  sm: "10px",
+                  xs: "10px",
+                },
+              }}
+            />
+         </ToggleButton>
           </Grid>
           <Grid
             item

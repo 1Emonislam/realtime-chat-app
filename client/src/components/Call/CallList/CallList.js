@@ -1,8 +1,6 @@
 import { Box, Grid, Typography } from '@mui/material';
 import React from 'react';
 import RecentCalls from '../RecentCalls/RecentCalls';
-import PeopleIcon from "@mui/icons-material/People";
-import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import SearchIcon from "@mui/icons-material/Search";
 import CallBar from '../CallBar/CallBar';
 

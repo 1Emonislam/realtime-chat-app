@@ -1,7 +1,6 @@
 import { Box } from '@mui/system';
 import '../GroupChatMiddle.css'
 import React, { useState } from 'react';
-import chatImg from '../../../../../assets/images/avatar-8.jpg'
 import LocalPhoneIcon from '@mui/icons-material/LocalPhone';
 import SearchIcon from '@mui/icons-material/Search';
 import VideocamIcon from '@mui/icons-material/Videocam';

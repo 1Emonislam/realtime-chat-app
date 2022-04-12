@@ -6,7 +6,7 @@ import IconButton from '@mui/material/IconButton';
 import Input from '@mui/material/Input';
 import InputAdornment from '@mui/material/InputAdornment';
 import InputLabel from '@mui/material/InputLabel';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
@@ -29,6 +29,13 @@ function Login() {
     const onSubmit = data => {
         dispatch(userLogin(data, reset))
     };
+    useEffect(() => {
+        setTimeout(() => {
+            if (auth?.user?.email) {
+                window?.location.replace("/chat")
+            }
+        }, 2000)
+    }, [auth?.user?.email])
     if (message) {
         toast.success(`${message}`, {
             position: "bottom-right",
@@ -63,7 +70,7 @@ function Login() {
             })
         }, 5000)
     }
-    
+
     if (error?.email) {
         toast.error(`${error?.email}`, {
             position: "bottom-right",

@@ -6,7 +6,7 @@ import IconButton from '@mui/material/IconButton';
 import Input from '@mui/material/Input';
 import InputAdornment from '@mui/material/InputAdornment';
 import InputLabel from '@mui/material/InputLabel';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
@@ -30,6 +30,13 @@ function Register() {
   const onSubmit = data => {
     dispatch(userRegister(data, reset));
   };
+  useEffect(() => {
+    setTimeout(() => {
+      if (auth?.user?.email) {
+        window?.location.replace("/login")
+      }
+    }, 5000)
+  }, [auth?.user?.email])
   const handleChange = (prop) => (event) => {
     setValues({ ...values, [prop]: event.target.value });
   };
@@ -119,7 +126,7 @@ function Register() {
       })
     }, 5000)
   }
-  
+
   if (error?.birthDate) {
     toast.error(`${error?.birthDate}`, {
       position: "bottom-right",

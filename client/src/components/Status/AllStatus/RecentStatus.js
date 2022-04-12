@@ -42,8 +42,8 @@ const RecentStatus = () => {
         </Typography>
 
         <div>
-          {data?.map((p) => (
-            <Statuses p={p}></Statuses>
+          {data?.map((p,index) => (
+            <Statuses p={p}key={index}></Statuses>
           ))}
         </div>
       </Box>

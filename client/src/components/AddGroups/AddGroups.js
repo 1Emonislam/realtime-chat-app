@@ -20,7 +20,6 @@ const AddGroups = ({ handleGroupOpen, handleGroupClose, groupOpen }) => {
   return (
     <Modal
       open={groupOpen}
-      onClose={handleGroupClose}
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
     >
@@ -52,7 +51,7 @@ const AddGroups = ({ handleGroupOpen, handleGroupClose, groupOpen }) => {
             </Box>
 
             <Box sx={{ ml: 5 }}>
-              <CancelIcon sx={{ color: "#ee00ab" }} />
+              <CancelIcon style={{cursor:'pointer'}}sx={{ color: "#ee00ab" }} onClick={handleGroupClose} />
             </Box>
           </div>
           <Box sx={{ my: 2 }} style={{ fontFamily: `"Poppins", sans-serif` }}>
@@ -118,7 +117,7 @@ const AddGroups = ({ handleGroupOpen, handleGroupClose, groupOpen }) => {
               </Typography>
               <TextField fullWidth size="large" />
               <Button
-                containerElement="label" // <-- Just add me!
+                variant="inherit" // <-- Just add me!
                 label="My Label"
               >
                 <Input type="file" />
@@ -146,7 +145,7 @@ const AddGroups = ({ handleGroupOpen, handleGroupClose, groupOpen }) => {
             </RadioGroup>
           </Box>
           <Box className="but" style={{ textAlign: "right" }} sx={{ mt: 5 }}>
-            <button className="buttonContact1" onClick={handleGroupClose}>
+            <button  style={{cursor:'pointer'}} className="buttonContact1" onClick={handleGroupClose}>
               Cancel
             </button>
             <button className="buttonContact2">Add Participants</button>

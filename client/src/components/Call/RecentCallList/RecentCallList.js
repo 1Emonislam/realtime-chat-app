@@ -5,10 +5,9 @@ import CallMadeIcon from "@mui/icons-material/CallMade";
 import CallReceivedIcon from "@mui/icons-material/CallReceived";
 import CallMissedIcon from "@mui/icons-material/CallMissed";
 import CallIcon from "@mui/icons-material/Call";
-import { ToggleButton } from "@mui/material";
 
 const RecentCallList = (props) => {
-    const {id, name, pic, called, status, videoCall, callMissed} = props.p;
+    const { name, pic, called, status, videoCall, callMissed} = props.p;
 
     console.log(props.p);
     return (

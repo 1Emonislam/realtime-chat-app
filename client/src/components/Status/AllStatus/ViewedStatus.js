@@ -31,8 +31,8 @@ const ViewedStatus = () => {
           VIEWED STATUS
         </Typography>
         <div>
-          {data?.map((p) => (
-            <ViewedStatuses p={p}></ViewedStatuses>
+          {data?.map((p,index) => (
+            <ViewedStatuses p={p}key={index}></ViewedStatuses>
           ))}
         </div>
       </Box>

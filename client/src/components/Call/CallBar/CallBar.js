@@ -1,10 +1,8 @@
 import React from 'react';
 import CallIcon from "@mui/icons-material/Call";
-import { Avatar, Grid, ToggleButton } from "@mui/material";
+import {  ToggleButton } from "@mui/material";
 
 const CallBar = () => {
-    const [open, setOpen] = React.useState(false);
-    const handleOpen = () => setOpen()
     return (
       <div className="callbar">
         <div className="upbar">

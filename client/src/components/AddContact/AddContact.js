@@ -17,11 +17,10 @@ const style = {
     p: 4,
   };
 
-const AddContact = ({handleOpen, handleClose, open}) => {
+const AddContact = ({handleContactClose, contactOpen, handleContactOpen}) => {
     return (
       <Modal
-        open={open}
-        onClose={handleClose}
+        open={contactOpen}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
@@ -53,7 +52,7 @@ const AddContact = ({handleOpen, handleClose, open}) => {
               </Box>
 
               <Box sx={{ ml: 5 }}>
-                <CancelIcon sx={{color: "#ee00ab"}} />
+                <CancelIcon style={{cursor:"pointer"}} sx={{color: "#ee00ab"}} onClick={handleContactClose}/>
               </Box>
             </div>
             <Box sx={{ my: 6 }} style={{ fontFamily: `"Poppins", sans-serif` }}>
@@ -115,7 +114,7 @@ const AddContact = ({handleOpen, handleClose, open}) => {
               </Box>
             </Box>
             <Box className="but" style={{ textAlign: "right" }} sx={{ mt: 2 }}>
-              <button className="buttonContact1" onClick={handleClose}>
+              <button className="buttonContact1"style={{cursor:'pointer'}} onClick={handleContactClose}>
                 Cancel
               </button>
               <button className="buttonContact2">Add to Contacts</button>
