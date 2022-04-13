@@ -30,11 +30,9 @@ function Login() {
         dispatch(userLogin(data, reset))
     };
     useEffect(() => {
-        setTimeout(() => {
             if (auth?.user?.user?.email) {
                 window?.location.replace("/chat")
             }
-        }, 2000)
     }, [auth?.user?.user?.email])
     if (message) {
         toast.success(`${message}`, {
@@ -53,7 +51,7 @@ function Login() {
             })
         }, 5000)
     }
-    if (Object.values(error)?.length) {
+    if (Object?.values(error)?.length) {
         Object.values(error)?.forEach((err) => {
             toast.error(`${err}`, {
                 position: "bottom-right",

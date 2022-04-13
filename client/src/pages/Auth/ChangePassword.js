@@ -80,7 +80,7 @@ function ChangePassword() {
             })
         }, 5000)
     }
-    if (Object.values(error)?.length) {
+    if (Object?.values(error)?.length) {
         Object.values(error)?.forEach((err) => {
             toast.error(`${err}`, {
                 position: "bottom-right",

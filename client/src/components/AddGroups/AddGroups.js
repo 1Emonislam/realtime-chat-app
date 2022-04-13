@@ -5,8 +5,10 @@ import { Box } from "@mui/system";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
+import { toast, ToastContainer } from 'react-toastify';
 import { postGroupData } from "../../store/actions/groupActions";
-
+import { GROUP_FAILED_DATA, GROUP_SUCCESS_DATA } from "../../store/type/groupType";
+import Loading from "../Spinner/Loading";
 const style = {
   position: "absolute",
   top: "50%",
@@ -24,8 +26,7 @@ const AddGroups = ({ handleGroupOpen, handleGroupClose, groupOpen }) => {
   const dispatch = useDispatch();
   const [selected, setSelected] = useState("")
   const [previewSource, setPreviewSource] = useState("")
-  const auth = useSelector(state => state?.auth)
-  // console.log(auth?.user)
+  const { auth, groupData, theme } = useSelector(state => state);
   const onSubmit = data => {
     if (previewSource) data.img = previewSource;
     dispatch(postGroupData(data, auth?.user?.token, reset))
@@ -41,7 +42,48 @@ const AddGroups = ({ handleGroupOpen, handleGroupClose, groupOpen }) => {
     const file = selected.target?.files[0];
     fileReader(file)
   }
-
+  if (groupData?.message) {
+    toast.success(`${groupData?.message}`, {
+      position: "bottom-right",
+      theme: theme?.theme,
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
+    setTimeout(() => {
+      dispatch({
+        type: GROUP_SUCCESS_DATA,
+        payload: {
+          message: '',
+        }
+      })
+    }, 5000)
+  }
+  if (groupData?.error) {
+    Object?.values(groupData?.error)?.forEach((err) => {
+      toast.error(`${err}`, {
+        position: "bottom-right",
+        theme: theme?.theme,
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+      setTimeout(() => {
+        dispatch({
+          type: GROUP_FAILED_DATA,
+          payload: {
+            error: ''
+          }
+        })
+      }, 5000)
+    })
+  }
   return (
     <Modal
       open={groupOpen}
@@ -177,12 +219,28 @@ const AddGroups = ({ handleGroupOpen, handleGroupClose, groupOpen }) => {
               <button style={{ cursor: 'pointer' }} className="buttonContact1" onClick={handleGroupClose}>
                 Cancel
               </button>
-              <button type="submit" className="buttonContact2">Add Participants</button>
+              {groupData?.loading ? <div style={{ margin: '20px 0' }}>
+                <Loading />
+              </div> :
+                <button type="submit" className="buttonContact2">Add Participants</button>
+              }
             </Box>
           </Box>
         </form>
-      </Box>
-    </Modal>
+        <ToastContainer
+          position="bottom-right"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+        />
+      </Box >
+
+    </Modal >
   );
 };
 
