@@ -19,8 +19,8 @@ const TopBanner = () => {
             <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '570px', }}>
                 <Box sx={{ maxWidth: '780px', textAlign: 'center' }}>
                     <Box sx={{ color: '#ffffff' }}>
-                        <Typography sx={{ fontWeight: 800 }} variant="h2">IMAGINE A PLACE...</Typography>
-                        <Typography sx={{ mt: '40px', display: 'block', fontSize: '18px', fontWeight: 200, lineHeight: 1.8, }} variant="p">...where you can belong to a school club, a gaming group, or a worldwide art community. Where just you and a handful of friends can spend time together. A place that makes it easy to talk every day and hang out more often.</Typography>
+                        <Typography sx={{ fontSize: {lg: '60px', sm: '48px', xs: '30px'}, fontWeight: 800 }} variant="h2">IMAGINE A PLACE...</Typography>
+                        <Typography sx={{ mt: {md: '40px', xs: '20px'}, display: 'block', fontSize: {md: '18px', xs: '16px'}, fontWeight: 200, lineHeight: 1.8, }} variant="p">...where you can belong to a school club, a gaming group, or a worldwide art community. Where just you and a handful of friends can spend time together. A place that makes it easy to talk every day and hang out more often.</Typography>
                     </Box>
 
                     <Box sx={{ mt: 4 }}>
@@ -33,6 +33,7 @@ const TopBanner = () => {
                             borderRadius: '40px',
                             padding: '16px 32px !important',
                             mr: 2,
+                            mt: '15px',
 
                             '&:hover': {
                                 color: 'blue',
@@ -49,6 +50,7 @@ const TopBanner = () => {
                             color: '#fff',
                             borderRadius: '40px',
                             padding: '16px 32px !important',
+                            mt: '15px',
 
                             '&:hover': {
                                 background: '#23272a',
