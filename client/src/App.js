@@ -63,13 +63,9 @@ export default function ToggleColorMode() {
     [mode]
   );
   React.useEffect(() => {
-    setTimeout(() => {
-      if (user?.email) {
-        window?.location.replace("/chat")
-      } else {
+      if (!user?.email) {
         <Navigate to="/login"replace></Navigate>
       }
-    }, 2000)
   }, [user?.email])
   return (
     <ColorModeContext.Provider value={colorMode}>
