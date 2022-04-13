@@ -9,12 +9,12 @@ const Header = () => {
                 <div>
                     <Typography sx={{
                         fontSize: {
-                            lg: '20px',
-                            md: '18px',
-                            sm: '16px',
-                            xs: "12px"
-                        }, color: '#ffffff', textTransform: 'uppercase'
-                    }}> <i className="fa-brands fa-discord"></i> Discoard</Typography>
+                            lg: '24px',
+                            md: '20px',
+                            sm: '18px',
+                            xs: "16px"
+                        }, color: '#ffffff', fontWeight: 'bold', letterSpacing: 1.6
+                    }}>Collaball</Typography>
                 </div>
                 <div>
                     <Button sx={{
