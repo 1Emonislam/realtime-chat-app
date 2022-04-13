@@ -6,6 +6,7 @@ import "./App.css";
 import Call from "./components/Call/Call";
 import ChatHome from "./components/ChatHome";
 import DashBoardHome from "./components/DashBoardSettings/DashBoardHome";
+import OnLineAndOffLineStatusBar from "./components/DashBoardSettings/OnLineAndOffLineStatusBar";
 import SettingAdmob from "./components/DashBoardSettings/SettingAdmob";
 import SettingsFirebase from "./components/DashBoardSettings/SettingsFirebase";
 import SettingsGeneral from "./components/DashBoardSettings/SettingsGeneral";
@@ -183,6 +184,7 @@ export default function ToggleColorMode() {
                 <Route path="/snich-setting" element={< SettingSinch />}> </Route>
                 <Route path="/firebase-setting" element={< SettingsFirebase />}> </Route>
                 <Route path="/dashboard" element={< DashBoardHome />}> </Route>
+                <Route path="/online" element={< OnLineAndOffLineStatusBar />}> </Route>
                 {/* dashboard end */}
                 <Route
                   path="*"
