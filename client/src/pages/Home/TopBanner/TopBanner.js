@@ -2,23 +2,21 @@ import { Button, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import React from 'react';
 import Header from '../Header/Header';
-import bannerImg from '../../../assets/images/banners.svg';
-import bannerLeft from '../../../assets/images/bannerLeft.svg';
-import bannerRight from '../../../assets/images/bannerRight.svg';
+import bannerImg from '../../../assets/images/banners.png';
 
 const TopBanner = () => {
     return (
         <Box
             sx={{
-                background: `url(${bannerImg}), #404eed`,
+                background: `linear-gradient( rgb(19 39 255 / 78%) 100%, rgb(31 31 216 / 86%)100%),url(${bannerImg})`,
                 backgroundRepeat: 'no-repeat',
                 backgroundSize: 'cover',
                 position: 'relative',
-                overflow: 'hidden'
+                overflow: 'hidden',
             }}
         >
             <Header />
-            <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '520px', }}>
+            <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '570px', }}>
                 <Box sx={{ maxWidth: '780px', textAlign: 'center' }}>
                     <Box sx={{ color: '#ffffff' }}>
                         <Typography sx={{ fontWeight: 800 }} variant="h2">IMAGINE A PLACE...</Typography>
@@ -61,25 +59,6 @@ const TopBanner = () => {
                     </Box>
                 </Box>
             </Box>
-
-            {/* background image  */}
-            <Typography component='img' src={bannerLeft}
-                sx={{
-                    position: 'absolute',
-                    bottom: 0,
-                    left: {
-                        lg: '-17%',
-                        md: '-40%'
-                    }
-                }}
-            />
-            <Typography component='img' src={bannerRight}
-                sx={{
-                    position: 'absolute',
-                    bottom: 0,
-                    right: '-14%'
-                }}
-            />
 
         </Box>
     );
