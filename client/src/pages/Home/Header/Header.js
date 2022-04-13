@@ -69,26 +69,6 @@ const Header = () => {
                         }
 
                     }}><NavLink to="/register">Register</NavLink></Button>
-                    <Button sx={{
-                        fontSize: {
-                            lg: '14px',
-                            md: '14px',
-                            sm: '14px',
-                            xs: "12px"
-                        },
-                        background: '#fff',
-                        textTransform: 'capitalize',
-                        color: 'black',
-                        borderRadius: '40px',
-                        padding: '6px 16px !important',
-
-                        '&:hover': {
-                            color: 'blue',
-                            background: '#ffffff',
-                            boxShadow: '1px 1px 1px #ffffff'
-                        }
-
-                    }}><NavLink to="/chat">Chat</NavLink></Button>
                 </div>
 
             </Box>

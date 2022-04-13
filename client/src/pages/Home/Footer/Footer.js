@@ -1,6 +1,7 @@
 import { Button, Container, Grid, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import React from 'react';
+import { NavLink } from 'react-router-dom';
 
 const Footer = () => {
     return (
@@ -211,21 +212,22 @@ const Footer = () => {
                 </Grid>
 
                 <Box sx={{ display: 'flex', justifyContent: 'space-between', pt: 3 }}>
-                    <Typography sx={{ fontSize: '20px', color: '#ffffff', }}> <i class="fa-brands fa-discord"></i> DiCORD</Typography>
-                    <Button sx={{
-                        fontSize: '14px',
-                        background: '#5865f2',
-                        textTransform: 'capitalize',
-                        color: '#ffffff',
-                        borderRadius: '40px',
-                        padding: '7px 16px !important',
+                    <Typography sx={{ fontSize: '20px', color: '#ffffff', }}> <i class="fa-brands fa-discord"></i> Collaball</Typography>
+                    <NavLink to="/register" variant="inherit">
+                        <Button variant="inherit" sx={{
+                            fontSize: '14px',
+                            background: '#5865f2',
+                            textTransform: 'capitalize',
+                            color: '#ffffff',
+                            borderRadius: '40px',
+                            padding: '7px 16px !important',
 
-                        '&:hover': {
-                            background: '#7c86f7',
-                            boxShadow: '1px 1px 1px #7c86f7'
-                        }
+                            '&:hover': {
+                                background: '#7c86f7',
+                                boxShadow: '1px 1px 1px #7c86f7'
+                            }
 
-                    }}>Sign up</Button>
+                        }}>Sign up</Button></NavLink>
                 </Box>
             </Container>
         </Box>
