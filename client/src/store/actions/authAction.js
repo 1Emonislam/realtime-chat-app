@@ -73,7 +73,7 @@ export const userLogin = (data, reset) => {
                     // console.log(data)
                     if (data?.data) {
                         reset()
-                        window?.localStorage?.setItem("user", JSON.stringify(data?.data))
+                        window?.localStorage?.setItem("userInfoCurrent", JSON.stringify(data?.data))
                         window.location?.replace('/chat');
                         dispatch({
                             type: AUTH_SUCCESS,
