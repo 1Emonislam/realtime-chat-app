@@ -1,7 +1,6 @@
 import { Container, Grid, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import React from 'react';
-import justChillin from '../../../assets/images/justChillin.svg';
 
 const WhereHanging = () => {
     return (
@@ -15,8 +14,8 @@ const WhereHanging = () => {
                         </Box>
                     </Grid>
                     <Grid item xs={12} md={7}>
-                        <Box >
-                            <Typography sx={{ width: '100%' }} component='img' src={justChillin} />
+                        <Box sx={{textAlign: 'center'}}>
+                            <Typography sx={{ width: '80%', height: '450px', borderRadius: '10px' }} component='img' src='https://img.freepik.com/free-vector/internet-communication_24877-51941.jpg' />
                         </Box>
                     </Grid>
                 </Grid>
