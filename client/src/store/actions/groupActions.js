@@ -1,3 +1,5 @@
+import { GROUP_SUCCESS_DATA } from "../type/groupType"
+
 export const getGroupData = (data, token) => {
     return (dispatch) => {
         fetch('http://localhost:5000/api/chat/group/create', {
@@ -14,7 +16,7 @@ export const getGroupData = (data, token) => {
             })
     }
 }
-export const postGroupData = (data, token,reset) => {
+export const postGroupData = (data, token, reset) => {
     // console.log(data,token)
     return (dispatch) => {
         fetch('http://localhost:5000/api/chat/group/create', {
@@ -27,8 +29,12 @@ export const postGroupData = (data, token,reset) => {
         })
             .then(res => res.json())
             .then(data => {
-                if(data?.data){
+                if (data?.data) {
                     reset();
+                    dispatch({
+                        type: GROUP_SUCCESS_DATA,
+                        payload: data.message,
+                    })
                 }
             })
     }

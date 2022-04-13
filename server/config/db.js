@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const configure = require('./cloudnary');
 const connectedDb = async () => {
     if (process.env?.MONGO_URL) {
         try {

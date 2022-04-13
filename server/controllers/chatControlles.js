@@ -83,17 +83,13 @@ module.exports.getChat = async (req, res, next) => {
 
 module.exports.groupCreate = async (req, res, next) => {
   if (!req?.user?._id) {
-    return res.status(400).json({ error: 'User Credentials expired! Please login' })
+    return res.status(400).json({ error: { token: 'User Credentials expired! Please login' } })
   }
-  console.log(req.body)
   let img;
-  if (img === {}) {
-    img = ''
+  if (req?.body?.img) {
+    const url = await upload(req?.body?.img);
+    img = url.url;
   }
-  if (img) {
-    console.log(img)
-  }
-  console.log(req.body)
   try {
     const groupChat = await Chat.create({
       chatName: req.body.chatName,
@@ -101,7 +97,7 @@ module.exports.groupCreate = async (req, res, next) => {
       status: req.body?.status,
       description: req.body?.description,
       isGroupChat: true,
-      img: img,
+      img: img || '',
       members: [req?.user?._id, req?.body?.members],
       groupAdmin: req?.user?._id,
     });
@@ -126,7 +122,7 @@ module.exports.groupCreate = async (req, res, next) => {
       joinMemberCount: fullGroupChat?.members?.length,
       showMemberFront: fullGroupChat?.members?.slice(0, 5)
     }
-    return res.status(200).json({ memberJoinedInfo, data: fullGroupChat })
+    return res.status(200).json({ message: `${groupChat?.chatName} ${groupChat?.status} Group Join Member ${groupChat?.members?.length}`, memberJoinedInfo, data: fullGroupChat })
   } catch (error) {
     error.status = 400;
     next(error);
@@ -142,7 +138,7 @@ module.exports.groupRename = async (req, res, next) => {
       chatName, topic, status, description, img
     }, { new: true }).populate("members", "-password").populate("groupAdmin", "-password");
     if (!updatedChat) {
-      return res.status(400).json({ error: "you can perform only Admin Group Rename!" });
+      return res.status(400).json({ error: { token: "you can perform only Admin Group Rename!" } });
     } if (updatedChat) {
       for (let i = 0; i < groupChat?.members?.length; i++) {
         await Notification.create({
@@ -166,14 +162,14 @@ module.exports.groupAddTo = async (req, res, next) => {
   try {
     const exist = await Chat.findOne({ _id: chatId, members: userId });
     if (exist) {
-      return res.status(400).json({ error: "Already Members This Group" })
+      return res.status(400).json({ error: { members: "Already Members This Group" } })
     }
     const added = await Chat.findByIdAndUpdate(chatId, {
       $addToSet: { members: userId },
     }, { new: true }).populate("members", "-password").populate("groupAdmin", "-password");
     // console.log(added)
     if (!added) {
-      return res.status(404).json({ error: "chat not founds!", data: [] });
+      return res.status(404).json({ error: { "notfound": "chat not founds!" }, data: [] });
     }
     if (added) {
       const newMember = User.findOne({ _id: userId });
@@ -207,7 +203,7 @@ module.exports.groupAddToInviteSent = async (req, res, next) => {
     }
     const chatGroup = await Chat.findOne({ _id: chatId });
     if (!chatGroup) {
-      return res.status(400).json({ error: "Gen Invite Link expired! please provide valid Chat Group" });
+      return res.status(400).json({ error: { invite: "Gen Invite Link expired! please provide valid Chat Group" } });
     }
     const id = (chatGroup?._id + req.user?._id);
     const inviteId = `${inviteGenLink(13, id)}`;
@@ -408,7 +404,7 @@ module.exports.groupRemoveTo = async (req, res, next) => {
       $pull: { members: userId },
     }, { new: true }).populate("members", "-password").populate("groupAdmin", "-password");
     if (!remove) {
-      return res.status(404).json({ error: "member not founds!" });
+      return res.status(404).json({ error:{"notfound": "member not founds!" }});
     }
     if (remove) {
       const member = await User.find({ _id: userId });

@@ -3,7 +3,7 @@ const chatSchema = mongoose.Schema(
     {
         chatName: {
             type: String,
-            required: [true,'Please provide Group Name'],
+            required: [true, 'Please provide Group Name'],
         },
         img: {
             type: String,
@@ -26,7 +26,7 @@ const chatSchema = mongoose.Schema(
         },
         status: {
             type: String,
-            required: [true,'Select Group Type'],
+            required: [true, 'Select Group Type'],
         },
         description: {
             type: String,
@@ -40,6 +40,10 @@ const chatSchema = mongoose.Schema(
             type: mongoose.Schema.Types.ObjectId,
             ref: "User",
         }],
+        action: {
+            type: 'String',
+            default: 'N/A'
+        }
     },
     {
         timestamps: true,
