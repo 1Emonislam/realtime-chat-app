@@ -2,7 +2,7 @@ import { GROUP_FAILED_DATA, GROUP_LOADING_DATA, GROUP_SUCCESS_DATA } from "../ty
 
 export const getGroupData = (data, token) => {
     return (dispatch) => {
-        fetch('http://localhost:5000/api/chat/group/create', {
+        fetch('https://collaballapp.herokuapp.com/api/chat/group/create', {
             method: 'POST',
             headers: {
                 "Content-Type": "application/json",
@@ -26,7 +26,7 @@ export const postGroupData = (data, token, reset) => {
                     loading: true,
                 }
             })
-            fetch('http://localhost:5000/api/chat/group/create', {
+            fetch('https://collaballapp.herokuapp.com/api/chat/group/create', {
                 method: 'POST',
                 headers: {
                     'Content-Type': "application/json",
