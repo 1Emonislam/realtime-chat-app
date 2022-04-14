@@ -20,3 +20,10 @@ button.viewButton:hover{
     color:white;
     cursor: pointer;
 }
+
+.cellwidth{
+    width: 170px;
+}
+.table:hover{
+    background-color: lightblue;
+}
