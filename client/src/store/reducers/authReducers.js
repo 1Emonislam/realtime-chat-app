@@ -4,7 +4,7 @@ const authState = {
     authenticate: false,
     error: '',
     message: '',
-    user: window.localStorage.getItem("user") && JSON?.parse(window.localStorage.getItem("user")),
+    // user: window.localStorage.getItem("user") && JSON.parse(window.localStorage.getItem("user")),
 }
 export const authReducer = (state = authState, action) => {
     const { payload, type } = action;

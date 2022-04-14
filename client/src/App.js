@@ -5,11 +5,15 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.css";
 import Call from "./components/Call/Call";
 import ChatHome from "./components/ChatHome";
+import BlockedUser from "./components/DashBoardSettings/BlockedUser";
 import DashBoardHome from "./components/DashBoardSettings/DashBoardHome";
+import OnLineAndOffLineStatusBar from "./components/DashBoardSettings/OnLineAndOffLineStatusBar";
+import ReportUser from "./components/DashBoardSettings/ReportUser";
 import SettingAdmob from "./components/DashBoardSettings/SettingAdmob";
 import SettingsFirebase from "./components/DashBoardSettings/SettingsFirebase";
 import SettingsGeneral from "./components/DashBoardSettings/SettingsGeneral";
 import SettingSinch from "./components/DashBoardSettings/SettingSinch";
+import Users from "./components/DashBoardSettings/Users";
 import Group from "./components/Group/Group";
 import Settings from "./components/Settings/Settings/Settings";
 import Status from "./components/Status/Status/Status";
@@ -183,6 +187,10 @@ export default function ToggleColorMode() {
                 <Route path="/snich-setting" element={< SettingSinch />}> </Route>
                 <Route path="/firebase-setting" element={< SettingsFirebase />}> </Route>
                 <Route path="/dashboard" element={< DashBoardHome />}> </Route>
+                <Route path="/online" element={< OnLineAndOffLineStatusBar />}> </Route>
+                <Route path="/users" element={< Users />}> </Route>
+                <Route path="/blockusers" element={< BlockedUser />}> </Route>
+                <Route path="/report" element={< ReportUser />}> </Route>
                 {/* dashboard end */}
                 <Route
                   path="*"
