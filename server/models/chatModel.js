@@ -41,6 +41,9 @@ const chatSchema = mongoose.Schema(
             type: mongoose.Schema.Types.ObjectId,
             ref: "User",
         }],
+        lastActive:{
+            type:Date,
+        },
         action: {
             type: 'String',
             default: 'N/A'

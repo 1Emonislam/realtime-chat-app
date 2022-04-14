@@ -69,15 +69,7 @@ module.exports.getChat = async (req, res, next) => {
         path: "latestMessage.sender",
         select: "_id pic firstName lastName email"
       })
-      const viewsChatId = await Chat.findOne({ members: { $elemMatch: { $eq: req.user._id } } });
-      if (results?.length) {
-        await ViewsChat.create({
-          viewsChatId: viewsChatId?._id,
-          user: req?.user?._id,
-        })
-      }
-      const views = await ViewsChat.find({ viewsChatId: viewsChatId?._id }).count();
-      return res.status(200).json({ views, data: results })
+      return res.status(200).json({ data: results })
     })
   } catch (error) {
     next(error)
@@ -89,7 +81,6 @@ module.exports.groupCreate = async (req, res, next) => {
     return res.status(400).json({ error: { token: 'User Credentials expired! Please login' } })
   }
   let img;
-  const members = req.body?.members;
   if (req?.body?.img) {
     const url = await upload(req?.body?.img);
     img = url.url;
