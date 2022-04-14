@@ -2,29 +2,19 @@ import PeopleIcon from '@mui/icons-material/People';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import SearchIcon from '@mui/icons-material/Search';
 import { Grid, ToggleButton, Typography } from '@mui/material';
-import React from 'react';
+import React, { useEffect } from 'react';
 import './Group/Group.css';
 import RecentChat from './RecentChat';
 import './Group/__Groupcontainer.css'
+import { useDispatch, useSelector } from 'react-redux';
+import { getGroupChatData } from '../store/actions/groupActions';
 function ChatHome() {
-    const data = [
-        {
-            name: 'Helen',
-            img: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=400&q=80'
-        },
-        {
-            name: 'Alen',
-            img: 'https://images.unsplash.com/flagged/photo-1570612861542-284f4c12e75f?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8cGVyc29ufGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60'
-        },
-        {
-            name: 'Samira',
-            img: 'https://images.unsplash.com/photo-1499952127939-9bbf5af6c51c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8OXx8cGVyc29ufGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60'
-        },
-        {
-            name: 'Fario',
-            img: 'https://images.unsplash.com/photo-1491349174775-aaafddd81942?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8OHx8cGVyc29ufGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60'
-        },
-    ]
+    const dispatch = useDispatch();
+    const { auth, groupData } = useSelector(state => state);
+    // console.log(groupData?.data?.length)
+    useEffect(() => {
+        dispatch(getGroupChatData(auth?.user?.token))
+    }, [dispatch, auth?.user?.token])
     return (
         <div className="chat-box-container">
             <Grid container spacing={0} sx={{
@@ -51,7 +41,7 @@ function ChatHome() {
                             xs: 400
                         },
                     }} gutterBottom component="div">
-                        Chats
+                        Group Chats
                     </Typography>
                 </Grid>
                 <Grid item xs={6} className="headIcon" sx={{ display: 'flex', justifyContent: 'end', color: 'rgba(0, 0, 0, 0.54)' }}>
@@ -107,11 +97,14 @@ function ChatHome() {
                     </div>
                 </Grid>
             </Grid>
+            {
+                console.log(groupData?.data)
+            }
             <Grid container spacing={0} justifyContent="center" alignItems="center">
-                {data?.map((people, index) => (<Grid item key={index} xs={2.6}>
+                {groupData?.data?.length && groupData?.data.map((people, index) => (<Grid item key={index} xs={2.6}>
                     <div className="user-box-latest">
                         <div className="people-img-box">
-                            <img src={people?.img} alt={people?.name} />
+                            <img src={people?.pic} alt={people?.username} />
                         </div>
                         <div className="name">
                             <Typography sx={{
@@ -135,7 +128,7 @@ function ChatHome() {
                     </div>
                 </Grid>))}
             </Grid>
-            <RecentChat />
+            {groupData?.data?.length && <RecentChat groupData={groupData?.data} />}
         </div>
     )
 }

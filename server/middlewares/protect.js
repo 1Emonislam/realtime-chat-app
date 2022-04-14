@@ -7,7 +7,7 @@ const protect = async (req, res, next) => {
         try {
             token = req.headers.authorization.split(" ")[1];
             if (!token) {
-                return res.status(400).json({ error: { token: "no token!" } });
+                return res.status(401).json({ error: { token: "no token!" } });
             }
             // console.log(token)
             const decoded = jwt.verify(token, process.env.JWT_SECRET);
@@ -20,7 +20,7 @@ const protect = async (req, res, next) => {
         }
     } else {
         console.log('no token');
-        return res.status(400).json({ error: { token: "no token!" } });
+        return res.status(401).json({ error: { token: "no token!" } });
     }
 };
 module.exports = { protect };

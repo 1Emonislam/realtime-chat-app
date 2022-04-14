@@ -1,5 +1,6 @@
 require('dotenv').config();
 const express = require('express')
+const cookieParser = require('cookie-parser')
 const http = require('http');
 const cors = require('cors');
 var moment = require('moment')
@@ -26,6 +27,7 @@ app.use(bodyParser.urlencoded({
     extended: true
 }))
 app.use(bodyParser.json({ limit: '50mb' }))
+app.use(cookieParser());
 // Middleware
 const serverApp = http.createServer(app);
 const io = new Server(serverApp, {

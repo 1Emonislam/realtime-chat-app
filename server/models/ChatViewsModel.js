@@ -4,6 +4,10 @@ const viewsChatSchema = mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "Chat",
     },
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+    }
 }, {
     timestamps: { createdAt: true, updatedAt: false }
 })

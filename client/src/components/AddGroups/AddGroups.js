@@ -6,7 +6,7 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { toast, ToastContainer } from 'react-toastify';
-import { postGroupData } from "../../store/actions/groupActions";
+import { postGroupChatData } from "../../store/actions/groupActions";
 import { GROUP_FAILED_DATA, GROUP_SUCCESS_DATA } from "../../store/type/groupType";
 import Loading from "../Spinner/Loading";
 const style = {
@@ -29,7 +29,7 @@ const AddGroups = ({ handleGroupOpen, handleGroupClose, groupOpen }) => {
   const { auth, groupData, theme } = useSelector(state => state);
   const onSubmit = data => {
     if (previewSource) data.img = previewSource;
-    dispatch(postGroupData(data, auth?.user?.token, reset))
+    dispatch(postGroupChatData(data, auth?.user?.token, reset))
   };
   const fileReader = (file) => {
     const reader = new FileReader();
@@ -163,6 +163,7 @@ const AddGroups = ({ handleGroupOpen, handleGroupClose, groupOpen }) => {
               <Box sx={{ mb: 2 }}>
                 <Typography
                   sx={{
+                    paddingTop: '16px',
                     fontWeight: "bold",
                     mb: 1,
                     fontSize: 14,
@@ -219,7 +220,7 @@ const AddGroups = ({ handleGroupOpen, handleGroupClose, groupOpen }) => {
               <button style={{ cursor: 'pointer' }} className="buttonContact1" onClick={handleGroupClose}>
                 Cancel
               </button>
-              {groupData?.loading ? <div style={{ margin: '20px 0' }}>
+              {groupData?.loading ? <div>
                 <Loading />
               </div> :
                 <button type="submit" className="buttonContact2">Add Participants</button>

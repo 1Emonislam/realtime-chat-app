@@ -2,6 +2,9 @@ const Chat = require("../models/chatModel");
 const Message = require("../models/messageModel");
 const User = require("../models/userModel");
 module.exports.sendMessage = async (req, res, next) => {
+    if (!req?.user?._id) {
+        return res.status(400).json({ error: { email: 'User Credentials expired! Please login' } })
+      }
     const { content, chatId } = req.body;
     if (!content || !chatId) {
         console.log("invalid data passed into request");
@@ -24,7 +27,7 @@ module.exports.sendMessage = async (req, res, next) => {
     }
     try {
         let message = await Message.create(newMessage);
-        message = await message.populate("sender", "name pic")
+        message = await message.populate("sender", "_id pic firstName lastName email")
         message = await message.populate("chat")
         message = await User.populate(message, {
             path: 'chat.members',
@@ -43,6 +46,9 @@ module.exports.sendMessage = async (req, res, next) => {
     }
 }
 module.exports.allMessage = async (req, res, next) => {
+    if (!req?.user?._id) {
+        return res.status(400).json({ error: { email: 'User Credentials expired! Please login' } })
+      }
     try {
         const { page = 1, limit = 10 } = req.query;
         let messages = await Message.find({ chat: req.params.chatId }).populate("sender", "_id pic firstName lastName email").populate("chat")
@@ -77,6 +83,9 @@ module.exports.allMessage = async (req, res, next) => {
     }
 }
 module.exports.messageRemove = async (req, res, next) => {
+    if (!req?.user?._id) {
+        return res.status(400).json({ error: { email: 'User Credentials expired! Please login' } })
+      }
     const { chatId, messageId } = req.body;
     if (!chatId || !messageId) {
         return res.status(400).json({ error: { token: "please provide valid credentials!" } })
@@ -97,6 +106,9 @@ module.exports.messageRemove = async (req, res, next) => {
 
 }
 module.exports.messageEdit = async (req, res, next) => {
+    if (!req?.user?._id) {
+        return res.status(400).json({ error: { email: 'User Credentials expired! Please login' } })
+      }
     const { chatId, messageId } = req.body;
     const text = req.body?.content?.text;
     const audio = req.body?.content?.audio;

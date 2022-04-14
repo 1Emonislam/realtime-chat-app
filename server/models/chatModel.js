@@ -26,6 +26,7 @@ const chatSchema = mongoose.Schema(
         },
         status: {
             type: String,
+            enum: ["private", "puplic"],
             required: [true, 'Select Group Type'],
         },
         description: {

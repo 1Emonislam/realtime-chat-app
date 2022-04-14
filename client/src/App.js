@@ -26,11 +26,10 @@ const ColorModeContext = React.createContext({ toggleColorMode: () => { } });
 export default function ToggleColorMode() {
   const user = useSelector(state => state?.auth?.user?.user);
   const [mode, setMode] = React.useState(
-    JSON.parse(window.localStorage.getItem("theme"))
-  );
+    window.localStorage.getItem("themeCurrent") ? JSON.parse(window.localStorage.getItem("themeCurrent")) : 'light');
   if (!mode) {
     window.localStorage.setItem(
-      "theme",
+      "themeCurrent",
       JSON.stringify(mode === "light" ? "dark" : "light")
     );
   }
@@ -44,7 +43,7 @@ export default function ToggleColorMode() {
     () => ({
       toggleColorMode: () => {
         window.localStorage.setItem(
-          "theme",
+          "themeCurrent",
           JSON.stringify(mode === "light" ? "dark" : "light")
         );
         setMode((prevMode) => (prevMode === "light" ? "dark" : "light"));
@@ -63,9 +62,9 @@ export default function ToggleColorMode() {
     [mode]
   );
   React.useEffect(() => {
-      if (!user?.email) {
-        <Navigate to="/login"replace></Navigate>
-      }
+    if (!user?.email) {
+      <Navigate to="/login" replace></Navigate>
+    }
   }, [user?.email])
   return (
     <ColorModeContext.Provider value={colorMode}>
@@ -74,7 +73,7 @@ export default function ToggleColorMode() {
           <Box
             sx={{
               bgcolor: "background.default",
-              color: "text.primary",
+              color: "text.default",
               borderRadius: 1,
               width: "100%",
             }}
