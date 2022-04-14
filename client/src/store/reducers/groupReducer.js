@@ -4,8 +4,7 @@ const initState = {
     message: '',
     error: '',
     loading: false,
-    data: {},
-    track: 0
+    data: null
 }
 export const groupReducer = (state = initState, action) => {
     const { payload, type } = action;
@@ -26,7 +25,6 @@ export const groupReducer = (state = initState, action) => {
             message: '',
             error: '',
             data: payload.data,
-            track: payload.track,
         }
     }
     if (type === GROUP_FAILED_DATA) {
@@ -35,7 +33,7 @@ export const groupReducer = (state = initState, action) => {
             message: '',
             loading: false,
             error: payload.error,
-            data: {},
+            data: null,
         }
     }
     if (type === GROUP_LOADING_DATA) {

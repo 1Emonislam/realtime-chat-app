@@ -1,7 +1,12 @@
 import { GROUP_FAILED_DATA, GROUP_GET_DATA, GROUP_LOADING_DATA, GROUP_SUCCESS_DATA } from "../type/groupType"
-
 export const getGroupChatData = (token) => {
     return (dispatch) => {
+        dispatch({
+            type: GROUP_LOADING_DATA,
+            payload: {
+                loading: true,
+            }
+        })
         fetch('http://localhost:5000/api/chat/', {
             method: 'GET',
             headers: {
@@ -17,7 +22,6 @@ export const getGroupChatData = (token) => {
                         payload: {
                             message: '',
                             data: data.data,
-                            track: data.views,
                         }
                     })
                 }
@@ -25,15 +29,16 @@ export const getGroupChatData = (token) => {
     }
 }
 export const postGroupChatData = (data, token, reset) => {
+
     // console.log(data,token)
     return async (dispatch) => {
+        dispatch({
+            type: GROUP_LOADING_DATA,
+            payload: {
+                loading: true,
+            }
+        })
         try {
-            dispatch({
-                type: GROUP_LOADING_DATA,
-                payload: {
-                    loading: true,
-                }
-            })
             fetch('http://localhost:5000/api/chat/group/create', {
                 method: 'POST',
                 headers: {

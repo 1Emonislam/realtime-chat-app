@@ -3,7 +3,8 @@ import { Grid, ToggleButton, Typography } from '@mui/material';
 import React from 'react';
 import './Chat.css';
 import TypingIndicatior from './Typing/TypingIndicatior';
-function RecentChat({ groupData }) {
+import moment from 'moment'
+function RecentChat({ groupData, handleSingleUser }) {
     const [dataState, setDataState] = React.useState({
         activeObject: null,
         objects: [...groupData]
@@ -22,9 +23,6 @@ function RecentChat({ groupData }) {
         } else {
             return 'inactive'
         }
-    }
-    const handleSingleUser = () => {
-
     }
     return (
         <div>
@@ -85,9 +83,9 @@ function RecentChat({ groupData }) {
                 </Grid>
             </Grid>
             <Grid container spacing={0} padding={'10px 0px'} justifyContent="center">
-                {groupData?.map((people, index) => (
+                {groupData?.map((chat, index) => (
                     <Grid key={index} item xs={12} className="user-list" alignItems="center" justifyContent="center">
-                        <div style={{ padding: '10px 20px', margin: '0 20px' }} className={toggleActiveStyle(index)} onClick={(e) => handleSingleUser(index, toggleActive(index))} >
+                        <div style={{ padding: '10px 20px', margin: '0 20px' }} className={toggleActiveStyle(index)} onClick={(e) => handleSingleUser(chat._id, toggleActive(index))} >
                             <Grid container spacing={0} alignItems="center" sx={{
                                 justifyContent: {
                                     lg: 'space-betwen',
@@ -99,7 +97,7 @@ function RecentChat({ groupData }) {
                                 <Grid item xs={1.5} sm={1} md={2.5} lg={2.5}>
                                     <div className="people-img-box2">
                                         <Grid container spacing={0}>
-                                            {people?.members?.map((user, index) => (
+                                            {chat?.members?.map((user, index) => (
                                                 <Grid item xs={4} key={index}>
                                                     <img src={user?.pic} alt={user?.username} />
                                                 </Grid>
@@ -109,7 +107,7 @@ function RecentChat({ groupData }) {
                                 </Grid>
                                 <Grid item xs={9.5} sm={10.6} md={9} lg={9}>
                                     <Grid container spacing={0} alignItems="center" justifyContent="center">
-                                        <Grid item xs={8}>
+                                        <Grid item xs={7}>
                                             <Typography sx={{
                                                 color: "inherit",
                                                 fontSize: {
@@ -125,9 +123,9 @@ function RecentChat({ groupData }) {
                                                     xs: 400
                                                 },
                                             }}>
-                                                {people.chatName} {people?.chatName}
+                                                {chat.chatName} {chat?.chatName}
                                             </Typography>
-                                            {people?.typing ? <TypingIndicatior /> : <>
+                                            {chat?.typing ? <TypingIndicatior /> : <>
                                                 <Typography sx={{
                                                     color: "inherit",
                                                     fontSize: {
@@ -143,17 +141,17 @@ function RecentChat({ groupData }) {
                                                         xs: 300
                                                     },
                                                 }} gutterBottom component="div">
-                                                    {people.message?.slice(0, 30)}
+                                                    {chat.latestMessage?.content?.text || chat.latestMessage?.content?.audio || chat.latestMessage?.content?.video || chat.latestMessage?.content?.others}
                                                 </Typography>
                                             </>}
                                         </Grid>
-                                        <Grid item xs={4}>
+                                        <Grid item xs={5}>
                                             <Grid item textAlign="right">
                                                 {/*  xs={2}  */}
                                                 <Typography sx={{
                                                     color: "inherit",
                                                     fontSize: {
-                                                        lg: 13,
+                                                        lg: 12,
                                                         md: 10,
                                                         sm: 10,
                                                         xs: 10
@@ -165,9 +163,9 @@ function RecentChat({ groupData }) {
                                                         xs: 200
                                                     },
                                                 }}>
-                                                    05 min
+                                                    {moment(chat?.latestMessage?.updatedAt).fromNow()}
                                                 </Typography>
-                                                {/* {people?.read?.length !== 0 && <Typography sx={{
+                                                {/* {chat?.read?.length !== 0 && <Typography sx={{
                                                     textAlign: 'center',
                                                     background: 'rgba(0, 255, 179, 0.151)',
                                                     borderRadius: '15px',
@@ -189,7 +187,7 @@ function RecentChat({ groupData }) {
                                                         xs: 200
                                                     },
                                                 }}>
-                                                    {people.read.length}
+                                                    {chat.read.length}
                                                 </Typography>} */}
                                             </Grid>
                                         </Grid>

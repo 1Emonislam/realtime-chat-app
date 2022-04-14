@@ -16,7 +16,7 @@ const Footer = () => {
                     <div className="attach-col">
                         <AttachFileIcon/>
                     </div>
-                    <input type="text" className="form-control" placeholder="Enter Message....."/>
+                    <input type="text" className="form-control" placeholder="Enter Message..."/>
                     <div className="specker-col">
                         <SettingsVoiceIcon/>
                     </div>

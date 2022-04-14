@@ -6,7 +6,8 @@ import { themeReducer } from './reducers/ThemeReducer';
 const rootReducer = combineReducers({
     theme: themeReducer,
     auth: authReducer,
-    groupData: groupReducer, 
+    groupData: groupReducer,
+    privateMessage:null 
 });
 const middleware = [thunk];
 const store = createStore(rootReducer, compose(

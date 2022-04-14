@@ -12,10 +12,10 @@ const Footer = () => {
                         <Box>
                             <Typography sx={{ fontSize: '32px', color: '#5865f2', fontWeight: 800 }} variant="h4">IMAGINE A <br /> PLACE</Typography>
                             <Box sx={{ color: '#ffffff', display: 'flex', pt: 4 }}>
-                                <Typography sx={{ mr: 2, fontSize: '24px', cursor: 'pointer' }}><i class="fa-brands fa-twitter"></i></Typography>
-                                <Typography sx={{ mr: 2, fontSize: '24px', cursor: 'pointer' }}><i class="fa-brands fa-linkedin-in"></i></Typography>
-                                <Typography sx={{ mr: 2, fontSize: '24px', cursor: 'pointer' }}><i class="fa-brands fa-instagram"></i></Typography>
-                                <Typography sx={{ mr: 2, fontSize: '24px', cursor: 'pointer' }}><i class="fa-brands fa-facebook"></i></Typography>
+                                <Typography sx={{ mr: 2, fontSize: '24px', cursor: 'pointer' }}><i className="fa-brands fa-twitter"></i></Typography>
+                                <Typography sx={{ mr: 2, fontSize: '24px', cursor: 'pointer' }}><i className="fa-brands fa-linkedin-in"></i></Typography>
+                                <Typography sx={{ mr: 2, fontSize: '24px', cursor: 'pointer' }}><i className="fa-brands fa-instagram"></i></Typography>
+                                <Typography sx={{ mr: 2, fontSize: '24px', cursor: 'pointer' }}><i className="fa-brands fa-facebook"></i></Typography>
                             </Box>
                         </Box>
                     </Grid>
@@ -212,7 +212,7 @@ const Footer = () => {
                 </Grid>
 
                 <Box sx={{ display: 'flex', justifyContent: 'space-between', pt: 3 }}>
-                    <Typography sx={{ fontSize: '20px', color: '#ffffff', }}> <i class="fa-brands fa-discord"></i> Collaball</Typography>
+                    <Typography sx={{ fontSize: '20px', color: '#ffffff', }}> <i className="fa-brands fa-discord"></i> Collaball</Typography>
                     <NavLink to="/register" variant="inherit">
                         <Button variant="inherit" sx={{
                             fontSize: '14px',

@@ -3,18 +3,24 @@ import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import SearchIcon from '@mui/icons-material/Search';
 import { Grid, ToggleButton, Typography } from '@mui/material';
 import React, { useEffect } from 'react';
-import './Group/Group.css';
-import RecentChat from './RecentChat';
-import './Group/__Groupcontainer.css'
 import { useDispatch, useSelector } from 'react-redux';
 import { getGroupChatData } from '../store/actions/groupActions';
+import { getMessage } from '../store/actions/messageAction';
+import './Group/Group.css';
+import './Group/__Groupcontainer.css';
+import RecentChat from './RecentChat';
 function ChatHome() {
     const dispatch = useDispatch();
     const { auth, groupData } = useSelector(state => state);
     // console.log(groupData?.data?.length)
     useEffect(() => {
         dispatch(getGroupChatData(auth?.user?.token))
-    }, [dispatch, auth?.user?.token])
+    }, [dispatch, auth?.user?.token]);
+    const handleSingleUser = (id) => {
+       if(id){
+        dispatch(getMessage(id, auth?.user?.token))
+       }
+    }
     return (
         <div className="chat-box-container">
             <Grid container spacing={0} sx={{
@@ -128,7 +134,7 @@ function ChatHome() {
                     </div>
                 </Grid>))}
             </Grid>
-            {groupData?.data?.length && <RecentChat groupData={groupData?.data} />}
+            {groupData?.data?.length && <RecentChat handleSingleUser={handleSingleUser} groupData={groupData?.data} />}
         </div>
     )
 }
