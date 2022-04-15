@@ -46,7 +46,7 @@ const MenuBar = ({ editor }) => {
             <div>
 
                 <button>
-                    <FaPlusCircle />
+                    <FaPlusCircle style={{ fontSize: '18px', position: 'relative', top: '2px' }}/>
                 </button>
                 <button
                     onClick={() => editor.chain().focus().toggleBold().run()}
@@ -158,7 +158,7 @@ const MenuBar = ({ editor }) => {
 
 export const WriterEditor = ({ setDescription }) => {
     const editor = useEditor({
-        extensions: [StarterKit, Underline, CodeBlock, Link],
+        extensions: [StarterKit, Underline, Link],
         content: ``,
         onUpdate: ({ editor }) => {
             // const html = editor.getHTML();
