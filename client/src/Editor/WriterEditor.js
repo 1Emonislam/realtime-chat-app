@@ -8,13 +8,14 @@ import {
     FaBold, FaCode, FaHeading,
     FaItalic, FaLink, FaListOl,
     FaListUl,
+    FaPlusCircle,
     FaQuoteLeft,
     FaRedo, FaRegGrinAlt, FaStrikethrough,
     FaUnderline,
     FaUndo, FaUnlink
 } from "react-icons/fa";
 import { MdAlternateEmail } from 'react-icons/md';
-import { RiAttachment2, RiSendPlane2Fill, RiFileAddFill } from 'react-icons/ri';
+import { RiAttachment2, RiSendPlane2Fill } from 'react-icons/ri';
 import './Editor.css';
 
 const MenuBar = ({ editor }) => {
@@ -45,7 +46,7 @@ const MenuBar = ({ editor }) => {
             <div>
 
                 <button>
-                    <RiFileAddFill />
+                    <FaPlusCircle />
                 </button>
                 <button
                     onClick={() => editor.chain().focus().toggleBold().run()}
@@ -115,13 +116,13 @@ const MenuBar = ({ editor }) => {
                     onClick={() => editor.chain().focus().toggleCodeBlock().run()}
                     className={editor.isActive('codeBlock') ? 'is-active' : ''}
                 >
-                    <FaCode style={{fontSize:'18px',position:'relative',top:'2px'}}/>
+                    <FaCode style={{ fontSize: '18px', position: 'relative', top: '2px' }} />
                 </button> :
                     <button
                         onClick={() => editor.chain().focus().setCodeBlock().run()}
                         disabled={editor.isActive('codeBlock')}
                     >
-                        <FaCode style={{fontSize:'18px',position:'relative',top:'2px'}}/>
+                        <FaCode style={{ fontSize: '18px', position: 'relative', top: '2px' }} />
                     </button>}
                 <button
                     onClick={() => editor.chain().focus().toggleBlockquote().run()}
