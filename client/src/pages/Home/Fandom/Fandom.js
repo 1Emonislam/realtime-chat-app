@@ -1,7 +1,6 @@
 import { Container, Grid, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import React from 'react';
-import coach from '../../../assets/images/coach.svg';
 
 const Fandom = () => {
     return (
@@ -9,8 +8,8 @@ const Fandom = () => {
             <Container>
                 <Grid container spacing={2}>
                     <Grid item xs={12} md={7}>
-                        <Box >
-                            <Typography sx={{ width: '100%' }} component='img' src={coach} />
+                        <Box sx={{textAlign: 'center'}} >
+                            <Typography sx={{ width: '80%', height: '450px', borderRadius: '10px' }} component='img' src='https://img.freepik.com/free-vector/computer-social-media-icons_24877-74707.jpg' />
                         </Box>
                     </Grid>
                     <Grid item xs={12} md={5}>

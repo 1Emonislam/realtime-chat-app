@@ -1,11 +1,14 @@
+import { userVerify } from "../actions/authAction";
 import { AUTH_ERROR, AUTH_FAILED, AUTH_LOADING, AUTH_SUCCESS, AUTH_MESSAGE, LOG_OUT_AUTH } from "../type/authType";
+
 const authState = {
     loading: false,
     authenticate: false,
     error: '',
     message: '',
-    // user: window.localStorage.getItem("user") && JSON.parse(window.localStorage.getItem("user")),
+    user: window.localStorage.getItem("userInfoCurrent") && userVerify(userVerify(JSON.parse(window.localStorage.getItem("userInfoCurrent")))),
 }
+// console.log(authState)
 export const authReducer = (state = authState, action) => {
     const { payload, type } = action;
     if (type === AUTH_FAILED) {

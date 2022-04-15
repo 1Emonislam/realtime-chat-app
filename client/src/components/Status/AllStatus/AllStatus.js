@@ -1,10 +1,16 @@
 import SearchIcon from "@mui/icons-material/Search";
 import { Box, Grid, Typography } from "@mui/material";
 import React from 'react';
+import { useDispatch } from "react-redux";
+import { logOut } from "../../../store/actions/authAction";
 import RecentStatus from "./RecentStatus";
 import ViewedStatus from "./ViewedStatus";
 
 const AllStatus = () => {
+  const dispatch = useDispatch();
+  const handleLogOut = () => {
+    dispatch(logOut)
+  }
     return (
       <div className="chat-box-container">
         <Grid
@@ -55,7 +61,7 @@ const AllStatus = () => {
               color: "rgba(0, 0, 0, 0.54)",
             }}
           >
-            <button className="buttonContact2">SignOut</button>
+            <button onClick={handleLogOut}className="buttonContact2">SignOut</button>
           </Grid>
           <Grid
             item

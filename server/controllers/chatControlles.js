@@ -1,7 +1,9 @@
 const Chat = require("../models/chatModel");
 const ViewsChat = require("../models/ChatViewsModel");
 const JoinGroup = require("../models/JoinGroupModel");
+const Notification = require('../models/notificationModel')
 const User = require("../models/userModel");
+const { upload } = require("../utils/file");
 const { mailSending } = require("../utils/func");
 const { genToken, genInviteGroup } = require("../utils/genToken");
 
@@ -10,7 +12,7 @@ module.exports.acessChat = async (req, res, next) => {
     return res.status(400).json({ error: { email: 'User Credentials expired! Please login' } })
   }
   {
-    const { userId, img } = req.body;
+    const { userId } = req.body;
     try {
       if (!userId) {
         console.log("user Id sent with requset");
@@ -35,7 +37,6 @@ module.exports.acessChat = async (req, res, next) => {
         let chatData = {
           chatName: "sender",
           isGroupChat: false,
-          img: img,
           members: [req.user._id, userId],
         };
         try {
@@ -68,12 +69,7 @@ module.exports.getChat = async (req, res, next) => {
         path: "latestMessage.sender",
         select: "_id pic firstName lastName email"
       })
-      const viewsChatId = await Chat.findOne({ members: { $elemMatch: { $eq: req.user._id } } });
-      await ViewsChat.create({
-        viewsChatId: viewsChatId?._id,
-      })
-      const views = await ViewsChat.find({ viewsChatId: viewsChatId?._id }).count();
-      return res.status(200).json({ views, data: results })
+      return res.status(200).json({ data: results })
     })
   } catch (error) {
     next(error)
@@ -82,32 +78,47 @@ module.exports.getChat = async (req, res, next) => {
 
 module.exports.groupCreate = async (req, res, next) => {
   if (!req?.user?._id) {
-    return res.status(400).json({ error: { email: 'User Credentials expired! Please login' } })
+    return res.status(400).json({ error: { token: 'User Credentials expired! Please login' } })
   }
-  // console.log(req.body.members)
-  if (!req.body.members || !req.body.chatName) {
-    return res.status(400).json({ error: "Please Fill all the feilds! Members and ChatName" })
+  let img;
+  if (req?.body?.img) {
+    const url = await upload(req?.body?.img);
+    img = url.url;
   }
   try {
     const groupChat = await Chat.create({
       chatName: req.body.chatName,
+      topic: req.body?.topic,
+      status: req.body?.status,
+      description: req.body?.description,
       isGroupChat: true,
-      img: req.body?.img,
-      members: [req?.user?._id, ...req?.body?.members],
+      img: img || '',
+      members: [req?.user?._id],
       groupAdmin: req?.user?._id,
     });
-    for (let i = 0; i < groupChat?.members?.length; i++) {
-      await JoinGroup.create({
-        joinChatId: groupChat?._id,
-        userJoin: groupChat?.members[i]
-      })
+
+    if (groupChat) {
+      for (let i = 0; i < groupChat?.members?.length; i++) {
+        await JoinGroup.create({
+          joinChatId: groupChat?._id,
+          userJoin: groupChat?.members[i]
+        })
+        // console.log(groupChat?.members[i])
+        await Notification.create({
+          receiver: groupChat?.members[i],
+          type: 'group',
+          subject: `added new group from ${groupChat?.chatName}`,
+          message: `${req?.user?.firstName} ${req?.user?.lastName} added group`,
+        })
+      }
     }
-    const memberJoinedInfo = {
-      joinMemberCount: groupChat?.members?.length,
-      showMemberFront: groupChat?.members?.slice(0, 5)
-    }
+
     const fullGroupChat = await Chat.findOne({ _id: groupChat._id }).populate("members", "-password").populate("groupAdmin", "-password");
-    return res.status(200).json({ memberJoinedInfo, data: fullGroupChat })
+    const memberJoinedInfo = {
+      joinMemberCount: fullGroupChat?.members?.length,
+      showMemberFront: fullGroupChat?.members?.slice(0, 5)
+    }
+    return res.status(200).json({ message: `Create New Group ${groupChat?.chatName} ${groupChat?.status} Group Join Member ${groupChat?.members?.length}`, memberJoinedInfo, data: fullGroupChat })
   } catch (error) {
     error.status = 400;
     next(error);
@@ -117,14 +128,22 @@ module.exports.groupRename = async (req, res, next) => {
   if (!req?.user?._id) {
     return res.status(400).json({ error: { email: 'User Credentials expired! Please login' } })
   }
-  const { chatId, chatName } = req.body;
+  const { chatId, chatName, topic, status, description, img } = req.body;
   try {
     const updatedChat = await Chat.findOneAndUpdate({ _id: chatId, groupAdmin: req?.user?._id }, {
-      chatName, img: req?.body?.img
+      chatName, topic, status, description, img
     }, { new: true }).populate("members", "-password").populate("groupAdmin", "-password");
     if (!updatedChat) {
-      return res.status(400).json({ error: "you can perform only Admin Group Rename!" });
+      return res.status(400).json({ error: { token: "you can perform only Admin Group Rename!" } });
     } if (updatedChat) {
+      for (let i = 0; i < groupChat?.members?.length; i++) {
+        await Notification.create({
+          receiver: groupChat?.members[i],
+          type: 'group',
+          subject: `${groupChat?.chatName} group Rename  from current group name ${updatedChat?.chatName}`,
+          message: ` ${req?.user?.firstName} ${req?.user?.lastName} Group Rename`,
+        })
+      }
       return res.status(200).json({ message: "chat successfully updated!", data: updatedChat })
     }
   } catch (error) {
@@ -139,16 +158,23 @@ module.exports.groupAddTo = async (req, res, next) => {
   try {
     const exist = await Chat.findOne({ _id: chatId, members: userId });
     if (exist) {
-      return res.status(400).json({ error: "Already Members This Group" })
+      return res.status(400).json({ error: { members: "Already Members This Group" } })
     }
     const added = await Chat.findByIdAndUpdate(chatId, {
       $addToSet: { members: userId },
     }, { new: true }).populate("members", "-password").populate("groupAdmin", "-password");
     // console.log(added)
     if (!added) {
-      return res.status(404).json({ error: "chat not founds!", data: [] });
+      return res.status(404).json({ error: { "notfound": "chat not founds!" }, data: [] });
     }
     if (added) {
+      const newMember = User.findOne({ _id: userId });
+      await Notification.create({
+        receiver: userId,
+        type: 'group',
+        subject: ` group added new member ${newMember?.firstName}`,
+        message: `${req?.user?.firstName} ${req?.user?.lastName} added new member ${newMember?.firstName} ${newMember?.lastName}`,
+      })
       await JoinGroup.create({
         joinChatId: chatId,
         userJoin: userId
@@ -173,7 +199,7 @@ module.exports.groupAddToInviteSent = async (req, res, next) => {
     }
     const chatGroup = await Chat.findOne({ _id: chatId });
     if (!chatGroup) {
-      return res.status(400).json({ error: "Gen Invite Link expired! please provide valid Chat Group" });
+      return res.status(400).json({ error: { invite: "Gen Invite Link expired! please provide valid Chat Group" } });
     }
     const id = (chatGroup?._id + req.user?._id);
     const inviteId = `${inviteGenLink(13, id)}`;
@@ -374,9 +400,22 @@ module.exports.groupRemoveTo = async (req, res, next) => {
       $pull: { members: userId },
     }, { new: true }).populate("members", "-password").populate("groupAdmin", "-password");
     if (!remove) {
-      return res.status(404).json({ error: "member not founds!" });
+      return res.status(404).json({ error: { "notfound": "member not founds!" } });
     }
-    if (remove) return res.status(200).json({ message: "removed successfully!", data: remove })
+    if (remove) {
+      await JoinGroup.find({
+        joinChatId: chatId,
+        userJoin: userId
+      }).remove();
+      const member = await User.find({ _id: userId });
+      await Notification.create({
+        receiver: userId,
+        type: 'group',
+        subject: `${groupChat?.chatName} group member remove`,
+        message: `${req?.user?.firstName} ${req?.user?.lastName} to Group member remove ${member?.firstName} ${member?.lastName}`,
+      })
+      return res.status(200).json({ message: "removed successfully!", data: remove })
+    }
   }
   catch (error) {
     next(error)

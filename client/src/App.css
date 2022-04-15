@@ -1,88 +1,87 @@
-.modal-content{
-    font-family: "Poppins", sans-serif;
+.modal-content {
+  font-family: "Poppins", sans-serif;
+}
+.buttonContact1 {
+  background-color: transparent;
+  border: none;
+  color: #b7b7b7;
+  font-weight: 500;
+  font-size: 14px;
+  font-family: "Poppins", sans-serif;
+}
+.buttonContact2 {
+  background-color: #76228f;
+  color: #fff;
+  font-weight: 500;
+  font-size: 14px;
+  font-family: "Poppins", sans-serif;
+  padding: 20px;
+  border: 2px solid #76228f;
+  border-radius: 6px;
+  margin-left: 20px;
+}
+.buttonContact2:hover {
+  background-color: #76228fe7;
+  border: 2px solid #76228fe7;
+}
 
-}
-.buttonContact1{
-    background-color: transparent;
-    border: none;
-    color: #b7b7b7;
-    font-weight: 500;
-    font-size: 14px;
-    font-family: "Poppins", sans-serif;
-}
-.buttonContact2{
-    background-color: #76228F;
-    color: #fff;
-    font-weight: 500;
-    font-size: 14px;
-    font-family: "Poppins", sans-serif;
-    padding: 20px ;
-    border: 2px solid #76228F;
-    border-radius: 6px;
-    margin-left: 20px;
-}
-.buttonContact2:hover{
-    background-color: #76228fe7;
-    border: 2px solid #76228fe7;
-}
-
-
-    input[type="file"] {
-    display: none;
+input[type="file"] {
+  display: none;
 }
 .browseFile {
-    border: 1px solid #420ba1;
-    color: #fff;
-    display: inline-block;
-    cursor: pointer;
-    padding: 6px 12px;
-    font-size: 17px;
-    background-color: #420BA1;
+  border: 1px solid #420ba1;
+  color: #fff;
+  display: inline-block;
+  cursor: pointer;
+  padding: 6px 12px;
+  font-size: 17px;
+  background-color: #420ba1;
 }
-.callListItem{
-    padding: 2px 0 8px 10px;
-    margin-left: -10px;
-    margin-right: 5px;
+.callListItem {
+  padding: 2px 0 8px 10px;
+  margin-left: -10px;
+  margin-right: 5px;
 }
-.callListItem:hover{
-    background-color: #F1F6FF;
-}
-
-.callbar{
-    margin-top: -25px;
-    margin-bottom: 5px;
-    padding: 20px 0;
-    background-color: #aea4b413;
-    margin-left: -10px;
-    padding-left: 10px;
-}
-.upbar{
-    display: flex;
-    justify-content: space-between;
-    padding-right: 25px;
-}
-.downbar{
-    position: sticky;
-    display: flex;
-    overflow: hidden;
-    flex: auto;
+.callListItem:hover {
+  background-color: #f1f6ff;
 }
 
-.barButton{
-    background-color: #420BA1;
-    border: 1px solid #420BA1;
-    color: #fff;
-    font-family: "Poppins", sans-serif;
-    padding: 100px 20px !important;
-    border-radius: 20px;
-    margin: 0 5px;
+.callbar {
+  margin-top: -25px;
+  margin-bottom: 5px;
+  padding: 20px 0;
+  background-color: #aea4b413;
+  margin-left: -10px;
+  padding-left: 10px;
+}
+.upbar {
+  display: flex;
+  justify-content: space-between;
+  padding-right: 25px;
+}
+.downbar {
+  position: sticky;
+  display: flex;
+  overflow: hidden;
+  flex: auto;
 }
 
-.barButton:nth-child(1){
-    background-color: #420BA1;
-    border: 1px solid #420BA1;
-    color: #fff;
-    font-family: "Poppins", sans-serif;
-    padding: 8px 10px !important;
-    border-radius: 20px;
+.barButton {
+  background-color: #420ba1;
+  border: 1px solid #420ba1;
+  color: #fff;
+  font-family: "Poppins", sans-serif;
+  padding: 0px 6px !important;
+  border-radius: 20px;
+  margin: 0 2px;
+  font-size: 10px;
+}
+
+.barButton:nth-child(1) {
+  background-color: #420ba1;
+  border: 1px solid #420ba1;
+  color: #fff;
+  font-family: "Poppins", sans-serif;
+  padding: 8px 10px !important;
+  border-radius: 20px;
 }

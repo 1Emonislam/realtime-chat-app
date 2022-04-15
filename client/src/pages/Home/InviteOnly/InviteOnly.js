@@ -1,7 +1,6 @@
 import { Container, Grid, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import React from 'react';
-import studyGroup from '../../../assets/images/studyGroup.svg';
 
 const InviteOnly = () => {
     return (
@@ -10,7 +9,7 @@ const InviteOnly = () => {
                 <Grid container spacing={2}>
                     <Grid item xs={12} md={7}>
                         <Box >
-                            <Typography sx={{ width: '100%' }} component='img' src={studyGroup} />
+                            <Typography sx={{ width: '100%', borderRadius: '10px' }} component='img' src='https://img.freepik.com/free-vector/business-work-dayline-illustration_599842-23.jpg' />
                         </Box>
                     </Grid>
                     <Grid item xs={12} md={5}>

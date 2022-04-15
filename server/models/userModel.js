@@ -12,7 +12,7 @@ const geometrySchema = new mongoose.Schema({
 });
 const userSchema = new mongoose.Schema({
     online: {
-        type: String,
+        type: false,
     },
     socketId: {
         type: String,

@@ -32,11 +32,11 @@ function Register() {
   };
   useEffect(() => {
     setTimeout(() => {
-      if (auth?.user?.email) {
+      if (auth?.user?.user?.email) {
         window?.location.replace("/login")
       }
     }, 5000)
-  }, [auth?.user?.email])
+  }, [auth?.user?.user?.email])
   const handleChange = (prop) => (event) => {
     setValues({ ...values, [prop]: event.target.value });
   };
@@ -58,125 +58,24 @@ function Register() {
     }, 5000)
   }
 
-  if (error?.password) {
-    toast.error(`${error?.password}`, {
-      position: "bottom-right",
-      theme: theme?.theme,
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-    });
-    setTimeout(() => {
-      dispatch({
-        type: AUTH_ERROR
-      })
-    }, 5000)
-  }
-  if (error?.password2) {
-    toast.error(`${error?.password}`, {
-      position: "bottom-right",
-      theme: theme?.theme,
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-    });
-    setTimeout(() => {
-      dispatch({
-        type: AUTH_ERROR
-      })
-    }, 5000)
-  }
-  if (error?.email) {
-    toast.error(`${error?.email}`, {
-      position: "bottom-right",
-      theme: theme?.theme,
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-    });
-    setTimeout(() => {
-      dispatch({
-        type: AUTH_ERROR
-      })
-    }, 5000)
-  }
-  if (error?.phone) {
-    toast.error(`${error?.phone}`, {
-      position: "bottom-right",
-      theme: theme?.theme,
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-    });
-    setTimeout(() => {
-      dispatch({
-        type: AUTH_ERROR
-      })
-    }, 5000)
-  }
-
-  if (error?.birthDate) {
-    toast.error(`${error?.birthDate}`, {
-      position: "bottom-right",
-      theme: theme?.theme,
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-    });
-    setTimeout(() => {
-      dispatch({
-        type: AUTH_ERROR
-      })
-    }, 5000)
-  }
-  if (error?.username) {
-    toast.error(`${error?.username}`, {
-      position: "bottom-right",
-      theme: theme?.theme,
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-    });
-    setTimeout(() => {
-      dispatch({
-        type: AUTH_ERROR
-      })
-    }, 5000)
-  }
-  if (error?.firstName) {
-    toast.error(`${error?.firstName}`, {
-      position: "bottom-right",
-      theme: theme?.theme,
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-    });
-    setTimeout(() => {
-      dispatch({
-        type: AUTH_ERROR
-      })
-    }, 5000)
+  if (Object?.values(error)?.length) {
+    Object.values(error)?.forEach((err) => {
+      toast.error(`${err}`, {
+        position: "bottom-right",
+        theme: theme?.theme,
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+      setTimeout(() => {
+        dispatch({
+          type: AUTH_ERROR
+        })
+      }, 5000)
+    })
   }
 
   const handleClickShowPassword = () => {

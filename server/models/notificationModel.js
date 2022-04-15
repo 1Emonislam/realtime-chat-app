@@ -20,6 +20,9 @@ const NotificationSchema = new Schema(
             required: true,
             default: false,
         },
+        lastSeen: {
+            type: Date,
+        }
     },
     {
         timestamps: true,

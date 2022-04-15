@@ -1,10 +1,10 @@
 import Box from "@mui/material/Box";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import * as React from "react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import "./App.css";
 import Call from "./components/Call/Call";
-import ChatHome from "./components/ChatHome";
 import BlockedUser from "./components/DashBoardSettings/BlockedUser";
 import DashBoardHome from "./components/DashBoardSettings/DashBoardHome";
 import OnLineAndOffLineStatusBar from "./components/DashBoardSettings/OnLineAndOffLineStatusBar";
@@ -26,14 +26,14 @@ import Register from "./pages/Auth/Register";
 import ResetPassword from "./pages/Auth/ResetPassword";
 import Home from "./pages/Home/Home";
 export const ThemeSelectContext = React.createContext();
-const ColorModeContext = React.createContext({ toggleColorMode: () => {} });
+const ColorModeContext = React.createContext({ toggleColorMode: () => { } });
 export default function ToggleColorMode() {
+  const user = useSelector(state => state?.auth?.user?.user);
   const [mode, setMode] = React.useState(
-    JSON.parse(window.localStorage.getItem("theme"))
-  );
+    window.localStorage.getItem("themeCurrent") ? JSON.parse(window.localStorage.getItem("themeCurrent")) : 'light');
   if (!mode) {
     window.localStorage.setItem(
-      "theme",
+      "themeCurrent",
       JSON.stringify(mode === "light" ? "dark" : "light")
     );
   }
@@ -47,7 +47,7 @@ export default function ToggleColorMode() {
     () => ({
       toggleColorMode: () => {
         window.localStorage.setItem(
-          "theme",
+          "themeCurrent",
           JSON.stringify(mode === "light" ? "dark" : "light")
         );
         setMode((prevMode) => (prevMode === "light" ? "dark" : "light"));
@@ -65,7 +65,11 @@ export default function ToggleColorMode() {
       }),
     [mode]
   );
-
+  React.useEffect(() => {
+    if (!user?.email) {
+      <Navigate to="/login" replace></Navigate>
+    }
+  }, [user?.email])
   return (
     <ColorModeContext.Provider value={colorMode}>
       <ThemeSelectContext.Provider value={theme}>
@@ -73,7 +77,7 @@ export default function ToggleColorMode() {
           <Box
             sx={{
               bgcolor: "background.default",
-              color: "text.primary",
+              color: "text.default",
               borderRadius: 1,
               width: "100%",
             }}
@@ -82,13 +86,23 @@ export default function ToggleColorMode() {
               <Routes>
                 <Route path="/home" element={<Home />}></Route>
                 <Route path="/" element={<Home />}></Route>
+                <Route path="/login" element={<Login />}>
+                </Route>
+                <Route path="/forget-password" element={<ForgetPassword />}>
+                </Route>
+                <Route
+                  path="/reset-password/:token"
+                  element={<ResetPassword />}
+                > </Route>
+                <Route path="/change-password" element={<ChangePassword />}>
+                </Route>
+                <Route path="/register" element={<Register />}>
+                </Route>
+                {/* private page start */}
                 <Route
                   path="/chat"
                   element={
                     <Chat>
-                      {/* <IconButton sx={{ ml: 1 }} onClick={colorMode.toggleColorMode} color="inherit">
-                  {theme.palette.mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
-                </IconButton> */}
                       <ThemeSwitch
                         onClick={colorMode.toggleColorMode}
                         style={{ fontSize: "20px" }}
@@ -101,9 +115,6 @@ export default function ToggleColorMode() {
                   path="/group"
                   element={
                     <Group>
-                      {/* <IconButton sx={{ ml: 1 }} onClick={colorMode.toggleColorMode} color="inherit">
-                  {theme.palette.mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
-                </IconButton> */}
                       <ThemeSwitch
                         onClick={colorMode.toggleColorMode}
                         style={{ fontSize: "20px" }}
@@ -116,9 +127,6 @@ export default function ToggleColorMode() {
                   path="/call"
                   element={
                     <Call>
-                      {/* <IconButton sx={{ ml: 1 }} onClick={colorMode.toggleColorMode} color="inherit">
-                  {theme.palette.mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
-                </IconButton> */}
                       <ThemeSwitch
                         onClick={colorMode.toggleColorMode}
                         style={{ fontSize: "20px" }}
@@ -131,9 +139,6 @@ export default function ToggleColorMode() {
                   path="/settings"
                   element={
                     <Settings>
-                      {/* <IconButton sx={{ ml: 1 }} onClick={colorMode.toggleColorMode} color="inherit">
-                  {theme.palette.mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
-                </IconButton> */}
                       <ThemeSwitch
                         onClick={colorMode.toggleColorMode}
                         style={{ fontSize: "20px" }}
@@ -146,9 +151,6 @@ export default function ToggleColorMode() {
                   path="/status"
                   element={
                     <Status>
-                      {/* <IconButton sx={{ ml: 1 }} onClick={colorMode.toggleColorMode} color="inherit">
-                  {theme.palette.mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
-                </IconButton> */}
                       <ThemeSwitch
                         onClick={colorMode.toggleColorMode}
                         style={{ fontSize: "20px" }}
@@ -157,32 +159,8 @@ export default function ToggleColorMode() {
                     </Status>
                   }
                 ></Route>
-                <Route path="/home" element={<Home />}>
-                  {" "}
-                </Route>
-                <Route path="/login" element={<Login />}>
-                  {" "}
-                </Route>
-                <Route path="/chat-child" element={<ChatHome />}>
-                  {" "}
-                </Route>
-                <Route path="/forget-password" element={<ForgetPassword />}>
-                  {" "}
-                </Route>
-                <Route
-                  path="/reset-password/:token"
-                  element={<ResetPassword />}
-                >
-                  {" "}
-                </Route>
-                <Route path="/change-password" element={<ChangePassword />}>
-                  {" "}
-                </Route>
-                <Route path="/register" element={<Register />}>
-                  {" "}
-                </Route>
                 {/* Dashboard  start*/}
-                <Route path="/general-setting" element={< SettingsGeneral/>}> </Route>
+                <Route path="/general-setting" element={< SettingsGeneral />}> </Route>
                 <Route path="/admob-setting" element={< SettingAdmob />}> </Route>
                 <Route path="/snich-setting" element={< SettingSinch />}> </Route>
                 <Route path="/firebase-setting" element={< SettingsFirebase />}> </Route>
@@ -195,18 +173,14 @@ export default function ToggleColorMode() {
                 <Route
                   path="*"
                   element={
-                    <>
-                      <h2> Not Founds</h2>{" "}
-                    </>
-                  }
-                >
-                  {" "}
+                    <> <h2> Not Found</h2></>
+                  }>
                 </Route>
               </Routes>
             </BrowserRouter>
           </Box>
-        </ThemeProvider>
-      </ThemeSelectContext.Provider>
-    </ColorModeContext.Provider>
+        </ThemeProvider >
+      </ThemeSelectContext.Provider >
+    </ColorModeContext.Provider >
   );
 }

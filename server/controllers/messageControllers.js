@@ -2,6 +2,9 @@ const Chat = require("../models/chatModel");
 const Message = require("../models/messageModel");
 const User = require("../models/userModel");
 module.exports.sendMessage = async (req, res, next) => {
+    if (!req?.user?._id) {
+        return res.status(400).json({ error: { email: 'User Credentials expired! Please login' } })
+    }
     const { content, chatId } = req.body;
     if (!content || !chatId) {
         console.log("invalid data passed into request");
@@ -24,7 +27,7 @@ module.exports.sendMessage = async (req, res, next) => {
     }
     try {
         let message = await Message.create(newMessage);
-        message = await message.populate("sender", "name pic")
+        message = await message.populate("sender", "_id pic firstName lastName email")
         message = await message.populate("chat")
         message = await User.populate(message, {
             path: 'chat.members',
@@ -43,10 +46,13 @@ module.exports.sendMessage = async (req, res, next) => {
     }
 }
 module.exports.allMessage = async (req, res, next) => {
+    if (!req?.user?._id) {
+        return res.status(400).json({ error: { email: 'User Credentials expired! Please login' } })
+    }
     try {
         const { page = 1, limit = 10 } = req.query;
         let messages = await Message.find({ chat: req.params.chatId }).populate("sender", "_id pic firstName lastName email").populate("chat")
-        await Message.updateMany({ chat: req.params.chatId }, {
+        await Chat.findOneAndUpdate({ _id: req.params.chatId }, {
             lastActive: new Date(),
         }, { new: true })
         messages = await Chat.populate(messages, {
@@ -77,9 +83,12 @@ module.exports.allMessage = async (req, res, next) => {
     }
 }
 module.exports.messageRemove = async (req, res, next) => {
+    if (!req?.user?._id) {
+        return res.status(400).json({ error: { email: 'User Credentials expired! Please login' } })
+    }
     const { chatId, messageId } = req.body;
     if (!chatId || !messageId) {
-        return res.status(400).json({ error: "please provide valid credentials!" })
+        return res.status(400).json({ error: { token: "please provide valid credentials!" } })
     }
     try {
         const delete1 = await Message.deleteOne({ _id: messageId, chat: chatId, groupAdmin: req.user?._id })
@@ -88,7 +97,7 @@ module.exports.messageRemove = async (req, res, next) => {
         if (delete1?.deletedCount > 0 || delete2?.deletedCount > 0) {
             res.status(200).json({ message: "message Removed successfully" })
         } else {
-            return res.status(400).json({ error: "message Removed Failed!" })
+            return res.status(400).json({ error: { action: "message Removed Failed!" } })
         }
     }
     catch (error) {
@@ -97,13 +106,16 @@ module.exports.messageRemove = async (req, res, next) => {
 
 }
 module.exports.messageEdit = async (req, res, next) => {
+    if (!req?.user?._id) {
+        return res.status(400).json({ error: { email: 'User Credentials expired! Please login' } })
+    }
     const { chatId, messageId } = req.body;
     const text = req.body?.content?.text;
     const audio = req.body?.content?.audio;
     const video = req.body?.content?.video;
     const others = req.body?.content?.others;
     if (!chatId || !messageId) {
-        return res.status(400).json({ error: "please provide valid credentials!" })
+        return res.status(400).json({ error: { token: "please provide valid credentials!" } })
     }
     try {
         let message = await Message.findOneAndUpdate({ _id: messageId, chat: chatId, sender: req.user?._id }, {
@@ -116,7 +128,7 @@ module.exports.messageEdit = async (req, res, next) => {
         }, { new: true });
         // console.log(message)
         if (!message) {
-            return res.status(400).json({ error: "Message Update Failed!", data: [] })
+            return res.status(400).json({ error: { action: "Message Update Failed!" }, data: [] })
         }
         // console.log(message)
         if (message) {

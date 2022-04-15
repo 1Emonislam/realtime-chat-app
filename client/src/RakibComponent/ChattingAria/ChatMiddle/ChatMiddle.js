@@ -1,14 +1,14 @@
 import React from 'react';
+import { WriterEditor } from '../../../Editor/WriterEditor';
 import ChatBody from './ChatBody/ChatBody';
-import Footer from './Footer/Footer';
 import Header from './Header/Header';
 
 const ChatMiddle = () => {
     return (
         <>
-        <Header/>
-        <ChatBody/>
-        <Footer/>
+            <Header />
+            <ChatBody />
+            <WriterEditor />
         </>
     );
 };

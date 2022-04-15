@@ -9,12 +9,12 @@ const Header = () => {
                 <div>
                     <Typography sx={{
                         fontSize: {
-                            lg: '20px',
-                            md: '18px',
-                            sm: '16px',
-                            xs: "12px"
-                        }, color: '#ffffff', textTransform: 'uppercase'
-                    }}> <i className="fa-brands fa-discord"></i> Discoard</Typography>
+                            lg: '24px',
+                            md: '20px',
+                            sm: '18px',
+                            xs: "16px"
+                        }, color: '#ffffff', fontWeight: 'bold', letterSpacing: 1.6
+                    }}>Collaball</Typography>
                 </div>
                 <div>
                     <Button sx={{
@@ -69,26 +69,6 @@ const Header = () => {
                         }
 
                     }}><NavLink to="/register">Register</NavLink></Button>
-                    <Button sx={{
-                        fontSize: {
-                            lg: '14px',
-                            md: '14px',
-                            sm: '14px',
-                            xs: "12px"
-                        },
-                        background: '#fff',
-                        textTransform: 'capitalize',
-                        color: 'black',
-                        borderRadius: '40px',
-                        padding: '6px 16px !important',
-
-                        '&:hover': {
-                            color: 'blue',
-                            background: '#ffffff',
-                            boxShadow: '1px 1px 1px #ffffff'
-                        }
-
-                    }}><NavLink to="/chat">Chat</NavLink></Button>
                 </div>
 
             </Box>

@@ -4,9 +4,9 @@ const Friend = require('./FriendModel');
 exports.getFriends = async (req, res, next) => {
     let { status, page = 1, limit = 10 } = req.query;
     limit = parseInt(limit);
-    // console.log(status)
+    // console.log(status) 
+    let keyword;
     if (status) {
-        let keyword;
         keyword = req.query?.search ? {
             _id: req?.user?._id,
             $or: [

@@ -1,4 +1,4 @@
-const cloudinary = require("cloudinary").v2;
+const {cloudinary} = require('../config/cloudnary');
 
 /**
  * Check file is an image or not

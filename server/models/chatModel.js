@@ -3,11 +3,11 @@ const chatSchema = mongoose.Schema(
     {
         chatName: {
             type: String,
-            required: true,
+            required: [true, 'Please provide Group Name'],
         },
         img: {
             type: String,
-            default:'https://i.ibb.co/dKKKKH4/groupicon2.png'
+            default: 'https://i.ibb.co/dKKKKH4/groupicon2.png'
         },
         isGroupChat: {
             type: Boolean,
@@ -20,6 +20,19 @@ const chatSchema = mongoose.Schema(
                 ref: "User",
             },
         ],
+        topic: {
+            type: String,
+            trim: true,
+        },
+        status: {
+            type: String,
+            enum: ["private", "puplic"],
+            required: [true, 'Select Group Type'],
+        },
+        description: {
+            type: String,
+            trim: true,
+        },
         latestMessage: {
             type: mongoose.Schema.Types.ObjectId,
             ref: "Message",
@@ -28,6 +41,13 @@ const chatSchema = mongoose.Schema(
             type: mongoose.Schema.Types.ObjectId,
             ref: "User",
         }],
+        lastActive:{
+            type:Date,
+        },
+        action: {
+            type: 'String',
+            default: 'N/A'
+        }
     },
     {
         timestamps: true,

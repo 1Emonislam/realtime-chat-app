@@ -2,27 +2,25 @@ import { Button, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import React from 'react';
 import Header from '../Header/Header';
-import bannerImg from '../../../assets/images/banners.svg';
-import bannerLeft from '../../../assets/images/bannerLeft.svg';
-import bannerRight from '../../../assets/images/bannerRight.svg';
+import bannerImg from '../../../assets/images/banners.png';
 
 const TopBanner = () => {
     return (
         <Box
             sx={{
-                background: `url(${bannerImg}), #404eed`,
+                background: `linear-gradient( rgb(19 39 255 / 78%) 100%, rgb(31 31 216 / 86%)100%),url(${bannerImg})`,
                 backgroundRepeat: 'no-repeat',
                 backgroundSize: 'cover',
                 position: 'relative',
-                overflow: 'hidden'
+                overflow: 'hidden',
             }}
         >
             <Header />
-            <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '520px', }}>
+            <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '570px', }}>
                 <Box sx={{ maxWidth: '780px', textAlign: 'center' }}>
                     <Box sx={{ color: '#ffffff' }}>
-                        <Typography sx={{ fontWeight: 800 }} variant="h2">IMAGINE A PLACE...</Typography>
-                        <Typography sx={{ mt: '40px', display: 'block', fontSize: '18px', fontWeight: 200, lineHeight: 1.8, }} variant="p">...where you can belong to a school club, a gaming group, or a worldwide art community. Where just you and a handful of friends can spend time together. A place that makes it easy to talk every day and hang out more often.</Typography>
+                        <Typography sx={{ fontSize: {lg: '60px', sm: '48px', xs: '30px'}, fontWeight: 800 }} variant="h2">IMAGINE A PLACE...</Typography>
+                        <Typography sx={{ mt: {md: '40px', xs: '20px'}, display: 'block', fontSize: {md: '18px', xs: '16px'}, fontWeight: 200, lineHeight: 1.8, }} variant="p">...where you can belong to a school club, a gaming group, or a worldwide art community. Where just you and a handful of friends can spend time together. A place that makes it easy to talk every day and hang out more often.</Typography>
                     </Box>
 
                     <Box sx={{ mt: 4 }}>
@@ -35,6 +33,7 @@ const TopBanner = () => {
                             borderRadius: '40px',
                             padding: '16px 32px !important',
                             mr: 2,
+                            mt: '15px',
 
                             '&:hover': {
                                 color: 'blue',
@@ -51,6 +50,7 @@ const TopBanner = () => {
                             color: '#fff',
                             borderRadius: '40px',
                             padding: '16px 32px !important',
+                            mt: '15px',
 
                             '&:hover': {
                                 background: '#23272a',
@@ -61,25 +61,6 @@ const TopBanner = () => {
                     </Box>
                 </Box>
             </Box>
-
-            {/* background image  */}
-            <Typography component='img' src={bannerLeft}
-                sx={{
-                    position: 'absolute',
-                    bottom: 0,
-                    left: {
-                        lg: '-17%',
-                        md: '-40%'
-                    }
-                }}
-            />
-            <Typography component='img' src={bannerRight}
-                sx={{
-                    position: 'absolute',
-                    bottom: 0,
-                    right: '-14%'
-                }}
-            />
 
         </Box>
     );

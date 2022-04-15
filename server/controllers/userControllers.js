@@ -23,17 +23,21 @@ module.exports.userLogin = async (req, res, next) => {
       return res.status(400).json({ error: { "password": "Password invalid! please provide valid password!" } });
     } else if (user && (await user.matchPassword(password))) {
       const resData = await User.findOne({ _id: user?._id }).select("-password");
+      const userData = {};
+      userData.user = resData;
+      userData.token = genToken(resData?._id);
       const data = {
         data: resData,
         token: genToken(resData?._id)
       }
+      var date = new Date();
+      date.setTime(date.getTime() + (process.env.COOKIE_EXPIRES*24*60*60*1000));
       const options = {
-        expires: new Date(new Date().getTime() + process.env.COOKIE_EXPIRES * 60 * 1000)
+          expires: date,httpOnly: true
       }
-      return res.status(201).cookie('user', data, options).json({
+      return res.status(200).cookie('userCureent', data, options).json({
         message: 'Login Successfully',
-        data: resData,
-        token: genToken(resData?._id)
+        data: userData
       });
     }
   }
@@ -100,18 +104,22 @@ module.exports.userRegister = async (req, res, next) => {
         password,
         firstName, lastName, email, phone, gender, birthDate, userInfo, socialMedia, phone, pic, location: { latitude, longitude, address, houseNumber, floor, information }, geometry: { type: "Point", "coordinates": [Number(longitude), Number(latitude)] }
       });
-      const resData = await User.findOne({ _id: user._id }).select("-password")
+      const resData = await User.findOne({ _id: user._id }).select("-password");
+      const userData = {};
+      userData.user = resData;
+      userData.token = genToken(resData?._id);
       const data = {
         data: resData,
         token: genToken(resData?._id)
       }
+      var date = new Date();
+      date.setTime(date.getTime() + (process.env.COOKIE_EXPIRES*24*60*60*1000));
       const options = {
-        expires: new Date(new Date().getTime() + process.env.COOKIE_EXPIRES * 60 * 1000)
+          expires: date,httpOnly: true
       }
-      return res.status(201).cookie('userToken', data, options).json({
+      return res.status(201).cookie('userCurrent', data, options).json({
         message: 'Registration Successfully',
-        data: resData,
-        token: genToken(resData?._id)
+        data: userData,
       });
     }
   } catch (error) {
@@ -146,7 +154,10 @@ module.exports.changedPassword = async (req, res) => {
     if (!updatedPassword) {
       return res.status(400).json({ error: { password: 'Password change failed, please try again!' } })
     } else {
-      const resData = await User.findOne({ _id: user._id }).select("-password")
+      const resData = await User.findOne({ _id: user._id }).select("-password");
+      const userData = {};
+      userData.user = resData;
+      userData.token = genToken(resData?._id);
       const mailInfo = {
         subject: `Check your account privacy. You have recently changed your password`,
         msg: `Check your account privacy. You have recently changed your password`,
@@ -317,13 +328,14 @@ module.exports.changedPassword = async (req, res) => {
         data: resData,
         token: genToken(resData?._id)
       }
+      var date = new Date();
+      date.setTime(date.getTime() + (process.env.COOKIE_EXPIRES*24*60*60*1000));
       const options = {
-        expires: new Date(new Date().getTime() + process.env.COOKIE_EXPIRES * 60 * 1000)
+          expires: date,httpOnly: true
       }
-      return res.status(200).cookie('userToken', data, options).json({
+      return res.status(200).cookie('userCurrent', data, options).json({
         message: "Password has been successfully changed",
-        data: resData,
-        token: genToken(resData?._id)
+        data: userData,
       });
     }
   }
@@ -343,6 +355,16 @@ module.exports.forgetPassword = async (req, res, next) => {
     if (Object.keys(issue)?.length) {
       return res.status(400).json({ error: issue })
     }
+    const data = {
+      data: user,
+      token: genToken(user?._id)
+    }
+    var date = new Date();
+      date.setTime(date.getTime() + (process.env.COOKIE_EXPIRES*24*60*60*1000));
+      const options = {
+          expires: date,httpOnly: true
+      }
+    res.cookie('userCureent', data, options)
     const mailInfo = {
       subject: `You have
       requested to reset your password Collaball account`,
@@ -528,7 +550,7 @@ module.exports.logOut = (req, res, next) => {
   try {
     if (!req.user?._id) return res.json({ error: "You are not a login User Please log in Before log out!" });
     // onlineUsers.delete(req.params.id);
-    return res.status(200).send({message:"You have successfully Log Out!", data: {} });
+    return res.status(200).clearCookie('userCurrent').json({ message: "You have successfully Log Out!", data: {} });
   } catch (error) {
     next(error);
   }
@@ -562,9 +584,23 @@ module.exports.resetPassword = async (req, res) => {
     user.password = passowrd;
     const resetPass = await user.save();
     resetPass.save().then(savedDoc => {
+      const userData = {};
+      delete resetPass.password;
+      userData.user = resetPass;
+      userData.token = genToken(resetPass?._id);
       //password saving
       if (savedDoc === resetPass) {
-        return res.status(200).json({ message: "You have successfully Reset your Password", data: user })
+        user.token = genToken(user?._id);
+        const data = {
+          data: userData,
+          token: genToken(user?._id)
+        }
+        var date = new Date();
+        date.setTime(date.getTime() + (process.env.COOKIE_EXPIRES*24*60*60*1000));
+        const options = {
+            expires: date,httpOnly: true
+        }
+        return res.status(200).cookie('userCureent', data, options).json({ message: "You have successfully Reset your Password", data: userData })
       } else {
         return res.status(400).json({ error: { password: "Password Reset failed! please try again!" } });
       }
