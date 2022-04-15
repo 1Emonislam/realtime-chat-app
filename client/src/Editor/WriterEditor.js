@@ -1,4 +1,3 @@
-import CodeBlock from '@tiptap/extension-code-block';
 import Link from '@tiptap/extension-link';
 import Underline from "@tiptap/extension-underline";
 import { EditorContent, useEditor } from "@tiptap/react";
