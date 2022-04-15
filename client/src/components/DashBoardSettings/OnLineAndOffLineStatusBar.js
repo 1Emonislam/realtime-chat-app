@@ -1,9 +1,9 @@
-import React from 'react';
-import Box from '@mui/material/Box';
-import { BiSearchAlt2 } from "react-icons/bi";
 import { TextField, Typography } from '@mui/material';
+import Box from '@mui/material/Box';
+import React from 'react';
+import { BiSearchAlt2 } from "react-icons/bi";
+import "./general.css";
 
-import "./general.css"
 
 const OnLineAndOffLineStatusBar = () => {
     return (
@@ -39,7 +39,7 @@ const OnLineAndOffLineStatusBar = () => {
                             <Box sx={{ position: "relative" }}>
                                 <img width="32" height="32" style={{ borderRadius: "100%" }} src="https://dreamschat-reactjs.dreamguystech.com/template2/e6604b3279586ece5009bf5ceadcb602.jpg" alt="" />
                             </Box>
-                            <Box sx={{ p: "2px", backgroundColor: "black", borderRadius: "100%", position: "absolute", top: "175px", left: "46px", borderRadius:"100%" }}>
+                            <Box sx={{ p: "2px", backgroundColor: "black", borderRadius: "100%", position: "absolute", top: "175px", left: "46px",}}>
 
                                 <Box sx={{ width: "8px", height: "8px", backgroundColor: "green", borderRadius: "100%" }}></Box>
 
