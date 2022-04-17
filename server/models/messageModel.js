@@ -7,7 +7,7 @@ const messageSchema = mongoose.Schema({
     },
     content: {
         text: {
-            type: String
+            type: Object
         },
         audio: [],
         video: [],

@@ -8,8 +8,6 @@ import CallIcon from "@mui/icons-material/Call";
 
 const RecentCallList = (props) => {
     const { name, pic, called, status, videoCall, callMissed} = props.p;
-
-    console.log(props.p);
     return (
       <div className="callListItem">
         <Box sx={{ mt: 3 }}>

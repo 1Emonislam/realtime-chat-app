@@ -1,16 +1,16 @@
-import { Box } from '@mui/system';
-import '../GroupChatMiddle.css'
-import React, { useState } from 'react';
+import DeleteIcon from '@mui/icons-material/Delete';
+import InventoryIcon from '@mui/icons-material/Inventory';
 import LocalPhoneIcon from '@mui/icons-material/LocalPhone';
+import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
+import PersonIcon from '@mui/icons-material/Person';
 import SearchIcon from '@mui/icons-material/Search';
 import VideocamIcon from '@mui/icons-material/Videocam';
-import PersonIcon from '@mui/icons-material/Person';
-import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
-import AllModal from './Modal/AllModal';
-import InventoryIcon from '@mui/icons-material/Inventory';
 import VolumeOffIcon from '@mui/icons-material/VolumeOff';
-import DeleteIcon from '@mui/icons-material/Delete';
 import { Grid } from '@mui/material';
+import { Box } from '@mui/system';
+import React, { useState } from 'react';
+import '../GroupChatMiddle.css';
+import AllModal from './Modal/AllModal';
 
 const Header = () => {
     const [search, setSearch] = useState('')
@@ -20,9 +20,6 @@ const Header = () => {
     const threeDot = () => {
         menuOpen === true ? setMenuOpen(false) : setMenuOpen(true)
     }
-
-    
-
     return (
       <>
         <Box sx={{ flexGrow: 1 }} className="chatHeader_section">

@@ -1,28 +1,24 @@
-import AddIcon from "@mui/icons-material/Add";
-import ArticleIcon from "@mui/icons-material/Article";
 import GroupAddIcon from "@mui/icons-material/GroupAdd";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import MessageIcon from "@mui/icons-material/Message";
 import PeopleIcon from "@mui/icons-material/People";
-import PhoneIcon from "@mui/icons-material/Phone";
 import SettingsIcon from "@mui/icons-material/Settings";
 import { Avatar, Grid, ToggleButton } from "@mui/material";
 import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { ThemeSelectContext } from "../../App";
-import AddContact from "../../components/AddContact/AddContact";
 import AddGroups from "../../components/AddGroups/AddGroups";
 import "./nav.css";
 
 const Nav = ({ children }) => {
   const [selected, setSelected] = useState("");
-  const [contactOpen, setContactOpen] = React.useState(false);
+  // const [contactOpen, setContactOpen] = React.useState(false);
   const [groupOpen, setGroupOpen] = React.useState(false);
 
-  const handleContactOpen = () => setContactOpen(true);
+  // const handleContactOpen = () => setContactOpen(true);
   const handleGroupOpen = () => { setGroupOpen(true) };
   // console.log(groupOpen)
-  const handleContactClose = () => setContactOpen(false);
+  // const handleContactClose = () => setContactOpen(false);
   const handleGroupClose = () => setGroupOpen(false);
 
   const { palette } = useContext(ThemeSelectContext);
@@ -159,7 +155,7 @@ const Nav = ({ children }) => {
             xs={1}
             md={12}
           >
-            <Link to="/status">
+            {/* <Link to="/status">
               <ToggleButton
                 value="four"
                 onChange={() => {
@@ -222,7 +218,7 @@ const Nav = ({ children }) => {
                 xs: "0px",
               },
             }}
-          >
+          > */}
             <Link to="/settings">
               <ToggleButton
                 value="six"
@@ -289,13 +285,12 @@ const Nav = ({ children }) => {
             xs={1}
             md={12}
           >
-        <ToggleButton value="nine">
+        {/* <ToggleButton value="nine">
             <AddContact
               handleContactOpen={handleContactOpen}
               handleContactClose={handleContactClose}
               contactOpen={contactOpen}
             ></AddContact>
-            {/* <FontAwesomeSvgIcon icon={faEllipsisV} /> */}
             <AddIcon
               onClick={handleContactOpen}
               sx={{
@@ -307,7 +302,7 @@ const Nav = ({ children }) => {
                 },
               }}
             />
-         </ToggleButton>
+         </ToggleButton> */}
           </Grid>
           <Grid
             item

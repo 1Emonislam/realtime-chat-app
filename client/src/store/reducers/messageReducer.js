@@ -1,25 +1,47 @@
-import { GET_MESSAGE, LOADING_MESSAGE } from "../type/messageTypes";
+import { GET_MESSAGE, SEND_MESSAGE, LOADING_MESSAGE, FAILED_MESSAGE, MESSAGE_WRITE } from "../type/messageTypes";
 
 const initState = {
-    message: [],
+    msg: '',
+    write: '',
     loading: false,
-    error:'',
-    success:'',
+    error: '',
+    success: '',
 }
-export const messageReducer = async (state = initState, action) => {
+export const messageReducer = (state = initState, action) => {
     const { payload, type } = action;
-    // console.log(payload)
-    if (type === GET_MESSAGE) {
-        return {
-            ...state,
-            message: payload.data,
-            loading: false
-        }
-    }
     if (type === LOADING_MESSAGE) {
         return {
             ...state,
             loading: payload.loading
         }
     }
+    if (type === GET_MESSAGE) {
+        return {
+            ...state,
+            msg: payload.data,
+            loading: false
+        }
+    }
+    if (type === SEND_MESSAGE) {
+        return {
+            ...state,
+            msg: payload.data,
+            loading: false
+        }
+    }
+
+    if (type === FAILED_MESSAGE) {
+        return {
+            ...state,
+            error: payload.error,
+            loading: false
+        }
+    }
+    if (type === MESSAGE_WRITE) {
+        return {
+            ...state,
+            write: payload.data
+        }
+    }
+    return state;
 }

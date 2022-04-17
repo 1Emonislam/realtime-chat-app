@@ -11,7 +11,7 @@
   .current-chat-box-container {
     position: fixed;
     overflow-y: scroll;
-    width: 43%;
+    width: 48%;
     height: 99%;
     padding: 20px;
     scrollbar-width: thin;
@@ -20,7 +20,7 @@
   .current-user-about {
     position: fixed;
     overflow-y: scroll;
-    width: 20%;
+    width: 15%;
     height: 99%;
     right: 0;
     top: 0;

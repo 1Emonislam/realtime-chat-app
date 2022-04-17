@@ -1,11 +1,12 @@
-import PeopleIcon from '@mui/icons-material/People';
-import PersonAddIcon from '@mui/icons-material/PersonAdd';
-import SearchIcon from '@mui/icons-material/Search';
-import { Grid, ToggleButton, Typography } from '@mui/material';
+// import PeopleIcon from '@mui/icons-material/People';
+// import PersonAddIcon from '@mui/icons-material/PersonAdd';
+// import SearchIcon from '@mui/icons-material/Search';
+// import { Grid, ToggleButton, Typography } from '@mui/material';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getGroupChatData } from '../store/actions/groupActions';
 import { getMessage } from '../store/actions/messageAction';
+import { getGroupMember } from '../store/actions/singleChatMemberAction';
 import './Group/Group.css';
 import './Group/__Groupcontainer.css';
 import RecentChat from './RecentChat';
@@ -17,13 +18,14 @@ function ChatHome() {
         dispatch(getGroupChatData(auth?.user?.token))
     }, [dispatch, auth?.user?.token]);
     const handleSingleUser = (id) => {
-       if(id){
-        dispatch(getMessage(id, auth?.user?.token))
-       }
+        if (id) {
+            dispatch(getGroupMember(id, auth?.user?.token))
+            dispatch(getMessage(id, auth?.user?.token))
+        }
     }
     return (
         <div className="chat-box-container">
-            <Grid container spacing={0} sx={{
+            {/* <Grid container spacing={0} sx={{
                 padding: {
                     lg: '25px 20px',
                     md: '25px 15px',
@@ -96,16 +98,7 @@ function ChatHome() {
                         }} />
                     </ToggleButton>
                 </Grid>
-                <Grid item xs={12} style={{ padding: '6px 0', }}>
-                    <div className='search-field-box'>
-                        <SearchIcon />
-                        <input type="text" placeholder='Search Contacts' style={{ color: 'inherit' }} />
-                    </div>
-                </Grid>
-            </Grid>
-            {
-                console.log(groupData?.data)
-            }
+            </Grid> 
             <Grid container spacing={0} justifyContent="center" alignItems="center">
                 {groupData?.data?.length && groupData?.data.map((people, index) => (<Grid item key={index} xs={2.6}>
                     <div className="user-box-latest">
@@ -133,7 +126,7 @@ function ChatHome() {
                         </div>
                     </div>
                 </Grid>))}
-            </Grid>
+            </Grid> */}
             {groupData?.data?.length && <RecentChat handleSingleUser={handleSingleUser} groupData={groupData?.data} />}
         </div>
     )

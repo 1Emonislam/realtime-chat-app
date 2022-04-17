@@ -1,10 +1,22 @@
 import EditRoadIcon from '@mui/icons-material/EditRoad';
-import { Grid, ToggleButton, Typography } from '@mui/material';
-import React from 'react';
-import './Chat.css';
-import TypingIndicatior from './Typing/TypingIndicatior';
+import { Avatar, AvatarGroup, Grid, ToggleButton, Typography } from '@mui/material';
+// import Paragraph from '@tiptap/extension-paragraph'
+// import Text from '@tiptap/extension-text'
+// import Bold from '@tiptap/extension-bold'
+// import './Chat.css';
+// import TypingIndicatior from './Typing/TypingIndicatior';
 import moment from 'moment'
+import { getSeenUser } from '../RakibComponent/ChattingAria/ChatMiddle/ChatBody/chatLogic';
+import { useSelector } from 'react-redux';
+import { generateHTML } from '@tiptap/react';
+import React from 'react';
+import Link from '@tiptap/extension-link';
+import Document from '@tiptap/extension-document';
+import Underline from '@tiptap/extension-underline';
+import StarterKit from '@tiptap/starter-kit';
+import htmlParser from 'html-react-parser'
 function RecentChat({ groupData, handleSingleUser }) {
+    const { auth } = useSelector(state => state)
     const [dataState, setDataState] = React.useState({
         activeObject: null,
         objects: [...groupData]
@@ -24,6 +36,7 @@ function RecentChat({ groupData, handleSingleUser }) {
             return 'inactive'
         }
     }
+
     return (
         <div>
             <Grid container spacing={0} sx={{
@@ -125,7 +138,8 @@ function RecentChat({ groupData, handleSingleUser }) {
                                             }}>
                                                 {chat.chatName} {chat?.chatName}
                                             </Typography>
-                                            {chat?.typing ? <TypingIndicatior /> : <>
+                                            {chat?.latestMessage?.content?.text && <>
+                                                {/* <TypingIndicatior />  */}
                                                 <Typography sx={{
                                                     color: "inherit",
                                                     fontSize: {
@@ -141,7 +155,10 @@ function RecentChat({ groupData, handleSingleUser }) {
                                                         xs: 300
                                                     },
                                                 }} gutterBottom component="div">
-                                                    {chat.latestMessage?.content?.text || chat.latestMessage?.content?.audio || chat.latestMessage?.content?.video || chat.latestMessage?.content?.others}
+                                                    {htmlParser(generateHTML(chat?.latestMessage?.content?.text, [
+                                                        Document,
+                                                        StarterKit, Underline, Link,
+                                                    ])) || chat.latestMessage?.content?.audio || chat.latestMessage?.content?.video || chat.latestMessage?.content?.others}
                                                 </Typography>
                                             </>}
                                         </Grid>
@@ -165,30 +182,11 @@ function RecentChat({ groupData, handleSingleUser }) {
                                                 }}>
                                                     {moment(chat?.latestMessage?.updatedAt).fromNow()}
                                                 </Typography>
-                                                {/* {chat?.read?.length !== 0 && <Typography sx={{
-                                                    textAlign: 'center',
-                                                    background: 'rgba(0, 255, 179, 0.151)',
-                                                    borderRadius: '15px',
-                                                    width: '16px',
-                                                    height: '16px',
-                                                    marginLeft: 'auto',
-                                                    padding: '2px',
-                                                    color: "inherit",
-                                                    fontSize: {
-                                                        lg: 10,
-                                                        md: 10,
-                                                        sm: 10,
-                                                        xs: 10
-                                                    },
-                                                    fontWeight: {
-                                                        lg: 300,
-                                                        md: 300,
-                                                        sm: 300,
-                                                        xs: 200
-                                                    },
-                                                }}>
-                                                    {chat.read.length}
-                                                </Typography>} */}
+                                                {chat?.seen?.length !== 0 && !getSeenUser(chat?.seen, auth?.user?.user)?.length && <AvatarGroup max={4} total={getSeenUser(chat?.seen, auth?.user?.user)?.length}>
+                                                    {getSeenUser(chat?.seen, auth?.user?.user).map((user, i) => (
+                                                        <Avatar key={i} sx={{ height: '18px', width: '18px', marginTop: '3px' }} alt={user.firstName} src={user?.pic} />
+                                                    ))}
+                                                </AvatarGroup>}
                                             </Grid>
                                         </Grid>
                                     </Grid>

@@ -1,3 +1,4 @@
+import { Tooltip } from '@mui/material';
 import Link from '@tiptap/extension-link';
 import Underline from "@tiptap/extension-underline";
 import { EditorContent, useEditor } from "@tiptap/react";
@@ -15,9 +16,15 @@ import {
 } from "react-icons/fa";
 import { MdAlternateEmail } from 'react-icons/md';
 import { RiAttachment2, RiSendPlane2Fill } from 'react-icons/ri';
+import { useDispatch, useSelector } from 'react-redux';
+import { sendMessage } from '../store/actions/messageAction';
+import { MESSAGE_WRITE } from '../store/type/messageTypes';
 import './Editor.css';
 
 const MenuBar = ({ editor }) => {
+    const dispatch = useDispatch();
+    const { groupMessage, singleGroupMembers, auth } = useSelector(state => state)
+    // console.log(auth?.user?.token)
     const setLink = useCallback(() => {
         const previousUrl = editor.getAttributes('link').href
         const url = window.prompt('URL', previousUrl)
@@ -29,7 +36,6 @@ const MenuBar = ({ editor }) => {
         if (url === '') {
             editor.chain().focus().extendMarkRange('link').unsetLink()
                 .run()
-
             return
         }
         // update link
@@ -45,7 +51,7 @@ const MenuBar = ({ editor }) => {
             <div>
 
                 <button>
-                    <FaPlusCircle style={{ fontSize: '18px', position: 'relative', top: '2px' }}/>
+                    <FaPlusCircle style={{ fontSize: '18px', position: 'relative', top: '2px' }} />
                 </button>
                 <button
                     onClick={() => editor.chain().focus().toggleBold().run()}
@@ -147,21 +153,29 @@ const MenuBar = ({ editor }) => {
                 <button>
                     < RiAttachment2 />
                 </button>
-                <button>
+                {auth?.user?.token && singleGroupMembers?.chat ? <button onClick={() => dispatch(sendMessage(groupMessage?.write, singleGroupMembers?.chat, auth?.user?.token))}>
                     <RiSendPlane2Fill />
-                </button>
+                </button> : <Tooltip title="Permission Denied!" arrow>
+                    <button style={{color:'#ccc'}}><RiSendPlane2Fill /></button>
+                </Tooltip>}
             </div>
         </div>
     );
 };
 
-export const WriterEditor = ({ setDescription }) => {
+export const WriterEditor = () => {
+    const dispatch = useDispatch();
     const editor = useEditor({
         extensions: [StarterKit, Underline, Link],
         content: ``,
         onUpdate: ({ editor }) => {
-            // const html = editor.getHTML();
-            // setDescription(html);
+            const data = editor.getJSON();
+            dispatch({
+                type: MESSAGE_WRITE,
+                payload: {
+                    data: data,
+                },
+            })
         },
     });
 

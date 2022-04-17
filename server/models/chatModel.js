@@ -26,7 +26,7 @@ const chatSchema = mongoose.Schema(
         },
         status: {
             type: String,
-            enum: ["private", "puplic"],
+            enum: ["private", "public"],
             required: [true, 'Select Group Type'],
         },
         description: {
@@ -44,6 +44,10 @@ const chatSchema = mongoose.Schema(
         lastActive:{
             type:Date,
         },
+        seen: [{
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "User"
+        }],
         action: {
             type: 'String',
             default: 'N/A'

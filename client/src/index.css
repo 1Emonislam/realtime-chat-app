@@ -48,3 +48,6 @@ button,
 svg {
   cursor: pointer !important;
 }
+p {
+  margin: 0px;
+}

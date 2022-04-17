@@ -91,7 +91,7 @@ async function codeSaveDBandSend(userData, subject, plainTextMsg, codeName, send
 				const messageTxt = `${plainTextMsg} ${theCode}`;
 				sendRes = await sendSMS(messageTxt, sentTo);
 			} else {
-				console.log("Email");
+				// console.log("Email");
 				// code sending Body
 				const sentTo = userData.email;
 				subject = subject;
@@ -102,7 +102,7 @@ async function codeSaveDBandSend(userData, subject, plainTextMsg, codeName, send
                             </div>`;
 				try {
 					await mailSending(sentTo, subject, themMailMsg);
-					console.log(`message has ben delivered to ${sentTo}`);
+					// console.log(`message has ben delivered to ${sentTo}`);
 					sendRes.accepted = true;
 				} catch (error) {
 					sendRes.accepted = false;
