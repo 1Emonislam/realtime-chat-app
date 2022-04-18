@@ -12,11 +12,11 @@ import './Group/__Groupcontainer.css';
 import RecentChat from './RecentChat';
 function ChatHome() {
     const dispatch = useDispatch();
-    const { auth, groupData } = useSelector(state => state);
-    // console.log(groupData?.data?.length)
+    const { auth,groupMessage, groupData } = useSelector(state => state);
+    // console.log(groupMessage)
     useEffect(() => {
         dispatch(getGroupChatData(auth?.user?.token))
-    }, [dispatch, auth?.user?.token]);
+    }, [dispatch, groupData?.data?.length,groupMessage?.msg?.length, auth?.user?.token]);
     const handleSingleUser = (id) => {
         if (id) {
             dispatch(getGroupMember(id, auth?.user?.token))

@@ -23,9 +23,8 @@ function RecentChat({ groupData, handleSingleUser }) {
     })
     React.useEffect(() => {
         setDataState({ activeObject: dataState?.activeObject, objects: [...groupData] })
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
-
+    }, [dataState?.activeObject, dataState?.groupData?.data?.length, groupData])
+    
     function toggleActive(index) {
         setDataState({ ...dataState, activeObject: dataState.objects[index] })
     }

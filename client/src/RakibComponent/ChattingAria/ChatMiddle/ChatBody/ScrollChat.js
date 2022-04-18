@@ -1,11 +1,11 @@
 import { Avatar, AvatarGroup, Tooltip } from '@mui/material'
+import Document from '@tiptap/extension-document'
 import Link from '@tiptap/extension-link'
 import Underline from '@tiptap/extension-underline'
-import Document from '@tiptap/extension-document'
 import { generateHTML } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
-import React from 'react'
 import htmlParser from 'html-react-parser'
+import { BsThreeDotsVertical } from 'react-icons/bs'
 import ScrollableFeed from 'react-scrollable-feed'
 import { getSeenUser, isLastMessage, isSameSender, isSameSenderMargin, isSameUser } from './chatLogic'
 function ScrollChat({ messages, user }) {
@@ -41,10 +41,55 @@ function ScrollChat({ messages, user }) {
                                 padding: "5px 15px",
                             }}
                         >
-                            {htmlParser(generateHTML(m?.content?.text, [
-                                Document,
-                                StarterKit, Underline, Link,
-                            ])) || m.content?.audio || m.content?.video || m.content?.others}
+                            <div style={{ display: 'flex' }}>
+                                {htmlParser(generateHTML(m?.content?.text, [
+                                    Document,
+                                    StarterKit, Underline, Link,
+                                ]))}
+                            </div> <span> <BsThreeDotsVertical /></span>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                             {m?.chat?.seen?.length !== 0 && !getSeenUser(m?.chat?.seen, user)?.length && <AvatarGroup max={4} total={getSeenUser(m?.chat?.seen, user)?.length}>
                                 {getSeenUser(m?.chat?.seen, user).map((user, i) => (
                                     <Avatar key={i} sx={{ height: '18px', width: '18px', marginTop: '3px' }} alt={user.firstName} src={user?.pic} />
