@@ -11,6 +11,9 @@
   background-color: var(--dark-body);
   color: white;
 }
+.ancor p {
+  cursor: pointer;
+}
 body {
   margin: 0;
   font-family: "Poppins", sans-serif, -apple-system, BlinkMacSystemFont,
@@ -48,6 +51,16 @@ button,
 svg {
   cursor: pointer !important;
 }
-p {
+p,
+h1,
+h2,
+h3,
+h5,
+h6,
+b,
+strong,
+blockquote,
+code,
+i {
   margin: 0px;
 }

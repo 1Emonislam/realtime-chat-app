@@ -24,7 +24,7 @@ module.exports.acessChat = async (req, res, next) => {
           { members: { $elemMatch: { $eq: req.user._id } } },
           { members: { $elemMatch: { $eq: userId } } },
         ],
-      })
+      }).sort("-updatedAt")
         .populate("members", "_id pic firstName lastName email")
         .populate("latestMessage");
       isChat = await User.populate(isChat, {
@@ -61,7 +61,7 @@ module.exports.acessChat = async (req, res, next) => {
 module.exports.getChatMembers = async (req, res, next) => {
   try {
     const { chatId } = req.params;
-    const getChatMember = await Chat.findOne({ _id: chatId, members: req?.user?._id }).populate("members", "_id pic firstName lastName email").populate("groupAdmin", "_id pic firstName lastName email") || await Chat.findOne({ _id: chatId, status: 'public' }).populate("members", "_id pic firstName lastName email").populate("groupAdmin", "_id pic firstName lastName email")
+    const getChatMember = await Chat.findOne({ _id: chatId}).populate("members", "_id pic firstName lastName email").populate("groupAdmin", "_id pic firstName lastName email")
     const data = {
       totalMember: getChatMember?.members?.length,
       chat: getChatMember?._id,
@@ -81,7 +81,7 @@ module.exports.getChat = async (req, res, next) => {
     return res.status(400).json({ error: { email: 'User Credentials expired! Please login' } })
   }
   try {
-    await Chat.find({ members: { $elemMatch: { $eq: req.user._id } } }).populate("seen", "_id pic firstName lastName email").populate("members", "_id pic firstName lastName email").populate("latestMessage").populate("groupAdmin", "_id pic firstName lastName email").sort("-updatedAt").then(async (results) => {
+    await Chat.find({ members: { $elemMatch: { $eq: req.user._id } } }).sort("-updatedAt").populate("seen", "_id pic firstName lastName email").populate("members", "_id pic firstName lastName email").populate("latestMessage").populate("groupAdmin", "_id pic firstName lastName email").sort("-updatedAt").then(async (results) => {
       // console.log(results)
       results = await User.populate(results, {
         path: "latestMessage.sender",

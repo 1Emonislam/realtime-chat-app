@@ -26,7 +26,15 @@ module.exports.sendMessage = async (req, res, next) => {
     }
     try {
         let message = await Message.create(newMessage);
-        message = await message.populate("sender", "_id pic firstName lastName email")
+        const permission = await Chat.findByIdAndUpdate(req.body.chatId, {
+            latestMessage: message?._id,
+            seen: []
+        }).populate("groupAdmin")
+        message = await Message.find({ chat: chatId })
+        message = await User.populate(message, {
+            path: 'sender',
+            select: '_id pic firstName lastName email'
+        })
         message = await User.populate(message, {
             path: 'chat.members',
             select: '_id pic firstName lastName email'
@@ -43,11 +51,7 @@ module.exports.sendMessage = async (req, res, next) => {
             path: 'chat.seen',
             select: '_id pic firstName lastName email',
         })
-        await Chat.findByIdAndUpdate(req.body.chatId, {
-            latestMessage: message,
-            seen: []
-        })
-        return res.status(200).json({ data: message })
+        return res.status(200).json({ data: message})
     } catch (error) {
         next(error)
     }
@@ -88,7 +92,7 @@ module.exports.allMessage = async (req, res, next) => {
             }
         }
         return res.status(200).json({
-            message: "messagess fetched successfully",
+            message: "messages fetched successfully",
             me: messages?.length > 0 ? me : {},
             data: messages
         });

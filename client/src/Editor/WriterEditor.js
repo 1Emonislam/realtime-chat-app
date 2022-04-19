@@ -1,5 +1,6 @@
 import { Tooltip } from '@mui/material';
 import Link from '@tiptap/extension-link';
+import CodeBlock from '@tiptap/extension-code-block';
 import Underline from "@tiptap/extension-underline";
 import { EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
@@ -45,7 +46,6 @@ const MenuBar = ({ editor }) => {
     if (!editor) {
         return null;
     }
-
     return (
         <div className="menuBar">
             <div>
@@ -153,7 +153,7 @@ const MenuBar = ({ editor }) => {
                 <button>
                     < RiAttachment2 />
                 </button>
-                {auth?.user?.token && singleGroupMembers?.chat ? <button onClick={() => dispatch(sendMessage(groupMessage?.write, singleGroupMembers?.chat, auth?.user?.token))}>
+                {auth?.user?.token && singleGroupMembers?.chat ? <button onClick={() => dispatch(sendMessage(groupMessage?.write, singleGroupMembers?.chat, auth?.user?.token,editor))}>
                     <RiSendPlane2Fill />
                 </button> : <Tooltip title="Permission Denied!" arrow>
                     <button style={{color:'#ccc'}}><RiSendPlane2Fill /></button>
@@ -166,7 +166,7 @@ const MenuBar = ({ editor }) => {
 export const WriterEditor = () => {
     const dispatch = useDispatch();
     const editor = useEditor({
-        extensions: [StarterKit, Underline, Link],
+        extensions: [StarterKit, Underline,CodeBlock, Link],
         content: ``,
         onUpdate: ({ editor }) => {
             const data = editor.getJSON();

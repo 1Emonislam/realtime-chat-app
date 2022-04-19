@@ -18,6 +18,7 @@ export const getMessage = (chatId, token) => {
                 .then(res => res.json())
                 .then(data => {
                     if (data) {
+                        // console.log(data)
                         dispatch({
                             type: GET_MESSAGE,
                             payload: {
@@ -46,7 +47,7 @@ export const getMessage = (chatId, token) => {
         }
     }
 }
-export const sendMessage = (data, chatId, token) => {
+export const sendMessage = (data, chatId, token,editor) => {
     // console.log(token)
     return async (dispatch) => {
         dispatch({
@@ -75,6 +76,7 @@ export const sendMessage = (data, chatId, token) => {
                 .then(res => res.json())
                 .then(data => {
                     if (data) {
+                        editor.commands.clearContent(true)
                         dispatch({
                             type: SEND_MESSAGE,
                             payload: {

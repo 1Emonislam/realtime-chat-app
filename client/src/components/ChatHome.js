@@ -16,7 +16,8 @@ function ChatHome() {
     // console.log(groupMessage)
     useEffect(() => {
         dispatch(getGroupChatData(auth?.user?.token))
-    }, [dispatch, groupData?.data?.length,groupMessage?.msg?.length, auth?.user?.token]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [dispatch, groupData?.data?.length,groupMessage?.msg]);
     const handleSingleUser = (id) => {
         if (id) {
             dispatch(getGroupMember(id, auth?.user?.token))
