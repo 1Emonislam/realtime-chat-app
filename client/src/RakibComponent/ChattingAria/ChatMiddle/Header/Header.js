@@ -32,6 +32,7 @@ const Header = () => {
                         <Box className='profile_image'>
                             <Box sx={{ marginLeft: '15px' }}>
                                 {!singleGroupMembers?.members?.length ? <> <HeaderSkeletonMember /></> : <>
+                                {console.log(singleGroupMembers)}
                                     <GroupPeople memberInfo={singleGroupMembers} />
                                 </>}
                             </Box>

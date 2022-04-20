@@ -101,7 +101,7 @@ const userSchema = new mongoose.Schema({
         default: ''
     },
     birthDate: {
-        type: Date,
+        type: String
     },
     pic: {
         type: String,
@@ -114,38 +114,6 @@ const userSchema = new mongoose.Schema({
     status: {
         type: String,
     },
-    socialMedia: [
-        {
-            facebook: {
-                type: String,
-                default: 'N/A'
-            },
-            twitter: {
-                type: String,
-                default: 'N/A'
-            },
-            linkedin: {
-                type: String,
-                default: 'N/A'
-            },
-            github: {
-                type: String,
-                default: 'N/A'
-            },
-            youtube: {
-                type: String,
-                default: 'N/A'
-            },
-            instagram: {
-                type: String,
-                default: 'N/A'
-            },
-            stackoverflow: {
-                type: String,
-                default: 'N/A'
-            }
-        }
-    ]
 }, {
     timestamps: true,
 });

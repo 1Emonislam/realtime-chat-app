@@ -31,9 +31,9 @@ module.exports.userLogin = async (req, res, next) => {
         token: genToken(resData?._id)
       }
       var date = new Date();
-      date.setTime(date.getTime() + (process.env.COOKIE_EXPIRES*24*60*60*1000));
+      date.setTime(date.getTime() + (process.env.COOKIE_EXPIRES * 24 * 60 * 60 * 1000));
       const options = {
-          expires: date,httpOnly: true
+        expires: date, httpOnly: true
       }
       return res.status(200).cookie('userCureent', data, options).json({
         message: 'Login Successfully',
@@ -46,9 +46,72 @@ module.exports.userLogin = async (req, res, next) => {
   }
 }
 
+module.exports.updateProfile = async (req, res, next) => {
+  if (!req?.user?._id) {
+    return res.status(400).json({ error: { email: "User Credentials expired! Please login" } });
+  }
+  let { email, firstName, lastName, phone, birthDate, pic, userInfo, gender } = req.body;
+  const latitude = req?.body?.location?.latitude || 0;
+  const longitude = req?.body?.location?.longitude || 0;
+  const address = req?.body?.location?.address;
+  const houseNumber = req?.body?.location?.houseNumber;
+  const floor = req?.body?.location?.floor;
+  const information = req?.body?.location?.information;
+  try {
+    const profileUpdate = await User.findOneAndUpdate({ _id: req.user?._id }, {
+      firstName, lastName, email, phone, gender, birthDate, userInfo, phone, pic, location: { latitude, longitude, address, houseNumber, floor, information }, geometry: { type: "Point", "coordinates": [Number(longitude), Number(latitude)] }
+    }).select("-password");
+    const userData = {};
+    userData.user = profileUpdate;
+    userData.token = genToken(profileUpdate?._id);
+    const data = {
+      data: profileUpdate,
+      token: genToken(profileUpdate?._id)
+    }
+    var date = new Date();
+    date.setTime(date.getTime() + (process.env.COOKIE_EXPIRES * 24 * 60 * 60 * 1000));
+    const options = {
+      expires: date, httpOnly: true
+    }
+    return res.status(200).cookie('userCurrent', data, options).json({
+      message: 'Profile Update Successfully',
+      data: userData,
+    });
+  }
+  catch (error) {
+    next(error)
+  }
+}
+
+module.exports.currentProfileGet = async (req, res, next) => {
+  if (!req?.user?._id) {
+    return res.status(400).json({ error: { email: "User Credentials expired! Please login" } });
+  }
+  try {
+    const userData = {};
+    userData.user = req?.user;
+    userData.token = genToken(req?.user?._id);
+    const data = {
+      data: req?.user,
+      token: genToken(req?.user?._id)
+    }
+    var date = new Date();
+    date.setTime(date.getTime() + (process.env.COOKIE_EXPIRES * 24 * 60 * 60 * 1000));
+    const options = {
+      expires: date, httpOnly: true
+    }
+    return res.status(200).cookie('userCurrent', data, options).json({
+      message: 'My Profile',
+      data: userData,
+    });
+  }
+  catch (error) {
+    next(error)
+  }
+}
 module.exports.userRegister = async (req, res, next) => {
   try {
-    let { email, firstName, lastName, phone, birthDate, socialMedia, pic, userInfo, gender, password } = req.body;
+    let { email, firstName, lastName, phone, birthDate, pic, userInfo, gender, password } = req.body;
     const latitude = req?.body?.location?.latitude || 0;
     const longitude = req?.body?.location?.longitude || 0;
     const address = req?.body?.location?.address;
@@ -102,7 +165,7 @@ module.exports.userRegister = async (req, res, next) => {
       const user = await User.create({
         username: userName,
         password,
-        firstName, lastName, email, phone, gender, birthDate, userInfo, socialMedia, phone, pic, location: { latitude, longitude, address, houseNumber, floor, information }, geometry: { type: "Point", "coordinates": [Number(longitude), Number(latitude)] }
+        firstName, lastName, email, phone, gender, birthDate, userInfo, phone, pic, location: { latitude, longitude, address, houseNumber, floor, information }, geometry: { type: "Point", "coordinates": [Number(longitude), Number(latitude)] }
       });
       const resData = await User.findOne({ _id: user._id }).select("-password");
       const userData = {};
@@ -113,9 +176,9 @@ module.exports.userRegister = async (req, res, next) => {
         token: genToken(resData?._id)
       }
       var date = new Date();
-      date.setTime(date.getTime() + (process.env.COOKIE_EXPIRES*24*60*60*1000));
+      date.setTime(date.getTime() + (process.env.COOKIE_EXPIRES * 24 * 60 * 60 * 1000));
       const options = {
-          expires: date,httpOnly: true
+        expires: date, httpOnly: true
       }
       return res.status(201).cookie('userCurrent', data, options).json({
         message: 'Registration Successfully',
@@ -329,9 +392,9 @@ module.exports.changedPassword = async (req, res) => {
         token: genToken(resData?._id)
       }
       var date = new Date();
-      date.setTime(date.getTime() + (process.env.COOKIE_EXPIRES*24*60*60*1000));
+      date.setTime(date.getTime() + (process.env.COOKIE_EXPIRES * 24 * 60 * 60 * 1000));
       const options = {
-          expires: date,httpOnly: true
+        expires: date, httpOnly: true
       }
       return res.status(200).cookie('userCurrent', data, options).json({
         message: "Password has been successfully changed",
@@ -360,10 +423,10 @@ module.exports.forgetPassword = async (req, res, next) => {
       token: genToken(user?._id)
     }
     var date = new Date();
-      date.setTime(date.getTime() + (process.env.COOKIE_EXPIRES*24*60*60*1000));
-      const options = {
-          expires: date,httpOnly: true
-      }
+    date.setTime(date.getTime() + (process.env.COOKIE_EXPIRES * 24 * 60 * 60 * 1000));
+    const options = {
+      expires: date, httpOnly: true
+    }
     res.cookie('userCureent', data, options)
     const mailInfo = {
       subject: `You have
@@ -596,9 +659,9 @@ module.exports.resetPassword = async (req, res) => {
           token: genToken(user?._id)
         }
         var date = new Date();
-        date.setTime(date.getTime() + (process.env.COOKIE_EXPIRES*24*60*60*1000));
+        date.setTime(date.getTime() + (process.env.COOKIE_EXPIRES * 24 * 60 * 60 * 1000));
         const options = {
-            expires: date,httpOnly: true
+          expires: date, httpOnly: true
         }
         return res.status(200).cookie('userCureent', data, options).json({ message: "You have successfully Reset your Password", data: userData })
       } else {

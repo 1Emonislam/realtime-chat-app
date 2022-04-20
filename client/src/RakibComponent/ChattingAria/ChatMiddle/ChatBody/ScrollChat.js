@@ -1,9 +1,8 @@
 import { Avatar, AvatarGroup, Tooltip } from '@mui/material'
 import ScrollableFeed from 'react-scrollable-feed'
-import { getSeenUser, isLastMessage, isSameSender, isSameSenderMargin, isSameUser } from './chatLogic'
-import EditorLogicMessage from './EditorLogicMessage'
 import MessageFunc from '../ChatBody/MessageFunc'
-import MessageFunc2 from './MessageFunc2';
+import { isLastMessage, isSameSender, isSameSenderMargin, isSameUser } from './chatLogic'
+import EditorLogicMessage from './EditorLogicMessage'
 function ScrollChat({ messages, user }) {
     return (
         <ScrollableFeed>
@@ -14,9 +13,7 @@ function ScrollChat({ messages, user }) {
                             isLastMessage(messages, i, user._id)) && (
                                 <Tooltip title={m?.sender?.firstName + ' ' + m?.sender?.lastName} placement="bottom-start" aria-haspopup arrow>
                                     <Avatar
-                                        sx={{ cursor: 'pointer' }}
-                                        mt="7px"
-                                        mr={1}
+                                        sx={{ cursor: 'pointer', marginTop: '7px', marginRight: '25px' }}
                                         size="sm"
                                         cursor="pointer"
                                         name={m.sender.name}
@@ -26,35 +23,29 @@ function ScrollChat({ messages, user }) {
                             )}
                         <span
                             style={{
-                                backgroundColor: `${m.sender._id === user._id ? "#1c9dea" : "#e5edf5"
+                                backgroundColor: `${m?.sender?._id === user?._id ? "#1c9dea" : "#e5edf5"
                                     }`,
-                                color: `${m.sender._id === user._id ? "white" : "#223645"
+                                color: `${m?.sender?._id === user?._id ? "white" : "#223645"
                                     }`,
-                                marginLeft: isSameSenderMargin(messages, m, i, user._id),
+                                marginLeft: isSameSenderMargin(messages, m, i, user?._id),
                                 marginTop: isSameUser(messages, m, i, user._id) ? 3 : 10,
                                 borderRadius: "20px",
                                 padding: "6px 15px",
                                 display: 'flex'
                             }}
                         >
-                            {(isSameSender(messages, m, i, user._id) ||
-                                (messages, i, user?._id) || messages.groupAdmin) && (
-                                    <span style={{ position: 'relative', right: '35px', color: 'blue', fontWeight: '900' }}>
-                                        {m?.content?.text && <MessageFunc copy={m?.content?.text} />}
-                                    </span>
-                                )}
-                            {!(isSameSender(messages, m, i, user._id) ||
-                                (messages, i, user?._id) || messages.groupAdmin) && (
-                                    <span style={{ position: 'relative', right: '35px', color: 'blue', fontWeight: '900' }}>
-                                        {m?.content?.text && <MessageFunc2 copy={m?.content?.text} />}
-                                    </span>
-                                )}
-
+                            <span style={{ position: 'relative', right: '35px', color: 'blue', fontWeight: '900' }}>
+                                {user._id && <MessageFunc copy={m?.content?.text} />}
+                            </span>
                             {m?.content?.text && <EditorLogicMessage data={m?.content?.text} />}
                         </span>
-                        {m?.chat?.seen?.length !== 0 && !getSeenUser(m?.chat?.seen, user)?.length && <AvatarGroup max={4} total={getSeenUser(m?.chat?.seen, user)?.length}>
-                            {getSeenUser(m?.chat?.seen, user).map((user, i) => (
-                                <Avatar key={i} sx={{ height: '18px', width: '18px', marginTop: '3px' }} alt={user.firstName} src={user?.pic} />
+                        {m?.seen?.length && <AvatarGroup max={3} total={m?.seen?.length}>
+                            {m?.seen?.slice(0, 3)?.map((user, i) => (
+                                <>
+                                    {/* {console.log(user)} */}
+                                    <Avatar key={i} sx={{ height: '18px', width: '18px', marginTop: '3px' }} alt={user.username} src={user?.pic} />
+                                </>
+
                             ))}
                         </AvatarGroup>}
 

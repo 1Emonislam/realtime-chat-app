@@ -5,7 +5,8 @@ import { AiFillThunderbolt } from 'react-icons/ai';
 import { BsThreeDotsVertical } from 'react-icons/bs';
 import { MdDelete, MdFileCopy, MdStickyNote2 } from 'react-icons/md';
 import { RiEditCircleFill, RiQuestionnaireFill } from 'react-icons/ri';
-export default function MessageFunc({ idTo, copy }) {
+export default function MessageFunc({ idTo, copy, condition }) {
+    // console.log(condition)
     const [anchorEl, setAnchorEl] = React.useState(null);
 
     const handleClick = (event) => {
@@ -45,11 +46,11 @@ export default function MessageFunc({ idTo, copy }) {
                         <RiEditCircleFill style={{ position: 'relative', top: '3px', paddingLeft: '5px' }} />
                     </span>
                 </Typography>
-                <Typography sx={{ py: 1, px: 3, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                {!condition ? <Typography sx={{ py: 1, px: 3, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                     <span>Delete </span>
                     <span><MdDelete style={{ position: 'relative', top: '3px', paddingLeft: '5px' }} />
                     </span>
-                </Typography>
+                </Typography> : ''}
                 <Typography sx={{ py: 1, px: 3, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                     <span>add To Note </span>
                     <span>
