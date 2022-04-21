@@ -91,7 +91,6 @@ function Login() {
                 <div className="auth-form" style={{ marginBottom: '50px' }}>
                     <h2 className="text text-large">Login</h2>
                     <form onSubmit={handleSubmit(onSubmit)}>
-
                         <FormControl sx={{ m: 1, width: '95%' }} variant="standard">
                             <InputLabel htmlFor="standard-adornment-email">Email</InputLabel>
                             <Input

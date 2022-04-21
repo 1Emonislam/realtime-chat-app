@@ -1,24 +1,27 @@
 import Popover from '@mui/material/Popover';
 import Typography from '@mui/material/Typography';
+import Bold from '@tiptap/extension-bold';
+import Code from '@tiptap/extension-code';
+import CodeBlock from '@tiptap/extension-code-block';
+import Document from '@tiptap/extension-document';
+import Italic from '@tiptap/extension-italic';
+import Link from '@tiptap/extension-link';
+import Text from '@tiptap/extension-text';
+import Underline from '@tiptap/extension-underline';
 import { generateHTML } from '@tiptap/react';
+import StarterKit from '@tiptap/starter-kit';
 import * as React from 'react';
 import { AiFillThunderbolt } from 'react-icons/ai';
 import { BsThreeDotsVertical } from 'react-icons/bs';
 import { MdDelete, MdFileCopy, MdStickyNote2 } from 'react-icons/md';
 import { RiEditCircleFill, RiQuestionnaireFill } from 'react-icons/ri';
-import CodeBlock from '@tiptap/extension-code-block'
-import Document from '@tiptap/extension-document'
-import Link from '@tiptap/extension-link'
-import Underline from '@tiptap/extension-underline'
-import StarterKit from '@tiptap/starter-kit'
-import Bold from '@tiptap/extension-bold'
-import Text from '@tiptap/extension-text'
-import Italic from '@tiptap/extension-italic'
-import Code from '@tiptap/extension-code'
+import { useDispatch, useSelector } from 'react-redux';
 import { toast, ToastContainer } from 'react-toastify';
-import { useSelector } from 'react-redux';
-export default function MessageFunc({ idTo, message, condition }) {
+import EditMessage from '../../../../Editor/EditMessage';
+import { updateMessageStore } from '../../../../store/actions/messageAction';
+export default function MessageFunc({ idTo, isSameSenderPermission, message, messageInfo }) {
     const { theme } = useSelector(state => state);
+    const dispatch = useDispatch()
     const output = React.useMemo(() => {
         return generateHTML(message, [
             Document,
@@ -36,15 +39,14 @@ export default function MessageFunc({ idTo, message, condition }) {
 
     const open = Boolean(anchorEl);
     const id = open ? 'simple-popover' : undefined;
-
+    const text = document.createElement("p");
+    text.innerHTML = output;
     const handleCopy = () => {
-        const para = document.createElement("p");
-        para.innerHTML = output;
-        navigator.clipboard.writeText(para.innerText)
-        toast.success(`Copied ${para.innerText}`, {
+        navigator.clipboard.writeText(text.innerText)
+        toast.success(`Copied ${text.innerText}`, {
             position: "top-center",
             theme: theme?.theme,
-            fontWeight:'500',
+            fontWeight: '500',
             autoClose: 5000,
             hideProgressBar: false,
             closeOnClick: true,
@@ -53,6 +55,17 @@ export default function MessageFunc({ idTo, message, condition }) {
             progress: undefined,
         });
     }
+    const [editMessageOpen, setEditMessageOpen] = React.useState(false);
+    const messageEditHandle = (condition) => {
+        if (condition === true) {
+            setEditMessageOpen(true)
+        }
+        if (condition === false) {
+            setEditMessageOpen(false)
+        }
+    }
+
+    // console.log(messageInfo)
     return (
         <div className='ancor'>
             <BsThreeDotsVertical id={id} onClick={handleClick} />
@@ -72,19 +85,24 @@ export default function MessageFunc({ idTo, message, condition }) {
                         <MdFileCopy style={{ position: 'relative', top: '3px', paddingLeft: '5px' }} />
                     </span>
                 </Typography>
+                {isSameSenderPermission && <>
+                    <Typography sx={{ py: 1, px: 3, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }} >
+                        Edit  <EditMessage messageInfo={messageInfo} messageText={text.innerText} messageEditHandle={messageEditHandle} editMessageOpen={editMessageOpen}></EditMessage>
+                        <span>
+                            <RiEditCircleFill onClick={() => {
+                                messageEditHandle(true)
+                                dispatch(updateMessageStore(messageInfo))
+                            }} style={{ position: 'relative', top: '3px', paddingLeft: '5px' }} />
+                        </span>
+                    </Typography>
+                    <Typography sx={{ py: 1, px: 3, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                        <span>Delete </span>
+                        <span><MdDelete style={{ position: 'relative', top: '3px', paddingLeft: '5px' }} />
+                        </span>
+                    </Typography>
+                </>}
                 <Typography sx={{ py: 1, px: 3, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                    <span>Edit </span>
-                    <span>
-                        <RiEditCircleFill style={{ position: 'relative', top: '3px', paddingLeft: '5px' }} />
-                    </span>
-                </Typography>
-                {!condition ? <Typography sx={{ py: 1, px: 3, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                    <span>Delete </span>
-                    <span><MdDelete style={{ position: 'relative', top: '3px', paddingLeft: '5px' }} />
-                    </span>
-                </Typography> : ''}
-                <Typography sx={{ py: 1, px: 3, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                    <span>add To Note </span>
+                    <span> add To Note </span>
                     <span>
                         <MdStickyNote2 style={{ position: 'relative', top: '3px', paddingLeft: '5px' }} />
                     </span>

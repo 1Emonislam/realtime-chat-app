@@ -1,7 +1,7 @@
 import { SINGLE_CHAT_MEMBER_FAILED, SINGLE_CHAT_MEMBER_LOADING, SINGLE_CHAT_MEMBER_SUCCESS } from "../type/singleChatMemberTypes"
 
 export const getGroupMember = (chatId, token) => {
-    // console.log(chatId, token)
+    //console.log(chatId, token)
     return async (dispatch) => {
         dispatch({
             type: SINGLE_CHAT_MEMBER_LOADING,

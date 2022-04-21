@@ -1,4 +1,4 @@
-import { FAILED_MESSAGE, GET_MESSAGE, LOADING_MESSAGE, SEND_MESSAGE } from "../type/messageTypes"
+import { FAILED_MESSAGE, GET_MESSAGE, LOADING_MESSAGE, SEND_MESSAGE, UPDATE_MESSAGE, UPDATE_MESSAGE_FAILED, UPDATE_MESSAGE_STORE } from "../type/messageTypes"
 export const getMessage = (chatId, token) => {
     return async (dispatch) => {
         dispatch({
@@ -47,7 +47,7 @@ export const getMessage = (chatId, token) => {
         }
     }
 }
-export const sendMessage = (data, chatId, token,editor) => {
+export const sendMessage = (data, chatId, token, editor) => {
     // console.log(token)
     return async (dispatch) => {
         dispatch({
@@ -100,6 +100,87 @@ export const sendMessage = (data, chatId, token,editor) => {
                 type: FAILED_MESSAGE,
                 payload: {
                     error: error.message,
+                }
+            })
+        }
+    }
+}
+export const editMessage = (data, chatId, messageId, token, editor) => {
+    // console.log(data, chatId, messageId, token, editor)
+    return async (dispatch) => {
+        dispatch({
+            type: LOADING_MESSAGE,
+            payload: {
+                loading: true,
+            },
+        })
+        try {
+            fetch(`http://localhost:5000/api/message`, {
+                method: 'PUT',
+                headers: {
+                    "Content-Type": "application/json",
+                    "authorization": `Bearer ${token}`
+                },
+                body: JSON.stringify({
+                    content: {
+                        text: data,
+                        audio: [],
+                        video: [],
+                        others: []
+                    },
+                    chatId: chatId,
+                    messageId: messageId,
+                })
+            })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.error) {
+                        dispatch({
+                            type: FAILED_MESSAGE,
+                            payload: {
+                                error: data?.error,
+                            }
+                        })
+                    }
+                    if (data) {
+                        editor.commands.clearContent(true)
+                        dispatch({
+                            type: UPDATE_MESSAGE,
+                            payload: {
+                                message: data?.message,
+                                data: data,
+                            }
+                        })
+                    }
+
+                })
+        }
+        catch (error) {
+            dispatch({
+                type: FAILED_MESSAGE,
+                payload: {
+                    error: error.message,
+                }
+            })
+        }
+    }
+}
+export const updateMessageStore = (data) => {
+    // console.log(data)
+    return async (dispatch) => {
+        try {
+            dispatch({
+                type: UPDATE_MESSAGE_STORE,
+                payload: {
+                    data: data,
+                }
+            })
+        }
+        catch (error) {
+            dispatch({
+                type: UPDATE_MESSAGE_FAILED,
+                payload: {
+                    data: null,
                 }
             })
         }

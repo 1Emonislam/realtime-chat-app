@@ -1,11 +1,12 @@
-import { GET_MESSAGE, SEND_MESSAGE, LOADING_MESSAGE, FAILED_MESSAGE, MESSAGE_WRITE } from "../type/messageTypes";
+import { FAILED_MESSAGE, GET_MESSAGE, LOADING_MESSAGE, MESSAGE_WRITE, SEND_MESSAGE, SUCCESS_MESSAGE_CLEAR, UPDATE_MESSAGE, UPDATE_MESSAGE_FAILED, UPDATE_MESSAGE_STORE } from "../type/messageTypes";
 
 const initState = {
-    msg: '',
+    msg: null,
     write: '',
     loading: false,
     error: '',
     success: '',
+    messageInfoStore: null,
 }
 export const messageReducer = (state = initState, action) => {
     const { payload, type } = action;
@@ -13,6 +14,30 @@ export const messageReducer = (state = initState, action) => {
         return {
             ...state,
             loading: payload.loading
+        }
+    }
+    if (type === UPDATE_MESSAGE) {
+        return {
+            ...state,
+            msg: payload.data,
+            loading: false
+        }
+    }
+    if (type === UPDATE_MESSAGE_STORE) {
+        return {
+            ...state,
+            messageInfoStore: payload.data,
+            error: '',
+            loading: false
+        }
+    }
+    if (type === UPDATE_MESSAGE_FAILED) {
+        return {
+            ...state,
+            success: '',
+            error: payload.error,
+            msg: null,
+            loading: false
         }
     }
     if (type === GET_MESSAGE) {
@@ -37,10 +62,19 @@ export const messageReducer = (state = initState, action) => {
             loading: false
         }
     }
+    if (type === SUCCESS_MESSAGE_CLEAR) {
+        return {
+            ...state,
+            error: [],
+            success: '',
+            loading: false
+        }
+    }
     if (type === MESSAGE_WRITE) {
         return {
             ...state,
-            write: payload.data
+            write: payload.data,
+            loading: false
         }
     }
     return state;

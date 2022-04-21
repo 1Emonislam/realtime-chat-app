@@ -28,7 +28,7 @@ module.exports.sendMessage = async (req, res, next) => {
         let message = await Message.create(newMessage);
         const permission = await Chat.findByIdAndUpdate(req.body.chatId, {
             latestMessage: message?._id,
-            seen: []
+            seen: [req.user?._id]
         }).populate("groupAdmin")
         message = await Message.find({ chat: chatId })
         message = await User.populate(message, {
@@ -51,7 +51,7 @@ module.exports.sendMessage = async (req, res, next) => {
             path: 'chat.seen',
             select: '_id pic firstName lastName email',
         })
-        return res.status(200).json({ data: message})
+        return res.status(200).json({ data: message })
     } catch (error) {
         next(error)
     }
@@ -61,7 +61,7 @@ module.exports.allMessage = async (req, res, next) => {
         return res.status(400).json({ error: { email: 'User Credentials expired! Please login' } })
     }
     try {
-        let messages = await Message.find({ chat: req.params.chatId }).limit(200).populate("sender", "_id pic firstName lastName email")
+        let messages = await Message.find({ chat: req.params.chatId }).limit(300).populate("sender", "_id pic firstName lastName email")
         await Chat.findOneAndUpdate({ _id: req.params.chatId }, {
             lastActive: new Date(),
             $addToSet: { seen: req.user?._id }
@@ -145,7 +145,7 @@ module.exports.messageEdit = async (req, res, next) => {
                 others
             },
         }, { new: true });
-        // console.log(message)
+        console.log(message)
         if (!message) {
             return res.status(400).json({ error: { action: "Message Update Failed!" }, data: [] })
         }

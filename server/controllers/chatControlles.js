@@ -58,13 +58,15 @@ module.exports.acessChat = async (req, res, next) => {
     }
   }
 };
-module.exports.getChatMembers = async (req, res, next) => {
+module.exports.getSingleChatMembers = async (req, res, next) => {
   try {
     const { chatId } = req.params;
-    const getChatMember = await Chat.findOne({ _id: chatId}).populate("members", "_id pic firstName lastName email").populate("groupAdmin", "_id pic firstName lastName email")
+    let getChatMember = await Chat.findOne({ _id: chatId }).select("members groupAdmin _id seen latestMessage").populate("members", "_id pic firstName lastName email").populate("groupAdmin", "_id pic firstName lastName email").populate("seen", "_id pic firstName lastName email");
+    // console.log(getChatMember?.seen)
     const data = {
       totalMember: getChatMember?.members?.length,
       chat: getChatMember?._id,
+      seen: getChatMember?.seen,
       members: getChatMember?.members,
       groupAdmin: getChatMember?.groupAdmin,
       amIJoined: getChatMember?.members?.some(am => am?._id?.toString() === req.user?._id?.toString()),

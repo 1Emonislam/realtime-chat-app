@@ -6,6 +6,7 @@ const initState = {
     groupAdmin: [],
     totalMember: 0,
     chat: '',
+    seen: [],
     loading: false,
 }
 export const singleChatMemberReducer = (state = initState, action) => {
@@ -18,6 +19,7 @@ export const singleChatMemberReducer = (state = initState, action) => {
             groupAdmin: payload?.data?.groupAdmin,
             totalMember: payload?.data?.totalMember,
             chat: payload?.data?.chat,
+            seen: payload?.data?.seen,
             loading: false
         }
     }

@@ -1,8 +1,15 @@
 import { Grid } from '@mui/material';
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import ChatBodyPage from '../../../Ashikur/ChatBodyPage/ChatBodyPage';
 import Nav from '../../../Ashikur/Nav/Nav';
 function Chat({ children }) {
+  const { auth } = useSelector(state => state)
+  useEffect(() => {
+    if (!auth?.user?.token) {
+      window.location.replace('/login')
+    }
+  }, [auth?.user?.token])
   return (
     <>
       <Grid container spacing={0} justifyContent="center" alignItems="center">

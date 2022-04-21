@@ -18,13 +18,15 @@ import {
 import { MdAlternateEmail } from 'react-icons/md';
 import { RiAttachment2, RiSendPlane2Fill } from 'react-icons/ri';
 import { useDispatch, useSelector } from 'react-redux';
-import { sendMessage } from '../store/actions/messageAction';
+import { editMessage } from '../store/actions/messageAction';
 import { MESSAGE_WRITE } from '../store/type/messageTypes';
 import './Editor.css';
 const MenuBar = ({ editor }) => {
     const dispatch = useDispatch();
-    const { groupMessage, singleGroupMembers, auth } = useSelector(state => state)
-    // console.log(auth?.user?.token)
+    const { groupMessage, auth } = useSelector(state => state);
+    // console.log(groupMessage)
+    const { messageInfoStore } = groupMessage;
+    // console.log(messageInfoStore)
     const setLink = useCallback(() => {
         const previousUrl = editor.getAttributes('link').href
         const url = window.prompt('URL', previousUrl)
@@ -152,7 +154,8 @@ const MenuBar = ({ editor }) => {
                 <button>
                     < RiAttachment2 />
                 </button>
-                {auth?.user?.token && singleGroupMembers?.chat ? <button onClick={() => dispatch(sendMessage(groupMessage?.write, singleGroupMembers?.chat, auth?.user?.token, editor))}>
+                {/*    dispatch(editMessage(groupMessage?.write, messageInfo?.chat?._id, messageInfo?._id, auth?.user?.token)); */}
+                {auth?.user?.token && messageInfoStore?.chat?._id && messageInfoStore?._id ? <button onClick={() => dispatch(editMessage(groupMessage?.write, messageInfoStore?.chat?._id, messageInfoStore?._id, auth?.user?.token, editor))}>
                     <RiSendPlane2Fill />
                 </button> : <Tooltip title="Permission Denied!" arrow>
                     <button style={{ color: '#ccc' }}><RiSendPlane2Fill /></button>
@@ -162,7 +165,7 @@ const MenuBar = ({ editor }) => {
     );
 };
 
-export const WriterEditor = () => {
+export const EditMessageWriter = () => {
     const dispatch = useDispatch();
     const editor = useEditor({
         extensions: [StarterKit, Underline, CodeBlock, Link],
@@ -179,7 +182,7 @@ export const WriterEditor = () => {
     });
     return (
         <div className="textEditor">
-            <EditorContent style={{ color: 'darkcyan' }}editor={editor} />
+            <EditorContent style={{ color: 'darkcyan' }} editor={editor} />
             <MenuBar editor={editor} />
         </div >
     );

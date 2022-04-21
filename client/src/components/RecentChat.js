@@ -111,7 +111,7 @@ function RecentChat({ groupData, handleSingleUser }) {
                                 selected={selected}
                                 onChange={() => {
                                     setSelected(false);
-                                }} sx={{ padding: '14px!important', margin: '0 5px', border: 'none',textTransform:'capitalize' }} className={toggleActiveStyle(index)} onClick={(e) => handleSingleUser(chat._id, toggleActive(index))} >
+                                }} sx={{ padding: '14px!important', margin: '0 5px', border: 'none', width: '96%', textTransform: 'capitalize' }} className={toggleActiveStyle(index)} onClick={(e) => handleSingleUser(chat._id, toggleActive(index))} >
                                 <Grid container spacing={0} alignItems="center" sx={{
                                     justifyContent: {
                                         lg: 'space-betwen',
@@ -160,9 +160,9 @@ function RecentChat({ groupData, handleSingleUser }) {
                                                 {chat?.latestMessage?.content?.text && <>
                                                     {/* <TypingIndicatior />  */}
                                                     <Typography sx={{
-                                                        textAlign: 'center',
+                                                        textAlign: 'left',
                                                         color: "inherit",
-                                                        marginLeft: '45px',
+                                                        marginLeft: '53px',
                                                         fontSize: {
                                                             lg: 13,
                                                             md: 11,
@@ -201,7 +201,7 @@ function RecentChat({ groupData, handleSingleUser }) {
                                                         {moment(chat?.latestMessage?.updatedAt).fromNow()}
                                                     </Typography>
                                                     {/* {console.log(chat?.seen)} */}
-                                                    {chat?.seen?.length && <AvatarGroup max={3} total={chat?.seen?.length}>
+                                                    {chat?.seen?.length && <AvatarGroup max={3}>
                                                         {chat?.seen?.slice(0, 3)?.map((user, i) => (
                                                             <Tooltip title={'seen'} key={i}>
                                                                 <Avatar sx={{ height: '18px', width: '18px', marginTop: '3px' }} alt={user.username} src={user?.pic} />

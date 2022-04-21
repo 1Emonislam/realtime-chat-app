@@ -1,10 +1,13 @@
 import { Avatar, AvatarGroup, Tooltip, Typography } from '@mui/material'
 import moment from 'moment'
+import { useSelector } from 'react-redux'
 import ScrollableFeed from 'react-scrollable-feed'
 import MessageFunc from '../ChatBody/MessageFunc'
-import { isLastMessage, isSameSender, isSameSenderMargin, isSameUser } from './chatLogic'
+import { isLastMessage, isSameSender, isSameSenderMargin, isSameSenderPermission, isSameUser } from './chatLogic'
 import EditorLogicMessage from './EditorLogicMessage'
 function ScrollChat({ messages, user }) {
+const {singleGroupMembers} = useSelector(state => state)
+// console.log(singleGroupMembers)
     return (
         <ScrollableFeed>
             {messages &&
@@ -27,7 +30,6 @@ function ScrollChat({ messages, user }) {
                                         </Tooltip>
                                     )}
                             </div>
-
                             <span
                                 style={{
                                     backgroundColor: `${m?.sender?._id === user?._id ? "#5865f2" : "#E8EFFF"
@@ -46,7 +48,7 @@ function ScrollChat({ messages, user }) {
                                 }}
                             >
                                 <span style={{ position: 'absolute', left: '-20px', top: '18px', color: 'blue', fontWeight: '900' }}>
-                                    {user._id && <MessageFunc message={m?.content?.text} />}
+                                    {user._id && <MessageFunc isSameSenderPermission={!isSameSenderPermission(messages, m, i, user?._id)} message={m?.content?.text}messageInfo={m} />}
                                 </span>
                                 {m?.content?.text && <>
                                     <div>
@@ -75,19 +77,18 @@ function ScrollChat({ messages, user }) {
 
                             </span>
 
-                            {m?.chat?.seen?.length && <Tooltip title="seen" arrow style={{ cursor: 'pointer' }}>
-                                <AvatarGroup max={3} total={m?.chat?.seen?.length !== 0 ? m?.chat?.seen?.length : ''}>
-                                    {m?.chat?.seen?.slice(0, 3)?.map((user, i) => (
-                                      
-                                            <Avatar key={i} sx={{ height: '15px', width: '15px', marginTop: '7px' }} alt={user.username} src={user?.pic} />
 
-                                    ))}
-                                </AvatarGroup>
-                            </Tooltip>}
                         </div>
+
                     </span>
                 ))}
-
+           {singleGroupMembers?.seen?.length && <Tooltip title="seen" arrow style={{ cursor: 'pointer' }}>
+                <AvatarGroup max={3}>
+                    {singleGroupMembers?.seen?.slice(0, 3)?.map((user, i) => (
+                        <Avatar key={i} sx={{ height: '15px', width: '15px', marginTop: '7px' }} alt={user.username} src={user?.pic} />
+                    ))}
+                </AvatarGroup>
+            </Tooltip>} 
         </ScrollableFeed>
     )
 }
