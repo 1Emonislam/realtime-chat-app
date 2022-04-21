@@ -17,7 +17,7 @@ export default function GroupPeople({ memberInfo }) {
           </Tooltip>
         ))}
       </AvatarGroup>
-      <GroupAllMember handleMemberClose={handleMemberClose} memberOpen={memberOpen} />
+      <GroupAllMember memberInfo={memberInfo} handleMemberClose={handleMemberClose} memberOpen={memberOpen} />
     </div>
   );
 }

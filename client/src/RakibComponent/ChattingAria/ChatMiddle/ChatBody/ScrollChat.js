@@ -35,7 +35,7 @@ function ScrollChat({ messages, user }) {
                             }}
                         >
                             <span style={{ position: 'relative', right: '35px', color: 'blue', fontWeight: '900' }}>
-                                {user._id && <MessageFunc copy={m?.content?.text} />}
+                                {user._id && <MessageFunc message={m?.content?.text} />}
                             </span>
                             {m?.content?.text && <EditorLogicMessage data={m?.content?.text} />}
                         </span>

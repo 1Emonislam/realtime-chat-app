@@ -9,7 +9,7 @@ import './Chat.css';
 import moment from 'moment';
 import React from 'react';
 import SkeletonRecentGroup from '../Editor/SkeletonRecentGroup';
-import EditorLogic from '../RakibComponent/ChattingAria/ChatMiddle/ChatBody/EditorLogic';
+import EditorLatestMessage from '../RakibComponent/ChattingAria/ChatMiddle/ChatBody/EditorLatestMessage';
 function RecentChat({ groupData, handleSingleUser }) {
     // console.log(groupData)
     const [dataState, setDataState] = React.useState({
@@ -123,7 +123,7 @@ function RecentChat({ groupData, handleSingleUser }) {
                                                 <Typography sx={{
                                                     color: "inherit",
                                                     textAlign: 'center',
-                                                    marginLeft: '20px',
+                                                    marginLeft: '0px',
                                                     fontSize: {
                                                         lg: 14,
                                                         md: 14,
@@ -144,7 +144,7 @@ function RecentChat({ groupData, handleSingleUser }) {
                                                     <Typography sx={{
                                                         textAlign: 'center',
                                                         color: "inherit",
-                                                        marginLeft: '10px',
+                                                        marginLeft: '45px',
                                                         fontSize: {
                                                             lg: 13,
                                                             md: 11,
@@ -158,7 +158,7 @@ function RecentChat({ groupData, handleSingleUser }) {
                                                             xs: 300
                                                         },
                                                     }} gutterBottom component="div">
-                                                        <EditorLogic data={chat?.latestMessage?.content?.text}></EditorLogic>
+                                                        <EditorLatestMessage data={chat?.latestMessage?.content?.text}></EditorLatestMessage>
                                                     </Typography>
                                                 </>}
                                             </Grid>
@@ -185,7 +185,7 @@ function RecentChat({ groupData, handleSingleUser }) {
                                                     {/* {console.log(chat?.seen)} */}
                                                     {chat?.seen?.length && <AvatarGroup max={3} total={chat?.seen?.length}>
                                                         {chat?.seen?.slice(0, 3)?.map((user, i) => (
-                                                            <Tooltip title={user.firstName + ' ' + user?.lastName} key={i}>
+                                                            <Tooltip title={'seen'} key={i}>
                                                                 <Avatar sx={{ height: '18px', width: '18px', marginTop: '3px' }} alt={user.username} src={user?.pic} />
                                                             </Tooltip>
                                                         ))}

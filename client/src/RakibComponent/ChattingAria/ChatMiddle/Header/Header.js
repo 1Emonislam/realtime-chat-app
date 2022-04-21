@@ -32,13 +32,12 @@ const Header = () => {
                         <Box className='profile_image'>
                             <Box sx={{ marginLeft: '15px' }}>
                                 {!singleGroupMembers?.members?.length ? <> <HeaderSkeletonMember /></> : <>
-                                {console.log(singleGroupMembers)}
+                                    {/* {console.log(singleGroupMembers)} */}
                                     <GroupPeople memberInfo={singleGroupMembers} />
                                 </>}
                             </Box>
                         </Box>
                     </Grid>
-
                     <Grid item xs={6} md={6}>
                         <ul className='chat_Header_icon'>
                             <li onClick={() => setSearch('search')}>
