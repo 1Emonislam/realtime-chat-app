@@ -1,6 +1,7 @@
 import { Tooltip, Grid, ToggleButton, Avatar } from '@mui/material'
 import React from 'react'
 function ProfileGroupList({ memberInfo }) {
+    const [selected, setSelected] = React.useState(false);
     return (
         <>
             {memberInfo?.map((member, index) => (
@@ -12,7 +13,11 @@ function ProfileGroupList({ memberInfo }) {
                         </Tooltip>
                     </Grid>
                     <Grid item xs={10}>
-                        <ToggleButton value="one"style={{border:'none'}}>
+                        <ToggleButton value="check"
+                            selected={selected}
+                            onChange={() => {
+                                setSelected(false);
+                            }} style={{ border: 'none', textTransform: 'capitalize' }}>
                             {member.firstName + ' ' + member?.lastName}
                         </ToggleButton>
                     </Grid>

@@ -3,8 +3,7 @@ import { styled } from '@mui/material/styles';
 import Badge from '@mui/material/Badge';
 import Avatar from '@mui/material/Avatar';
 import Stack from '@mui/material/Stack';
-import { Grid, Typography } from '@mui/material';
-
+import { Grid, ToggleButton } from '@mui/material';
 const StyledBadge = styled(Badge)(({ theme }) => ({
     '& .MuiBadge-badge': {
         backgroundColor: '#44b700',
@@ -36,102 +35,32 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
 
 
 export default function PeopleOnline() {
+    const [selected, setSelected] = React.useState(false);
     return (
-        <Grid container spacing={2}alignItems="center">
-          {/* online people start */}
-            <Grid item xs={2}md={3}>
+        <Grid container spacing={2} alignItems="center"style={{cursor:'pointer'}}>
+            {/* online people start */}
+            <Grid item xs={3}>
                 <Stack>
                     <StyledBadge
                         overlap="circular"
                         anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
                         variant="dot"
                     >
-                        <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
+                        <Avatar variant="inherit" alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
                     </StyledBadge>
+
                 </Stack>
             </Grid>
-            <Grid item xs={10}md={9}>
-            <Typography sx={{fontSize:'16px'}}>  Emon Islam</Typography>
-            </Grid>
-            {/* online end */}
-          {/* online people start */}
-            <Grid item xs={2}md={3}>
-                <Stack>
-                    <StyledBadge
-                        overlap="circular"
-                        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-                        variant="dot"
-                    >
-                        <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
-                    </StyledBadge>
-                </Stack>
-            </Grid>
-            <Grid item xs={10}md={9}>
-            <Typography sx={{fontSize:'16px'}}>  Emon Islam</Typography>
-            </Grid>
-            {/* online end */}
-          {/* online people start */}
-            <Grid item xs={2}md={3}>
-                <Stack>
-                    <StyledBadge
-                        overlap="circular"
-                        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-                        variant="dot"
-                    >
-                        <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
-                    </StyledBadge>
-                </Stack>
-            </Grid>
-            <Grid item xs={10}md={9}>
-            <Typography sx={{fontSize:'16px',color:'inherit'}}>  Emon Islam</Typography>
-            </Grid>
-            {/* online end */}
-          {/* online people start */}
-            <Grid item xs={2}md={3}>
-                <Stack>
-                    <StyledBadge
-                        overlap="circular"
-                        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-                        variant="dot"
-                    >
-                        <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
-                    </StyledBadge>
-                </Stack>
-            </Grid>
-            <Grid item xs={10}md={9}>
-            <Typography sx={{fontSize:'16px'}}variant="inherit">  Emon Islam</Typography>
-            </Grid>
-            {/* online end */}
-          {/* online people start */}
-            <Grid item xs={2}md={3}>
-                <Stack>
-                    <StyledBadge
-                        overlap="circular"
-                        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-                        variant="dot"
-                    >
-                        <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
-                    </StyledBadge>
-                </Stack>
-            </Grid>
-            <Grid item xs={10}md={9}>
-            <Typography sx={{fontSize:'16px'}}>  Emon Islam</Typography>
-            </Grid>
-            {/* online end */}
-          {/* online people start */}
-            <Grid item xs={2}md={3}>
-                <Stack>
-                    <StyledBadge
-                        overlap="circular"
-                        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-                        variant="dot"
-                    >
-                        <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
-                    </StyledBadge>
-                </Stack>
-            </Grid>
-            <Grid item xs={10}md={9}>
-            <Typography sx={{fontSize:'16px'}}>  Emon Islam</Typography>
+            <Grid item xs={9}>
+                <ToggleButton value="check"
+                    selected={selected}
+                    style={{ border: 'none',textTransform:'capitalize',position:'relative',left:'-10px' }}
+                    onChange={() => {
+                        setSelected(false);
+                    }}>
+
+                 Emon Islam
+                </ToggleButton>
             </Grid>
             {/* online end */}
         </Grid>

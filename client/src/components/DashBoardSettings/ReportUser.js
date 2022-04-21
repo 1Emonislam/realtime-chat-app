@@ -2,12 +2,9 @@ import React from 'react';
 import Box from '@mui/material/Box';
 import { Button, Typography } from '@mui/material';
 import "./general.css"
-
 import { AiFillEye } from "react-icons/ai";
 import { BsCheck2 } from "react-icons/bs";
 import { BsX } from "react-icons/bs";
-
-
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -15,7 +12,6 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-
 const ReportUser = () => {
     const rows = [
         {
@@ -50,7 +46,6 @@ const ReportUser = () => {
                         Dashboard / </Typography>
                     <Typography variant="h5" component="h5" sx={{ color: '#7a6c7d', fontSize: '16px', fontFamily: "Poppins", fontWeight: "500" }}>Report User</Typography>
                 </Box>
-
             </Box >
             <TableContainer component={Paper}>
                 <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -81,23 +76,17 @@ const ReportUser = () => {
                                             <Typography sx={{ fontFamily: "Poppins" }}>{row.id}</Typography>
                                         </Box>
                                     </Box>
-
-
                                 </TableCell>
                                 <TableCell align="center">{row.ReportDate}</TableCell>
-
                                 <TableCell align="center">{row.ReportTime}</TableCell>
                                 <TableCell align="center">{row.ReportMessage}</TableCell>
                                 <TableCell align="center">{row.ReportDocument}</TableCell>
                                 <TableCell align="center">{row.Action}</TableCell>
-
                             </TableRow>
                         ))}
                     </TableBody>
                 </Table>
             </TableContainer>
-
-
         </Box >
     );
 };

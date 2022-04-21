@@ -31,6 +31,8 @@ function RecentChat({ groupData, handleSingleUser }) {
             return 'inactive'
         }
     }
+    const [selected, setSelected] = React.useState(false);
+
     return (
         <div>
             <Grid container spacing={0} sx={{
@@ -45,28 +47,40 @@ function RecentChat({ groupData, handleSingleUser }) {
                 },
             }} alignItems="center" justifyContent="space-around">
                 <Grid item xs={8}>
-                    <Typography sx={{
-                        color: "inherit",
-                        fontSize: {
-                            lg: 16,
-                            md: 16,
-                            sm: 15,
-                            xs: 10
-                        },
+                    <ToggleButton value="check"
+                        selected={selected}
+                        onChange={() => {
+                            setSelected(false);
+                        }} style={{ border: 'none', textTransform: 'capitalize' }}>
+                        <Typography sx={{
+                            color: "inherit",
+                            fontSize: {
+                                lg: 16,
+                                md: 16,
+                                sm: 15,
+                                xs: 10
+                            },
 
-                        fontWeight: {
-                            lg: 700,
-                            md: 600,
-                            sm: 500,
-                            xs: 500
-                        },
-                    }} gutterBottom component="div">
-                        RECENT GROUP CHATS
-                    </Typography>
+                            fontWeight: {
+                                lg: 700,
+                                md: 600,
+                                sm: 500,
+                                xs: 500
+                            },
+                        }}>
+                            RECENT GROUP CHATS
+                        </Typography>
+                    </ToggleButton>
+
                 </Grid>
                 <Grid item xs={4} className="headIcon" sx={{ display: 'flex', justifyContent: 'end', color: 'rgba(0, 0, 0, 0.54)' }}>
-                    <ToggleButton value="one">
+                    <ToggleButton value="check"
+                        selected={selected}
+                        onChange={() => {
+                            setSelected(false);
+                        }}>
                         <EditRoadIcon sx={{
+                            textTransform: 'capitalize',
                             fontSize: {
                                 lg: 20,
                                 md: 20,
@@ -93,7 +107,11 @@ function RecentChat({ groupData, handleSingleUser }) {
                 {!groupData?.length ? <SkeletonRecentGroup /> :
                     <> {groupData?.map((chat, index) => (
                         <Grid key={index} item xs={12} className="user-list" alignItems="center" justifyContent="center">
-                            <div style={{ padding: '10px', margin: '0 5px' }} className={toggleActiveStyle(index)} onClick={(e) => handleSingleUser(chat._id, toggleActive(index))} >
+                            <ToggleButton value="check"
+                                selected={selected}
+                                onChange={() => {
+                                    setSelected(false);
+                                }} sx={{ padding: '14px!important', margin: '0 5px', border: 'none',textTransform:'capitalize' }} className={toggleActiveStyle(index)} onClick={(e) => handleSingleUser(chat._id, toggleActive(index))} >
                                 <Grid container spacing={0} alignItems="center" sx={{
                                     justifyContent: {
                                         lg: 'space-betwen',
@@ -195,7 +213,7 @@ function RecentChat({ groupData, handleSingleUser }) {
                                         </Grid>
                                     </Grid>
                                 </Grid>
-                            </div>
+                            </ToggleButton>
                         </Grid>
                     ))} </>}
             </Grid>

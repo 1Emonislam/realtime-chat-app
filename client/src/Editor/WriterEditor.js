@@ -21,7 +21,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { sendMessage } from '../store/actions/messageAction';
 import { MESSAGE_WRITE } from '../store/type/messageTypes';
 import './Editor.css';
-
 const MenuBar = ({ editor }) => {
     const dispatch = useDispatch();
     const { groupMessage, singleGroupMembers, auth } = useSelector(state => state)
@@ -153,10 +152,10 @@ const MenuBar = ({ editor }) => {
                 <button>
                     < RiAttachment2 />
                 </button>
-                {auth?.user?.token && singleGroupMembers?.chat ? <button onClick={() => dispatch(sendMessage(groupMessage?.write, singleGroupMembers?.chat, auth?.user?.token,editor))}>
+                {auth?.user?.token && singleGroupMembers?.chat ? <button onClick={() => dispatch(sendMessage(groupMessage?.write, singleGroupMembers?.chat, auth?.user?.token, editor))}>
                     <RiSendPlane2Fill />
                 </button> : <Tooltip title="Permission Denied!" arrow>
-                    <button style={{color:'#ccc'}}><RiSendPlane2Fill /></button>
+                    <button style={{ color: '#ccc' }}><RiSendPlane2Fill /></button>
                 </Tooltip>}
             </div>
         </div>
@@ -166,7 +165,7 @@ const MenuBar = ({ editor }) => {
 export const WriterEditor = () => {
     const dispatch = useDispatch();
     const editor = useEditor({
-        extensions: [StarterKit, Underline,CodeBlock, Link],
+        extensions: [StarterKit, Underline, CodeBlock, Link],
         content: ``,
         onUpdate: ({ editor }) => {
             const data = editor.getJSON();
@@ -178,10 +177,11 @@ export const WriterEditor = () => {
             })
         },
     });
-
+    const { theme } = useSelector(state => state)
     return (
         <div className="textEditor">
-            <EditorContent editor={editor} />
+            <EditorContent style={{ color: `${theme?.theme}` }} editor={editor} />
+
             <MenuBar editor={editor} />
         </div>
     );

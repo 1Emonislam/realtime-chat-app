@@ -15,7 +15,6 @@ import Bold from '@tiptap/extension-bold'
 import Text from '@tiptap/extension-text'
 import Italic from '@tiptap/extension-italic'
 import Code from '@tiptap/extension-code'
-import htmlParser from 'html-react-parser'
 import { toast, ToastContainer } from 'react-toastify';
 import { useSelector } from 'react-redux';
 export default function MessageFunc({ idTo, message, condition }) {

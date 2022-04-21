@@ -10,7 +10,6 @@ import { IoIosNotifications } from "react-icons/io";
 import { BsFillChatLeftFill } from "react-icons/bs";
 import { MdGroup } from "react-icons/md";
 import pic from "../../images/increase.png"
-
 import React from 'react';
 
 const DashBoardHome = () => {
