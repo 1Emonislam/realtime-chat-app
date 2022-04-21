@@ -7,10 +7,9 @@
   padding: 12px 15px;
   padding-bottom: 0;
   align-items: center;
-  box-shadow: 0px 4px 4px #f5f8ff;
+  box-shadow: 0px 4px 4px rgb(255 255 255 / 8%);
   border-radius: 5px;
-  background: #ffffff53;
-  border: 1px solid #f4eeff;
+  border: 1px solid rgba(0, 255, 179, 0.327);
   margin-top: 10px;
   position: relative;
 }
@@ -145,22 +144,21 @@ h4.hedding_4 {
   color: #ccc;
 }
 .close-btn-chat {
-  width: 25px;
+  width: 28px;
   height: 25px;
   border-radius: 25px;
   color: #fff;
   background-color: #ee00ab;
-  cursor: pointer;
+  cursor: pointer !important;
   border: none;
   position: relative;
   margin-right: 15px;
 }
-
 /* chat body section */
 
 .chat-body {
   flex: 1;
-  padding: 40px 0px 20px 0px;
+  padding: 8px 0px 20px 0px;
 }
 .chat-body .messages {
   display: flex;

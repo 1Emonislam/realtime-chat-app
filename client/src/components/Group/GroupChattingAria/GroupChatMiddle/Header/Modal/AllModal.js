@@ -1,13 +1,13 @@
-import * as React from 'react';
-import Backdrop from '@mui/material/Backdrop';
-import Box from '@mui/material/Box';
-import Modal from '@mui/material/Modal';
-import Fade from '@mui/material/Fade';
-import chatImg from '../../../../../../assets/images/avatar-8.jpg'
-import './AllModal.css'
 import CloseIcon from '@mui/icons-material/Close';
 import SettingsVoiceIcon from '@mui/icons-material/SettingsVoice';
 import VideocamIcon from '@mui/icons-material/Videocam';
+import Backdrop from '@mui/material/Backdrop';
+import Box from '@mui/material/Box';
+import Fade from '@mui/material/Fade';
+import Modal from '@mui/material/Modal';
+import * as React from 'react';
+import chatImg from '../../../../../../assets/images/avatar-8.jpg';
+import './AllModal.css';
 
 const style = {
     position: 'absolute',
@@ -16,7 +16,7 @@ const style = {
     transform: 'translate(-50%, -50%)',
     width: 400,
     bgcolor: 'background.paper',
-    border: '2px solid #000',
+    border: 'none',
     boxShadow: 24,
     p: 4,
 };

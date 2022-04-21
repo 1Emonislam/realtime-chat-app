@@ -2,21 +2,21 @@ import LocalPhoneIcon from '@mui/icons-material/LocalPhone';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import SearchIcon from '@mui/icons-material/Search';
 import VideocamIcon from '@mui/icons-material/Videocam';
-import { Grid } from '@mui/material';
+import { Grid, Tooltip } from '@mui/material';
 import { Box } from '@mui/system';
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import '../ChatMiddle.css';
 import GroupPeople from './GroupPeople';
 import HeaderSkeletonMember from './HeaderSkeleton';
-import AllModal from './Modal/AllModal';
-import { Tooltip } from '@mui/material'
+import AudioCall from './Modal/AudioCall';
+import VideoCall from './Modal/VideoCall';
 const Header = () => {
     const { singleGroupMembers } = useSelector(state => state)
     //console.log(singleGroupMembers)
     const [search, setSearch] = useState('')
-    const [open, setOpen] = React.useState(false);
-    const [video, setVideo] = React.useState(false);
+    const [audioOpen, setAudioOpen] = React.useState(false);
+    const [videoOpen, setVideoOpen] = React.useState(false);
     return (
         <>
             <Box sx={{ flexGrow: 1 }} className='chatHeader_section'>
@@ -39,11 +39,11 @@ const Header = () => {
                                 </li>
                             </Tooltip>
                             <Tooltip title="Audio Call" arrow>
-                                <li onClick={() => setOpen(true)}><LocalPhoneIcon />
+                                <li onClick={() => setAudioOpen(true)}><LocalPhoneIcon />
                                 </li>
                             </Tooltip>
                             <Tooltip title="Video Call" arrow>
-                                <li onClick={() => setVideo(true)}><VideocamIcon />
+                                <li onClick={() => setVideoOpen(true)}><VideocamIcon />
                                 </li>
                             </Tooltip>
                             <Tooltip title="More Action" arrow>
@@ -60,12 +60,8 @@ const Header = () => {
                             </div>
                         </div>
                     }
-                    {
-                        open && <AllModal open={open} setOpen={setOpen} video={video} setVideo={setVideo} />
-                    }
-                    {
-                        video && <AllModal open={open} setOpen={setOpen} video={video} setVideo={setVideo} />
-                    }
+                    <AudioCall audioOpen={audioOpen} setAudioOpen={setAudioOpen} />
+                    <VideoCall videoOpen={videoOpen} setVideoOpen={setVideoOpen} />
                 </Grid>
             </Box>
         </>

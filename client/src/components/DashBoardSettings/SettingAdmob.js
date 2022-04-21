@@ -103,10 +103,10 @@ const SettingAdmob = () => {
                                 <Box sx={{ mb: "3px", height: "61px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
                                     <Typography sx={{ mt: "50px", fontSize: "15px", fontFamily: "Poppins", mb: "2px", py: "auto" }}>File Input</Typography>
                                     <Button
-                                        sx={{textAlign:"left !important", width: "80%", height: "40px", mt: "35px" }}
+                                        sx={{ textAlign: "left !important", width: "80%", height: "40px", mt: "35px" }}
                                         variant="inherit"
                                         component="label">
-                                            Upload file
+                                        Upload file
                                         <input
                                             sx={{ width: "80%", height: "40px", mt: "35px" }}
                                             type="file"
@@ -127,8 +127,8 @@ const SettingAdmob = () => {
                                         onChange={handleChange}
 
                                     >
-                                        {currencies.map((option) => (
-                                            <MenuItem key={option.value} value={option.value}>
+                                        {currencies.map((option, i) => (
+                                            <MenuItem key={i} value={option.value}>
                                                 {option.label}
                                             </MenuItem>
                                         ))}

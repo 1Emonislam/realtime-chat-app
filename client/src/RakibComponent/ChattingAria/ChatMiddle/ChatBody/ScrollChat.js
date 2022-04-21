@@ -1,4 +1,5 @@
-import { Avatar, AvatarGroup, Tooltip } from '@mui/material'
+import { Avatar, AvatarGroup, Tooltip, Typography } from '@mui/material'
+import moment from 'moment'
 import ScrollableFeed from 'react-scrollable-feed'
 import MessageFunc from '../ChatBody/MessageFunc'
 import { isLastMessage, isSameSender, isSameSenderMargin, isSameUser } from './chatLogic'
@@ -8,49 +9,85 @@ function ScrollChat({ messages, user }) {
         <ScrollableFeed>
             {messages &&
                 messages.map((m, i) => (
-                    <div style={{ display: "flex" }} key={m._id}>
-                        {(isSameSender(messages, m, i, user._id) ||
-                            isLastMessage(messages, i, user._id)) && (
-                                <Tooltip title={m?.sender?.firstName + ' ' + m?.sender?.lastName} placement="bottom-start" aria-haspopup arrow>
-                                    <Avatar
-                                        sx={{ cursor: 'pointer', marginTop: '7px', marginRight: '25px' }}
-                                        size="sm"
-                                        cursor="pointer"
-                                        name={m.sender.name}
-                                        src={m.sender.pic}
-                                    />
-                                </Tooltip>
-                            )}
-                        <span
-                            style={{
-                                backgroundColor: `${m?.sender?._id === user?._id ? "#1c9dea" : "#e5edf5"
-                                    }`,
-                                color: `${m?.sender?._id === user?._id ? "white" : "#223645"
-                                    }`,
-                                marginLeft: isSameSenderMargin(messages, m, i, user?._id),
-                                marginTop: isSameUser(messages, m, i, user._id) ? 3 : 10,
-                                borderRadius: "20px",
-                                padding: "6px 15px",
-                                display: 'flex'
-                            }}
-                        >
-                            <span style={{ position: 'relative', right: '35px', color: 'blue', fontWeight: '900' }}>
-                                {user._id && <MessageFunc message={m?.content?.text} />}
+                    <span key={i}>
+                        <div style={{ display: "flex", alignItems: 'center', marginBottom: '10px' }}>
+                            <div>
+
+                                {(isSameSender(messages, m, i, user._id) ||
+                                    isLastMessage(messages, i, user._id)) && (
+                                        <Tooltip title={m?.sender?.firstName + ' ' + m?.sender?.lastName}
+                                            placement="bottom-start" aria-haspopup arrow>
+                                            <Avatar
+                                                sx={{ cursor: 'pointer', marginTop: '7px', marginRight: '25px' }}
+                                                size="sm"
+                                                cursor="pointer"
+                                                name={m.sender.name}
+                                                src={m.sender.pic}
+                                            />
+                                        </Tooltip>
+                                    )}
+                            </div>
+
+                            <span
+                                style={{
+                                    backgroundColor: `${m?.sender?._id === user?._id ? "#5865f2" : "#E8EFFF"
+                                        }`,
+                                    color: `${m?.sender?._id === user?._id ? "white" : "black"
+                                        }`,
+                                    marginLeft: isSameSenderMargin(messages, m, i, user?._id),
+                                    marginTop: isSameUser(messages, m, i, user._id) ? 3 : 10,
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    flexDirection: 'column',
+                                    position: 'relative',
+                                    borderRadius: " 20px 20px 20px 0",
+                                    padding: "14px 20px",
+                                    fontWeight: "500"
+                                }}
+                            >
+                                <span style={{ position: 'absolute', left: '-20px', top: '18px', color: 'blue', fontWeight: '900' }}>
+                                    {user._id && <MessageFunc message={m?.content?.text} />}
+                                </span>
+                                {m?.content?.text && <>
+                                    <div>
+                                        <Typography sx={{
+                                            color: "inherit",
+                                            fontSize: {
+                                                lg: 12,
+                                                md: 10,
+                                                sm: 10,
+                                                xs: 10
+                                            },
+                                            fontWeight: {
+                                                lg: 200,
+                                                md: 200,
+                                                sm: 200,
+                                                xs: 200
+                                            },
+                                        }}>
+                                            {moment(m?.updatedAt).fromNow()}
+                                        </Typography>
+                                    </div>
+                                    <div>
+                                        <EditorLogicMessage data={m?.content?.text} />
+                                    </div>
+                                </>}
+
                             </span>
-                            {m?.content?.text && <EditorLogicMessage data={m?.content?.text} />}
-                        </span>
-                        {m?.seen?.length && <AvatarGroup max={3} total={m?.seen?.length}>
-                            {m?.seen?.slice(0, 3)?.map((user, i) => (
-                                <>
-                                    {/* {console.log(user)} */}
-                                    <Avatar key={i} sx={{ height: '18px', width: '18px', marginTop: '3px' }} alt={user.username} src={user?.pic} />
-                                </>
 
-                            ))}
-                        </AvatarGroup>}
+                            {m?.chat?.seen?.length && <Tooltip title="seen" arrow style={{ cursor: 'pointer' }}>
+                                <AvatarGroup max={3} total={m?.chat?.seen?.length !== 0 ? m?.chat?.seen?.length : ''}>
+                                    {m?.chat?.seen?.slice(0, 3)?.map((user, i) => (
+                                      
+                                            <Avatar key={i} sx={{ height: '15px', width: '15px', marginTop: '7px' }} alt={user.username} src={user?.pic} />
 
-                    </div>
+                                    ))}
+                                </AvatarGroup>
+                            </Tooltip>}
+                        </div>
+                    </span>
                 ))}
+
         </ScrollableFeed>
     )
 }
