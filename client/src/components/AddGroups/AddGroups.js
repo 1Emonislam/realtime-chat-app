@@ -17,7 +17,7 @@ const style = {
   width: 400,
   bgcolor: "background.paper",
   border: "none",
-  outline:'none',
+  outline: 'none',
   boxShadow: 24,
   p: 4,
 };
@@ -54,14 +54,12 @@ const AddGroups = ({ handleGroupClose, groupOpen }) => {
       draggable: true,
       progress: undefined,
     });
-    setTimeout(() => {
-      dispatch({
-        type: GROUP_SUCCESS_DATA,
-        payload: {
-          message: '',
-        }
-      })
-    }, 5000)
+    dispatch({
+      type: GROUP_SUCCESS_DATA,
+      payload: {
+        message: '',
+      }
+    })
   }
   if (groupData?.error) {
     Object?.values(groupData?.error)?.forEach((err) => {
@@ -75,14 +73,12 @@ const AddGroups = ({ handleGroupClose, groupOpen }) => {
         draggable: true,
         progress: undefined,
       });
-      setTimeout(() => {
-        dispatch({
-          type: GROUP_FAILED_DATA,
-          payload: {
-            error: ''
-          }
-        })
-      }, 5000)
+      dispatch({
+        type: GROUP_FAILED_DATA,
+        payload: {
+          error: ''
+        }
+      })
     })
   }
   return (

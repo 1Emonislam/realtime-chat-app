@@ -36,11 +36,9 @@ export default function EditMessage({ messageEditHandle,messageHTML,editMessageO
             draggable: true,
             progress: undefined,
         });
-        setTimeout(() => {
-            dispatch({
-                type: SUCCESS_MESSAGE_CLEAR,
-            })
-        }, 5000)
+        dispatch({
+            type: SUCCESS_MESSAGE_CLEAR,
+        })
     }
     if (groupMessage?.error) {
         Object.values(groupMessage?.error)?.forEach((err) => {
@@ -54,14 +52,12 @@ export default function EditMessage({ messageEditHandle,messageHTML,editMessageO
                 draggable: true,
                 progress: undefined,
             });
-            setTimeout(() => {
-                dispatch({
-                    type: UPDATE_MESSAGE_FAILED,
-                    payload: {
-                        error: '',
-                    }
-                })
-            }, 5000)
+            dispatch({
+                type: UPDATE_MESSAGE_FAILED,
+                payload: {
+                    error: '',
+                }
+            })
         })
     }
     return (

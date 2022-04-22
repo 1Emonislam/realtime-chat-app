@@ -61,11 +61,9 @@ function ResetPassword() {
             draggable: true,
             progress: undefined,
         });
-        setTimeout(() => {
-            dispatch({
-                type: AUTH_MESSAGE
-            })
-        }, 5000)
+        dispatch({
+            type: AUTH_MESSAGE
+        })
     }
     if (Object?.values(error)?.length) {
         Object.values(error)?.forEach((err) => {
@@ -79,11 +77,9 @@ function ResetPassword() {
                 draggable: true,
                 progress: undefined,
             });
-            setTimeout(() => {
-                dispatch({
-                    type: AUTH_ERROR
-                })
-            }, 5000)
+            dispatch({
+                type: AUTH_ERROR
+            })
         })
     }
     return (
