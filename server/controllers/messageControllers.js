@@ -29,7 +29,10 @@ module.exports.sendMessage = async (req, res, next) => {
         const permission = await Chat.findByIdAndUpdate(req.body.chatId, {
             latestMessage: message?._id,
             seen: [req.user?._id]
-        }).populate("groupAdmin")
+        }).populate({
+            path: 'groupAdmin',
+            select: '_id pic firstName lastName email'
+        })
         message = await Message.find({ chat: chatId })
         message = await User.populate(message, {
             path: 'sender',
@@ -39,13 +42,13 @@ module.exports.sendMessage = async (req, res, next) => {
             path: 'chat.members',
             select: '_id pic firstName lastName email'
         })
+        message = await Chat.populate(message, {
+            path: 'chat',
+            select: '_id seen groupAdmin',
+        })
         message = await User.populate(message, {
             path: 'chat.groupAdmin',
             select: '_id pic firstName lastName email'
-        })
-        message = await Chat.populate(message, {
-            path: 'chat',
-            select: '_id seen',
         })
         message = await Chat.populate(message, {
             path: 'chat.seen',
@@ -61,26 +64,30 @@ module.exports.allMessage = async (req, res, next) => {
         return res.status(400).json({ error: { email: 'User Credentials expired! Please login' } })
     }
     try {
-        let messages = await Message.find({ chat: req.params.chatId }).limit(300).populate("sender", "_id pic firstName lastName email")
         await Chat.findOneAndUpdate({ _id: req.params.chatId }, {
             lastActive: new Date(),
             $addToSet: { seen: req.user?._id }
         }, { new: true })
-        messages = await Chat.populate(messages, {
+        let message = await Message.find({ chat: req.params.chatId })
+        message = await User.populate(message, {
+            path: 'sender',
+            select: '_id pic firstName lastName email'
+        })
+        message = await User.populate(message, {
             path: 'chat.members',
-            select: '_id pic firstName lastName email',
+            select: '_id pic firstName lastName email'
         })
-        messages = await Chat.populate(messages, {
+        message = await Chat.populate(message, {
             path: 'chat',
-            select: '_id seen',
+            select: '_id seen groupAdmin',
         })
-        messages = await Chat.populate(messages, {
-            path: 'chat.seen',
-            select: '_id pic firstName lastName email',
-        })
-        messages = await User.populate(messages, {
+        message = await User.populate(message, {
             path: 'chat.groupAdmin',
             select: '_id pic firstName lastName email'
+        })
+        message = await Chat.populate(message, {
+            path: 'chat.seen',
+            select: '_id pic firstName lastName email',
         })
         const me = {
             msgLastSeen: new Date(),
@@ -93,8 +100,8 @@ module.exports.allMessage = async (req, res, next) => {
         }
         return res.status(200).json({
             message: "messages fetched successfully",
-            me: messages?.length > 0 ? me : {},
-            data: messages
+            me: message?.length > 0 ? me : {},
+            data: message
         });
     } catch (error) {
         res.status(400)
@@ -110,13 +117,48 @@ module.exports.messageRemove = async (req, res, next) => {
         return res.status(400).json({ error: { token: "please provide valid credentials!" } })
     }
     try {
+
         const delete1 = await Message.deleteOne({ _id: messageId, chat: chatId, groupAdmin: req.user?._id })
         const delete2 = await Message.deleteOne({ _id: messageId, chat: chatId, sender: req.user?._id })
         // console.log(delete1, delete2)
         if (delete1?.deletedCount > 0 || delete2?.deletedCount > 0) {
-            res.status(200).json({ message: "message Removed successfully" })
+            let message = await Message.find({ chat: chatId })
+            message = await User.populate(message, {
+                path: 'sender',
+                select: '_id pic firstName lastName email'
+            })
+            message = await User.populate(message, {
+                path: 'chat.members',
+                select: '_id pic firstName lastName email'
+            })
+            message = await Chat.populate(message, {
+                path: 'chat',
+                select: '_id seen groupAdmin',
+            })
+            message = await User.populate(message, {
+                path: 'chat.groupAdmin',
+                select: '_id pic firstName lastName email'
+            })
+            message = await Chat.populate(message, {
+                path: 'chat.seen',
+                select: '_id pic firstName lastName email',
+            })
+            const me = {
+                msgLastSeen: new Date(),
+                info: {
+                    firstName: req?.user?.firstName,
+                    lastName: req?.user?.lastName,
+                    pic: req?.user?.pic,
+                    email: req?.user?.email
+                }
+            }
+            return res.status(200).json({
+                message: "Message Removed Successfully",
+                me: message?.length > 0 ? me : {},
+                data: message
+            });
         } else {
-            return res.status(400).json({ error: { action: "message Removed Failed!" } })
+            return res.status(400).json({ error: { action: "Message Removed Failed!" } })
         }
     }
     catch (error) {
@@ -144,27 +186,62 @@ module.exports.messageEdit = async (req, res, next) => {
                 video,
                 others
             },
+        }, { new: true }) || await Message.findOneAndUpdate({ _id: messageId, chat: chatId, groupAdmin: req.user?._id }, {
+            content: {
+                text,
+                audio,
+                video,
+                others
+            },
         }, { new: true });
+        await Chat.findByIdAndUpdate(req.body.chatId, {
+            latestMessage: message?._id,
+            $addToSet: { seen: req.user?._id }
+        }).populate({
+            path: 'groupAdmin',
+            select: '_id pic firstName lastName email'
+        })
         // console.log(message)
         if (!message) {
             return res.status(400).json({ error: { action: "Message Update Failed!" }, data: [] })
         }
         // console.log(message)
         if (message) {
-            message = await Message.find({ chat: chatId }).populate("sender", "_id pic firstName lastName email")
-            message = await Chat.populate(message, {
-                path: 'chat',
-                select: '_id seen groupAdmin members',
+            message = await Message.find({ chat: chatId })
+            message = await User.populate(message, {
+                path: 'sender',
+                select: '_id pic firstName lastName email'
+            })
+            message = await User.populate(message, {
+                path: 'chat.members',
+                select: '_id pic firstName lastName email'
             })
             message = await Chat.populate(message, {
-                path: 'chat.seen',
-                select: '_id pic firstName lastName email',
+                path: 'chat',
+                select: '_id seen groupAdmin',
             })
             message = await User.populate(message, {
                 path: 'chat.groupAdmin',
                 select: '_id pic firstName lastName email'
             })
-            return res.status(200).json({ message: "Message Successfully Updated!", data: message })
+            message = await Chat.populate(message, {
+                path: 'chat.seen',
+                select: '_id pic firstName lastName email',
+            })
+            const me = {
+                msgLastSeen: new Date(),
+                info: {
+                    firstName: req?.user?.firstName,
+                    lastName: req?.user?.lastName,
+                    pic: req?.user?.pic,
+                    email: req?.user?.email
+                }
+            }
+            return res.status(200).json({
+                message: "Message Successfully Updated",
+                me: message?.length > 0 ? me : {},
+                data: message
+            });
         }
     }
     catch (error) {
