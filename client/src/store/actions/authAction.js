@@ -1,5 +1,5 @@
+import jwt_decoded from 'jwt-decode';
 import { AUTH_FAILED, AUTH_LOADING, AUTH_SUCCESS } from "../type/authType";
-import jwt_decoded from 'jwt-decode'
 export const userVerify = (data) => {
     const tokenDecoded = jwt_decoded(data?.token);
     const expTime = new Date(tokenDecoded * 1000);
@@ -18,7 +18,7 @@ export const userRegister = (data, reset) => {
                     loading: true,
                 }
             })
-            fetch("http://localhost:5000/api/auth/register", {
+            fetch("https://collaballapp.herokuapp.com/api/auth/register", {
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/json',
@@ -73,7 +73,7 @@ export const userLogin = (data, reset) => {
                 }
             })
             // console.log(data)
-            fetch("http://localhost:5000/api/auth/login", {
+            fetch("https://collaballapp.herokuapp.com/api/auth/login", {
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/json',
@@ -127,7 +127,7 @@ export const logOut = (data, token) => {
                 }
             })
             // console.log(data)
-            fetch("http://localhost:5000/api/auth/logout", {
+            fetch("https://collaballapp.herokuapp.com/api/auth/logout", {
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/json',
@@ -178,7 +178,7 @@ export const resetPassword = (data, reset, token) => {
                 }
             })
             // console.log(data)
-            fetch("http://localhost:5000/api/auth/reset-password", {
+            fetch("https://collaballapp.herokuapp.com/api/auth/reset-password", {
                 method: "PUT",
                 headers: {
                     'Content-Type': 'application/json',
@@ -230,7 +230,7 @@ export const forgetPassword = (data, reset) => {
                 }
             })
             // console.log(data)
-            fetch("http://localhost:5000/api/auth/forget-password", {
+            fetch("https://collaballapp.herokuapp.com/api/auth/forget-password", {
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/json',
@@ -281,7 +281,7 @@ export const changedPassword = (data, reset, token) => {
                 }
             })
             // console.log(data)
-            fetch("http://localhost:5000/api/auth/change-password", {
+            fetch("https://collaballapp.herokuapp.com/api/auth/change-password", {
                 method: "PUT",
                 headers: {
                     'Content-Type': 'application/json',
