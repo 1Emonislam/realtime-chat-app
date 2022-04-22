@@ -145,7 +145,7 @@ module.exports.messageEdit = async (req, res, next) => {
                 others
             },
         }, { new: true });
-        console.log(message)
+        // console.log(message)
         if (!message) {
             return res.status(400).json({ error: { action: "Message Update Failed!" }, data: [] })
         }
