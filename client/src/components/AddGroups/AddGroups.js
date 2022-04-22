@@ -22,7 +22,7 @@ const style = {
   p: 4,
 };
 //   {...register("email", { min: 0 })} required
-const AddGroups = ({ handleGroupOpen, handleGroupClose, groupOpen }) => {
+const AddGroups = ({ handleGroupClose, groupOpen }) => {
   const { register, reset, handleSubmit } = useForm();
   const dispatch = useDispatch();
   const [selected, setSelected] = useState("")
@@ -221,6 +221,7 @@ const AddGroups = ({ handleGroupOpen, handleGroupClose, groupOpen }) => {
               <button style={{ cursor: 'pointer' }} className="buttonContact1" onClick={handleGroupClose}>
                 Cancel
               </button>
+              {/* {console.log(groupData?.loading )} */}
               {groupData?.loading ? <div>
                 <Loading />
               </div> :
@@ -241,7 +242,6 @@ const AddGroups = ({ handleGroupOpen, handleGroupClose, groupOpen }) => {
           pauseOnHover
         />
       </Box >
-
     </Modal >
   );
 };

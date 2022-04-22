@@ -1,4 +1,4 @@
-import { FAILED_MESSAGE, GET_MESSAGE, LOADING_MESSAGE, SEND_MESSAGE, UPDATE_MESSAGE, UPDATE_MESSAGE_FAILED, UPDATE_MESSAGE_STORE } from "../type/messageTypes"
+import { FAILED_MESSAGE, GET_MESSAGE, LOADING_MESSAGE, REMOVE_MESSAGE, SEND_MESSAGE, UPDATE_MESSAGE, UPDATE_MESSAGE_FAILED, UPDATE_MESSAGE_STORE } from "../type/messageTypes"
 export const getMessage = (chatId, token) => {
     return async (dispatch) => {
         dispatch({
@@ -105,7 +105,7 @@ export const sendMessage = (data, chatId, token, editor) => {
         }
     }
 }
-export const editMessage = (data, chatId, messageId, token, editor) => {
+export const editMessage = (data, chatId, messageId, token, editor, messageEditHandle) => {
     // console.log(data, chatId, messageId, token, editor)
     return async (dispatch) => {
         dispatch({
@@ -143,7 +143,8 @@ export const editMessage = (data, chatId, messageId, token, editor) => {
                         })
                     }
                     if (data) {
-                        editor.commands.clearContent(true)
+                        editor.commands.clearContent(true);
+                        messageEditHandle(false)
                         dispatch({
                             type: UPDATE_MESSAGE,
                             payload: {
@@ -153,6 +154,59 @@ export const editMessage = (data, chatId, messageId, token, editor) => {
                         })
                     }
 
+                })
+        }
+        catch (error) {
+            dispatch({
+                type: FAILED_MESSAGE,
+                payload: {
+                    error: error.message,
+                }
+            })
+        }
+    }
+}
+export const deleteMessage = (chatId, messageId, token) => {
+    // console.log(data, chatId, messageId, token, editor)
+    return async (dispatch) => {
+        dispatch({
+            type: LOADING_MESSAGE,
+            payload: {
+                loading: true,
+            },
+        })
+        try {
+            fetch(`http://localhost:5000/api/message`, {
+                method: 'DELETE',
+                headers: {
+                    "Content-Type": "application/json",
+                    "authorization": `Bearer ${token}`
+                },
+                body: JSON.stringify({
+                    chatId: chatId,
+                    messageId: messageId,
+                })
+            })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.error) {
+                        dispatch({
+                            type: FAILED_MESSAGE,
+                            payload: {
+                                error: data?.error,
+                            }
+                        })
+                    }
+                    if (data) {
+                        // console.log(data)
+                        dispatch({
+                            type: REMOVE_MESSAGE,
+                            payload: {
+                                message: data?.message,
+                                data: data,
+                            }
+                        })
+                    }
                 })
         }
         catch (error) {
@@ -186,3 +240,4 @@ export const updateMessageStore = (data) => {
         }
     }
 }
+

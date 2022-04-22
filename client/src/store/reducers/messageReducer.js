@@ -1,4 +1,4 @@
-import { FAILED_MESSAGE, GET_MESSAGE, LOADING_MESSAGE, MESSAGE_WRITE, SEND_MESSAGE, SUCCESS_MESSAGE_CLEAR, UPDATE_MESSAGE, UPDATE_MESSAGE_FAILED, UPDATE_MESSAGE_STORE } from "../type/messageTypes";
+import { FAILED_MESSAGE, GET_MESSAGE, LOADING_MESSAGE, MESSAGE_WRITE, REMOVE_MESSAGE, SEND_MESSAGE, SUCCESS_MESSAGE_CLEAR, UPDATE_MESSAGE, UPDATE_MESSAGE_FAILED, UPDATE_MESSAGE_STORE } from "../type/messageTypes";
 
 const initState = {
     msg: null,
@@ -65,8 +65,16 @@ export const messageReducer = (state = initState, action) => {
     if (type === SUCCESS_MESSAGE_CLEAR) {
         return {
             ...state,
-            error: [],
             success: '',
+            loading: false
+        }
+    }
+    if (type === REMOVE_MESSAGE) {
+        return {
+            ...state,
+            msg: payload.data,
+            error: payload.error,
+            success:  payload.message,
             loading: false
         }
     }

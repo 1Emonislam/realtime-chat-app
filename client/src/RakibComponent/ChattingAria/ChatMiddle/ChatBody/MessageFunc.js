@@ -1,3 +1,4 @@
+import { Tooltip } from '@mui/material';
 import Popover from '@mui/material/Popover';
 import Typography from '@mui/material/Typography';
 import Bold from '@tiptap/extension-bold';
@@ -18,9 +19,10 @@ import { RiEditCircleFill, RiQuestionnaireFill } from 'react-icons/ri';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast, ToastContainer } from 'react-toastify';
 import EditMessage from '../../../../Editor/EditMessage';
-import { updateMessageStore } from '../../../../store/actions/messageAction';
+import { deleteMessage, updateMessageStore } from '../../../../store/actions/messageAction';
+import { FAILED_MESSAGE, SUCCESS_MESSAGE_CLEAR } from '../../../../store/type/messageTypes';
 export default function MessageFunc({ idTo, isSameSenderPermission, message, messageInfo }) {
-    const { theme } = useSelector(state => state);
+    const { theme, auth, groupMessage } = useSelector(state => state);
     const dispatch = useDispatch()
     const output = React.useMemo(() => {
         return generateHTML(message, [
@@ -43,7 +45,7 @@ export default function MessageFunc({ idTo, isSameSenderPermission, message, mes
     text.innerHTML = output;
     const handleCopy = () => {
         navigator.clipboard.writeText(text.innerText)
-        toast.success(`Copied ${text.innerText}`, {
+        toast.success(`Text copied to clipboard`, {
             position: "top-center",
             theme: theme?.theme,
             fontWeight: '500',
@@ -66,6 +68,41 @@ export default function MessageFunc({ idTo, isSameSenderPermission, message, mes
     }
 
     // console.log(messageInfo)
+    if (groupMessage?.success) {
+        toast.success(`${groupMessage?.success}`, {
+            position: "bottom-right",
+            theme: theme?.theme,
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+        });
+        dispatch({
+            type: SUCCESS_MESSAGE_CLEAR
+        })
+    }
+    if (groupMessage?.error) {
+        Object.values(groupMessage?.error)?.forEach((err) => {
+            toast.error(`${err}`, {
+                position: "bottom-right",
+                theme: theme?.theme,
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            });
+            dispatch({
+                type: FAILED_MESSAGE,
+                payload: {
+                    error: ''
+                }
+            })
+        })
+    }
     return (
         <div className='ancor'>
             <BsThreeDotsVertical id={id} onClick={handleClick} />
@@ -87,18 +124,22 @@ export default function MessageFunc({ idTo, isSameSenderPermission, message, mes
                 </Typography>
                 {isSameSenderPermission && <>
                     <Typography sx={{ py: 1, px: 3, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }} >
-                        Edit  <EditMessage messageInfo={messageInfo} messageText={text.innerText} messageEditHandle={messageEditHandle} editMessageOpen={editMessageOpen}></EditMessage>
-                        <span>
-                            <RiEditCircleFill onClick={() => {
-                                messageEditHandle(true)
-                                dispatch(updateMessageStore(messageInfo))
-                            }} style={{ position: 'relative', top: '3px', paddingLeft: '5px' }} />
+                        Edit  <EditMessage messageInfo={messageInfo} messageHTML={output} messageEditHandle={messageEditHandle} editMessageOpen={editMessageOpen}></EditMessage>
+                        <span onClick={() => {
+                            messageEditHandle(true)
+                            dispatch(updateMessageStore(messageInfo))
+                        }}>
+                            <RiEditCircleFill style={{ position: 'relative', top: '3px', paddingLeft: '5px' }} />
                         </span>
                     </Typography>
                     <Typography sx={{ py: 1, px: 3, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                        <span>Delete </span>
-                        <span><MdDelete style={{ position: 'relative', top: '3px', paddingLeft: '5px' }} />
-                        </span>
+                        <span> Delete </span>
+                        {messageInfo?.chat?._id && messageInfo?._id && auth?.user?.token ? <span onClick={() => {
+                            dispatch(deleteMessage(messageInfo?.chat?._id, messageInfo?._id, auth?.user?.token))
+                        }}><MdDelete style={{ position: 'relative', top: '3px', paddingLeft: '5px' }} />
+                        </span> : <Tooltip title="Permission Denied" arrow>
+                            <MdDelete style={{ position: 'relative', top: '3px', paddingLeft: '5px' }} />
+                        </Tooltip>}
                     </Typography>
                 </>}
                 <Typography sx={{ py: 1, px: 3, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>

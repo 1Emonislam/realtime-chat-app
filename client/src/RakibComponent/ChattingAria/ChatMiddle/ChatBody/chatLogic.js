@@ -16,21 +16,16 @@ export const isSameSenderMargin = (messages, m, i, userId) => {
     else return "auto";
 };
 export const isSameSenderPermission = (messages, m, i, userId) => {
-    // console.log(i === messages.length - 1);
+    // console.log(userId,messages[i]?.chat?.groupAdmin)
     if (
-        i < messages.length - 1 &&
-        messages[i + 1].sender._id === m.sender._id &&
-        messages[i].sender._id !== userId
-    )
-        return true;
+        messages[i].sender._id === userId || messages[i]?.chat?.groupAdmin?.some(user => user?._id === userId)
+    ) return true;
     else if (
         (i < messages.length - 1 &&
             messages[i + 1].sender._id !== m.sender._id &&
             messages[i].sender._id !== userId) ||
         (i === messages.length - 1 && messages[i].sender._id !== userId)
-    )
-        return false;
-    else return false;
+    ) return false;
 };
 
 export const isSameSender = (messages, m, i, userId) => {

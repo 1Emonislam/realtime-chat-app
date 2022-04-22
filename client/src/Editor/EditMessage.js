@@ -22,7 +22,7 @@ const style = {
     p: 4,
 };
 
-export default function EditMessage({ messageEditHandle,editMessageOpen }) {
+export default function EditMessage({ messageEditHandle,messageHTML,editMessageOpen }) {
     const { groupMessage, theme } = useSelector(state => state)
     const dispatch = useDispatch();
     if (groupMessage?.success) {
@@ -42,7 +42,7 @@ export default function EditMessage({ messageEditHandle,editMessageOpen }) {
             })
         }, 5000)
     }
-    if (Object?.values(groupMessage?.error)?.length) {
+    if (groupMessage?.error) {
         Object.values(groupMessage?.error)?.forEach((err) => {
             toast.error(`${err}`, {
                 position: "bottom-right",
@@ -105,7 +105,7 @@ export default function EditMessage({ messageEditHandle,editMessageOpen }) {
                             <CancelIcon style={{ cursor: "pointer" }} sx={{ color: "#ee00ab" }} onClick={() => messageEditHandle(false)} />
                         </Box>
                     </div>
-                    <EditMessageWriter />
+                    <EditMessageWriter messageEditHandle={messageEditHandle}messageHTML={messageHTML}/>
                     <ToastContainer
                         position="bottom-right"
                         autoClose={5000}

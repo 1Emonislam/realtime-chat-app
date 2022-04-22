@@ -21,7 +21,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { editMessage } from '../store/actions/messageAction';
 import { MESSAGE_WRITE } from '../store/type/messageTypes';
 import './Editor.css';
-const MenuBar = ({ editor }) => {
+const MenuBar = ({ editor, messageEditHandle }) => {
     const dispatch = useDispatch();
     const { groupMessage, auth } = useSelector(state => state);
     // console.log(groupMessage)
@@ -155,7 +155,10 @@ const MenuBar = ({ editor }) => {
                     < RiAttachment2 />
                 </button>
                 {/*    dispatch(editMessage(groupMessage?.write, messageInfo?.chat?._id, messageInfo?._id, auth?.user?.token)); */}
-                {auth?.user?.token && messageInfoStore?.chat?._id && messageInfoStore?._id ? <button onClick={() => dispatch(editMessage(groupMessage?.write, messageInfoStore?.chat?._id, messageInfoStore?._id, auth?.user?.token, editor))}>
+                {auth?.user?.token && messageInfoStore?.chat?._id && messageInfoStore?._id ? <button onClick={() => {
+                    dispatch(editMessage(groupMessage?.write, messageInfoStore?.chat?._id, messageInfoStore?._id, auth?.user?.token, editor,messageEditHandle))
+                }
+                }>
                     <RiSendPlane2Fill />
                 </button> : <Tooltip title="Permission Denied!" arrow>
                     <button style={{ color: '#ccc' }}><RiSendPlane2Fill /></button>
@@ -165,11 +168,11 @@ const MenuBar = ({ editor }) => {
     );
 };
 
-export const EditMessageWriter = () => {
+export const EditMessageWriter = ({ messageHTML, messageEditHandle }) => {
     const dispatch = useDispatch();
     const editor = useEditor({
         extensions: [StarterKit, Underline, CodeBlock, Link],
-        content: ``,
+        content: `${messageHTML}`,
         onUpdate: ({ editor }) => {
             const data = editor.getJSON();
             dispatch({
@@ -183,7 +186,7 @@ export const EditMessageWriter = () => {
     return (
         <div className="textEditor">
             <EditorContent style={{ color: 'darkcyan' }} editor={editor} />
-            <MenuBar editor={editor} />
+            <MenuBar messageEditHandle={messageEditHandle} editor={editor} />
         </div >
     );
 };
