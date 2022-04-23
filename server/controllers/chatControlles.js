@@ -83,7 +83,7 @@ module.exports.getChat = async (req, res, next) => {
     return res.status(400).json({ error: { email: 'User Credentials expired! Please login' } })
   }
   try {
-    await Chat.find({ members: { $elemMatch: { $eq: req.user._id } } }).sort("-updatedAt").populate("seen", "_id pic firstName lastName email").populate("members", "_id pic firstName lastName email").populate("latestMessage").populate("groupAdmin", "_id pic firstName lastName email").sort("-updatedAt").then(async (results) => {
+    await Chat.find({ members: { $elemMatch: { $eq: req.user._id } } }).sort("-updatedAt").populate("seen", "_id pic firstName lastName email").populate("members", "_id pic firstName lastName email").populate("latestMessage").populate("groupAdmin", "_id pic firstName lastName email").then(async (results) => {
       // console.log(results)
       results = await User.populate(results, {
         path: "latestMessage.sender",

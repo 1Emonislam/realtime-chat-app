@@ -17,10 +17,11 @@ function RecentChat({ groupData, groupMessage, handleSingleUser }) {
         activeObject: null,
         objects: [...groupData]
     })
+
     React.useEffect(() => {
         setDataState({ activeObject: dataState?.activeObject, objects: [...groupData] })
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
+    }, [dataState?.activeObject?._id])
 
     function toggleActive(index) {
         setDataState({ ...dataState, activeObject: dataState.objects[index] })
@@ -33,7 +34,6 @@ function RecentChat({ groupData, groupMessage, handleSingleUser }) {
         }
     }
     const [selected, setSelected] = React.useState(false);
-
     return (
         <div>
             <Grid container spacing={0} sx={{

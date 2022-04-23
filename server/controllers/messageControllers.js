@@ -248,3 +248,63 @@ module.exports.messageEdit = async (req, res, next) => {
         next(error)
     }
 }
+module.exports.allMessageRemove = async (req, res, next) => {
+    try {
+        if (!req?.user?._id) {
+            return res.status(400).json({ error: { email: 'User Credentials expired! Please login' } })
+        }
+        const permission = await Chat.findOne({ _id: req.params.chatId, groupAdmin: req?.user?._id });
+        if (!permission) {
+            return res.status(400).json({ error: { email: 'Permission denied You can perform only Group Admin' } })
+        }
+        const deleted = await Message.deleteMany({ chat: req.params?.chatId });
+        let message = await Message.find({ chat: req.params?.chatId })
+        message = await User.populate(message, {
+            path: 'sender',
+            select: '_id pic firstName lastName email'
+        })
+        message = await User.populate(message, {
+            path: 'chat.members',
+            select: '_id pic firstName lastName email'
+        })
+        message = await Chat.populate(message, {
+            path: 'chat',
+            select: '_id seen groupAdmin',
+        })
+        message = await User.populate(message, {
+            path: 'chat.groupAdmin',
+            select: '_id pic firstName lastName email'
+        })
+        message = await Chat.populate(message, {
+            path: 'chat.seen',
+            select: '_id pic firstName lastName email',
+        })
+        const me = {
+            msgLastSeen: new Date(),
+            info: {
+                firstName: req?.user?.firstName,
+                lastName: req?.user?.lastName,
+                pic: req?.user?.pic,
+                email: req?.user?.email
+            }
+        }
+        if (deleted?.deletedCount > 0) {
+            return res.status(200).json({
+                message: 'Deleted all Conversation!',
+                me: message?.length > 0 ? me : {},
+                data: message
+            })
+        } else {
+            return res.status(400).json({
+                error: {
+                    message: 'Error occurred Please try again!', message: 'Deleted all Conversation!',
+                    me: message?.length > 0 ? me : {},
+                    data: message
+                }
+            })
+        }
+    }
+    catch (error) {
+        next(error)
+    }
+}

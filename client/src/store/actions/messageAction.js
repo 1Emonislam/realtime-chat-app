@@ -219,6 +219,54 @@ export const deleteMessage = (chatId, messageId, token) => {
         }
     }
 }
+export const deleteAllMessage = (chatId, token) => {
+    // console.log(data, chatId)
+    return async (dispatch) => {
+        dispatch({
+            type: LOADING_MESSAGE,
+            payload: {
+                loading: true,
+            },
+        })
+        try {
+            fetch(`https://collaballapp.herokuapp.com/api/message/${chatId}`, {
+                method: 'DELETE',
+                headers: {
+                    "Content-Type": "application/json",
+                    "authorization": `Bearer ${token}`
+                },
+            })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.error) {
+                        dispatch({
+                            type: FAILED_MESSAGE,
+                            payload: {
+                                error: data?.error,
+                            }
+                        })
+                    }
+                    if (data) {
+                        dispatch({
+                            type: REMOVE_MESSAGE,
+                            payload: {
+                                message: data?.message,
+                                data: data,
+                            }
+                        })
+                    }
+                })
+        }
+        catch (error) {
+            dispatch({
+                type: FAILED_MESSAGE,
+                payload: {
+                    error: error.message,
+                }
+            })
+        }
+    }
+}
 export const updateMessageStore = (data) => {
     // console.log(data)
     return async (dispatch) => {
