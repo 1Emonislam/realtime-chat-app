@@ -76,7 +76,7 @@ export const sendMessage = (data, chatId, token, editor) => {
                 .then(res => res.json())
                 .then(data => {
                     if (data) {
-                        editor.commands.clearContent(true)
+                        editor?.commands?.clearContent(true)
                         dispatch({
                             type: SEND_MESSAGE,
                             payload: {

@@ -10,25 +10,26 @@ import moment from 'moment';
 import React from 'react';
 import SkeletonRecentGroup from '../Editor/SkeletonRecentGroup';
 import EditorLatestMessage from '../RakibComponent/ChattingAria/ChatMiddle/ChatBody/EditorLatestMessage';
-function RecentChat({ groupData, handleSingleUser }) {
+import { BsFillCheckCircleFill } from 'react-icons/bs'
+function RecentChat({ groupData, groupMessage, handleSingleUser }) {
     // console.log(groupData)
     const [dataState, setDataState] = React.useState({
         activeObject: null,
         objects: [...groupData]
     })
-    // console.log(dataState)
     React.useEffect(() => {
-        setDataState({ activeObject: dataState?.activeObject, objects: [dataState?.objects] })
-    }, []);
+        setDataState({ activeObject: dataState?.activeObject, objects: [...groupData] })
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
 
     function toggleActive(index) {
         setDataState({ ...dataState, activeObject: dataState.objects[index] })
     }
     function toggleActiveStyle(index) {
         if (dataState.objects[index] === dataState.activeObject) {
-            return 'active'
+            return 'user-list active'
         } else {
-            return 'inactive'
+            return 'user-list inactive'
         }
     }
     const [selected, setSelected] = React.useState(false);
@@ -114,7 +115,7 @@ function RecentChat({ groupData, handleSingleUser }) {
                                 }} sx={{ padding: '14px!important', margin: '0 5px', border: 'none', width: '96%', textTransform: 'capitalize' }} className={toggleActiveStyle(index)} onClick={(e) => handleSingleUser(chat._id, toggleActive(index))} >
                                 <Grid container spacing={0} alignItems="center" sx={{
                                     justifyContent: {
-                                        lg: 'space-betwen',
+                                        lg: 'space-between',
                                         md: 'space-between',
                                         sm: 'space-between',
                                         xs: 'space-between'
@@ -177,6 +178,7 @@ function RecentChat({ groupData, handleSingleUser }) {
                                                         },
                                                     }} gutterBottom component="div">
                                                         <EditorLatestMessage data={chat?.latestMessage?.content?.text}></EditorLatestMessage>
+                                                        {groupMessage?.latestMessage?.sent && <BsFillCheckCircleFill />}
                                                     </Typography>
                                                 </>}
                                             </Grid>
@@ -201,6 +203,7 @@ function RecentChat({ groupData, handleSingleUser }) {
                                                         {moment(chat?.latestMessage?.updatedAt).fromNow()}
                                                     </Typography>
                                                     {/* {console.log(chat?.seen)} */}
+
                                                     {chat?.seen?.length && <AvatarGroup max={3}>
                                                         {chat?.seen?.slice(0, 3)?.map((user, i) => (
                                                             <Tooltip title={'seen'} key={i}>

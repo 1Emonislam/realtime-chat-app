@@ -19,7 +19,7 @@ import { RiEditCircleFill, RiQuestionnaireFill } from 'react-icons/ri';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast, ToastContainer } from 'react-toastify';
 import EditMessage from '../../../../Editor/EditMessage';
-import { deleteMessage, noteCreate, updateMessageStore } from '../../../../store/actions/messageAction';
+import { deleteMessage, noteCreate, sendMessage, updateMessageStore } from '../../../../store/actions/messageAction';
 import { FAILED_MESSAGE, SUCCESS_MESSAGE_CLEAR } from '../../../../store/type/messageTypes';
 export default function MessageFunc({ idTo, isSameSenderPermission, message, messageInfo }) {
     const { theme, auth, groupMessage } = useSelector(state => state);
@@ -103,9 +103,6 @@ export default function MessageFunc({ idTo, isSameSenderPermission, message, mes
             })
         })
     }
-    const handleAddToNote = () => {
-        dispatch(noteCreate(messageInfo?._id,messageInfo?.chat?._id,auth.user?.token))
-    }
     return (
         <div className='ancor'>
             <BsThreeDotsVertical id={id} onClick={handleClick} />
@@ -147,20 +144,43 @@ export default function MessageFunc({ idTo, isSameSenderPermission, message, mes
                 </>}
                 <Typography sx={{ py: 1, px: 3, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                     <span> add To Note </span>
-                    <span onClick={() => handleAddToNote}>
+                    <span onClick={() => dispatch(noteCreate(messageInfo?._id, messageInfo?.chat?._id, auth.user?.token))}>
                         <MdStickyNote2 style={{ position: 'relative', top: '3px', paddingLeft: '5px' }} />
                     </span>
                 </Typography>
 
                 <Typography sx={{ py: 1, px: 3, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                     <span>Question Repeat </span>
-                    <span>
+                    <span onClick={() => {
+                        dispatch(sendMessage({
+                            type: "doc",
+                            content: [{
+                                type: "paragraph",
+                                content: [{
+                                    type: "text",
+                                    text: "Question Repeat"
+                                }]
+                            }]
+                        },messageInfo?.chat?._id, auth.user?.token ))
+                    }}>
                         <AiFillThunderbolt style={{ position: 'relative', top: '3px', paddingLeft: '5px' }} />
                     </span>
                 </Typography>
                 <Typography sx={{ py: 1, px: 3, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                    <span>Don't Understand</span>
-                    <span>
+                    <span> Don't Understand
+                    </span>
+                    <span onClick={() => {
+                        dispatch(sendMessage({
+                            type: "doc",
+                            content: [{
+                                type: "paragraph",
+                                content: [{
+                                    type: "text",
+                                    text: "Don't Understand"
+                                }]
+                            }]
+                        },messageInfo?.chat?._id, auth.user?.token ))
+                    }}>
                         <RiQuestionnaireFill style={{ position: 'relative', top: '3px', paddingLeft: '5px' }} />
                     </span>
                 </Typography>

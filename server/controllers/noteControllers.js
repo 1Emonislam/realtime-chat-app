@@ -18,7 +18,7 @@ module.exports.noteCreate = async (req, res, next) => {
         const data = await Note.create({
             message: messageId, chat: chatId, author: req?.user?._id
         })
-        return res.status(200).json({ message: 'My Note Added New Note', data: data })
+        return res.status(200).json({ message: 'My Note Collection Added New Note', data: data })
     }
     catch (error) {
         next(error)

@@ -12,12 +12,11 @@ import './Group/__Groupcontainer.css';
 import RecentChat from './RecentChat';
 function ChatHome() {
     const dispatch = useDispatch();
-    const { auth,groupMessage, groupData } = useSelector(state => state);
-    // console.log(groupMessage)
+    const { auth, groupData, groupMessage } = useSelector(state => state);
     useEffect(() => {
         dispatch(getGroupChatData(auth?.user?.token))
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [dispatch, groupData?.data?.length,groupMessage?.msg]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [dispatch, groupMessage?.msg]);
     const handleSingleUser = (id) => {
         if (id) {
             dispatch(getGroupMember(id, auth?.user?.token))
@@ -26,7 +25,7 @@ function ChatHome() {
     }
     return (
         <div className="chat-box-container">
-            {groupData?.data?.length && <RecentChat handleSingleUser={handleSingleUser} groupData={groupData?.data} />}
+            {groupData?.data?.length && <RecentChat handleSingleUser={handleSingleUser} groupData={groupData?.data} groupMessage={groupMessage} />}
         </div>
     )
 }

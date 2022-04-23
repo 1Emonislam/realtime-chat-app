@@ -20,6 +20,7 @@ export const messageReducer = (state = initState, action) => {
     if (type === UPDATE_MESSAGE) {
         return {
             ...state,
+            sent: true,
             msg: payload.data,
             loading: false
         }
