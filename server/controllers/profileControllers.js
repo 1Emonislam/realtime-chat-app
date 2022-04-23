@@ -1,4 +1,5 @@
 const User = require("../models/userModel");
+const { genToken } = require("../utils/genToken");
 //single private profile get
 module.exports.privateProfileGet = (req, res, next) => {
     try {
@@ -20,7 +21,7 @@ module.exports.publicProfileGet = async (req, res) => {
         return res.status(400).json({ error: { email: 'profile does not exists' } });
     }
     try {
-        const user = await User.findOne({ _id: req.params?.id?.trim() })
+        const user = await User.findOne({ _id: req.params?.id?.trim() }).select("-password")
         return res.status(200).json({ data: user })
     }
     catch (error) {
@@ -32,7 +33,7 @@ module.exports.profileUpdate = async (req, res, next) => {
         console.log('please provide single profile params id')
         return res.status(400).json({ error: { email: 'profile does not exists' } });
     }
-    const { firstName, lastName, email, phone, gender, birthDate, pic, userInfo, socialMedia } = req.body;
+    const { firstName, lastName, email, phone, gender, birthDate, pic, userInfo } = req.body;
     const latitude = req?.body?.location?.latitude || 0;
     const longitude = req?.body?.location?.longitude || 0;
     const address = req?.body?.location?.address;
@@ -45,10 +46,25 @@ module.exports.profileUpdate = async (req, res, next) => {
             return res.status(400).json({ error: { email: 'profile does not exists' } });
         }
         const user = await User.findOneAndUpdate({ _id: req?.user?._id }, {
-            firstName, lastName, email, phone, gender, birthDate, userInfo, socialMedia: socialMedia || req?.user?.socialMedia,
+            firstName, lastName, email, phone, gender, birthDate, userInfo,
             role: role || req.user.role, phone, pic, location: { latitude, longitude, address, houseNumber, floor, information }, geometry: { type: "Point", "coordinates": [Number(longitude), Number(latitude)] }
-        }, { new: true });
-        return res.status(200).json({ data: user });
+        }, { new: true }).select("-password");
+        const userData = {};
+        userData.user = user;
+        userData.token = genToken(user?._id);
+        const data = {
+            data: user,
+            token: genToken(user?._id)
+        }
+        var date = new Date();
+        date.setTime(date.getTime() + (process.env.COOKIE_EXPIRES * 24 * 60 * 60 * 1000));
+        const options = {
+            expires: date, httpOnly: true
+        }
+        return res.status(201).cookie('userCurrent', data, options).json({
+            message: 'Profile Update Successfully',
+            data: userData,
+        });
     }
     catch (error) {
         next(error)

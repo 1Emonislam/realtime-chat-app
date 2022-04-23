@@ -1,4 +1,4 @@
-import { FAILED_MESSAGE, GET_MESSAGE, LOADING_MESSAGE, REMOVE_MESSAGE, SEND_MESSAGE, UPDATE_MESSAGE, UPDATE_MESSAGE_FAILED, UPDATE_MESSAGE_STORE } from "../type/messageTypes"
+import { FAILED_MESSAGE, GET_MESSAGE, LOADING_MESSAGE, NOTE_CREATE, REMOVE_MESSAGE, SEND_MESSAGE, UPDATE_MESSAGE, UPDATE_MESSAGE_FAILED, UPDATE_MESSAGE_STORE } from "../type/messageTypes"
 export const getMessage = (chatId, token) => {
     return async (dispatch) => {
         dispatch({
@@ -241,3 +241,50 @@ export const updateMessageStore = (data) => {
     }
 }
 
+//Note 
+export const noteCreate = (chatId, messageId, token) => {
+    return async (dispatch) => {
+        try {
+            fetch(`https://collaballapp.herokuapp.com/api/note`, {
+                method: 'POST',
+                headers: {
+                    "Content-Type": "application/json",
+                    "authorization": `Bearer ${token}`
+                },
+                body: JSON.stringify({
+                    chatId: chatId,
+                    messageId: messageId,
+                })
+            })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.error) {
+                        dispatch({
+                            type: FAILED_MESSAGE,
+                            payload: {
+                                error: data?.error,
+                            }
+                        })
+                    }
+                    if (data) {
+                        dispatch({
+                            type: NOTE_CREATE,
+                            payload: {
+                                message: data?.message,
+                                data: data?.data,
+                            }
+                        })
+                    }
+
+                })
+        }
+        catch (error) {
+            dispatch({
+                type: FAILED_MESSAGE,
+                payload: {
+                    error: error.message,
+                }
+            })
+        }
+    }
+} 

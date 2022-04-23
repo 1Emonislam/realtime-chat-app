@@ -1,12 +1,13 @@
-import { FAILED_MESSAGE, GET_MESSAGE, LOADING_MESSAGE, MESSAGE_WRITE, REMOVE_MESSAGE, SEND_MESSAGE, SUCCESS_MESSAGE_CLEAR, UPDATE_MESSAGE, UPDATE_MESSAGE_FAILED, UPDATE_MESSAGE_STORE } from "../type/messageTypes";
+import { FAILED_MESSAGE, GET_MESSAGE, LOADING_MESSAGE, MESSAGE_WRITE, NOTE_CREATE, REMOVE_MESSAGE, SEND_MESSAGE, SUCCESS_MESSAGE_CLEAR, UPDATE_MESSAGE, UPDATE_MESSAGE_FAILED, UPDATE_MESSAGE_STORE } from "../type/messageTypes";
 
 const initState = {
-    msg: null,
+    msg: [],
     write: '',
     loading: false,
     error: '',
     success: '',
-    messageInfoStore: null,
+    messageInfoStore: [],
+    note: [],
 }
 export const messageReducer = (state = initState, action) => {
     const { payload, type } = action;
@@ -74,7 +75,7 @@ export const messageReducer = (state = initState, action) => {
             ...state,
             msg: payload.data,
             error: payload.error,
-            success:  payload.message,
+            success: payload.message,
             loading: false
         }
     }
@@ -82,6 +83,16 @@ export const messageReducer = (state = initState, action) => {
         return {
             ...state,
             write: payload.data,
+            loading: false
+        }
+    }
+
+    //note
+    if (type === NOTE_CREATE) {
+        return {
+            ...state,
+            success: payload.message,
+            note: payload.data,
             loading: false
         }
     }

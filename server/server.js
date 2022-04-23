@@ -10,10 +10,11 @@ const connectedDb = require('./config/db');
 const { errorLog, errorHandlerNotify } = require('express-error-handle');
 const socketServer = require('./socket/socketServer');
 const userRoutes = require('./routes/userRoutes');
-const profileRoutes = require('./routes/proflieRoutes')
-const friendRoutes = require('./routes/friendRoutes')
-const messageRoutes = require('./routes/messageRoutes')
-const chatRoutes = require('./routes/chatRoutes')
+const profileRoutes = require('./routes/proflieRoutes');
+const friendRoutes = require('./routes/friendRoutes');
+const messageRoutes = require('./routes/messageRoutes');
+const chatRoutes = require('./routes/chatRoutes');
+const noteRoutes = require('./routes/noteRoutes')
 const app = express();
 const PORT = process.env.PORT || 5000;
 //middlewares
@@ -48,6 +49,7 @@ app.use('/api/chat', chatRoutes)
 app.use('/api/friend', friendRoutes);
 app.use('/api/profile', profileRoutes);
 app.use('/api/message', messageRoutes);
+app.use('/api/note',noteRoutes );
 app.get('/', (req, res) => {
     res.send('server connected')
 })

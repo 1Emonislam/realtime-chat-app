@@ -19,7 +19,7 @@ import { RiEditCircleFill, RiQuestionnaireFill } from 'react-icons/ri';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast, ToastContainer } from 'react-toastify';
 import EditMessage from '../../../../Editor/EditMessage';
-import { deleteMessage, updateMessageStore } from '../../../../store/actions/messageAction';
+import { deleteMessage, noteCreate, updateMessageStore } from '../../../../store/actions/messageAction';
 import { FAILED_MESSAGE, SUCCESS_MESSAGE_CLEAR } from '../../../../store/type/messageTypes';
 export default function MessageFunc({ idTo, isSameSenderPermission, message, messageInfo }) {
     const { theme, auth, groupMessage } = useSelector(state => state);
@@ -103,6 +103,9 @@ export default function MessageFunc({ idTo, isSameSenderPermission, message, mes
             })
         })
     }
+    const handleAddToNote = () => {
+        dispatch(noteCreate(messageInfo?._id,messageInfo?.chat?._id,auth.user?.token))
+    }
     return (
         <div className='ancor'>
             <BsThreeDotsVertical id={id} onClick={handleClick} />
@@ -144,7 +147,7 @@ export default function MessageFunc({ idTo, isSameSenderPermission, message, mes
                 </>}
                 <Typography sx={{ py: 1, px: 3, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                     <span> add To Note </span>
-                    <span>
+                    <span onClick={() => handleAddToNote}>
                         <MdStickyNote2 style={{ position: 'relative', top: '3px', paddingLeft: '5px' }} />
                     </span>
                 </Typography>
