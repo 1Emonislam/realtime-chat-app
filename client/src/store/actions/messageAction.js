@@ -220,7 +220,7 @@ export const deleteMessage = (chatId, messageId, token) => {
     }
 }
 export const deleteAllMessage = (chatId, token) => {
-    // console.log(data, chatId)
+//  console.log(chatId, token)
     return async (dispatch) => {
         dispatch({
             type: LOADING_MESSAGE,

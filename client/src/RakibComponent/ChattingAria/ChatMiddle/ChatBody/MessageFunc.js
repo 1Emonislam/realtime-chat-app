@@ -21,7 +21,7 @@ import { toast, ToastContainer } from 'react-toastify';
 import EditMessage from '../../../../Editor/EditMessage';
 import { deleteMessage, noteCreate, sendMessage, updateMessageStore } from '../../../../store/actions/messageAction';
 import { FAILED_MESSAGE, SUCCESS_MESSAGE_CLEAR } from '../../../../store/type/messageTypes';
-export default function MessageFunc({ idTo, isSameSenderPermission, message, messageInfo }) {
+export default function MessageFunc({  isSameSenderPermission, message, messageInfo }) {
     const { theme, auth, groupMessage } = useSelector(state => state);
     const dispatch = useDispatch()
     const output = React.useMemo(() => {

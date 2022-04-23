@@ -291,15 +291,12 @@ module.exports.allMessageRemove = async (req, res, next) => {
         if (deleted?.deletedCount > 0) {
             return res.status(200).json({
                 message: 'Deleted all Conversation!',
-                me: message?.length > 0 ? me : {},
-                data: message
+                data: []
             })
         } else {
             return res.status(400).json({
                 error: {
-                    message: 'Error occurred Please try again!', message: 'Deleted all Conversation!',
-                    me: message?.length > 0 ? me : {},
-                    data: message
+                    chatId: 'Error occurred Please try again!'
                 }
             })
         }

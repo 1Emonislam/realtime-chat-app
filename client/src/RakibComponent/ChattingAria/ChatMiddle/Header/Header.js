@@ -2,21 +2,75 @@ import LocalPhoneIcon from '@mui/icons-material/LocalPhone';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import SearchIcon from '@mui/icons-material/Search';
 import VideocamIcon from '@mui/icons-material/Videocam';
-import { Grid, Tooltip } from '@mui/material';
+import { Grid, Popover, Tooltip, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { MdDelete } from 'react-icons/md';
+import { useDispatch, useSelector } from 'react-redux';
+import { toast, ToastContainer } from 'react-toastify';
+import { FAILED_MESSAGE, SUCCESS_MESSAGE_CLEAR } from '../../../../store/type/messageTypes';
 import '../ChatMiddle.css';
+import AlertShow from './AlertShow';
 import GroupPeople from './GroupPeople';
 import HeaderSkeletonMember from './HeaderSkeleton';
 import AudioCall from './Modal/AudioCall';
 import VideoCall from './Modal/VideoCall';
+
 const Header = () => {
-    const { singleGroupMembers } = useSelector(state => state)
-    //console.log(singleGroupMembers)
+    const dispatch = useDispatch()
+    const { singleGroupMembers, groupMessage, theme, auth } = useSelector(state => state)
     const [search, setSearch] = useState('')
     const [audioOpen, setAudioOpen] = React.useState(false);
     const [videoOpen, setVideoOpen] = React.useState(false);
+
+    const [anchorEl, setAnchorEl] = React.useState(null);
+    const handleClick = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
+    const open = Boolean(anchorEl);
+    const id = open ? 'simple-popover' : undefined;
+    const [alertOpen, setAlertOpen] = React.useState(false);
+    const handleAlertOpen = () => setAlertOpen(true);
+    const handleAlertClose = () => setAlertOpen(false);
+    console.log(groupMessage?.success,groupMessage?.error)
+    if (groupMessage?.success) {
+        toast.success(`${groupMessage?.success}`, {
+            position: "bottom-right",
+            theme: theme?.theme,
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+        });
+        dispatch({
+            type: SUCCESS_MESSAGE_CLEAR
+        })
+    }
+    if (groupMessage?.error) {
+        Object.values(groupMessage?.error)?.forEach((err) => {
+            toast.error(`${err}`, {
+                position: "bottom-right",
+                theme: theme?.theme,
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            });
+            dispatch({
+                type: FAILED_MESSAGE,
+                payload: {
+                    error: ''
+                }
+            })
+        })
+    }
     return (
         <>
             <Box sx={{ flexGrow: 1 }} className='chatHeader_section'>
@@ -46,9 +100,37 @@ const Header = () => {
                                 <li onClick={() => setVideoOpen(true)}><VideocamIcon />
                                 </li>
                             </Tooltip>
-                            <Tooltip title="More Action" arrow>
-                                <MoreHorizIcon />
-                            </Tooltip>
+                            <div className='ancor'>
+                                {singleGroupMembers?.chat ? <MoreHorizIcon id={id} onClick={handleClick} /> : <MoreHorizIcon></MoreHorizIcon>}
+                                <Popover
+                                    id={id}
+                                    open={open}
+                                    anchorEl={anchorEl}
+                                    onClose={handleClose}
+                                    anchorOrigin={{
+                                        vertical: 'bottom',
+                                        horizontal: 'left',
+                                    }}
+                                >
+                                    <Typography sx={{ py: 1, px: 2, display: 'flex', alignItems: 'center', justifyContent: 'space-around' }}>
+                                        <span>Delete</span>
+                                        <AlertShow setAlertOpen={setAlertOpen} chatId={singleGroupMembers?.chat}token={auth?.user?.token}handleAlertOpen={handleAlertOpen}handleAlertClose={handleAlertClose}alertOpen={alertOpen}/> 
+                                        <MdDelete onClick={handleAlertOpen}/>
+                                    </Typography>
+
+                                </Popover>
+                                <ToastContainer
+                                    position="top-center"
+                                    autoClose={5000}
+                                    hideProgressBar={false}
+                                    newestOnTop={false}
+                                    closeOnClick
+                                    rtl={false}
+                                    pauseOnFocusLoss
+                                    draggable
+                                    pauseOnHover
+                                />
+                            </div>
                         </ul>
                     </Grid>
                     {
@@ -63,6 +145,17 @@ const Header = () => {
                     <AudioCall audioOpen={audioOpen} setAudioOpen={setAudioOpen} />
                     <VideoCall videoOpen={videoOpen} setVideoOpen={setVideoOpen} />
                 </Grid>
+                <ToastContainer
+                    position="top-center"
+                    autoClose={5000}
+                    hideProgressBar={false}
+                    newestOnTop={false}
+                    closeOnClick
+                    rtl={false}
+                    pauseOnFocusLoss
+                    draggable
+                    pauseOnHover
+                />
             </Box>
         </>
     );
