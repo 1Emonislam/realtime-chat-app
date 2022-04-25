@@ -8,7 +8,6 @@ var bodyParser = require('body-parser')
 const { Server } = require("socket.io");
 const connectedDb = require('./config/db');
 const { errorLog, errorHandlerNotify } = require('express-error-handle');
-const socketServer = require('./socket/socketServer');
 const userRoutes = require('./routes/userRoutes');
 const profileRoutes = require('./routes/proflieRoutes');
 const friendRoutes = require('./routes/friendRoutes');
@@ -39,23 +38,48 @@ const io = new Server(serverApp, {
     },
 });
 global.io = io;
-global.moment = moment;
 //Database Connected
 connectedDb();
-socketServer();
 //Use Routes
 app.use('/api/auth', userRoutes);
 app.use('/api/chat', chatRoutes)
 app.use('/api/friend', friendRoutes);
 app.use('/api/profile', profileRoutes);
 app.use('/api/message', messageRoutes);
-app.use('/api/note',noteRoutes );
+app.use('/api/note', noteRoutes);
 app.get('/', (req, res) => {
     res.send('server connected')
 })
 serverApp.listen(PORT, () => {
     console.log('Sever Started on PORT', PORT)
 })
+
+io.on("connection", (socket) => {
+    console.log('a user connected');
+    socket.on('setup', (userData) => {
+        socket.join(userData?._id);
+        // console.log(userData)
+        socket.emit('conected');
+    })
+    socket.on('join chat', (room) => {
+        socket.join(room);
+        console.log("user Joined Room:" + room)
+    })
+    socket.on('new message', (newMessageRecieved) => {
+        let chat = newMessageRecieved.chat;
+        if (!chat.users) return console.log('chat.users not defined');
+        chat.users.forEach((user) => {
+            if (user?._id == newMessageRecieved.sender?._id) return;
+            socket.in(user._id).emit("message recieved")
+        })
+    })
+})
+
+
+
+
+
+
 
 //handel error
 app.use(errorLog)

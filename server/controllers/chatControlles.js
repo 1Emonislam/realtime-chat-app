@@ -64,11 +64,7 @@ module.exports.getSingleChatMembers = async (req, res, next) => {
     let getChatMember = await Chat.findOne({ _id: chatId }).select("members groupAdmin _id seen latestMessage").populate("members", "_id pic firstName lastName email").populate("groupAdmin", "_id pic firstName lastName email").populate("seen", "_id pic firstName lastName email");
     // console.log(getChatMember?.seen)
     const data = {
-      totalMember: getChatMember?.members?.length,
-      chat: getChatMember?._id,
-      seen: getChatMember?.seen,
-      members: getChatMember?.members,
-      groupAdmin: getChatMember?.groupAdmin,
+      data: getChatMember,
       amIJoined: getChatMember?.members?.some(am => am?._id?.toString() === req.user?._id?.toString()),
       amIAdmin: getChatMember?.groupAdmin?.some(am => am?._id?.toString() === req.user?._id?.toString())
     }
@@ -201,7 +197,7 @@ module.exports.groupAddTo = async (req, res, next) => {
       })
       const memberJoinedInfo = {
         joinMemberCount: added?.members?.length,
-        showMemberFront: added?.members?.slice(0, 5)
+        showMemberFront: added?.members
       }
       return res.status(200).json({ message: "Member added successfully!", memberJoinedInfo, data: added })
     }

@@ -23,7 +23,7 @@ import { MESSAGE_WRITE } from '../store/type/messageTypes';
 import './Editor.css';
 const MenuBar = ({ editor }) => {
     const dispatch = useDispatch();
-    const { groupMessage, singleGroupMembers, auth } = useSelector(state => state)
+    const { groupMessage, selectedChat, auth } = useSelector(state => state)
     // console.log(auth?.user?.token)
     const setLink = useCallback(() => {
         const previousUrl = editor.getAttributes('link').href
@@ -152,7 +152,7 @@ const MenuBar = ({ editor }) => {
                 <button>
                     < RiAttachment2 />
                 </button>
-                {auth?.user?.token && singleGroupMembers?.chat ? <button onClick={() => dispatch(sendMessage(groupMessage?.write, singleGroupMembers?.chat, auth?.user?.token, editor))}>
+                {auth?.user?.token && selectedChat?.chat ? <button onClick={() => dispatch(sendMessage(groupMessage?.write, selectedChat?.chat, auth?.user?.token, editor))}>
                     <RiSendPlane2Fill />
                 </button> : <Tooltip title="Permission Denied!" arrow>
                     <button style={{ color: '#ccc' }}><RiSendPlane2Fill /></button>

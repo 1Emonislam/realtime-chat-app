@@ -18,7 +18,7 @@ import VideoCall from './Modal/VideoCall';
 
 const Header = () => {
     const dispatch = useDispatch()
-    const { singleGroupMembers, groupMessage, theme, auth } = useSelector(state => state)
+    const { selectedChat, groupMessage, theme, auth } = useSelector(state => state)
     const [search, setSearch] = useState('')
     const [audioOpen, setAudioOpen] = React.useState(false);
     const [videoOpen, setVideoOpen] = React.useState(false);
@@ -35,7 +35,7 @@ const Header = () => {
     const [alertOpen, setAlertOpen] = React.useState(false);
     const handleAlertOpen = () => setAlertOpen(true);
     const handleAlertClose = () => setAlertOpen(false);
-    console.log(groupMessage?.success,groupMessage?.error)
+    // console.log(groupMessage?.success,groupMessage?.error)
     if (groupMessage?.success) {
         toast.success(`${groupMessage?.success}`, {
             position: "bottom-right",
@@ -78,9 +78,9 @@ const Header = () => {
                     <Grid item xs={6} md={6} sx={{ textAlign: 'start' }}>
                         <Box className='profile_image'>
                             <Box sx={{ marginLeft: '15px' }}>
-                                {!singleGroupMembers?.members?.length ? <> <HeaderSkeletonMember /></> : <>
-                                    {/* {console.log(singleGroupMembers)} */}
-                                    <GroupPeople memberInfo={singleGroupMembers} />
+                                {!selectedChat?.members?.length ? <> <HeaderSkeletonMember /></> : <>
+                                    {/* {console.log(selectedChat)} */}
+                                    <GroupPeople memberInfo={selectedChat} />
                                 </>}
                             </Box>
                         </Box>
@@ -101,7 +101,7 @@ const Header = () => {
                                 </li>
                             </Tooltip>
                             <div className='ancor'>
-                                {singleGroupMembers?.chat ? <MoreHorizIcon id={id} onClick={handleClick} /> : <MoreHorizIcon></MoreHorizIcon>}
+                                {selectedChat?.chat ? <MoreHorizIcon id={id} onClick={handleClick} /> : <MoreHorizIcon></MoreHorizIcon>}
                                 <Popover
                                     id={id}
                                     open={open}
@@ -114,7 +114,7 @@ const Header = () => {
                                 >
                                     <Typography sx={{ py: 1, px: 2, display: 'flex', alignItems: 'center', justifyContent: 'space-around' }}>
                                         <span>Delete</span>
-                                        <AlertShow setAlertOpen={setAlertOpen} chatId={singleGroupMembers?.chat}token={auth?.user?.token}handleAlertOpen={handleAlertOpen}handleAlertClose={handleAlertClose}alertOpen={alertOpen}/> 
+                                        <AlertShow setAlertOpen={setAlertOpen} chatId={selectedChat?.chat}token={auth?.user?.token}handleAlertOpen={handleAlertOpen}handleAlertClose={handleAlertClose}alertOpen={alertOpen}/> 
                                         <MdDelete onClick={handleAlertOpen}/>
                                     </Typography>
 

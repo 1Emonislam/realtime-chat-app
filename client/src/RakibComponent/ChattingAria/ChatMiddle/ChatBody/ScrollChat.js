@@ -6,8 +6,8 @@ import MessageFunc from '../ChatBody/MessageFunc'
 import { isLastMessage, isSameSender, isSameSenderMargin, isSameSenderPermission, isSameUser } from './chatLogic'
 import EditorLogicMessage from './EditorLogicMessage'
 function ScrollChat({ messages, user }) {
-    const { singleGroupMembers } = useSelector(state => state)
-    // console.log(singleGroupMembers)
+    const { selectedChat } = useSelector(state => state)
+    // console.log(selectedChat)
     return (
         <ScrollableFeed >
             <div style={{ marginTop: "50px" }}>
@@ -85,9 +85,9 @@ function ScrollChat({ messages, user }) {
 
                         </span>
                     ))}
-                {singleGroupMembers?.seen?.length &&
+                {selectedChat?.seen?.length &&
                     <AvatarGroup style={{ cursor: 'pointer' }} max={3}>
-                        {singleGroupMembers?.seen?.slice(0, 3)?.map((user, i) => (
+                        {selectedChat?.seen?.slice(0, 3)?.map((user, i) => (
                             <Avatar title="seen" key={i} sx={{ height: '15px', width: '15px', marginTop: '7px' }} alt={user.username} src={user?.pic} />
                         ))}
                     </AvatarGroup>

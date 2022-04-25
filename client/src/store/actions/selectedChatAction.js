@@ -1,10 +1,10 @@
-import { SINGLE_CHAT_MEMBER_FAILED, SINGLE_CHAT_MEMBER_LOADING, SINGLE_CHAT_MEMBER_SUCCESS } from "../type/singleChatMemberTypes"
+import { SELECTED_CHAT_FAILED, SELECTED_CHAT_LOADING, SELECTED_CHAT_SUCCESS } from "../type/selectedChatTypes"
 
-export const getGroupMember = (chatId, token) => {
+export const getSelectedChat = (chatId, token) => {
     //console.log(chatId, token)
     return async (dispatch) => {
         dispatch({
-            type: SINGLE_CHAT_MEMBER_LOADING,
+            type: SELECTED_CHAT_LOADING,
             payload: {
                 loading: true,
             }
@@ -21,7 +21,7 @@ export const getGroupMember = (chatId, token) => {
                 .then(data => {
                     if (data) {
                         dispatch({
-                            type: SINGLE_CHAT_MEMBER_SUCCESS,
+                            type: SELECTED_CHAT_SUCCESS,
                             payload: {
                                 data: data
                             }
@@ -29,7 +29,7 @@ export const getGroupMember = (chatId, token) => {
                     }
                     if (data?.error) {
                         dispatch({
-                            type: SINGLE_CHAT_MEMBER_FAILED,
+                            type: SELECTED_CHAT_FAILED,
                             payload: {
                                 error: data.error,
                             }
@@ -39,7 +39,7 @@ export const getGroupMember = (chatId, token) => {
         }
         catch (error) {
             dispatch({
-                type: SINGLE_CHAT_MEMBER_FAILED,
+                type: SELECTED_CHAT_FAILED,
                 payload: {
                     error: error.message,
                 }
