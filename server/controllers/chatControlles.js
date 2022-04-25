@@ -63,6 +63,7 @@ module.exports.getSingleChatMembers = async (req, res, next) => {
     const { chatId } = req.params;
     let getChatMember = await Chat.findOne({ _id: chatId }).select("members groupAdmin _id seen latestMessage").populate("members", "_id pic firstName lastName email").populate("groupAdmin", "_id pic firstName lastName email").populate("seen", "_id pic firstName lastName email");
     // console.log(getChatMember?.seen)
+    
     const data = {
       data: getChatMember,
       amIJoined: getChatMember?.members?.some(am => am?._id?.toString() === req.user?._id?.toString()),
