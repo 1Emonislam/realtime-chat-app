@@ -1,16 +1,6 @@
 import { Tooltip } from '@mui/material';
 import Popover from '@mui/material/Popover';
 import Typography from '@mui/material/Typography';
-import Bold from '@tiptap/extension-bold';
-import Code from '@tiptap/extension-code';
-import CodeBlock from '@tiptap/extension-code-block';
-import Document from '@tiptap/extension-document';
-import Italic from '@tiptap/extension-italic';
-import Link from '@tiptap/extension-link';
-import Text from '@tiptap/extension-text';
-import Underline from '@tiptap/extension-underline';
-import { generateHTML } from '@tiptap/react';
-import StarterKit from '@tiptap/starter-kit';
 import * as React from 'react';
 import { AiFillThunderbolt } from 'react-icons/ai';
 import { BsThreeDotsVertical } from 'react-icons/bs';
@@ -21,15 +11,9 @@ import { toast, ToastContainer } from 'react-toastify';
 import EditMessage from '../../../../Editor/EditMessage';
 import { deleteMessage, noteCreate, sendMessage, updateMessageStore } from '../../../../store/actions/messageAction';
 import { FAILED_MESSAGE, SUCCESS_MESSAGE_CLEAR } from '../../../../store/type/messageTypes';
-export default function MessageFunc({  isSameSenderPermission, message, messageInfo }) {
+export default function MessageFunc({  isSameSenderPermission, handleTyping, isTyping, message, messageInfo }) {
     const { theme, auth, groupMessage } = useSelector(state => state);
     const dispatch = useDispatch()
-    const output = React.useMemo(() => {
-        return generateHTML(message, [
-            Document,
-            StarterKit, Underline, Link, CodeBlock, Bold, Code, Text, Italic,
-        ])
-    }, [message])
     const [anchorEl, setAnchorEl] = React.useState(null);
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
@@ -41,10 +25,9 @@ export default function MessageFunc({  isSameSenderPermission, message, messageI
 
     const open = Boolean(anchorEl);
     const id = open ? 'simple-popover' : undefined;
-    const text = document.createElement("p");
-    text.innerHTML = output;
+
     const handleCopy = () => {
-        navigator.clipboard.writeText(text.innerText)
+        navigator.clipboard.writeText(message)
         toast.success(`Text copied to clipboard`, {
             position: "top-center",
             theme: theme?.theme,
@@ -124,7 +107,7 @@ export default function MessageFunc({  isSameSenderPermission, message, messageI
                 </Typography>
                 {isSameSenderPermission && <>
                     <Typography sx={{ py: 1, px: 3, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }} >
-                        Edit  <EditMessage messageInfo={messageInfo} messageHTML={output} messageEditHandle={messageEditHandle} editMessageOpen={editMessageOpen}></EditMessage>
+                        Edit <EditMessage  handleTyping={handleTyping} isTyping={isTyping}messageInfo={messageInfo} messageText={message} messageEditHandle={messageEditHandle} editMessageOpen={editMessageOpen}/>
                         <span onClick={() => {
                             messageEditHandle(true)
                             dispatch(updateMessageStore(messageInfo))
@@ -137,7 +120,7 @@ export default function MessageFunc({  isSameSenderPermission, message, messageI
                         {messageInfo?.chat?._id && messageInfo?._id && auth?.user?.token ? <span onClick={() => {
                             dispatch(deleteMessage(messageInfo?.chat?._id, messageInfo?._id, auth?.user?.token))
                         }}><MdDelete style={{ position: 'relative', top: '3px', paddingLeft: '5px' }} />
-                        </span> : <Tooltip title="Permission Denied" arrow>
+                        </span> : <Tooltip style={{cursor:"pointer"}} title="Permission Denied" arrow>
                             <MdDelete style={{ position: 'relative', top: '3px', paddingLeft: '5px' }} />
                         </Tooltip>}
                     </Typography>

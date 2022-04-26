@@ -2,26 +2,24 @@ import { Avatar, AvatarGroup, Tooltip, Typography } from '@mui/material'
 import moment from 'moment'
 import { useSelector } from 'react-redux'
 import ScrollableFeed from 'react-scrollable-feed'
+import TypingIndicator from '../../../../components/Typing/TypingIndicatior'
+import Editor from '../../../../Editor/Editor'
 import MessageFunc from '../ChatBody/MessageFunc'
 import { isLastMessage, isSameSender, isSameSenderMargin, isSameSenderPermission, isSameUser } from './chatLogic'
-import EditorLogicMessage from './EditorLogicMessage'
-function ScrollChat({ messages, user }) {
+function ScrollChat({ messages, user, handleTyping, isTyping }) {
     const { selectedChat } = useSelector(state => state)
-    // console.log(selectedChat)
     return (
         <ScrollableFeed >
             <div style={{ marginTop: "50px" }}>
-
-
                 {messages &&
-                    messages.map((m, i) => (
+                    messages?.map((m, i) => (
                         <span key={i}>
                             <div style={{ display: "flex", alignItems: 'center', marginBottom: '10px' }}>
                                 <div>
 
                                     {(isSameSender(messages, m, i, user._id) ||
                                         isLastMessage(messages, i, user._id)) && (
-                                            <Tooltip title={m?.sender?.firstName + ' ' + m?.sender?.lastName}
+                                            <Tooltip style={{cursor:"pointer"}} title={m?.sender?.firstName + ' ' + m?.sender?.lastName}
                                                 placement="bottom-start" aria-haspopup arrow>
                                                 <Avatar
                                                     sx={{ cursor: 'pointer', marginTop: '7px', marginRight: '25px' }}
@@ -51,7 +49,7 @@ function ScrollChat({ messages, user }) {
                                     }}
                                 >
                                     <span style={{ position: 'absolute', left: '-20px', top: '18px', color: 'blue', fontWeight: '900' }}>
-                                        {user?._id && <MessageFunc isSameSenderPermission={isSameSenderPermission(messages, m, i, user?._id)} message={m?.content?.text} messageInfo={m} />}
+                                        {user?._id && <MessageFunc handleTyping={handleTyping} isTyping={isTyping} isSameSenderPermission={isSameSenderPermission(messages, m, i, user?._id)} message={m?.content?.text} messageInfo={m} />}
                                     </span>
                                     {m?.content?.text && <>
                                         <div>
@@ -74,25 +72,31 @@ function ScrollChat({ messages, user }) {
                                             </Typography>
                                         </div>
                                         <div>
-                                            <EditorLogicMessage data={m?.content?.text} />
+                                            {/* <EditorLogicMessage data={m?.content?.text} /> */}
+                                            <span>{m?.content?.text} </span>
                                         </div>
                                     </>}
-
                                 </span>
-
-
                             </div>
-
                         </span>
                     ))}
-                {selectedChat?.seen?.length &&
-                    <AvatarGroup style={{ cursor: 'pointer' }} max={3}>
-                        {selectedChat?.seen?.slice(0, 3)?.map((user, i) => (
+                {selectedChat?.chat?.seen?.length &&
+                    <AvatarGroup style={{ cursor: 'pointer' }} total={selectedChat?.chat?.seen?.length}>
+                        {selectedChat?.chat?.seen?.map((user, i) => (
                             <Avatar title="seen" key={i} sx={{ height: '15px', width: '15px', marginTop: '7px' }} alt={user.username} src={user?.pic} />
                         ))}
                     </AvatarGroup>
                 }
             </div>
+            {isTyping?.typing ? <>
+                <TypingIndicator />
+                <div style={{ display: "flex", alignItems: 'center' }}>
+                    <Tooltip style={{cursor:"pointer"}} title={isTyping?.user?.user?.firstName + ' ' + isTyping?.user?.user?.lastName} arrow>
+                        <Avatar sx={{ height: '15px', width: '15px' }} alt={isTyping?.user?.user.username} src={isTyping?.user?.user?.pic} />
+                    </Tooltip>
+                </div>
+            </> : <> </>}
+            {selectedChat?.chat?._id && <Editor isTyping={isTyping} handleTyping={handleTyping} />}
         </ScrollableFeed>
     )
 }

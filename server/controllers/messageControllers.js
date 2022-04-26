@@ -26,14 +26,13 @@ module.exports.sendMessage = async (req, res, next) => {
     }
     try {
         let message = await Message.create(newMessage);
-        const permission = await Chat.findByIdAndUpdate(req.body.chatId, {
+        await Chat.findByIdAndUpdate(req.body.chatId, {
             latestMessage: message?._id,
             seen: [req.user?._id]
         }).populate({
             path: 'groupAdmin',
             select: '_id pic firstName lastName email'
         })
-        message = await Message.find({ chat: chatId })
         message = await User.populate(message, {
             path: 'sender',
             select: '_id pic firstName lastName email'
@@ -44,7 +43,11 @@ module.exports.sendMessage = async (req, res, next) => {
         })
         message = await Chat.populate(message, {
             path: 'chat',
-            select: '_id seen groupAdmin',
+            select: '_id seen groupAdmin members',
+        })
+        message = await Chat.populate(message, {
+            path: 'chat.members',
+            select: '_id pic firstName lastName email',
         })
         message = await User.populate(message, {
             path: 'chat.groupAdmin',
@@ -194,10 +197,10 @@ module.exports.messageEdit = async (req, res, next) => {
                 others
             },
         }, { new: true });
-        await Chat.findByIdAndUpdate(req.body.chatId, {
+        await Chat.findOneAndUpdate({ _id: req.body.chatId }, {
             latestMessage: message?._id,
             $addToSet: { seen: req.user?._id }
-        }).populate({
+        }, { new: true }).populate({
             path: 'groupAdmin',
             select: '_id pic firstName lastName email'
         })
@@ -212,13 +215,13 @@ module.exports.messageEdit = async (req, res, next) => {
                 path: 'sender',
                 select: '_id pic firstName lastName email'
             })
+            message = await Chat.populate(message, {
+                path: 'chat',
+                select: '_id seen groupAdmin members',
+            })
             message = await User.populate(message, {
                 path: 'chat.members',
                 select: '_id pic firstName lastName email'
-            })
-            message = await Chat.populate(message, {
-                path: 'chat',
-                select: '_id seen groupAdmin',
             })
             message = await User.populate(message, {
                 path: 'chat.groupAdmin',

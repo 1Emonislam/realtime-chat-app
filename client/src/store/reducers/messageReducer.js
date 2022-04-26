@@ -1,11 +1,13 @@
-import { FAILED_MESSAGE, GET_MESSAGE, LOADING_MESSAGE, MESSAGE_WRITE, NOTE_CREATE, REMOVE_MESSAGE, SEND_MESSAGE, SUCCESS_MESSAGE_CLEAR, UPDATE_MESSAGE, UPDATE_MESSAGE_FAILED, UPDATE_MESSAGE_STORE } from "../type/messageTypes";
+import { FAILED_MESSAGE, GET_MESSAGE, LOADING_MESSAGE, MESSAGE_WRITE, NOTE_CREATE, REMOVE_MESSAGE, SEND_MESSAGE, SUCCESS_MESSAGE_CLEAR, UPDATE_MESSAGE, UPDATE_MESSAGE_FAILED, UPDATE_MESSAGE_STORE, WRITE_MESSAGE_UPDATE } from "../type/messageTypes";
 
 const initState = {
     msg: [],
+    sendMsg: {},
     write: '',
     loading: false,
     error: '',
     success: '',
+    sent: false,
     messageInfoStore: [],
     note: [],
 }
@@ -20,9 +22,10 @@ export const messageReducer = (state = initState, action) => {
     if (type === UPDATE_MESSAGE) {
         return {
             ...state,
-            sent: true,
-            msg: payload.data,
-            loading: false
+            loading: false,
+            success: payload.message,
+            msg: payload.data?.data,
+
         }
     }
     if (type === UPDATE_MESSAGE_STORE) {
@@ -39,24 +42,34 @@ export const messageReducer = (state = initState, action) => {
             success: '',
             error: payload.error,
             msg: null,
+            sent: false,
             loading: false
         }
     }
     if (type === GET_MESSAGE) {
         return {
             ...state,
-            msg: payload.data,
+            msg: payload.data?.data,
             loading: false
         }
     }
+    // console.log(state?.msg,payload?.data?.data)
     if (type === SEND_MESSAGE) {
         return {
             ...state,
-            msg: payload.data,
+            msg: [...state?.msg, payload?.data?.data],
+            sendMsg: payload?.data?.data,
+            write: '',
             loading: false
         }
     }
-
+    if (type === WRITE_MESSAGE_UPDATE) {
+        return {
+            ...state,
+            messageInfoStore: payload?.data,
+            loading: false
+        }
+    }
     if (type === FAILED_MESSAGE) {
         return {
             ...state,

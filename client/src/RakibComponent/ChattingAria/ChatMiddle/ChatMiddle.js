@@ -1,14 +1,9 @@
 import React from 'react';
-import { WriterEditor } from '../../../Editor/WriterEditor';
 import ChatBody from './ChatBody/ChatBody';
-import Header from './Header/Header';
-
-const ChatMiddle = () => {
+const ChatMiddle = ({handleTyping,isTyping}) => {
     return (
         <>
-            <Header />
-            <ChatBody />
-            <WriterEditor />
+            <ChatBody isTyping={isTyping}handleTyping={handleTyping}/>
         </>
     );
 };

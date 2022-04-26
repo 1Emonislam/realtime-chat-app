@@ -152,9 +152,9 @@ const MenuBar = ({ editor }) => {
                 <button>
                     < RiAttachment2 />
                 </button>
-                {auth?.user?.token && selectedChat?.chat ? <button onClick={() => dispatch(sendMessage(groupMessage?.write, selectedChat?.chat, auth?.user?.token, editor))}>
+                {auth?.user?.token && selectedChat?.chat?._id ? <button onClick={() => dispatch(sendMessage(groupMessage?.write, selectedChat?.chat, auth?.user?.token, editor))}>
                     <RiSendPlane2Fill />
-                </button> : <Tooltip title="Permission Denied!" arrow>
+                </button> : <Tooltip style={{cursor:"pointer"}} title="Permission Denied!" arrow>
                     <button style={{ color: '#ccc' }}><RiSendPlane2Fill /></button>
                 </Tooltip>}
             </div>

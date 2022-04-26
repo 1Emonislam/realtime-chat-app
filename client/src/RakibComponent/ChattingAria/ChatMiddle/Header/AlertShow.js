@@ -46,7 +46,7 @@ export default function AlertShow({ alertOpen, handleAlertClose, setAlertOpen, c
                     }}>
                         Delete
                     </Button>
-                        : <Tooltip title="Permission denied" arrow>
+                        : <Tooltip style={{cursor:"pointer"}} title="Permission denied" arrow>
                             <Button>
                                 Delete
                             </Button>

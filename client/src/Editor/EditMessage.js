@@ -8,7 +8,7 @@ import { RiEditCircleFill } from 'react-icons/ri';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast, ToastContainer } from 'react-toastify';
 import { SUCCESS_MESSAGE_CLEAR, UPDATE_MESSAGE_FAILED } from '../store/type/messageTypes';
-import { EditMessageWriter } from './EditMessageWriter';
+import Editor from './Editor';
 const style = {
     position: 'absolute',
     top: '50%',
@@ -22,7 +22,7 @@ const style = {
     p: 4,
 };
 
-export default function EditMessage({ messageEditHandle,messageHTML,editMessageOpen }) {
+export default function EditMessage({ messageEditHandle, handleTyping, isTyping,messageText,editMessageOpen }) {
     const { groupMessage, theme } = useSelector(state => state)
     const dispatch = useDispatch();
     if (groupMessage?.success) {
@@ -101,7 +101,7 @@ export default function EditMessage({ messageEditHandle,messageHTML,editMessageO
                             <CancelIcon style={{ cursor: "pointer" }} sx={{ color: "#ee00ab" }} onClick={() => messageEditHandle(false)} />
                         </Box>
                     </div>
-                    <EditMessageWriter messageEditHandle={messageEditHandle}messageHTML={messageHTML}/>
+                    <Editor handleTyping={handleTyping} isTyping={isTyping} editMsg={messageText}messageEditHandle={messageEditHandle}></Editor>
                     <ToastContainer
                         position="bottom-right"
                         autoClose={5000}

@@ -8,7 +8,7 @@ export const getMessage = (chatId, token) => {
             },
         })
         try {
-            fetch(`https://collaballapp.herokuapp.com/api/message/${chatId}`, {
+            fetch(`http://localhost:5000/api/message/${chatId}`, {
                 method: 'GET',
                 headers: {
                     "Content-Type": "application/json",
@@ -47,6 +47,7 @@ export const getMessage = (chatId, token) => {
         }
     }
 }
+
 export const sendMessage = (data, chatId, token, editor) => {
     // console.log(token)
     return async (dispatch) => {
@@ -57,7 +58,7 @@ export const sendMessage = (data, chatId, token, editor) => {
             },
         })
         try {
-            fetch(`https://collaballapp.herokuapp.com/api/message`, {
+            fetch(`http://localhost:5000/api/message`, {
                 method: 'POST',
                 headers: {
                     "Content-Type": "application/json",
@@ -76,7 +77,8 @@ export const sendMessage = (data, chatId, token, editor) => {
                 .then(res => res.json())
                 .then(data => {
                     if (data) {
-                        editor?.commands?.clearContent(true)
+                        editor?.commands?.clearContent(true);
+                        //    console.log(socket)
                         dispatch({
                             type: SEND_MESSAGE,
                             payload: {
@@ -105,8 +107,8 @@ export const sendMessage = (data, chatId, token, editor) => {
         }
     }
 }
-export const editMessage = (data, chatId, messageId, token, editor, messageEditHandle) => {
-    // console.log(data, chatId, messageId, token, editor)
+export const editMessage = (data, chatId, messageId, token, messageEditHandle) => {
+    // console.log(data, chatId, messageId, token)
     return async (dispatch) => {
         dispatch({
             type: LOADING_MESSAGE,
@@ -115,7 +117,7 @@ export const editMessage = (data, chatId, messageId, token, editor, messageEditH
             },
         })
         try {
-            fetch(`https://collaballapp.herokuapp.com/api/message`, {
+            fetch(`http://localhost:5000/api/message`, {
                 method: 'PUT',
                 headers: {
                     "Content-Type": "application/json",
@@ -143,7 +145,6 @@ export const editMessage = (data, chatId, messageId, token, editor, messageEditH
                         })
                     }
                     if (data) {
-                        editor.commands.clearContent(true);
                         messageEditHandle(false)
                         dispatch({
                             type: UPDATE_MESSAGE,
@@ -176,7 +177,7 @@ export const deleteMessage = (chatId, messageId, token) => {
             },
         })
         try {
-            fetch(`https://collaballapp.herokuapp.com/api/message`, {
+            fetch(`http://localhost:5000/api/message`, {
                 method: 'DELETE',
                 headers: {
                     "Content-Type": "application/json",
@@ -220,7 +221,7 @@ export const deleteMessage = (chatId, messageId, token) => {
     }
 }
 export const deleteAllMessage = (chatId, token) => {
-//  console.log(chatId, token)
+    //  console.log(chatId, token)
     return async (dispatch) => {
         dispatch({
             type: LOADING_MESSAGE,
@@ -229,7 +230,7 @@ export const deleteAllMessage = (chatId, token) => {
             },
         })
         try {
-            fetch(`https://collaballapp.herokuapp.com/api/message/${chatId}`, {
+            fetch(`http://localhost:5000/api/message/${chatId}`, {
                 method: 'DELETE',
                 headers: {
                     "Content-Type": "application/json",
@@ -293,7 +294,7 @@ export const updateMessageStore = (data) => {
 export const noteCreate = (chatId, messageId, token) => {
     return async (dispatch) => {
         try {
-            fetch(`https://collaballapp.herokuapp.com/api/note`, {
+            fetch(`http://localhost:5000/api/note`, {
                 method: 'POST',
                 headers: {
                     "Content-Type": "application/json",

@@ -78,7 +78,7 @@ const Header = () => {
                     <Grid item xs={6} md={6} sx={{ textAlign: 'start' }}>
                         <Box className='profile_image'>
                             <Box sx={{ marginLeft: '15px' }}>
-                                {!selectedChat?.members?.length ? <> <HeaderSkeletonMember /></> : <>
+                                {!selectedChat?.chat?.members?.length ? <> <HeaderSkeletonMember /></> : <>
                                     {/* {console.log(selectedChat)} */}
                                     <GroupPeople memberInfo={selectedChat} />
                                 </>}
@@ -87,21 +87,21 @@ const Header = () => {
                     </Grid>
                     <Grid item xs={6} md={6}>
                         <ul className='chat_Header_icon'>
-                            <Tooltip title="Search" arrow>
+                            <Tooltip style={{cursor:"pointer"}} title="Search" arrow>
                                 <li onClick={() => setSearch('search')}>
                                     <SearchIcon />
                                 </li>
                             </Tooltip>
-                            <Tooltip title="Audio Call" arrow>
+                            <Tooltip style={{cursor:"pointer"}} title="Audio Call" arrow>
                                 <li onClick={() => setAudioOpen(true)}><LocalPhoneIcon />
                                 </li>
                             </Tooltip>
-                            <Tooltip title="Video Call" arrow>
+                            <Tooltip style={{cursor:"pointer"}} title="Video Call" arrow>
                                 <li onClick={() => setVideoOpen(true)}><VideocamIcon />
                                 </li>
                             </Tooltip>
                             <div className='ancor'>
-                                {selectedChat?.chat ? <MoreHorizIcon id={id} onClick={handleClick} /> : <MoreHorizIcon></MoreHorizIcon>}
+                                {selectedChat?.chat?._id ? <MoreHorizIcon id={id} onClick={handleClick} /> : <MoreHorizIcon></MoreHorizIcon>}
                                 <Popover
                                     id={id}
                                     open={open}
@@ -114,8 +114,8 @@ const Header = () => {
                                 >
                                     <Typography sx={{ py: 1, px: 2, display: 'flex', alignItems: 'center', justifyContent: 'space-around' }}>
                                         <span>Delete</span>
-                                        <AlertShow setAlertOpen={setAlertOpen} chatId={selectedChat?.chat}token={auth?.user?.token}handleAlertOpen={handleAlertOpen}handleAlertClose={handleAlertClose}alertOpen={alertOpen}/> 
-                                        <MdDelete onClick={handleAlertOpen}/>
+                                        <AlertShow setAlertOpen={setAlertOpen} chatId={selectedChat?.chat?._id} token={auth?.user?.token} handleAlertOpen={handleAlertOpen} handleAlertClose={handleAlertClose} alertOpen={alertOpen} />
+                                        <MdDelete onClick={handleAlertOpen} />
                                     </Typography>
 
                                 </Popover>

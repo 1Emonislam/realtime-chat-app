@@ -143,3 +143,26 @@ button.is_active {
 .item.is-selected {
   border-color: #000;
 }
+button.send-btn {
+  background: #ee00ab;
+  color: white;
+  padding: 10px !important;
+  border-radius: 30px;
+}
+button.send-btn:hover {
+  background: #de04a0;
+  color: white;
+}
+textarea.text-msg {
+  border: none;
+  resize: none;
+  color: darkcyan;
+  background: transparent;
+  position: relative;
+  width: 100%;
+  top: 10px;
+}
+textarea.text-msg:focus {
+  outline: none;
+  border: none;
+}

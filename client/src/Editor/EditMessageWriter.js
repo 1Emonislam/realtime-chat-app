@@ -160,7 +160,7 @@ const MenuBar = ({ editor, messageEditHandle }) => {
                 }
                 }>
                     <RiSendPlane2Fill />
-                </button> : <Tooltip title="Permission Denied!" arrow>
+                </button> : <Tooltip style={{cursor:"pointer"}} title="Permission Denied!" arrow>
                     <button style={{ color: '#ccc' }}><RiSendPlane2Fill /></button>
                 </Tooltip>}
             </div>
@@ -168,11 +168,11 @@ const MenuBar = ({ editor, messageEditHandle }) => {
     );
 };
 
-export const EditMessageWriter = ({ messageHTML, messageEditHandle }) => {
+export const EditMessageWriter = ({ messageText, messageEditHandle }) => {
     const dispatch = useDispatch();
     const editor = useEditor({
         extensions: [StarterKit, Underline, CodeBlock, Link],
-        content: `${messageHTML}`,
+        content: `${messageText}`,
         onUpdate: ({ editor }) => {
             const data = editor.getJSON();
             dispatch({

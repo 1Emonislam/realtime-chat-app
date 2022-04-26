@@ -54,10 +54,10 @@ export default function GroupMemberShow({ memberInfo }) {
                 </Tabs>
             </Box>
             <TabPanel value={value} index={0}>
-                <ProfileGroupList memberInfo={memberInfo?.members} />
+                <ProfileGroupList memberInfo={memberInfo?.chat?.members} />
             </TabPanel>
             <TabPanel value={value} index={1}>
-            <ProfileGroupList memberInfo={memberInfo?.groupAdmin} />
+            <ProfileGroupList memberInfo={memberInfo?.chat?.groupAdmin} />
             </TabPanel>
         </Box>
     );

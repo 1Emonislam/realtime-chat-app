@@ -1,4 +1,4 @@
-const{ mongoose,Schema} = require('mongoose');
+const { mongoose, Schema } = require('mongoose');
 const messageSchema = mongoose.Schema({
     sender: {
         type: mongoose.Schema.Types.ObjectId,
@@ -7,7 +7,7 @@ const messageSchema = mongoose.Schema({
     },
     content: {
         text: {
-            type: Object
+            type: String,
         },
         audio: [],
         video: [],
