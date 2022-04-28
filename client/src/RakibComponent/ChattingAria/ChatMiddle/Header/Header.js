@@ -123,12 +123,11 @@ const Header = () => {
                                         horizontal: 'left',
                                     }}
                                 >
-                                    <Typography sx={{ py: 1, px: 2, display: 'flex', alignItems: 'center', justifyContent: 'space-around' }}>
-                                        <span>Delete</span>
+                                    <Typography sx={{ py: 2, px:2 , display: 'flex', alignItems: 'center', justifyContent: 'space-around' }}>
+                                        <span> All Conversion Delete</span>
                                         <AlertShow setAlertOpen={setAlertOpen} chatId={selectedChat?.chat?._id} token={auth?.user?.token} handleAlertOpen={handleAlertOpen} handleAlertClose={handleAlertClose} alertOpen={alertOpen} />
                                         <MdDelete onClick={handleAlertOpen} />
                                     </Typography>
-
                                 </Popover>
                                 <ToastContainer
                                     position="top-center"

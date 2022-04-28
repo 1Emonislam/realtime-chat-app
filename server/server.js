@@ -16,6 +16,7 @@ const chatRoutes = require('./routes/chatRoutes');
 const noteRoutes = require('./routes/noteRoutes')
 const notificationRoutes = require('./routes/notificationRoutes');
 const Notification = require('./models/groupNotificationModel');
+const User = require('./models/userModel');
 const app = express();
 const PORT = process.env.PORT || 5000;
 //middlewares
@@ -58,12 +59,15 @@ app.get('/', (req, res) => {
 serverApp.listen(PORT, () => {
     console.log('Sever Started on PORT', PORT)
 })
-
 io.on("connection", (socket) => {
     console.log('a user connected');
-    socket.on('setup', (userData) => {
+    socket.on('setup', async (userData) => {
         socket.join(userData?._id);
         // console.log(userData)
+        await User.findOneAndUpdate({ _id: userData?._id }, {
+            online: true,
+            socketId: socket.id,
+        }, { new: true })
         socket.emit('conected');
     })
     socket.on('join chat', (room) => {
@@ -106,6 +110,9 @@ io.on("connection", (socket) => {
             })
             socket.in(user._id).emit("message recieved", notificationObj)
         })
+    })
+    socket.on("online members", (onlineMember) => {
+        socket.in(onlineMember?._id).emit("online member", onlineMember)
     })
 
     socket.off("setup", (userData) => {

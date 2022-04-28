@@ -54,12 +54,10 @@ module.exports.updateProfile = async (req, res, next) => {
   const latitude = req?.body?.location?.latitude || 0;
   const longitude = req?.body?.location?.longitude || 0;
   const address = req?.body?.location?.address;
-  const houseNumber = req?.body?.location?.houseNumber;
-  const floor = req?.body?.location?.floor;
   const information = req?.body?.location?.information;
   try {
     const profileUpdate = await User.findOneAndUpdate({ _id: req.user?._id }, {
-      firstName, lastName, email, phone, gender, birthDate, userInfo, phone, pic, location: { latitude, longitude, address, houseNumber, floor, information }, geometry: { type: "Point", "coordinates": [Number(longitude), Number(latitude)] }
+      firstName, lastName, email, phone, gender, birthDate, userInfo, phone, pic, location: { latitude, longitude, address, information }, geometry: { type: "Point", "coordinates": [Number(longitude), Number(latitude)] }
     }).select("-password");
     const userData = {};
     userData.user = profileUpdate;
@@ -115,8 +113,6 @@ module.exports.userRegister = async (req, res, next) => {
     const latitude = req?.body?.location?.latitude || 0;
     const longitude = req?.body?.location?.longitude || 0;
     const address = req?.body?.location?.address;
-    const houseNumber = req?.body?.location?.houseNumber;
-    const floor = req?.body?.location?.floor;
     const information = req?.body?.location?.information;
     const username = (firstName + lastName)?.toString();
     const issue = {}
@@ -165,7 +161,7 @@ module.exports.userRegister = async (req, res, next) => {
       const user = await User.create({
         username: userName,
         password,
-        firstName, lastName, email, phone, gender, birthDate, userInfo, phone, pic, location: { latitude, longitude, address, houseNumber, floor, information }, geometry: { type: "Point", "coordinates": [Number(longitude), Number(latitude)] }
+        firstName, lastName, email, phone, gender, birthDate, userInfo, phone, pic, location: { latitude, longitude, address, information }, geometry: { type: "Point", "coordinates": [Number(longitude), Number(latitude)] }
       });
       const resData = await User.findOne({ _id: user._id }).select("-password");
       const userData = {};

@@ -75,14 +75,6 @@ const userSchema = new mongoose.Schema({
             type: String,
             default: 'N/A'
         },
-        houseNumber: {
-            type: String,
-            default: 'N/A'
-        },
-        floor: {
-            type: String,
-            default: 'N/A'
-        },
         information: {
             type: String,
             default: 'N/A'
