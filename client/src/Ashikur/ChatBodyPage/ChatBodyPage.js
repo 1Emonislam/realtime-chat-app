@@ -16,7 +16,7 @@ const ChatBodyPage = ({ handleSingleChat, chatActive }) => {
     const [isTyping, setIsTyping] = useState({ typing: false, user: null });
     // console.log(socketConnected)
     const socket = useRef();
-    const ENDPOINT = "http://localhost:5000";
+    const ENDPOINT = "https://collaballapp.herokuapp.com";
     useEffect(() => {
         socket.current = io(ENDPOINT, {
             auth: {

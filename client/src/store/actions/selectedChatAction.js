@@ -10,7 +10,7 @@ export const getSelectedChat = (chatId, token) => {
             }
         })
         try {
-            fetch(`http://localhost:5000/api/chat/${chatId}`, {
+            fetch(`https://collaballapp.herokuapp.com/api/chat/${chatId}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': "application/json",
