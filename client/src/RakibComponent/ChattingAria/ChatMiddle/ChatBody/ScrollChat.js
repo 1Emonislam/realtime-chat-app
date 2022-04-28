@@ -1,25 +1,34 @@
 import { Avatar, AvatarGroup, Tooltip, Typography } from '@mui/material'
 import moment from 'moment'
+import { useEffect, useRef } from 'react'
 import { useSelector } from 'react-redux'
 import ScrollableFeed from 'react-scrollable-feed'
+import Loading from '../../../../components/Spinner/Loading'
 import TypingIndicator from '../../../../components/Typing/TypingIndicatior'
 import Editor from '../../../../Editor/Editor'
 import MessageFunc from '../ChatBody/MessageFunc'
 import { isLastMessage, isSameSender, isSameSenderMargin, isSameSenderPermission, isSameUser } from './chatLogic'
 function ScrollChat({ messages, user, handleTyping, isTyping }) {
-    const { selectedChat } = useSelector(state => state)
+    const { selectedChat, groupMessage } = useSelector(state => state);
+    const messagesEndRef = useRef(null)
+    const scrollToBottom = () => {
+        messagesEndRef.current?.scrollIntoView({ behavior: "auto" })
+    }
+    useEffect(() => {
+        scrollToBottom()
+    }, [messages]);
     return (
         <ScrollableFeed >
-            <div style={{ marginTop: "50px" }}>
-                {messages &&
-                    messages?.map((m, i) => (
+            {groupMessage?.loading ? <Loading style={{ marginTop: "50px" }} /> : <>
+                <div style={{ marginTop: "50px" }}>
+                    {messages?.length !== 0 && messages?.length && messages?.map((m, i) => (
                         <span key={i}>
-                            <div style={{ display: "flex", alignItems: 'center', marginBottom: '10px' }}>
+                            <div style={{ display: "flex", alignItems: 'center', marginBottom: '10px' }} ref={messagesEndRef}>
                                 <div>
 
                                     {(isSameSender(messages, m, i, user._id) ||
                                         isLastMessage(messages, i, user._id)) && (
-                                            <Tooltip style={{cursor:"pointer"}} title={m?.sender?.firstName + ' ' + m?.sender?.lastName}
+                                            <Tooltip style={{ cursor: "pointer" }} title={m?.sender?.firstName + ' ' + m?.sender?.lastName}
                                                 placement="bottom-start" aria-haspopup arrow>
                                                 <Avatar
                                                     sx={{ cursor: 'pointer', marginTop: '7px', marginRight: '25px' }}
@@ -80,23 +89,24 @@ function ScrollChat({ messages, user, handleTyping, isTyping }) {
                             </div>
                         </span>
                     ))}
-                {selectedChat?.chat?.seen?.length &&
-                    <AvatarGroup style={{ cursor: 'pointer' }} total={selectedChat?.chat?.seen?.length}>
-                        {selectedChat?.chat?.seen?.map((user, i) => (
-                            <Avatar title="seen" key={i} sx={{ height: '15px', width: '15px', marginTop: '7px' }} alt={user.username} src={user?.pic} />
-                        ))}
-                    </AvatarGroup>
-                }
-            </div>
-            {isTyping?.typing ? <>
-                <TypingIndicator />
-                <div style={{ display: "flex", alignItems: 'center' }}>
-                    <Tooltip style={{cursor:"pointer"}} title={isTyping?.user?.user?.firstName + ' ' + isTyping?.user?.user?.lastName} arrow>
-                        <Avatar sx={{ height: '15px', width: '15px' }} alt={isTyping?.user?.user.username} src={isTyping?.user?.user?.pic} />
-                    </Tooltip>
+                    {selectedChat?.chat?.seen?.length &&
+                        <AvatarGroup style={{ cursor: 'pointer' }} total={selectedChat?.chat?.seen?.length}>
+                            {selectedChat?.chat?.seen?.map((user, i) => (
+                                <Avatar title="seen" key={i} sx={{ height: '15px', width: '15px', marginTop: '7px' }} alt={user.username} src={user?.pic} />
+                            ))}
+                        </AvatarGroup>
+                    }
                 </div>
-            </> : <> </>}
-            {selectedChat?.chat?._id && <Editor isTyping={isTyping} handleTyping={handleTyping} />}
+                {isTyping?.typing ? <>
+                    <TypingIndicator />
+                    <div style={{ display: "flex", alignItems: 'center' }}>
+                        <Tooltip style={{ cursor: "pointer" }} title={isTyping?.user?.user?.firstName + ' ' + isTyping?.user?.user?.lastName} arrow>
+                            <Avatar sx={{ height: '15px', width: '15px' }} alt={isTyping?.user?.user.username} src={isTyping?.user?.user?.pic} />
+                        </Tooltip>
+                    </div>
+                </> : <> </>}
+                {selectedChat?.chat?._id && <Editor isTyping={isTyping} handleTyping={handleTyping} />}
+            </>}
         </ScrollableFeed>
     )
 }

@@ -14,6 +14,8 @@ const friendRoutes = require('./routes/friendRoutes');
 const messageRoutes = require('./routes/messageRoutes');
 const chatRoutes = require('./routes/chatRoutes');
 const noteRoutes = require('./routes/noteRoutes')
+const notificationRoutes = require('./routes/notificationRoutes');
+const Notification = require('./models/groupNotificationModel');
 const app = express();
 const PORT = process.env.PORT || 5000;
 //middlewares
@@ -41,12 +43,15 @@ global.io = io;
 //Database Connected
 connectedDb();
 //Use Routes
+
+app.use('/api', notificationRoutes)
 app.use('/api/auth', userRoutes);
 app.use('/api/chat', chatRoutes)
+app.use('/api/note', noteRoutes);
 app.use('/api/friend', friendRoutes);
 app.use('/api/profile', profileRoutes);
 app.use('/api/message', messageRoutes);
-app.use('/api/note', noteRoutes);
+
 app.get('/', (req, res) => {
     res.send('server connected')
 })
@@ -74,12 +79,39 @@ io.on("connection", (socket) => {
         // console.log(newMessageRecieved)
         let chat = newMessageRecieved.chat;
         if (!chat.members) return console.log('chat.members not defined');
-        chat.members.forEach((user) => {
+        const notificationObj = {
+            receiver: chat?.members,
+            type: 'groupchat',
+            subject: `New Message from ${newMessageRecieved?.sender?.firstName + ' ' + newMessageRecieved?.sender?.lastName}`,
+            message: {
+                _id: newMessageRecieved?._id,
+                content: newMessageRecieved?.content,
+            },
+            seen: false,
+            chat: newMessageRecieved?.chat,
+            _id: newMessageRecieved?._id,
+            createdAt: newMessageRecieved.createdAt,
+            updatedAt: newMessageRecieved.updatedAt
+        }
+        // console.log(notificationObj)
+        const members = chat?.members?.filter(user => user?._id !== newMessageRecieved?.sender?._id);
+        members.forEach(async (user) => {
             if (user?._id == newMessageRecieved.sender?._id) return;
-            socket.in(user._id).emit("message recieved", newMessageRecieved)
+            await Notification.create({
+                receiver: user?._id,
+                type: 'groupchat',
+                subject: `New Message from ${newMessageRecieved?.sender?.firstName + ' ' + newMessageRecieved?.sender?.lastName}`,
+                message: newMessageRecieved?._id,
+                chat: newMessageRecieved?.chat?._id,
+            })
+            socket.in(user._id).emit("message recieved", notificationObj)
         })
     })
 
+    socket.off("setup", (userData) => {
+        console.log('User Disconnected');
+        socket.leave(userData?._id)
+    })
 })
 
 

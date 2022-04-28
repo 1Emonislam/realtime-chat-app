@@ -1,55 +1,54 @@
-
-.css-1wnsr1i{
-    border: none !important;
+.css-1wnsr1i {
+  border: none !important;
 }
 .call-box .call-wrapper {
-    height: auto;
-    text-align: center;
+  height: auto;
+  text-align: center;
 }
 .call-wrapper .call-user {
-    margin-bottom: 30px;
+  margin-bottom: 30px;
 }
 .call-wrapper .call-avatar {
-    margin-bottom: 30px;
-    cursor: pointer;
+  margin-bottom: 30px;
+  cursor: pointer;
 }
 
 .call-box .call-avatar {
-    border-radius: 100%;
-    position: relative;
-    border: 7px solid rgba(66, 11, 161, 0.1);
-    height: 6.1rem;
-    width: 6.1rem;
+  border-radius: 100%;
+  position: relative;
+  border: 7px solid rgba(66, 11, 161, 0.1);
+  height: 6.1rem;
+  width: 6.1rem;
 }
 .call-wrapper .call-user h4 {
-    font-weight: 500;
-    font-size: 20px;
-    color: #686868;
-    margin-top: 0;
+  font-weight: 500;
+  font-size: 20px;
+  color: #686868;
+  margin-top: 0;
 }
 
 .call-wrapper .call-user span {
-    display: inline-block;
-    text-align: center;
-    font-weight: 600;
-    color: #10E599;
+  display: inline-block;
+  text-align: center;
+  font-weight: 600;
+  color: #10e599;
 }
 .call-wrapper .call-items {
-    display: flex;
-    display: -webkit-flex;
-    justify-content: center;
-    -webkit-justify-content: center;
+  display: flex;
+  display: -webkit-flex;
+  justify-content: center;
+  -webkit-justify-content: center;
 }
 .call-items span {
-    padding: 13px 15px;
-    background: #FD6286;
-    border-radius: 50%;
-    margin: 5px;
+  padding: 13px 15px;
+  background: #fd6286;
+  border-radius: 50%;
+  margin: 5px;
 }
-.green_btn{
-    background: #10E599 !important;
+.green_btn {
+  background: #10e599 !important;
 }
 .call-items span svg {
-    color: #fff;
-    font-size: 25px;
+  color: transparent;
+  font-size: 25px;
 }

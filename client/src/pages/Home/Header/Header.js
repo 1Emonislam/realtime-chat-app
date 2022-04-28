@@ -13,7 +13,7 @@ const Header = () => {
                             md: '20px',
                             sm: '18px',
                             xs: "16px"
-                        }, color: '#ffffff', fontWeight: 'bold', letterSpacing: 1.6
+                        }, color: '#fff', fontWeight: 'bold', letterSpacing: 1.6
                     }}>Collaball</Typography>
                 </div>
                 <div>
@@ -30,7 +30,7 @@ const Header = () => {
                             sm: '14px',
                             xs: "12px"
                         },
-                        background: '#fff',
+                        background: 'transparent',
                         textTransform: 'capitalize',
                         color: 'black',
                         borderRadius: '40px',
@@ -38,8 +38,8 @@ const Header = () => {
 
                         '&:hover': {
                             color: 'blue',
-                            background: '#ffffff',
-                            boxShadow: '1px 1px 1px #ffffff'
+                            background: '#fff',
+                            boxShadow: '1px 1px 1px #fff'
                         }
 
                     }}><NavLink to="/login">Login</NavLink></Button>
@@ -56,7 +56,7 @@ const Header = () => {
                             sm: '14px',
                             xs: "12px"
                         },
-                        background: '#fff',
+                        background: 'transparent',
                         textTransform: 'capitalize',
                         color: 'black',
                         borderRadius: '40px',
@@ -64,8 +64,8 @@ const Header = () => {
 
                         '&:hover': {
                             color: 'blue',
-                            background: '#ffffff',
-                            boxShadow: '1px 1px 1px #ffffff'
+                            background: '#fff',
+                            boxShadow: '1px 1px 1px #fff'
                         }
 
                     }}><NavLink to="/register">Register</NavLink></Button>

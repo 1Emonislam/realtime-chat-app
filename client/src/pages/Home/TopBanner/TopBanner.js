@@ -1,8 +1,8 @@
 import { Button, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import React from 'react';
-import Header from '../Header/Header';
 import bannerImg from '../../../assets/images/banners.png';
+import Header from '../Header/Header';
 
 const TopBanner = () => {
     return (
@@ -18,7 +18,7 @@ const TopBanner = () => {
             <Header />
             <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '570px', }}>
                 <Box sx={{ maxWidth: '780px', textAlign: 'center' }}>
-                    <Box sx={{ color: '#ffffff' }}>
+                    <Box sx={{ color: 'transparent' }}>
                         <Typography sx={{ fontSize: {lg: '60px', sm: '48px', xs: '30px'}, fontWeight: 800 }} variant="h2">IMAGINE A PLACE...</Typography>
                         <Typography sx={{ mt: {md: '40px', xs: '20px'}, display: 'block', fontSize: {md: '18px', xs: '16px'}, fontWeight: 200, lineHeight: 1.8, }} variant="p">...where you can belong to a school club, a gaming group, or a worldwide art community. Where just you and a handful of friends can spend time together. A place that makes it easy to talk every day and hang out more often.</Typography>
                     </Box>
@@ -27,7 +27,7 @@ const TopBanner = () => {
                         <Button sx={{
                             fontSize: '16px',
                             fontWeight: '500',
-                            background: '#fff',
+                            background: 'transparent',
                             textTransform: 'capitalize',
                             color: 'black',
                             borderRadius: '40px',
@@ -37,8 +37,8 @@ const TopBanner = () => {
 
                             '&:hover': {
                                 color: 'blue',
-                                background: '#fff',
-                                boxShadow: '1px 1px 1px #fff'
+                                background: 'transparent',
+                                boxShadow: '1px 1px 1px transparent'
                             }
 
                         }}> <Typography sx={{ mr: 1 }}><i className="fa-solid fa-circle-arrow-down"></i> </Typography> Download for Windows</Button>
@@ -47,7 +47,7 @@ const TopBanner = () => {
                             fontWeight: '500',
                             background: '#23272a',
                             textTransform: 'capitalize',
-                            color: '#fff',
+                            color: 'transparent',
                             borderRadius: '40px',
                             padding: '16px 32px !important',
                             mt: '15px',

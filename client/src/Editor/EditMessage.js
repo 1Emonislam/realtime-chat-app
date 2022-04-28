@@ -19,6 +19,7 @@ const style = {
     border: 'none',
     outline: 'none',
     boxShadow: 24,
+    borderRadius: '10px',
     p: 4,
 };
 

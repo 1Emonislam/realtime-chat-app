@@ -85,6 +85,7 @@ export const messageReducer = (state = initState, action) => {
         }
     }
     if (type === REMOVE_MESSAGE) {
+        // console.log(payload.data)
         return {
             ...state,
             msg: payload.data,

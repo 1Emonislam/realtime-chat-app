@@ -1,5 +1,5 @@
 const User = require('../models/userModel');
-const Notificatin = require('../models/notificationModel');
+const Notificatin = require('../models/groupNotificationModel');
 const Friend = require('./FriendModel');
 exports.getFriends = async (req, res, next) => {
     let { status, page = 1, limit = 10 } = req.query;

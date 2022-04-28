@@ -11,7 +11,7 @@ import { toast, ToastContainer } from 'react-toastify';
 import EditMessage from '../../../../Editor/EditMessage';
 import { deleteMessage, noteCreate, sendMessage, updateMessageStore } from '../../../../store/actions/messageAction';
 import { FAILED_MESSAGE, SUCCESS_MESSAGE_CLEAR } from '../../../../store/type/messageTypes';
-export default function MessageFunc({  isSameSenderPermission, handleTyping, isTyping, message, messageInfo }) {
+export default function MessageFunc({ isSameSenderPermission, handleTyping, isTyping, message, messageInfo }) {
     const { theme, auth, groupMessage } = useSelector(state => state);
     const dispatch = useDispatch()
     const [anchorEl, setAnchorEl] = React.useState(null);
@@ -107,7 +107,7 @@ export default function MessageFunc({  isSameSenderPermission, handleTyping, isT
                 </Typography>
                 {isSameSenderPermission && <>
                     <Typography sx={{ py: 1, px: 3, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }} >
-                        Edit <EditMessage  handleTyping={handleTyping} isTyping={isTyping}messageInfo={messageInfo} messageText={message} messageEditHandle={messageEditHandle} editMessageOpen={editMessageOpen}/>
+                        Edit <EditMessage handleTyping={handleTyping} isTyping={isTyping} messageInfo={messageInfo} messageText={message} messageEditHandle={messageEditHandle} editMessageOpen={editMessageOpen} />
                         <span onClick={() => {
                             messageEditHandle(true)
                             dispatch(updateMessageStore(messageInfo))
@@ -120,7 +120,7 @@ export default function MessageFunc({  isSameSenderPermission, handleTyping, isT
                         {messageInfo?.chat?._id && messageInfo?._id && auth?.user?.token ? <span onClick={() => {
                             dispatch(deleteMessage(messageInfo?.chat?._id, messageInfo?._id, auth?.user?.token))
                         }}><MdDelete style={{ position: 'relative', top: '3px', paddingLeft: '5px' }} />
-                        </span> : <Tooltip style={{cursor:"pointer"}} title="Permission Denied" arrow>
+                        </span> : <Tooltip style={{ cursor: "pointer" }} title="Permission Denied" arrow>
                             <MdDelete style={{ position: 'relative', top: '3px', paddingLeft: '5px' }} />
                         </Tooltip>}
                     </Typography>
@@ -135,16 +135,7 @@ export default function MessageFunc({  isSameSenderPermission, handleTyping, isT
                 <Typography sx={{ py: 1, px: 3, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                     <span>Question Repeat </span>
                     <span onClick={() => {
-                        dispatch(sendMessage({
-                            type: "doc",
-                            content: [{
-                                type: "paragraph",
-                                content: [{
-                                    type: "text",
-                                    text: "Question Repeat"
-                                }]
-                            }]
-                        },messageInfo?.chat?._id, auth.user?.token ))
+                        dispatch(sendMessage('Question Repeat!', messageInfo?.chat?._id, auth.user?.token))
                     }}>
                         <AiFillThunderbolt style={{ position: 'relative', top: '3px', paddingLeft: '5px' }} />
                     </span>
@@ -153,16 +144,7 @@ export default function MessageFunc({  isSameSenderPermission, handleTyping, isT
                     <span> Don't Understand
                     </span>
                     <span onClick={() => {
-                        dispatch(sendMessage({
-                            type: "doc",
-                            content: [{
-                                type: "paragraph",
-                                content: [{
-                                    type: "text",
-                                    text: "Don't Understand"
-                                }]
-                            }]
-                        },messageInfo?.chat?._id, auth.user?.token ))
+                        dispatch(sendMessage("Don't Understand!", messageInfo?.chat?._id, auth.user?.token))
                     }}>
                         <RiQuestionnaireFill style={{ position: 'relative', top: '3px', paddingLeft: '5px' }} />
                     </span>

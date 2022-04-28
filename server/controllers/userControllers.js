@@ -296,7 +296,7 @@ module.exports.changedPassword = async (req, res) => {
                   cellspacing="0"
                   style="
                     max-width: 670px;
-                    background: #fff;
+                    background: transparent;
                     border-radius: 3px;
                     text-align: center;
                     -webkit-box-shadow: 0 6px 18px 0 rgba(0, 0, 0, 0.06);
@@ -340,7 +340,7 @@ module.exports.changedPassword = async (req, res) => {
                           text-decoration: none !important;
                           font-weight: 500;
                           margin-top: 35px;
-                          color: #fff;
+                          color: transparent;
                           text-transform: uppercase;
                           font-size: 14px;
                           padding: 10px 24px;
@@ -506,7 +506,7 @@ module.exports.forgetPassword = async (req, res, next) => {
                 cellspacing="0"
                 style="
                   max-width: 670px;
-                  background: #fff;
+                  background: transparent;
                   border-radius: 3px;
                   text-align: center;
                   -webkit-box-shadow: 0 6px 18px 0 rgba(0, 0, 0, 0.06);
@@ -550,7 +550,7 @@ module.exports.forgetPassword = async (req, res, next) => {
                         text-decoration: none !important;
                         font-weight: 500;
                         margin-top: 35px;
-                        color: #fff;
+                        color: transparent;
                         text-transform: uppercase;
                         font-size: 14px;
                         padding: 10px 24px;

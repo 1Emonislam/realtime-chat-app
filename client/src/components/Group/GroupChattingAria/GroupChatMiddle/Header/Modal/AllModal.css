@@ -49,6 +49,6 @@
   background: #10e599 !important;
 }
 .call-items span svg {
-  color: #fff;
+  color: transparent;
   font-size: 25px;
 }

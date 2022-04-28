@@ -2,6 +2,7 @@ import { applyMiddleware, combineReducers, compose, createStore } from 'redux';
 import thunk from 'redux-thunk';
 import { authReducer } from './reducers/authReducers';
 import { groupReducer } from './reducers/groupReducer';
+import { messageNotificationPush } from './reducers/messageNotificationReducer';
 import { messageReducer } from './reducers/messageReducer';
 import { selectedChatReducer } from './reducers/selectedChatReducer';
 import { socketReducer } from './reducers/socketReducer';
@@ -13,6 +14,7 @@ const rootReducer = combineReducers({
     groupData: groupReducer,
     groupMessage: messageReducer,
     socketFunc: socketReducer,
+    notification: messageNotificationPush,
 });
 const middleware = [thunk];
 const store = createStore(rootReducer, compose(

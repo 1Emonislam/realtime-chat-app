@@ -24,7 +24,7 @@ const ReliableTouch = () => {
                         fontWeight: '500',
                         background: '#5865f2',
                         textTransform: 'capitalize',
-                        color: '#fff',
+                        color: 'transparent',
                         borderRadius: '40px',
                         padding: '16px 32px !important',
                         mr: 2,

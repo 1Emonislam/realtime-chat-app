@@ -1,7 +1,7 @@
 const Chat = require("../models/chatModel");
 const ViewsChat = require("../models/ChatViewsModel");
 const JoinGroup = require("../models/JoinGroupModel");
-const Notification = require('../models/notificationModel')
+const Notification = require('../models/groupNotificationModel')
 const User = require("../models/userModel");
 const { upload } = require("../utils/file");
 const { mailSending } = require("../utils/func");
@@ -26,7 +26,7 @@ module.exports.acessChat = async (req, res, next) => {
         ],
       }).sort("-updatedAt")
         .populate("members", "_id pic firstName lastName email")
-        .populate("latestMessage");
+        .populate("latestMessage").populate("groupAdmin", "_id pic firstName lastName email")
       isChat = await User.populate(isChat, {
         path: "latesetMessage.sender",
         select: "_id pic firstName lastName email",
@@ -43,7 +43,7 @@ module.exports.acessChat = async (req, res, next) => {
           const createdChat = await Chat.create(chatData);
           const fullChat = await Chat.findOne({
             _id: createdChat._id,
-          }).populate("members", "_id pic firstName lastName email");
+          }).populate("members", "_id pic firstName lastName email").populate("groupAdmin", "_id pic firstName lastName email").populate("sender", "_id pic firstName lastName email").populate("latestMessage")
           await ViewsChat.create({
             viewsChatId: createdChat?._id,
           })
@@ -61,9 +61,9 @@ module.exports.acessChat = async (req, res, next) => {
 module.exports.getSingleChatMembers = async (req, res, next) => {
   try {
     const { chatId } = req.params;
-    let getChatMember = await Chat.findOne({ _id: chatId }).select("members groupAdmin _id seen latestMessage").populate("members", "_id pic firstName lastName email").populate("groupAdmin", "_id pic firstName lastName email").populate("seen", "_id pic firstName lastName email");
+    let getChatMember = await Chat.findOne({ _id: chatId }).select("members groupAdmin _id seen img chatName latestMessage").populate("members", "_id pic firstName lastName email").populate("groupAdmin", "_id pic firstName lastName email").populate("seen", "_id pic firstName lastName email");
     // console.log(getChatMember?.seen)
-    
+
     const data = {
       data: getChatMember,
       amIJoined: getChatMember?.members?.some(am => am?._id?.toString() === req.user?._id?.toString()),
@@ -297,7 +297,7 @@ module.exports.groupAddToInviteSent = async (req, res, next) => {
                           cellspacing="0"
                           style="
                             max-width: 670px;
-                            background: #fff;
+                            background: transparent;
                             border-radius: 3px;
                             text-align: center;
                             -webkit-box-shadow: 0 6px 18px 0 rgba(0, 0, 0, 0.06);
@@ -348,7 +348,7 @@ module.exports.groupAddToInviteSent = async (req, res, next) => {
                                   text-decoration: none !important;
                                   font-weight: 500;
                                   margin-top: 35px;
-                                  color: #fff;
+                                  color: transparent;
                                   text-transform: uppercase;
                                   font-size: 14px;
                                   padding: 10px 24px;

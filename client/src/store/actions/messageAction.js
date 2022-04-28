@@ -50,6 +50,9 @@ export const getMessage = (chatId, token) => {
 
 export const sendMessage = (data, chatId, token, editor) => {
     // console.log(token)
+    if (data === '') {
+        return;
+    }
     return async (dispatch) => {
         dispatch({
             type: LOADING_MESSAGE,

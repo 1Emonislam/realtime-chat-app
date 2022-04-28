@@ -1,4 +1,4 @@
-import { Tooltip } from '@mui/material';
+import { ToggleButton, Tooltip } from '@mui/material';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Modal from '@mui/material/Modal';
@@ -31,12 +31,18 @@ export default function AlertShow({ alertOpen, handleAlertClose, setAlertOpen, c
                 aria-describedby="modal-modal-description"
             >
                 <Box sx={style}>
-                    <Typography id="modal-modal-title" variant="h6" component="h2">
-                        Delete this entire conversation?
-                    </Typography>
+                    <ToggleButton variant="one"style={{ textTransform: 'none', border: 'none' }}>
+                        <Typography id="modal-modal-title" variant="h6" component="h2">
+                            Delete this entire conversation?
+                        </Typography>
+                    </ToggleButton>
+                   
+                    <ToggleButton variant="two"style={{ textTransform: 'none', border: 'none' }}>
                     <Typography id="modal-modal-description" sx={{ m: 2 }}>
                         Once you delete your copy of the conversation,it can't be undone.
                     </Typography>
+                    </ToggleButton>
+                   
                     <Button onClick={() => setAlertOpen(false)}>
                         Cancell
                     </Button>
@@ -46,7 +52,7 @@ export default function AlertShow({ alertOpen, handleAlertClose, setAlertOpen, c
                     }}>
                         Delete
                     </Button>
-                        : <Tooltip style={{cursor:"pointer"}} title="Permission denied" arrow>
+                        : <Tooltip style={{ cursor: "pointer" }} title="Permission denied" arrow>
                             <Button>
                                 Delete
                             </Button>

@@ -1,4 +1,5 @@
 const Chat = require("../models/chatModel");
+const GroupNotification = require("../models/groupNotificationModel");
 const Message = require("../models/messageModel");
 const User = require("../models/userModel");
 module.exports.sendMessage = async (req, res, next) => {
@@ -43,7 +44,7 @@ module.exports.sendMessage = async (req, res, next) => {
         })
         message = await Chat.populate(message, {
             path: 'chat',
-            select: '_id seen groupAdmin members',
+            select: '_id  chatName img seen groupAdmin members',
         })
         message = await Chat.populate(message, {
             path: 'chat.members',
@@ -82,7 +83,7 @@ module.exports.allMessage = async (req, res, next) => {
         })
         message = await Chat.populate(message, {
             path: 'chat',
-            select: '_id seen groupAdmin',
+            select: '_id seen groupAdmin members img chatName',
         })
         message = await User.populate(message, {
             path: 'chat.groupAdmin',
@@ -125,6 +126,7 @@ module.exports.messageRemove = async (req, res, next) => {
         const delete2 = await Message.deleteOne({ _id: messageId, chat: chatId, sender: req.user?._id })
         // console.log(delete1, delete2)
         if (delete1?.deletedCount > 0 || delete2?.deletedCount > 0) {
+            await GroupNotification.deleteOne({ message: messageId, chat: chatId });
             let message = await Message.find({ chat: chatId })
             message = await User.populate(message, {
                 path: 'sender',
@@ -217,7 +219,7 @@ module.exports.messageEdit = async (req, res, next) => {
             })
             message = await Chat.populate(message, {
                 path: 'chat',
-                select: '_id seen groupAdmin members',
+                select: '_id  chatName img seen groupAdmin members',
             })
             message = await User.populate(message, {
                 path: 'chat.members',
@@ -292,6 +294,7 @@ module.exports.allMessageRemove = async (req, res, next) => {
             }
         }
         if (deleted?.deletedCount > 0) {
+            await GroupNotification.deleteMany({ chat: req.params?.chatId });
             return res.status(200).json({
                 message: 'Deleted all Conversation!',
                 data: []

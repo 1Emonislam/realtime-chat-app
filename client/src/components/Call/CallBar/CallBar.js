@@ -15,7 +15,7 @@ const CallBar = () => {
               backgroundColor: "#EE00AB",
               border: "none",
               marginTop: "-10px",
-              color: "#fff",
+              color: "transparent",
               borderRadius: "20px"
             }}
 

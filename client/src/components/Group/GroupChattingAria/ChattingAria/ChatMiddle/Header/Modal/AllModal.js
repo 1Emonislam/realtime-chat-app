@@ -18,6 +18,7 @@ const style = {
     bgcolor: 'background.paper',
     border: 'none',
     boxShadow: 24,
+    borderRadius: '10px',
     p: 4,
   };
 

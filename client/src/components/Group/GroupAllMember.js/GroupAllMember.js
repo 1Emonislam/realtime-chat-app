@@ -13,6 +13,7 @@ const style = {
     border: "none",
     boxShadow: 24,
     p: 4,
+    borderRadius: '10px',
     outline: 'none'
 
 };

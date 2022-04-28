@@ -51,7 +51,8 @@ export const isSameUser = (messages, m, i) => {
 };
 
 export const getSender = (loggedUser, users) => {
-    return users[0]._id === loggedUser._id ? users[1].name : users[0].name;
+    // console.log(loggedUser, users)
+    return users[0]._id === loggedUser._id ? users[1].firstName + ' ' + users[1].lastName : users[0].firstName + ' ' + users[0].lastName;
 };
 
 export const getSenderFull = (loggedUser, users) => {
@@ -60,4 +61,10 @@ export const getSenderFull = (loggedUser, users) => {
 export const getSeenUser = (seenUsers, loggedUser) => {
     const filter = seenUsers.filter(user => user?._id !== loggedUser?._id);
     return filter;
+}
+export const chatExists = (chatId, existId) => {
+    return chatId === existId;
+}
+export const currentMsgNotificatin = (chatId, msgNotification) => {
+    return msgNotification.filter(notify => notify?.chat?._id === chatId);
 }

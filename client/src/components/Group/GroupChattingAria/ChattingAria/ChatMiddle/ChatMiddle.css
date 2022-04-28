@@ -9,7 +9,7 @@
   align-items: center;
   box-shadow: 0px 4px 4px #f5f8ff;
   border-radius: 5px;
-  background: #ffffff35;
+  background: transparent;
   border: 1px solid #f4eeff;
   margin-top: 10px;
   position: relative;
@@ -88,7 +88,7 @@ h4.hedding_4 {
   pointer-events: none;
   transition: 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
   overflow: hidden;
-  color: #fff;
+  color: transparent;
 }
 .tooltip:before {
   position: absolute;
@@ -116,7 +116,7 @@ ul.dropdown-menu li:hover {
   z-index: 0;
   position: absolute;
   top: 100%;
-  background: #fff;
+  background: transparent;
   transition: ease all 0.5s;
   -webkit-transition: ease all 0.5s;
   transform: translateY(-0%);
@@ -136,7 +136,7 @@ ul.dropdown-menu li:hover {
   min-height: 35px;
   border-radius: 0px 0px 5px 5px;
   font-size: 13px;
-  background-color: #fff;
+  background-color: transparent;
 }
 .search_form svg {
   position: relative;
@@ -147,7 +147,7 @@ ul.dropdown-menu li:hover {
   width: 25px;
   height: 25px;
   border-radius: 25px;
-  color: #fff;
+  color: transparent;
   background-color: #ee00ab;
   cursor: pointer;
   border: none;
@@ -198,7 +198,7 @@ ul.dropdown-menu li:hover {
   background-color: #5a078b;
   border-radius: 20px 20px 20px 0;
   padding: 14px 20px;
-  color: #fff;
+  color: transparent;
   font-weight: 500;
 }
 .time {
@@ -220,7 +220,7 @@ ul.dropdown-menu li:hover {
 
 /* drowpdown mene three dot */
 .dropdown-menu {
-  background: #ffffff;
+  background: transparent;
   border: 1px solid #f7f7f7;
   box-sizing: border-box;
   box-shadow: 4px 4px 4px rgb(200 198 198 / 25%);
@@ -315,7 +315,7 @@ ul.dropdown-menu li:hover {
   position: relative;
   border-radius: 20px !important;
   margin-right: 0px;
-  background: #ffffff;
+  background: transparent;
   border: 1px solid #f4eeff;
   box-shadow: 0px 4px 4px #f5f8ff;
   height: 30px;
@@ -363,7 +363,7 @@ ul.dropdown-menu li:hover {
   font-weight: 400;
   line-height: 1.5;
   color: #212529;
-  background-color: #fff;
+  background-color: transparent;
   background-clip: padding-box;
   border: none;
   appearance: none;
@@ -381,7 +381,7 @@ ul.dropdown-menu li:hover {
   display: inline-flex;
   justify-content: center;
   align-items: center;
-  color: #fff !important;
+  color: transparent !important;
   background-color: #ee00ab;
   border: none;
   cursor: pointer;

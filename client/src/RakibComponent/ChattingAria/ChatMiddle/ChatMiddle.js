@@ -1,9 +1,9 @@
 import React from 'react';
 import ChatBody from './ChatBody/ChatBody';
-const ChatMiddle = ({handleTyping,isTyping}) => {
+const ChatMiddle = ({ handleTyping, isTyping }) => {
     return (
         <>
-            <ChatBody isTyping={isTyping}handleTyping={handleTyping}/>
+            <ChatBody isTyping={isTyping} handleTyping={handleTyping} />
         </>
     );
 };

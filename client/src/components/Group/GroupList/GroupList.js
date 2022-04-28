@@ -135,7 +135,7 @@ const GroupList = () => {
     //         return 'inactive'
     //     }
     // }
-    // const handleSingleUser = () => {
+    // const handleSingleChat = () => {
 
     // }
     return (

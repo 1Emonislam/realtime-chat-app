@@ -1,6 +1,6 @@
 import CancelIcon from "@mui/icons-material/Cancel";
 import GroupAddIcon from "@mui/icons-material/GroupAdd";
-import { Button, FormControlLabel, Modal, Radio, RadioGroup, TextField, Typography } from "@mui/material";
+import { Button, FormControlLabel, Modal, Radio, RadioGroup, TextField, ToggleButton, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -19,6 +19,7 @@ const style = {
   border: "none",
   outline: 'none',
   boxShadow: 24,
+  borderRadius: '10px',
   p: 4,
 };
 //   {...register("email", { min: 0 })} required
@@ -96,21 +97,25 @@ const AddGroups = ({ handleGroupClose, groupOpen }) => {
           }}
         >
           <Box style={{ display: "flex" }}>
+            <ToggleButton value="one" style={{ border: 'none', textTransform: 'capitalize' }}>
+              <Box>
+                <GroupAddIcon
+                  style={{ textAlign: "left" }}
+                  sx={{ mt: 0.5, mr: 1 }}
+                />
+              </Box>
+            </ToggleButton>
             <Box>
-              <GroupAddIcon
-                style={{ textAlign: "left" }}
-                sx={{ mt: 0.5, mr: 1 }}
-              />
-            </Box>
-            <Box>
-              <Typography
-                variant="h6"
-                component="h6"
-                sx={{ fontWeight: "bold" }}
-                style={{ fontFamily: `"Poppins", sans-serif` }}
-              >
-                Create a New Group
-              </Typography>
+              <ToggleButton value="two" style={{ border: 'none', textTransform: 'capitalize' }}>
+                <Typography
+                  variant="h6"
+                  component="h6"
+                  sx={{ fontWeight: "bold" }}
+                  style={{ fontFamily: `"Poppins", sans-serif` }}
+                >
+                  Create a New Group
+                </Typography>
+              </ToggleButton>
             </Box>
           </Box>
 
@@ -120,32 +125,38 @@ const AddGroups = ({ handleGroupClose, groupOpen }) => {
         </div>
         <form onSubmit={handleSubmit(onSubmit)}>
           <Box sx={{ my: 2 }} style={{ fontFamily: `"Poppins", sans-serif` }}>
-            <Box sx={{ mb: 2 }}>
-              <Typography
-                sx={{
-                  fontWeight: "bold",
-                  mb: 1,
-                  fontSize: 14,
-                  color: "#464646",
-                }}
-                style={{ fontFamily: `"Poppins", sans-serif` }}
-              >
-                Group Name
-              </Typography>
+
+            <Box >
+              <ToggleButton value="three" style={{ border: 'none', textTransform: 'capitalize' }}>
+                <Typography
+                  sx={{
+                    fontWeight: "bold",
+                    mb: 1,
+                    fontSize: 14,
+                    color: "#464646",
+                  }}
+                  style={{ fontFamily: `"Poppins", sans-serif` }}
+                >
+                  Group Name
+                </Typography>
+              </ToggleButton>
               <TextField fullWidth size="small"    {...register("chatName", { min: 0 })} required />
             </Box>
-            <Box sx={{ mb: 2 }}>
-              <Typography
-                sx={{
-                  fontWeight: "bold",
-                  mb: 1,
-                  fontSize: 14,
-                  color: "#464646",
-                }}
-                style={{ fontFamily: `"Poppins", sans-serif` }}
-              >
-                Choose Profile Picture
-              </Typography>
+
+            <Box >
+              <ToggleButton value="four" style={{ border: 'none', textTransform: 'capitalize' }}>
+                <Typography
+                  sx={{
+                    fontWeight: "bold",
+                    mb: 1,
+                    fontSize: 14,
+                    color: "#464646",
+                  }}
+                  style={{ fontFamily: `"Poppins", sans-serif` }}
+                >
+                  Choose Profile Picture
+                </Typography>
+              </ToggleButton>
               <Box style={{ display: "flex", justifyContent: 'center' }}>
                 {previewSource ? <>
                   <img style={{ width: '100px', height: '100px', borderRadius: '100%' }} src={previewSource} alt="chosen" />
@@ -153,37 +164,43 @@ const AddGroups = ({ handleGroupClose, groupOpen }) => {
                   <>
                     <TextField fullWidth size="small" style={{ width: 280 }} />
                     <label className="browseFile">
-                      <input onChange={(e) => setSelected(e)} type="file" />
+                      <input sx={{ background: "blue", color: 'white', padding: '5px 30px!important' }} onChange={(e) => setSelected(e)} type="file" />
                       Browse File
                     </label></>}
               </Box>
-              <Box sx={{ mb: 2 }}>
-                <Typography
-                  sx={{
-                    paddingTop: '16px',
-                    fontWeight: "bold",
-                    mb: 1,
-                    fontSize: 14,
-                    color: "#464646",
-                  }}
-                  style={{ fontFamily: `"Poppins", sans-serif` }}
-                >
-                  Topic (Optional)
-                </Typography>
-                <TextField fullWidth size="small"{...register("topic", { min: 0 })} />
+              <Box >
+                <>
+                  <ToggleButton value="five" style={{ border: 'none', textTransform: 'capitalize' }}>
+                    <Typography
+                      sx={{
+                        paddingTop: '16px',
+                        fontWeight: "bold",
+                        mb: 1,
+                        fontSize: 14,
+                        color: "#464646",
+                      }}
+                      style={{ fontFamily: `"Poppins", sans-serif` }}
+                    >
+                      Topic (Optional)
+                    </Typography>
+                  </ToggleButton>
+                  <TextField fullWidth size="small"{...register("topic", { min: 0 })} />
+                </>
               </Box>
-              <Box sx={{ mb: 2 }}>
-                <Typography
-                  sx={{
-                    fontWeight: "bold",
-                    mb: 1,
-                    fontSize: 14,
-                    color: "#464646",
-                  }}
-                  style={{ fontFamily: `"Poppins", sans-serif` }}
-                >
-                  Description
-                </Typography>
+              <Box >
+                <ToggleButton value="six" style={{ border: 'none', textTransform: 'capitalize' }}>
+                  <Typography
+                    sx={{
+                      fontWeight: "bold",
+                      mb: 1,
+                      fontSize: 14,
+                      color: "#464646",
+                    }}
+                    style={{ fontFamily: `"Poppins", sans-serif` }}
+                  >
+                    Description
+                  </Typography>
+                </ToggleButton>
                 <TextField fullWidth size="large"{...register("description", { min: 0 })} required />
                 <Button
                   variant="inherit" // <-- Just add me!
@@ -197,31 +214,38 @@ const AddGroups = ({ handleGroupClose, groupOpen }) => {
                 aria-labelledby="demo-row-radio-buttons-group-label"
                 name="row-radio-buttons-group"
               >
-                <FormControlLabel
-                  value="private"
-                  {...register("status", { min: 1 })} required
-                  control={<Radio color="secondary" />}
-                  label="Private Group"
-                  style={{ fontFamily: `"Poppins", sans-serif` }}
-                />
-                <FormControlLabel
-                  value="public"
-                  {...register("status", { min: 0 })}
-                  control={<Radio color="secondary" />}
-                  label="Public Group"
-                  style={{ fontFamily: `"Poppins", sans-serif` }}
-                />
+                <ToggleButton value="nine" style={{ border: 'none' }}>
+                  <FormControlLabel
+                    value="private"
+                    {...register("status", { min: 1 })} required
+                    control={<Radio color="secondary" />}
+                    label="Private Group"
+                    style={{ fontFamily: `"Poppins", sans-serif` }}
+                  />
+                </ToggleButton>
+
+                <ToggleButton value="ten" style={{ border: 'none' }}>
+                  <FormControlLabel
+                    value="public"
+                    {...register("status", { min: 0 })}
+                    control={<Radio color="secondary" />}
+                    label="Public Group"
+                    style={{ fontFamily: `"Poppins", sans-serif` }}
+                  />
+                </ToggleButton>
               </RadioGroup>
             </Box>
-            <Box className="but" style={{ textAlign: "right" }} sx={{ mt: 5 }}>
-              <button style={{ cursor: 'pointer' }} className="buttonContact1" onClick={handleGroupClose}>
+            <Box className="but" style={{ textAlign: "right" }}>
+              <ToggleButton value="six" style={{ cursor: 'pointer', marginRight: '50px', border: 'none', textTransform: 'capitalize' }} className="buttonContact1" onClick={handleGroupClose}>
                 Cancel
-              </button>
+              </ToggleButton>
               {/* {console.log(groupData?.loading )} */}
               {groupData?.loading ? <div>
                 <Loading />
               </div> :
-                <button type="submit" className="buttonContact2">Add Participants</button>
+                <ToggleButton value="six" style={{ cursor: 'pointer', border: 'none', marginLeft: '15px', textTransform: 'capitalize', background: 'blue', color: 'white', padding: '5px 30px!important' }} className="buttonContact1" type="submit" variant="contained">
+                  Add Participants
+                </ToggleButton>
               }
             </Box>
           </Box>

@@ -18,6 +18,7 @@ const style = {
     border: 'none',
     boxShadow: 24,
     outline: 'none',
+    borderRadius: '10px',
     p: 4,
 };
 

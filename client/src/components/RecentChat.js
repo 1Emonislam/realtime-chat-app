@@ -6,30 +6,31 @@ import moment from 'moment';
 import React from 'react';
 import { BsFillCheckCircleFill } from 'react-icons/bs';
 import SkeletonRecentGroup from '../Editor/SkeletonRecentGroup';
+import { chatExists } from '../RakibComponent/ChattingAria/ChatMiddle/ChatBody/chatLogic';
 import './Chat.css';
 import TypingIndicatior from './Typing/TypingIndicatior';
-function RecentChat({ groupData, isTyping, handleTyping, groupMessage, handleSingleUser }) {
-    // console.log(groupData)
+function RecentChat({ groupData, isTyping, chatActive, handleTyping, groupMessage, handleSingleChat }) {
     const [dataState, setDataState] = React.useState({
         activeObject: null,
         objects: [...groupData]
     })
-
     React.useEffect(() => {
         setDataState({ activeObject: dataState?.activeObject, objects: [...groupData] })
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [dataState?.activeObject?._id])
+    }, [groupData])
 
     function toggleActive(index) {
-        setDataState({ ...dataState, activeObject: dataState.objects[index] })
+        setDataState({ ...dataState, activeObject: dataState.objects[index]?._id })
     }
     function toggleActiveStyle(index) {
-        if (dataState.objects[index] === dataState.activeObject) {
+        // console.log(dataState.objects[index]?._id)
+        if (dataState.objects[index]?._id === dataState.activeObject) {
             return 'user-list active'
         } else {
             return 'user-list inactive'
         }
     }
+    // console.log(dataState?.activeObject?._id)
     const [selected, setSelected] = React.useState(false);
     return (
         <div>
@@ -104,12 +105,17 @@ function RecentChat({ groupData, isTyping, handleTyping, groupMessage, handleSin
             <Grid container spacing={0} padding={'10px 0px'} justifyContent="center">
                 {!groupData?.length ? <SkeletonRecentGroup /> :
                     <> {groupData?.map((chat, index) => (
-                        <Grid key={index} item xs={12} className="user-list" alignItems="center" justifyContent="center">
+                        <Grid key={index} item xs={12} className={toggleActiveStyle(index)} alignItems="center" justifyContent="center">
+                            {/* { toggleActiveStyle(index) } */}
                             <ToggleButton value="check"
                                 selected={selected}
                                 onChange={() => {
                                     setSelected(false);
-                                }} sx={{ padding: '14px!important', margin: '0 5px', border: 'none', width: '96%', textTransform: 'capitalize' }} className={toggleActiveStyle(index)} onClick={(e) => handleSingleUser(chat._id, toggleActive(index))} >
+                                }} className={toggleActiveStyle(index)} sx={{ padding: '14px!important', margin: '0 5px', border: 'none', width: '96%', textTransform: 'capitalize' }} onClick={() => {
+                                    toggleActive(index)
+                                    handleSingleChat(chat._id)
+                                }
+                                } >
                                 <Grid container spacing={0} alignItems="center" sx={{
                                     justifyContent: {
                                         lg: 'space-between',
@@ -119,19 +125,15 @@ function RecentChat({ groupData, isTyping, handleTyping, groupMessage, handleSin
                                     },
                                 }}>
                                     <Grid item xs={3}>
-                                        <div className="people-img-box2">
-                                            <Grid container spacing={0}>
-                                                <AvatarGroup total={chat?.members?.length}>
-                                                    {chat?.members?.slice(0, 2)?.map((user, index) => (
-                                                        <Grid item xs={4} key={index}>
-                                                            <Tooltip style={{cursor:"pointer"}} title={user.firstName + ' ' + user?.lastName} key={index}>
-                                                                <Avatar key={index} alt={user.username} src={user?.pic} />
-                                                            </Tooltip>
-                                                        </Grid>
-                                                    ))}
-                                                </AvatarGroup>
-                                            </Grid>
-                                        </div>
+                                        <AvatarGroup total={chat?.members?.length}>
+                                            {chat?.members?.slice(0, 2)?.map((user, index) => (
+                                                <Grid item xs={4} key={index} sx={{ flex: 'start' }}>
+                                                    <Tooltip style={{ cursor: "pointer" }} title={user.firstName + ' ' + user?.lastName} key={index}>
+                                                        <Avatar key={index} alt={user.username} src={user?.pic} />
+                                                    </Tooltip>
+                                                </Grid>
+                                            ))}
+                                        </AvatarGroup>
                                     </Grid>
                                     <Grid item xs={9.5} sm={10.6} md={9} lg={9}>
                                         <Grid container spacing={0} alignItems="center" justifyContent="center">
@@ -173,11 +175,11 @@ function RecentChat({ groupData, isTyping, handleTyping, groupMessage, handleSin
                                                             xs: 300
                                                         },
                                                     }} gutterBottom component="div">
-                                                        {chat?.latestMessage?.content?.text}
-                                                        {isTyping?.typing && chat?._id === isTyping?.user?.chat ? <>
+                                                        {chat?.latestMessage?.content?.text?.slice(0, 10)}...
+                                                        {isTyping?.typing && chatExists(chat?._id, isTyping?.user?.chat) ? <>
                                                             <TypingIndicatior />
                                                             <div style={{ display: "flex", alignItems: 'center' }}>
-                                                                <Tooltip style={{cursor:"pointer"}} title={isTyping?.user?.user?.firstName + ' ' + isTyping?.user?.user?.lastName} arrow>
+                                                                <Tooltip style={{ cursor: "pointer" }} title={isTyping?.user?.user?.firstName + ' ' + isTyping?.user?.user?.lastName} arrow>
                                                                     <Avatar sx={{ height: '15px', width: '15px' }} alt={isTyping?.user?.user?.username} src={isTyping?.user?.user?.pic} />
                                                                 </Tooltip>
                                                             </div>
@@ -204,13 +206,14 @@ function RecentChat({ groupData, isTyping, handleTyping, groupMessage, handleSin
                                                             xs: 200
                                                         },
                                                     }}>
+
                                                         {moment(chat?.latestMessage?.updatedAt).fromNow()}
                                                     </Typography>
                                                     {/* {console.log(chat)} */}
                                                     {/* {console.log(chat?.seen)} */}
                                                     {chat?.seen?.length && <AvatarGroup max={3}>
                                                         {chat?.seen?.slice(0, 3)?.map((user, i) => (
-                                                            <Tooltip style={{cursor:"pointer"}} title={'seen'} key={i}>
+                                                            <Tooltip style={{ cursor: "pointer" }} title={'seen'} key={i}>
                                                                 <Avatar sx={{ height: '18px', width: '18px', marginTop: '3px' }} alt={user.username} src={user?.pic} />
                                                             </Tooltip>
                                                         ))}
@@ -223,8 +226,8 @@ function RecentChat({ groupData, isTyping, handleTyping, groupMessage, handleSin
                             </ToggleButton>
                         </Grid>
                     ))} </>}
-            </Grid>
-        </div>
+            </Grid >
+        </div >
     )
 }
 

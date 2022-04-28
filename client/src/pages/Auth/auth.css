@@ -53,7 +53,7 @@ select.gender-input {
   margin-left: 18px;
 }
 ::-webkit-calendar-picker-indicator {
-  background-color: rgb(255, 255, 255);
+  background-color: rgba(95, 83, 83, 0.438);
   border-radius: 3px;
 }
 .emty {

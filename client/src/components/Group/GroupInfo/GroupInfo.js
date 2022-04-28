@@ -33,7 +33,7 @@ const IOSSwitch = styled((props) => (
     transitionDuration: "300ms",
     "&.Mui-checked": {
       transform: "translateX(16px)",
-      color: "#fff",
+      color: "transparent",
       "& + .MuiSwitch-track": {
         backgroundColor: theme.palette.mode === "dark" ? "#2ECA45" : "#65C466",
         opacity: 1,
@@ -45,7 +45,7 @@ const IOSSwitch = styled((props) => (
     },
     "&.Mui-focusVisible .MuiSwitch-thumb": {
       color: "#33cf4d",
-      border: "6px solid #fff",
+      border: "6px solid transparent",
     },
     "&.Mui-disabled .MuiSwitch-thumb": {
       color:

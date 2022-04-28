@@ -1,12 +1,12 @@
+import LockIcon from "@mui/icons-material/Lock";
 import { Box, Grid, Typography } from '@mui/material';
 import React from 'react';
-import LockIcon from "@mui/icons-material/Lock";
 
 const GroupListMap = (props) => {
 
     const { name, pic, lastMsg, lastMsgBy, isPrivateGroup, time, unreadMsg} = props.p;
 
-    // const handleSingleUser = () => {};
+    // const handleSingleChat = () => {};
     return (
       <Grid
         item
@@ -69,7 +69,7 @@ const GroupListMap = (props) => {
                     <Typography
                       style={{
                         fontSize: "12px",
-                        color: "#fff",
+                        color: "transparent",
                         marginTop: "5px",
                         marginLeft: "10px",
                         backgroundColor: "#5A078B",
@@ -99,6 +99,6 @@ export default GroupListMap;
 // <div
 //         style={{ padding: "10px 20px", margin: "0 20px" }}
 //         className={toggleActiveStyle(index)}
-//         onClick={(e) => handleSingleUser(index, toggleActive(index))}
+//         onClick={(e) => handleSingleChat(index, toggleActive(index))}
 //       ></div>
-//  onClick={(e) => handleSingleUser(id)}
+//  onClick={(e) => handleSingleChat(id)}

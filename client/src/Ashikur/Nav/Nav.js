@@ -8,9 +8,10 @@ import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { ThemeSelectContext } from "../../App";
 import AddGroups from "../../components/AddGroups/AddGroups";
+import MessageNotificationBadge from "../../components/Notification/MsgNotificationBadge";
 import "./nav.css";
 
-const Nav = ({ children }) => {
+const Nav = ({handleSingleChat, children }) => {
   const [selected, setSelected] = useState("");
   // const [contactOpen, setContactOpen] = React.useState(false);
   const [groupOpen, setGroupOpen] = React.useState(false);
@@ -122,7 +123,7 @@ const Nav = ({ children }) => {
             xs={1}
             md={12}
           >
-            <Link to="/group">
+            {/* <Link to="/group">
               <ToggleButton
                 value="three"
                 onChange={() => {
@@ -140,7 +141,7 @@ const Nav = ({ children }) => {
                   }}
                 />
               </ToggleButton>
-            </Link>
+            </Link> */}
           </Grid>
           <Grid
             item
@@ -285,7 +286,7 @@ const Nav = ({ children }) => {
             xs={1}
             md={12}
           >
-        {/* <ToggleButton value="nine">
+            {/* <ToggleButton value="nine">
             <AddContact
               handleContactOpen={handleContactOpen}
               handleContactClose={handleContactClose}
@@ -322,6 +323,21 @@ const Nav = ({ children }) => {
               style={{ display: "block", margin: "0 auto" }}
               src="https://mui.com/static/images/avatar/3.jpg"
             />
+          </Grid>
+          <Grid
+            item
+            sx={{
+              padding: {
+                lg: "8px",
+                md: "0px",
+                sm: "0px",
+                xs: "0px",
+              },
+            }}
+            xs={1}
+            md={12}
+          >
+            <MessageNotificationBadge handleSingleChat={handleSingleChat} />
           </Grid>
           <Grid
             item

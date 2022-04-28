@@ -66,14 +66,14 @@ const AllStatus = () => {
           <Grid
             item
             xs={12}
-            style={{ padding: "6px 0", backgroundColor: "#fff" }}
+            style={{ padding: "6px 0", backgroundColor: "transparent" }}
           >
             <div className="search-field-box">
               <SearchIcon />
               <input
                 type="text"
                 placeholder="Search Contacts"
-                style={{ backgroundColor: "#fff" }}
+                style={{ backgroundColor: "transparent" }}
               />
             </div>
           </Grid>

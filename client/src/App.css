@@ -11,7 +11,7 @@
 }
 .buttonContact2 {
   background-color: #76228f;
-  color: #fff;
+  color: transparent;
   font-weight: 500;
   font-size: 14px;
   font-family: "Poppins", sans-serif;
@@ -30,7 +30,7 @@ input[type="file"] {
 }
 .browseFile {
   border: 1px solid #420ba1;
-  color: #fff;
+  color: transparent;
   display: inline-block;
   cursor: pointer;
   padding: 6px 12px;
@@ -69,7 +69,7 @@ input[type="file"] {
 .barButton {
   background-color: #420ba1;
   border: 1px solid #420ba1;
-  color: #fff;
+  color: transparent;
   font-family: "Poppins", sans-serif;
   padding: 0px 6px !important;
   border-radius: 20px;
@@ -80,7 +80,7 @@ input[type="file"] {
 .barButton:nth-child(1) {
   background-color: #420ba1;
   border: 1px solid #420ba1;
-  color: #fff;
+  color: transparent;
   font-family: "Poppins", sans-serif;
   padding: 8px 10px !important;
   border-radius: 20px;

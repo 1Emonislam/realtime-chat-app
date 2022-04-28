@@ -2,7 +2,7 @@ import LocalPhoneIcon from '@mui/icons-material/LocalPhone';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import SearchIcon from '@mui/icons-material/Search';
 import VideocamIcon from '@mui/icons-material/Videocam';
-import { Grid, Popover, Tooltip, Typography } from '@mui/material';
+import { Grid, Popover, ToggleButton, Tooltip, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import React, { useState } from 'react';
 import { MdDelete } from 'react-icons/md';
@@ -73,30 +73,41 @@ const Header = () => {
     }
     return (
         <>
-            <Box sx={{ flexGrow: 1 }} className='chatHeader_section'>
+            <Box className='chatHeader_section' style={{ paddingBottom: '10px', marginBottom: '5px' }}>
                 <Grid container spacing={2} className='header_row'>
-                    <Grid item xs={6} md={6} sx={{ textAlign: 'start' }}>
-                        <Box className='profile_image'>
-                            <Box sx={{ marginLeft: '15px' }}>
-                                {!selectedChat?.chat?.members?.length ? <> <HeaderSkeletonMember /></> : <>
-                                    {/* {console.log(selectedChat)} */}
-                                    <GroupPeople memberInfo={selectedChat} />
-                                </>}
-                            </Box>
-                        </Box>
+                    <Grid item xs={8.5} sx={{ textAlign: 'start' }}>
+                        <Grid container spacing={0}alignItems="center">
+                            <Grid item xs={6}>
+                                <Box className='profile_image'>
+                                    <Box sx={{ marginLeft: '15px' }}>
+                                        {!selectedChat?.chat?.members?.length ? <> <HeaderSkeletonMember /></> : <>
+                                            {/* {console.log(selectedChat)} */}
+                                            <GroupPeople memberInfo={selectedChat} />
+                                        </>}
+                                    </Box>
+                                </Box>
+                            </Grid>
+                            <Grid item xs={6}>
+                                <Tooltip  title={'#' + selectedChat?.chat?.chatName} arrow>
+                                    <ToggleButton value="one"style={{border:'none'}}>
+                                        {selectedChat?.chat?.chatName}
+                                    </ToggleButton>
+                                </Tooltip>
+                            </Grid>
+                        </Grid>
                     </Grid>
-                    <Grid item xs={6} md={6}>
+                    <Grid item xs={3.5}>
                         <ul className='chat_Header_icon'>
-                            <Tooltip style={{cursor:"pointer"}} title="Search" arrow>
+                            <Tooltip style={{ cursor: "pointer" }} title="Search" arrow>
                                 <li onClick={() => setSearch('search')}>
                                     <SearchIcon />
                                 </li>
                             </Tooltip>
-                            <Tooltip style={{cursor:"pointer"}} title="Audio Call" arrow>
+                            <Tooltip style={{ cursor: "pointer" }} title="Audio Call" arrow>
                                 <li onClick={() => setAudioOpen(true)}><LocalPhoneIcon />
                                 </li>
                             </Tooltip>
-                            <Tooltip style={{cursor:"pointer"}} title="Video Call" arrow>
+                            <Tooltip style={{ cursor: "pointer" }} title="Video Call" arrow>
                                 <li onClick={() => setVideoOpen(true)}><VideocamIcon />
                                 </li>
                             </Tooltip>

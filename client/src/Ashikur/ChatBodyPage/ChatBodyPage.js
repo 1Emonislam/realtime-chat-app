@@ -1,17 +1,17 @@
 import { Box, Grid } from '@mui/material';
 import React, { useEffect, useRef, useState } from 'react';
-import ChatHome from '../../components/ChatHome';
-import BodyChat from './BodyChat';
 import { useDispatch, useSelector } from 'react-redux';
 import io from 'socket.io-client';
+import ChatHome from '../../components/ChatHome';
 import { getGroupChatData } from '../../store/actions/groupActions';
-import { getMessage } from '../../store/actions/messageAction';
-import { getSelectedChat } from '../../store/actions/selectedChatAction';
+import { getNotification } from '../../store/actions/messageNotificationAction';
+import { NOTIFICATION_PUSH } from '../../store/type/messageNotificationTypes';
 import { MESSAGE_WRITE, SEND_MESSAGE } from '../../store/type/messageTypes';
 import { SOCKET_GLOBAL } from '../../store/type/socketType';
-const ChatBodyPage = () => {
+import BodyChat from './BodyChat';
+const ChatBodyPage = ({ handleSingleChat, chatActive }) => {
     const dispatch = useDispatch();
-    const { auth, groupData, groupMessage, selectedChat } = useSelector(state => state);
+    const { auth, groupData, notification, groupMessage, selectedChat } = useSelector(state => state);
     const [typing, setTyping] = useState(false);
     const [isTyping, setIsTyping] = useState({ typing: false, user: null });
     // console.log(socketConnected)
@@ -64,10 +64,21 @@ const ChatBodyPage = () => {
     }
     useEffect(() => {
         socket.current.on("message recieved", (newMessageRecieved) => {
-            if (!selectedChat?.chat?._id || selectedChat?.chat?._id !== newMessageRecieved?.chat?._id) {
-                //give notification
+            // console.log(selectedChat?.chat?._id !== newMessageRecieved?.chat?._id)
+            if (selectedChat?.chat?._id !== newMessageRecieved?.chat?._id) {
+                if (!notification?.msgNotification?.includes(newMessageRecieved)) {
+                    const allMsg = [newMessageRecieved, ...notification?.msgNotification]
+                    const unsen = allMsg?.filter(msg => msg?.seen === false);
+                    dispatch({
+                        type: NOTIFICATION_PUSH,
+                        payload: {
+                            data: allMsg,
+                            myunread: unsen?.length
+                        }
+                    })
+                }
             } else {
-                // console.log(newMessageRecieved)
+                //console.log(newMessageRecieved)
                 if (newMessageRecieved?._id) {
                     dispatch({
                         type: SEND_MESSAGE,
@@ -79,29 +90,24 @@ const ChatBodyPage = () => {
             }
         })
         // console.log('hello')
-    }, [auth?.user?.token, dispatch, selectedChat?.chat?._id])
+    }, [auth?.user?.token, dispatch, notification?.msgNotification, selectedChat?.chat, selectedChat?.chat?._id])
+    // console.log(notification)
     useEffect(() => {
-        dispatch(getGroupChatData(auth?.user?.token))
-    }, [auth?.user?.token, dispatch, groupMessage.sendMsg._id])
+        dispatch(getGroupChatData(auth?.user?.token));
+        dispatch(getNotification(auth?.user?.token))
+    }, [auth?.user?.token, dispatch, groupMessage?.sendMsg?._id])
 
     useEffect(() => {
         if (groupMessage?.sendMsg?._id) {
             socket.current.emit("new message", groupMessage?.sendMsg);
         }
     }, [groupMessage?.messageInfoStore?._id, groupMessage?.msg, groupMessage?.sendMsg, groupMessage?.sendMsg?._id])
-    const handleSingleUser = (id) => {
-        if (id) {
-            dispatch(getSelectedChat(id, auth?.user?.token))
-            dispatch(getMessage(id, auth?.user?.token))
-        }
-    }
-
 
     return (
         <Box>
             <Grid container spacing={0}>
                 <Grid item xs={12} md={3.6}>
-                    <ChatHome isTyping={isTyping} handleTyping={handleTyping} handleSingleUser={handleSingleUser} groupData={groupData} groupMessage={groupMessage} />
+                    <ChatHome chatActive={chatActive} isTyping={isTyping} handleTyping={handleTyping} handleSingleChat={handleSingleChat} groupData={groupData} groupMessage={groupMessage} />
                 </Grid>
                 <Grid item xs={12} md={8.4}>
                     <BodyChat isTyping={isTyping} handleTyping={handleTyping} />

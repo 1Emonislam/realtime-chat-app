@@ -1,0 +1,7 @@
+.seen-notify {
+  border-radius: 5px;
+  background-color: transparent;
+}
+.unseen-notify {
+  background-color: rgba(0, 255, 179, 0.151);
+}
