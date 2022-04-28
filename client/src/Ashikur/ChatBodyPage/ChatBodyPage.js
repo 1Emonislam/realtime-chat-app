@@ -18,7 +18,11 @@ const ChatBodyPage = ({ handleSingleChat, chatActive }) => {
     const socket = useRef();
     const ENDPOINT = "http://localhost:5000";
     useEffect(() => {
-        socket.current = io(ENDPOINT);
+        socket.current = io(ENDPOINT, {
+            auth: {
+                token: auth?.user?.token
+            }
+        });
         if (auth?.user?.user) {
             socket.current.emit("setup", auth?.user?.user)
         }
@@ -35,7 +39,7 @@ const ChatBodyPage = ({ handleSingleChat, chatActive }) => {
         })
         socket.current.on('stop typing', () => setIsTyping({ typing: false, user: null }))
         return () => { socket.current?.disconnect() };
-    }, [auth?.user?.user, dispatch, selectedChat?.chat?._id]);
+    }, [auth?.user?.token, auth?.user?.user, dispatch, selectedChat?.chat?._id]);
     const handleTyping = (e) => {
         dispatch({
             type: MESSAGE_WRITE,
