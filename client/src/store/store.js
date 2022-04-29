@@ -7,6 +7,7 @@ import { messageReducer } from './reducers/messageReducer';
 import { selectedChatReducer } from './reducers/selectedChatReducer';
 import { socketReducer } from './reducers/socketReducer';
 import { themeReducer } from './reducers/ThemeReducer';
+import { composeWithDevTools } from 'redux-devtools-extension';
 const rootReducer = combineReducers({
     theme: themeReducer,
     auth: authReducer,
@@ -19,6 +20,6 @@ const rootReducer = combineReducers({
 const middleware = [thunk];
 const store = createStore(rootReducer, compose(
     applyMiddleware(...middleware),
-    // window?.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+    composeWithDevTools()
 ))
 export default store;

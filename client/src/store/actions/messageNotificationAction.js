@@ -2,7 +2,7 @@ import { NOTIFICATION_GET } from "../type/messageNotificationTypes"
 export const getNotification = (token) => {
     return async (dispatch) => {
         try {
-            fetch(`https://collaballapp.herokuapp.com/api/get/notification`, {
+            fetch(`http://localhost:5000/api/get/notification`, {
                 method: 'GET',
                 headers: {
                     "Content-Type": "application/json",
@@ -29,7 +29,7 @@ export const getNotification = (token) => {
 export const getNotificationUnSeenList = (token) => {
     return async (dispatch) => {
         try {
-            fetch(`https://collaballapp.herokuapp.com/api/get/notificationUnseen`, {
+            fetch(`http://localhost:5000/api/get/notificationUnseen`, {
                 method: 'GET',
                 headers: {
                     "Content-Type": "application/json",
@@ -56,7 +56,7 @@ export const getNotificationUnSeenList = (token) => {
 export const getNotificationSeenList = (token) => {
     return async (dispatch) => {
         try {
-            fetch(`https://collaballapp.herokuapp.com/api/get/notificationSeen`, {
+            fetch(`http://localhost:5000/api/get/notificationSeen`, {
                 method: 'GET',
                 headers: {
                     "Content-Type": "application/json",
@@ -83,7 +83,7 @@ export const getNotificationSeenList = (token) => {
 export const getSingleNotification = (chatId, token) => {
     return async (dispatch) => {
         try {
-            fetch(`https://collaballapp.herokuapp.com/api/get/notification/${chatId}`, {
+            fetch(`http://localhost:5000/api/get/notification/${chatId}`, {
                 method: 'GET',
                 headers: {
                     "Content-Type": "application/json",

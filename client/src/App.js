@@ -1,8 +1,9 @@
 import Box from "@mui/material/Box";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import * as React from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import { io } from "socket.io-client";
 import "./App.css";
 import Call from "./components/Call/Call";
 import BlockedUser from "./components/DashBoardSettings/BlockedUser";
@@ -25,10 +26,11 @@ import Login from "./pages/Auth/Login";
 import Register from "./pages/Auth/Register";
 import ResetPassword from "./pages/Auth/ResetPassword";
 import Home from "./pages/Home/Home";
+import { SOCKET_GLOBAL } from "./store/type/socketType";
 export const ThemeSelectContext = React.createContext();
 const ColorModeContext = React.createContext({ toggleColorMode: () => { } });
 export default function ToggleColorMode() {
-  const user = useSelector(state => state?.auth?.user?.user);
+  const { auth } = useSelector(state => state);
   const [mode, setMode] = React.useState(
     window.localStorage.getItem("themeCurrent") ? JSON.parse(window.localStorage.getItem("themeCurrent")) : 'light');
   if (!mode) {
@@ -61,16 +63,31 @@ export default function ToggleColorMode() {
       createTheme({
         palette: {
           mode,
-          
+
         },
       }),
     [mode]
   );
   React.useEffect(() => {
-    if (!user?.email) {
+    if (!auth?.user?.user?.email) {
       <Navigate to="/login" replace></Navigate>
     }
-  }, [user?.email])
+  }, [auth?.user?.user?.email])
+  const socket = React.useRef();
+  const ENDPOINT = "http://localhost:5000";
+  const dispatch = useDispatch()
+  React.useEffect(() => {
+    socket.current = io(ENDPOINT, {
+      auth: {
+        data: auth?.user
+      }
+    });
+    dispatch({
+      type: SOCKET_GLOBAL,
+      payload: { socket },
+    })
+    return () => { socket.current?.disconnect() };
+  }, [auth?.user, dispatch])
   return (
     <ColorModeContext.Provider value={colorMode}>
       <ThemeSelectContext.Provider value={theme}>

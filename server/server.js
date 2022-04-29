@@ -59,8 +59,25 @@ app.get('/', (req, res) => {
 serverApp.listen(PORT, () => {
     console.log('Sever Started on PORT', PORT)
 })
+
+function onlyUnique(value, index, self) {
+    return self.indexOf(value) === index;
+}
+const usersOnline = [];
+function onlineUser(userId, socketId) {
+    usersOnline[{ user: userId, socket: socketId }] = { user: userId, socket: socketId };
+}
+function offlineUser({ userId, socket: socketId }) {
+    delete usersOnline[{ user: userId, socket: socketId }];
+}
 io.on("connection", (socket) => {
-    console.log('a user connected');
+    console.log('a user connected',);
+    const user = socket?.handshake?.auth?.data?.user;
+    onlineUser(socket.id, user?._id);
+    socket.on('disconnect', function () {
+        offlineUser(socket.id, user?._id)
+    });
+    console.log(usersOnline)
     socket.on('setup', async (userData) => {
         socket.join(userData?._id);
         // console.log(userData)
@@ -92,6 +109,11 @@ io.on("connection", (socket) => {
                 content: newMessageRecieved?.content,
             },
             seen: false,
+            sender: {
+                _id: newMessageRecieved?._id,
+                firstName: newMessageRecieved?.firstName,
+                lastName: newMessageRecieved?.lastName
+            },
             chat: newMessageRecieved?.chat,
             _id: newMessageRecieved?._id,
             createdAt: newMessageRecieved.createdAt,
@@ -105,6 +127,7 @@ io.on("connection", (socket) => {
                 receiver: user?._id,
                 type: 'groupchat',
                 subject: `New Message from ${newMessageRecieved?.sender?.firstName + ' ' + newMessageRecieved?.sender?.lastName}`,
+                sender: newMessageRecieved?.sender?._id,
                 message: newMessageRecieved?._id,
                 chat: newMessageRecieved?.chat?._id,
             })
@@ -114,11 +137,11 @@ io.on("connection", (socket) => {
     socket.on("online members", (onlineMember) => {
         socket.in(onlineMember?._id).emit("online member", onlineMember)
     })
-
     socket.off("setup", (userData) => {
         console.log('User Disconnected');
         socket.leave(userData?._id)
     })
+
 })
 
 
