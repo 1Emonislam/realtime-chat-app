@@ -88,7 +88,7 @@ export const messageReducer = (state = initState, action) => {
         // console.log(payload.data)
         return {
             ...state,
-            msg: payload.data,
+            msg: payload.data?.data,
             error: payload.error,
             success: payload.message,
             loading: false

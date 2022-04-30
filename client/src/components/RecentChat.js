@@ -12,10 +12,11 @@ import TypingIndicatior from './Typing/TypingIndicatior';
 function RecentChat({ groupData, isTyping, chatActive, handleTyping, groupMessage, handleSingleChat }) {
     const [dataState, setDataState] = React.useState({
         activeObject: null,
-        objects: [...groupData]
+        objects: [...groupData?.data]
     })
+    // console.log(groupData?.data)
     React.useEffect(() => {
-        setDataState({ activeObject: dataState?.activeObject, objects: [...groupData] })
+        setDataState({ activeObject: dataState?.activeObject, objects: [...groupData?.data] })
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [groupData])
 
@@ -103,8 +104,8 @@ function RecentChat({ groupData, isTyping, chatActive, handleTyping, groupMessag
                 </Grid>
             </Grid>
             <Grid container spacing={0} padding={'10px 0px'} justifyContent="center">
-                {!groupData?.length ? <SkeletonRecentGroup /> :
-                    <> {groupData?.map((chat, index) => (
+                {groupData?.data?.length === 0 ? <SkeletonRecentGroup /> :
+                    <> {groupData?.data?.map((chat, index) => (
                         <Grid key={index} item xs={12} className={toggleActiveStyle(index)} alignItems="center" justifyContent="center">
                             {/* { toggleActiveStyle(index) } */}
                             <ToggleButton value="check"
@@ -156,8 +157,8 @@ function RecentChat({ groupData, isTyping, chatActive, handleTyping, groupMessag
                                                 }}>
                                                     {chat?.chatName}
                                                 </Typography>
-                                                {chat?.latestMessage?.content?.text && <>
-                                                    {/* <TypingIndicatior />  */}
+                                                {/* {console.log(groupData)} */}
+                                                {chat?.latestMessage?.content && <>
                                                     <Typography sx={{
                                                         textAlign: 'left',
                                                         color: "inherit",

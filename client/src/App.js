@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import Box from "@mui/material/Box";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import * as React from "react";
@@ -26,11 +27,13 @@ import Login from "./pages/Auth/Login";
 import Register from "./pages/Auth/Register";
 import ResetPassword from "./pages/Auth/ResetPassword";
 import Home from "./pages/Home/Home";
+import { getGroupChatData } from "./store/actions/groupActions";
+import { getNotification } from "./store/actions/messageNotificationAction";
 import { SOCKET_GLOBAL } from "./store/type/socketType";
 export const ThemeSelectContext = React.createContext();
 const ColorModeContext = React.createContext({ toggleColorMode: () => { } });
 export default function ToggleColorMode() {
-  const { auth } = useSelector(state => state);
+  const { auth, groupMessage } = useSelector(state => state);
   const [mode, setMode] = React.useState(
     window.localStorage.getItem("themeCurrent") ? JSON.parse(window.localStorage.getItem("themeCurrent")) : 'light');
   if (!mode) {
@@ -88,6 +91,10 @@ export default function ToggleColorMode() {
     })
     return () => { socket.current?.disconnect() };
   }, [auth?.user, dispatch])
+  React.useMemo(() => {
+    dispatch(getGroupChatData(auth?.user?.token));
+    dispatch(getNotification(auth.user?.token))
+  }, [auth.user?.token, dispatch, groupMessage?.msg])
   return (
     <ColorModeContext.Provider value={colorMode}>
       <ThemeSelectContext.Provider value={theme}>

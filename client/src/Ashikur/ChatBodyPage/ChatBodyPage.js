@@ -1,9 +1,10 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Box, Grid } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import ChatHome from '../../components/ChatHome';
 import { getGroupChatData } from '../../store/actions/groupActions';
-import { getNotification } from '../../store/actions/messageNotificationAction';
+import { getNotification, removeNotificationDB } from '../../store/actions/messageNotificationAction';
 import { NOTIFICATION_PUSH } from '../../store/type/messageNotificationTypes';
 import { MESSAGE_WRITE, SEND_MESSAGE } from '../../store/type/messageTypes';
 import BodyChat from './BodyChat';
@@ -12,7 +13,6 @@ const ChatBodyPage = ({ handleSingleChat, chatActive }) => {
     const { auth, groupData, socketFunc, notification, groupMessage, selectedChat } = useSelector(state => state);
     const [typing, setTyping] = useState(false);
     const [isTyping, setIsTyping] = useState({ typing: false, user: null });
-    //console.log(socketConnected)
     const socket = socketFunc?.socket;
     useEffect(() => {
         if (!socket?.current) return;
@@ -25,7 +25,7 @@ const ChatBodyPage = ({ handleSingleChat, chatActive }) => {
             setIsTyping({ typing: true, user: data })
         })
         socket?.current?.on('stop typing', () => setIsTyping({ typing: false, user: null }))
-    }, [auth?.user?.user, dispatch, selectedChat?.chat?._id, socket]);
+    }, [auth?.user?.user, dispatch, selectedChat?.chat?._id]);
     const handleTyping = (e) => {
         if (!socket?.current) return;
         dispatch({
@@ -53,13 +53,27 @@ const ChatBodyPage = ({ handleSingleChat, chatActive }) => {
             }, timerLength);
         }
     }
+    // console.log(notification)
     useEffect(() => {
         if (!socket?.current) return;
-        socket?.current?.on("message recieved", (newMessageRecieved) => {
-            // console.log(selectedChat?.chat?._id !== newMessageRecieved?.chat?._id)
+        if (groupMessage?.sendMsg?._id) {
+            socket?.current?.emit("new message", groupMessage?.sendMsg);
+            socket?.current?.emit("update message", groupMessage?.sendMsg);
+        }
+    }, [groupMessage.messageInfoStore?._id, groupMessage?.sendMsg, groupMessage?.sendMsg?._id]);
+    useEffect(() => {
+        if (!socket?.current) return
+        socket?.current?.off("message recieved").on("message recieved", (data) => {
+            if (data?.newMessageRecieved) {
+                dispatch(getGroupChatData(auth?.user?.token))
+            }
+            const { newMessageRecieved, notificationObj } = data;
+            if (selectedChat?.chat?._id === newMessageRecieved?.chat?._id) {
+                dispatch(removeNotificationDB(notificationObj?.chat?._id, notificationObj?.message?._id, auth?.user?.token))
+            }
             if (selectedChat?.chat?._id !== newMessageRecieved?.chat?._id) {
                 if (!notification?.msgNotification?.includes(newMessageRecieved)) {
-                    const allMsg = [newMessageRecieved, ...notification?.msgNotification]
+                    const allMsg = [notificationObj, ...notification?.msgNotification]
                     const unsen = allMsg?.filter(msg => msg?.seen === false);
                     dispatch({
                         type: NOTIFICATION_PUSH,
@@ -70,8 +84,7 @@ const ChatBodyPage = ({ handleSingleChat, chatActive }) => {
                     })
                 }
             } else {
-                //console.log(newMessageRecieved)
-                if (newMessageRecieved?._id) {
+                if (newMessageRecieved) {
                     dispatch({
                         type: SEND_MESSAGE,
                         payload: {
@@ -81,21 +94,7 @@ const ChatBodyPage = ({ handleSingleChat, chatActive }) => {
                 }
             }
         })
-        // console.log('hello')
-    }, [auth.user.token, dispatch, notification?.msgNotification?._id, selectedChat?.chat?._id, socket])
-    // console.log(notification)
-    useEffect(() => {
-        dispatch(getGroupChatData(auth?.user?.token));
-        dispatch(getNotification(auth?.user?.token))
-    }, [auth?.user?.token, dispatch, groupMessage?.sendMsg?._id])
-
-    useEffect(() => {
-        if (!socket?.current) return;
-        if (groupMessage?.sendMsg?._id) {
-            socket?.current?.emit("new message", groupMessage?.sendMsg);
-        }
-    }, [groupMessage.messageInfoStore?._id, groupMessage?.sendMsg, groupMessage?.sendMsg?._id, socket])
-
+    })
     return (
         <Box>
             <Grid container spacing={0}>

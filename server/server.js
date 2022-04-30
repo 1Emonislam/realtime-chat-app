@@ -64,27 +64,23 @@ function onlyUnique(value, index, self) {
     return self.indexOf(value) === index;
 }
 const usersOnline = [];
-function onlineUser(userId, socketId) {
-    usersOnline[{ user: userId, socket: socketId }] = { user: userId, socket: socketId };
-}
-function offlineUser({ userId, socket: socketId }) {
-    delete usersOnline[{ user: userId, socket: socketId }];
-}
-io.on("connection", (socket) => {
-    console.log('a user connected',);
+io.on("connection", async (socket) => {
+    console.log("socket.io: User connected: ", socket.id);
     const user = socket?.handshake?.auth?.data?.user;
-    onlineUser(socket.id, user?._id);
-    socket.on('disconnect', function () {
-        offlineUser(socket.id, user?._id)
-    });
-    console.log(usersOnline)
-    socket.on('setup', async (userData) => {
-        socket.join(userData?._id);
-        // console.log(userData)
-        await User.findOneAndUpdate({ _id: userData?._id }, {
-            online: true,
-            socketId: socket.id,
+    const online = await User.findOneAndUpdate({ _id: user?._id }, {
+        online: true,
+        socketId: socket.id,
+    }, { new: true })
+    socket.on('disconnect', async () => {
+        const offline = await User.findOneAndUpdate({ _id: user?._id }, {
+            online: false,
+            socketId: null,
+            lastOneline: new Date(),
         }, { new: true })
+        console.log("socket.io: User disconnected: ", socket.id);
+    });
+    socket.on('setup', (userData) => {
+        socket.join(userData?._id);
         socket.emit('conected');
     })
     socket.on('join chat', (room) => {
@@ -96,12 +92,13 @@ io.on("connection", (socket) => {
         socket.in(room?.chat).emit("typing", room);
     })
     socket.on('stop typing', (room) => socket.in(room).emit("stop typing"))
-    socket.on('new message', (newMessageRecieved) => {
-        // console.log(newMessageRecieved)
+    socket.on('new message', async (newMessageRecieved) => {
+        //console.log(newMessageRecieved)
         let chat = newMessageRecieved.chat;
         if (!chat.members) return console.log('chat.members not defined');
+        const members = chat?.members?.filter(user => user?._id !== newMessageRecieved?.sender?._id);
         const notificationObj = {
-            receiver: chat?.members,
+            receiver: members,
             type: 'groupchat',
             subject: `New Message from ${newMessageRecieved?.sender?.firstName + ' ' + newMessageRecieved?.sender?.lastName}`,
             message: {
@@ -109,29 +106,16 @@ io.on("connection", (socket) => {
                 content: newMessageRecieved?.content,
             },
             seen: false,
-            sender: {
-                _id: newMessageRecieved?._id,
-                firstName: newMessageRecieved?.firstName,
-                lastName: newMessageRecieved?.lastName
-            },
+            sender: newMessageRecieved?.sender,
             chat: newMessageRecieved?.chat,
             _id: newMessageRecieved?._id,
             createdAt: newMessageRecieved.createdAt,
             updatedAt: newMessageRecieved.updatedAt
         }
         // console.log(notificationObj)
-        const members = chat?.members?.filter(user => user?._id !== newMessageRecieved?.sender?._id);
-        members.forEach(async (user) => {
-            if (user?._id == newMessageRecieved.sender?._id) return;
-            await Notification.create({
-                receiver: user?._id,
-                type: 'groupchat',
-                subject: `New Message from ${newMessageRecieved?.sender?.firstName + ' ' + newMessageRecieved?.sender?.lastName}`,
-                sender: newMessageRecieved?.sender?._id,
-                message: newMessageRecieved?._id,
-                chat: newMessageRecieved?.chat?._id,
-            })
-            socket.in(user._id).emit("message recieved", notificationObj)
+        members.forEach(user => {
+            if (user?._id?.toString() === newMessageRecieved.sender?._id?.toString()) return;
+            socket.in(user?._id).emit("message recieved", { newMessageRecieved, notificationObj })
         })
     })
     socket.on("online members", (onlineMember) => {

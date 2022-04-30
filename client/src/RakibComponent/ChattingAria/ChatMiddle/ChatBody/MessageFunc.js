@@ -149,7 +149,6 @@ export default function MessageFunc({ isSameSenderPermission, handleTyping, isTy
                         <RiQuestionnaireFill style={{ position: 'relative', top: '3px', paddingLeft: '5px' }} />
                     </span>
                 </Typography>
-
             </Popover>
             <ToastContainer
                 position="top-center"

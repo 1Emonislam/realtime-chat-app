@@ -31,7 +31,7 @@ export default function AlertShow({ alertOpen, handleAlertClose, setAlertOpen, c
                 aria-describedby="modal-modal-description"
             >
                 <Box sx={style}>
-                    <ToggleButton variant="one"style={{ textTransform: 'none', border: 'none' }}>
+                    <ToggleButton value="one"style={{ textTransform: 'none', border: 'none' }}>
                         <Typography id="modal-modal-title" variant="h6" component="h2">
                             Delete this entire conversation?
                         </Typography>

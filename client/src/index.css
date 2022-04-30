@@ -68,3 +68,15 @@ ul {
   margin: 0px !important;
   padding: 0px !important;
 }
+#seen-notify {
+  border-radius: 5px;
+  background-color: transparent !important;
+}
+#unseen-notify {
+  background-color: rgba(0, 255, 179, 0.151) !important;
+}
+#seen-notify:focus,
+#unseen-notify:focus {
+  background-color: blueviolet;
+  color: white;
+}
