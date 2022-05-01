@@ -68,14 +68,15 @@ module.exports.getSingleChatMembers = async (req, res, next) => {
       lastActive: new Date(),
       $addToSet: { seen: req.user?._id }
     }, { new: true })
-    await GroupNotification.find({ chat: chatId, receiver: req.user?._id }, {
+    await GroupNotification.updateMany({ chat: chatId, receiver: req.user?._id }, {
       seen: true,
       lastSeen: new Date
     })
+    const myNotify = await GroupNotification.find({ chat: chatId, receiver: req.user?._id, seen: false })
     const data = {
       data: getChatMember,
       amIJoined: getChatMember?.members?.some(am => am?._id?.toString() === req.user?._id?.toString()),
-      amIAdmin: getChatMember?.groupAdmin?.some(am => am?._id?.toString() === req.user?._id?.toString())
+      amIAdmin: getChatMember?.groupAdmin?.some(am => am?._id?.toString() === req.user?._id?.toString()),
     }
     res.status(200).json(data);
   }
