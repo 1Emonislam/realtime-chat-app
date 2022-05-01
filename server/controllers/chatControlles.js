@@ -72,7 +72,6 @@ module.exports.getSingleChatMembers = async (req, res, next) => {
       seen: true,
       lastSeen: new Date
     })
-    const myNotify = await GroupNotification.find({ chat: chatId, receiver: req.user?._id, seen: false })
     const data = {
       data: getChatMember,
       amIJoined: getChatMember?.members?.some(am => am?._id?.toString() === req.user?._id?.toString()),
