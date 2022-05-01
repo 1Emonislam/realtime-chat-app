@@ -28,7 +28,7 @@ export const getNotification = (token) => {
 }
 export const removeNotificationDB = (chatId, messageId, token) => {
     return async (dispatch) => {
-        console.log(chatId, messageId)
+        // console.log(chatId, messageId)
         try {
             fetch(`http://localhost:5000/api/already/notification`, {
                 method: 'PUT',

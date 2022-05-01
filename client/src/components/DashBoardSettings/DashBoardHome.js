@@ -1,16 +1,12 @@
-import { Container, Grid, Box, Paper, Typography } from '@mui/material';
-import { FcDoughnutChart } from "react-icons/fc";
-import { AiOutlineArrowUp } from "react-icons/ai";
-import { AiOutlineArrowDown } from "react-icons/ai";
-import { BsFillPeopleFill } from "react-icons/bs";
-import { HiUserGroup } from "react-icons/hi";
-import { MdGroupAdd } from "react-icons/md";
-import { IoIosChatboxes } from "react-icons/io";
-import { IoIosNotifications } from "react-icons/io";
-import { BsFillChatLeftFill } from "react-icons/bs";
-import { MdGroup } from "react-icons/md";
-import pic from "../../images/increase.png"
+import { Box, Container, Grid, Paper, Typography } from '@mui/material';
 import React from 'react';
+import { AiOutlineArrowDown, AiOutlineArrowUp } from "react-icons/ai";
+import { BsFillChatLeftFill, BsFillPeopleFill } from "react-icons/bs";
+import { FcDoughnutChart } from "react-icons/fc";
+import { HiUserGroup } from "react-icons/hi";
+import { IoIosChatboxes, IoIosNotifications } from "react-icons/io";
+import { MdGroup, MdGroupAdd } from "react-icons/md";
+import pic from "../../images/increase.png";
 
 const DashBoardHome = () => {
     return (
@@ -140,27 +136,27 @@ const DashBoardHome = () => {
                         <Box sx={{ p: "10px", backgroundColor: "whitesmoke", }}>
                             <Box sx={{ textAlign: "center", mb: "4px" }}>
                                 <IoIosChatboxes></IoIosChatboxes>
-                                <Typography sx={{ textAlign: "center" }} variant="h6" gutterBottom component="div">Chat</Typography>
+                                <Typography sx={{ textAlign: "center" }} variant="h6"  component="div">Chat</Typography>
                             </Box>
                             <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between", px: "30px" }}>
                                 <Box sx={{ textAlign: "center", mb: "4px" }}>
                                     <BsFillChatLeftFill></BsFillChatLeftFill>
-                                    <Typography sx={{ textAlign: "center" }} variant="h6" gutterBottom component="div">Chat</Typography>
+                                    <Typography sx={{ textAlign: "center" }} variant="h6"  component="div">Chat</Typography>
                                 </Box>
                                 <Box sx={{ textAlign: "center", mb: "4px" }}>
                                     <IoIosNotifications></IoIosNotifications>
-                                    <Typography sx={{ textAlign: "center" }} variant="h6" gutterBottom component="div">Notification</Typography>
+                                    <Typography sx={{ textAlign: "center" }} variant="h6"  component="div">Notification</Typography>
                                 </Box>
 
                             </Box>
                             <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between", px: "30px" }}>
                                 <Box sx={{ textAlign: "center", mb: "4px" }}>
                                     <MdGroup></MdGroup>
-                                    <Typography sx={{ textAlign: "center" }} variant="h6" gutterBottom component="div">messages</Typography>
+                                    <Typography sx={{ textAlign: "center" }} variant="h6"  component="div">messages</Typography>
                                 </Box>
                                 <Box sx={{ textAlign: "center", mb: "4px" }}>
                                     <IoIosNotifications></IoIosNotifications>
-                                    <Typography sx={{ textAlign: "center" }} variant="h6" gutterBottom component="div">Notification</Typography>
+                                    <Typography sx={{ textAlign: "center" }} variant="h6"  component="div">Notification</Typography>
                                 </Box>
 
                             </Box>

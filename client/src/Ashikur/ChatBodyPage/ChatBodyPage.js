@@ -4,7 +4,8 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import ChatHome from '../../components/ChatHome';
 import { getGroupChatData } from '../../store/actions/groupActions';
-import { getNotification, removeNotificationDB } from '../../store/actions/messageNotificationAction';
+import { removeNotificationDB } from '../../store/actions/messageNotificationAction';
+import { ONLINE_USER } from '../../store/reducers/allOnlineUserReducer';
 import { NOTIFICATION_PUSH } from '../../store/type/messageNotificationTypes';
 import { MESSAGE_WRITE, SEND_MESSAGE } from '../../store/type/messageTypes';
 import BodyChat from './BodyChat';
@@ -61,8 +62,18 @@ const ChatBodyPage = ({ handleSingleChat, chatActive }) => {
             socket?.current?.emit("update message", groupMessage?.sendMsg);
         }
     }, [groupMessage.messageInfoStore?._id, groupMessage?.sendMsg, groupMessage?.sendMsg?._id]);
+    // console.log(socket?.current)
     useEffect(() => {
         if (!socket?.current) return
+        socket?.current?.off('online user').on('online user', (data) => {
+            dispatch({
+                type: ONLINE_USER,
+                payload: {
+                    data: data
+                }
+            })
+        })
+
         socket?.current?.off("message recieved").on("message recieved", (data) => {
             if (data?.newMessageRecieved) {
                 dispatch(getGroupChatData(auth?.user?.token))

@@ -83,7 +83,8 @@ export default function ToggleColorMode() {
     socket.current = io(ENDPOINT, {
       auth: {
         data: auth?.user
-      }
+      },
+      query: auth?.user?.user?._id
     });
     dispatch({
       type: SOCKET_GLOBAL,
@@ -140,11 +141,7 @@ export default function ToggleColorMode() {
                   path="/group"
                   element={
                     <Group>
-                      <ThemeSwitch
-                        onClick={colorMode.toggleColorMode}
-                        style={{ fontSize: "20px" }}
-                        checked={!(theme.palette.mode === "light")}
-                      />
+
                     </Group>
                   }
                 ></Route>

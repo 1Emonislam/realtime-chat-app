@@ -1,10 +1,10 @@
+import SearchIcon from "@mui/icons-material/Search";
 import { Box, Grid, Typography } from '@mui/material';
 import React from 'react';
-import RecentCalls from '../RecentCalls/RecentCalls';
-import SearchIcon from "@mui/icons-material/Search";
-import CallBar from '../CallBar/CallBar';
 import { useDispatch } from 'react-redux';
 import { logOut } from '../../../store/actions/authAction';
+import CallBar from '../CallBar/CallBar';
+import RecentCalls from '../RecentCalls/RecentCalls';
 const CallList = () => {
   const dispatch = useDispatch();
   const handleLogOut = () => {
@@ -45,7 +45,7 @@ const CallList = () => {
                 },
               }}
               style={{ fontFamily: `"Poppins", sans-serif` }}
-              gutterBottom
+              
               component="div"
             >
               CALLS

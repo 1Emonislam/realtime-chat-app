@@ -7,9 +7,12 @@ import React from 'react';
 import { BsFillCheckCircleFill } from 'react-icons/bs';
 import SkeletonRecentGroup from '../Editor/SkeletonRecentGroup';
 import { chatExists } from '../RakibComponent/ChattingAria/ChatMiddle/ChatBody/chatLogic';
+import { useSelector } from 'react-redux'
 import './Chat.css';
 import TypingIndicatior from './Typing/TypingIndicatior';
+import Badge from '@mui/material/Badge';
 function RecentChat({ groupData, isTyping, chatActive, handleTyping, groupMessage, handleSingleChat }) {
+    const { notification } = useSelector(state => state)
     const [dataState, setDataState] = React.useState({
         activeObject: null,
         objects: [...groupData?.data]
@@ -31,8 +34,9 @@ function RecentChat({ groupData, isTyping, chatActive, handleTyping, groupMessag
             return 'user-list inactive'
         }
     }
-    // console.log(dataState?.activeObject?._id)
+    //console.log(dataState?.activeObject?._id)
     const [selected, setSelected] = React.useState(false);
+
     return (
         <div>
             <Grid container spacing={0} sx={{
@@ -136,9 +140,9 @@ function RecentChat({ groupData, isTyping, chatActive, handleTyping, groupMessag
                                             ))}
                                         </AvatarGroup>
                                     </Grid>
-                                    <Grid item xs={9.5} sm={10.6} md={9} lg={9}>
+                                    <Grid item xs={9} sm={10.6} md={9} lg={9}>
                                         <Grid container spacing={0} alignItems="center" justifyContent="center">
-                                            <Grid item xs={7}>
+                                            <Grid item xs={6}>
                                                 <Typography sx={{
                                                     color: "inherit",
                                                     textAlign: 'center',
@@ -157,38 +161,10 @@ function RecentChat({ groupData, isTyping, chatActive, handleTyping, groupMessag
                                                 }}>
                                                     {chat?.chatName}
                                                 </Typography>
-                                                {/* {console.log(groupData)} */}
-                                                {chat?.latestMessage?.content && <>
-                                                    <Typography sx={{
-                                                        textAlign: 'left',
-                                                        color: "inherit",
-                                                        marginLeft: '53px',
-                                                        fontSize: {
-                                                            lg: 13,
-                                                            md: 11,
-                                                            sm: 11,
-                                                            xs: 11
-                                                        },
-                                                        fontWeight: {
-                                                            lg: 400,
-                                                            md: 400,
-                                                            sm: 300,
-                                                            xs: 300
-                                                        },
-                                                    }} gutterBottom component="div">
-                                                        {chat?.latestMessage?.content?.text?.slice(0, 10)}...
-                                                        {isTyping?.typing && chatExists(chat?._id, isTyping?.user?.chat) ? <>
-                                                            <TypingIndicatior />
-                                                            <div style={{ display: "flex", alignItems: 'center' }}>
-                                                                <Tooltip style={{ cursor: "pointer" }} title={isTyping?.user?.user?.firstName + ' ' + isTyping?.user?.user?.lastName} arrow>
-                                                                    <Avatar sx={{ height: '15px', width: '15px' }} alt={isTyping?.user?.user?.username} src={isTyping?.user?.user?.pic} />
-                                                                </Tooltip>
-                                                            </div>
-                                                        </> : <> </>}
-                                                        {groupMessage?.latestMessage?.sent && <BsFillCheckCircleFill />}
-                                                    </Typography>
-                                                </>}
+                                                <span style={{ fontSize: '11px' }}>{chat?.latestMessage?.content?.text?.slice(0, 10)}..</span>
                                             </Grid>
+                                            {/* {console.log(groupData)} */}
+
                                             <Grid item xs={5}>
                                                 <Grid item textAlign="right">
                                                     {/*  xs={2}  */}
@@ -212,14 +188,48 @@ function RecentChat({ groupData, isTyping, chatActive, handleTyping, groupMessag
                                                     </Typography>
                                                     {/* {console.log(chat)} */}
                                                     {/* {console.log(chat?.seen)} */}
-                                                    {chat?.seen?.length && <AvatarGroup max={3}>
-                                                        {chat?.seen?.slice(0, 3)?.map((user, i) => (
-                                                            <Tooltip style={{ cursor: "pointer" }} title={'seen'} key={i}>
-                                                                <Avatar sx={{ height: '18px', width: '18px', marginTop: '3px' }} alt={user.username} src={user?.pic} />
-                                                            </Tooltip>
-                                                        ))}
-                                                    </AvatarGroup>}
+                                                    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                                                        <div sx={{
+                                                            textAlign: 'left',
+                                                            color: "inherit",
+                                                            marginLeft: '53px',
+                                                            fontSize: {
+                                                                lg: 13,
+                                                                md: 11,
+                                                                sm: 11,
+                                                                xs: 11
+                                                            },
+                                                            fontWeight: {
+                                                                lg: 400,
+                                                                md: 400,
+                                                                sm: 300,
+                                                                xs: 300
+                                                            },
+                                                        }} component="div">
+                                                            {isTyping?.typing && chatExists(chat?._id, isTyping?.user?.chat) ? <>
+                                                                <TypingIndicatior />
+                                                                <div style={{ display: "flex", alignItems: 'center' }}>
+                                                                    <Tooltip style={{ cursor: "pointer" }} title={isTyping?.user?.user?.firstName + ' ' + isTyping?.user?.user?.lastName} arrow>
+                                                                        <Avatar sx={{ height: '15px', width: '15px' }} alt={isTyping?.user?.user?.username} src={isTyping?.user?.user?.pic} />
+                                                                    </Tooltip>
+                                                                </div>
+                                                            </> : <> </>}
+                                                            {groupMessage?.latestMessage?.sent && <BsFillCheckCircleFill />}
+                                                        </div>
+                                                        {chat?.seen?.length && <AvatarGroup max={3}>
+                                                            {chat?.seen?.slice(0, 3)?.map((user, i) => (
+                                                                <Tooltip style={{ cursor: "pointer" }} title={'seen'} key={i}>
+                                                                    <Avatar sx={{ height: '12px', width: '12px', marginTop: '3px' }} alt={user.username} src={user?.pic} />
+                                                                </Tooltip>
+                                                            ))}
+                                                        </AvatarGroup>}
+                                                    </div>
+
                                                 </Grid>
+                                            </Grid>
+                                            <Grid item xs={1}>
+                                                {(notification?.msgNotification?.filter(push => push?.chat?._id === chat?._id && push?.seen === false)?.length) !== 0 && <Badge badgeContent={(notification?.msgNotification?.filter(push => push?.chat?._id === chat?._id && push?.seen === false)?.length)} color="primary">
+                                                </Badge>}
                                             </Grid>
                                         </Grid>
                                     </Grid>

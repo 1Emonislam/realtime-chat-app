@@ -17,6 +17,7 @@ const noteRoutes = require('./routes/noteRoutes')
 const notificationRoutes = require('./routes/notificationRoutes');
 const Notification = require('./models/groupNotificationModel');
 const User = require('./models/userModel');
+const Chat = require('./models/chatModel');
 const app = express();
 const PORT = process.env.PORT || 5000;
 //middlewares
@@ -63,22 +64,10 @@ serverApp.listen(PORT, () => {
 function onlyUnique(value, index, self) {
     return self.indexOf(value) === index;
 }
-const usersOnline = [];
+let users = {};
+const chatOnlineOfflineUser = {};
 io.on("connection", async (socket) => {
     console.log("socket.io: User connected: ", socket.id);
-    const user = socket?.handshake?.auth?.data?.user;
-    const online = await User.findOneAndUpdate({ _id: user?._id }, {
-        online: true,
-        socketId: socket.id,
-    }, { new: true })
-    socket.on('disconnect', async () => {
-        const offline = await User.findOneAndUpdate({ _id: user?._id }, {
-            online: false,
-            socketId: null,
-            lastOneline: new Date(),
-        }, { new: true })
-        console.log("socket.io: User disconnected: ", socket.id);
-    });
     socket.on('setup', (userData) => {
         socket.join(userData?._id);
         socket.emit('conected');
@@ -125,7 +114,22 @@ io.on("connection", async (socket) => {
         console.log('User Disconnected');
         socket.leave(userData?._id)
     })
-
+    const userSessionData = socket.handshake?.auth?.data?.user;
+    let loggedUser;
+    loggedUser = await User.findOneAndUpdate({ _id: userSessionData?._id }, {
+        online: true,
+        socketId: socket.id,
+    }, { new: true })
+    users[socket.id] = loggedUser?._id;
+    socket.emit('my info', loggedUser)
+    socket.on('disconnect', async () => {
+        delete users[socket.id];
+        loggedUser = await User.findOneAndUpdate({ _id: userSessionData?._id }, {
+            online: false,
+            socketId: null,
+        }, { new: true })
+    })
+    socket.emit("online user", users)
 })
 
 

@@ -13,12 +13,15 @@ const geometrySchema = new mongoose.Schema({
 const userSchema = new mongoose.Schema({
     online: {
         type: false,
+        default: false
     },
     socketId: {
         type: String,
+        default: null
     },
     lastOneline: {
         type: Date,
+        default: new Date()
     },
     friends: [{
         type: Schema.Types.ObjectId,

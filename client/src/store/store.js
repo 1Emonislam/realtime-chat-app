@@ -8,6 +8,7 @@ import { selectedChatReducer } from './reducers/selectedChatReducer';
 import { socketReducer } from './reducers/socketReducer';
 import { themeReducer } from './reducers/ThemeReducer';
 import { composeWithDevTools } from 'redux-devtools-extension';
+import { onlineUserReducer } from './reducers/allOnlineUserReducer';
 const rootReducer = combineReducers({
     theme: themeReducer,
     auth: authReducer,
@@ -16,6 +17,7 @@ const rootReducer = combineReducers({
     groupMessage: messageReducer,
     socketFunc: socketReducer,
     notification: messageNotificationPush,
+    onlineUser: onlineUserReducer
 });
 const middleware = [thunk];
 const store = createStore(rootReducer, compose(

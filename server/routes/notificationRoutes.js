@@ -29,11 +29,11 @@ router.get('/get/notification', protect, async (req, res, next) => {
 })
 router.get('/get/notification/:id', protect, async (req, res, next) => {
     try {
-        await GroupNotification.updateMany({ chat: req.params?.id }, {
+        await GroupNotification.updateMany({ chat: req.params?.id, receiver: req.user?._id}, {
             seen: true,
             lastSeen: new Date(),
         }, { new: true })
-        const myNotification = await GroupNotification.find({ chat: req.params?.id }).sort("-createdAt").limit(50).populate("sender", "_id firstName lastName").populate("chat", "_id chatName img").populate("message", "_id content");
+        const myNotification = await GroupNotification.find({ chat: req.params?.id, receiver: req.user?._id }).sort("-createdAt").limit(50).populate("sender", "_id firstName lastName").populate("chat", "_id chatName img").populate("message", "_id content");
         const myunread = await GroupNotification.find({ receiver: req.user?._id, seen: false }).count();
         // console.log(myunread)
         return res.status(200).json({ data: myNotification, myunread })

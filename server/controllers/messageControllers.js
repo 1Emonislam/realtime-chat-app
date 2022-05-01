@@ -33,15 +33,15 @@ module.exports.sendMessage = async (req, res, next) => {
             isGroupChat: true
         }).populate({
             path: 'groupAdmin',
-            select: '_id pic firstName lastName email'
+            select: '_id pic firstName lastName email online lastOnline'
         })
         message = await User.populate(message, {
             path: 'sender',
-            select: '_id pic firstName lastName email'
+            select: '_id pic firstName lastName email online lastOnline'
         })
         message = await User.populate(message, {
             path: 'chat.members',
-            select: '_id pic firstName lastName email'
+            select: '_id pic firstName lastName email online lastOnline'
         })
         message = await Chat.populate(message, {
             path: 'chat',
@@ -49,15 +49,15 @@ module.exports.sendMessage = async (req, res, next) => {
         })
         message = await Chat.populate(message, {
             path: 'chat.members',
-            select: '_id pic firstName lastName email',
+            select: '_id pic firstName lastName email online lastOnline',
         })
         message = await User.populate(message, {
             path: 'chat.groupAdmin',
-            select: '_id pic firstName lastName email'
+            select: '_id pic firstName lastName email online lastOnline'
         })
         message = await Chat.populate(message, {
             path: 'chat.seen',
-            select: '_id pic firstName lastName email',
+            select: '_id pic firstName lastName email online lastOnline',
         })
         if (message) {
             const sendUser = await message?.chat?.members?.filter(member => {
@@ -88,18 +88,14 @@ module.exports.allMessage = async (req, res, next) => {
         return res.status(400).json({ error: { email: 'User Credentials expired! Please login' } })
     }
     try {
-        await Chat.findOneAndUpdate({ _id: req.params.chatId }, {
-            lastActive: new Date(),
-            $addToSet: { seen: req.user?._id }
-        }, { new: true })
         let message = await Message.find({ chat: req.params.chatId })
         message = await User.populate(message, {
             path: 'sender',
-            select: '_id pic firstName lastName email'
+            select: '_id pic firstName lastName email online lastOnline'
         })
         message = await User.populate(message, {
             path: 'chat.members',
-            select: '_id pic firstName lastName email'
+            select: '_id pic firstName lastName email online lastOnline'
         })
         message = await Chat.populate(message, {
             path: 'chat',
@@ -107,11 +103,11 @@ module.exports.allMessage = async (req, res, next) => {
         })
         message = await User.populate(message, {
             path: 'chat.groupAdmin',
-            select: '_id pic firstName lastName email'
+            select: '_id pic firstName lastName email online lastOnline'
         })
         message = await Chat.populate(message, {
             path: 'chat.seen',
-            select: '_id pic firstName lastName email',
+            select: '_id pic firstName lastName email online lastOnline',
         })
         const me = {
             msgLastSeen: new Date(),
@@ -148,11 +144,11 @@ module.exports.messageRemove = async (req, res, next) => {
         let message = await Message.find({ chat: chatId })
         message = await User.populate(message, {
             path: 'sender',
-            select: '_id pic firstName lastName email'
+            select: '_id pic firstName lastName email online lastOnline'
         })
         message = await User.populate(message, {
             path: 'chat.members',
-            select: '_id pic firstName lastName email'
+            select: '_id pic firstName lastName email online lastOnline'
         })
         message = await Chat.populate(message, {
             path: 'chat',
@@ -160,11 +156,11 @@ module.exports.messageRemove = async (req, res, next) => {
         })
         message = await User.populate(message, {
             path: 'chat.groupAdmin',
-            select: '_id pic firstName lastName email'
+            select: '_id pic firstName lastName email online lastOnline'
         })
         message = await Chat.populate(message, {
             path: 'chat.seen',
-            select: '_id pic firstName lastName email',
+            select: '_id pic firstName lastName email online lastOnline',
         })
         const me = {
             msgLastSeen: new Date(),
@@ -227,7 +223,7 @@ module.exports.messageEdit = async (req, res, next) => {
             $addToSet: { seen: req.user?._id }
         }, { new: true }).populate({
             path: 'groupAdmin',
-            select: '_id pic firstName lastName email'
+            select: '_id pic firstName lastName email online lastOnline'
         })
         // console.log(message)
         if (!message) {
@@ -238,7 +234,7 @@ module.exports.messageEdit = async (req, res, next) => {
             message = await Message.find({ chat: chatId })
             message = await User.populate(message, {
                 path: 'sender',
-                select: '_id pic firstName lastName email'
+                select: '_id pic firstName lastName email online lastOnline'
             })
             message = await Chat.populate(message, {
                 path: 'chat',
@@ -246,15 +242,15 @@ module.exports.messageEdit = async (req, res, next) => {
             })
             message = await User.populate(message, {
                 path: 'chat.members',
-                select: '_id pic firstName lastName email'
+                select: '_id pic firstName lastName email online lastOnline'
             })
             message = await User.populate(message, {
                 path: 'chat.groupAdmin',
-                select: '_id pic firstName lastName email'
+                select: '_id pic firstName lastName email online lastOnline'
             })
             message = await Chat.populate(message, {
                 path: 'chat.seen',
-                select: '_id pic firstName lastName email',
+                select: '_id pic firstName lastName email online lastOnline',
             })
             const me = {
                 msgLastSeen: new Date(),
@@ -289,11 +285,11 @@ module.exports.allMessageRemove = async (req, res, next) => {
         let message = await Message.find({ chat: req.params?.chatId })
         message = await User.populate(message, {
             path: 'sender',
-            select: '_id pic firstName lastName email'
+            select: '_id pic firstName lastName email online lastOnline'
         })
         message = await User.populate(message, {
             path: 'chat.members',
-            select: '_id pic firstName lastName email'
+            select: '_id pic firstName lastName email online lastOnline'
         })
         message = await Chat.populate(message, {
             path: 'chat',
@@ -301,11 +297,11 @@ module.exports.allMessageRemove = async (req, res, next) => {
         })
         message = await User.populate(message, {
             path: 'chat.groupAdmin',
-            select: '_id pic firstName lastName email'
+            select: '_id pic firstName lastName email online lastOnline'
         })
         message = await Chat.populate(message, {
             path: 'chat.seen',
-            select: '_id pic firstName lastName email',
+            select: '_id pic firstName lastName email online lastOnline',
         })
         const me = {
             msgLastSeen: new Date(),
@@ -321,13 +317,15 @@ module.exports.allMessageRemove = async (req, res, next) => {
             return res.status(200).json({
                 message: 'Deleted all Conversation!',
                 me: message?.length > 0 ? me : {},
-                data:message
+                data: message
             })
         } else {
             return res.status(400).json({
                 error: {
                     chatId: 'Error occurred Please try again!'
-                }
+                },
+                me: message?.length > 0 ? me : {},
+                data: message
             })
         }
     }

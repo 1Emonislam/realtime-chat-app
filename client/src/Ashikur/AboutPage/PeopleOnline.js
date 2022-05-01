@@ -34,35 +34,37 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
 }));
 
 
-export default function PeopleOnline() {
+export default function PeopleOnline({ online }) {
     const [selected, setSelected] = React.useState(false);
     return (
-        <Grid container spacing={2} alignItems="center"style={{cursor:'pointer'}}>
-            {/* online people start */}
-            <Grid item xs={3}>
-                <Stack>
-                    <StyledBadge
-                        overlap="circular"
-                        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-                        variant="dot"
-                    >
-                        <Avatar variant="inherit" alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
-                    </StyledBadge>
+        <>
+            {online?.length !== 0 && online?.map((online, index) => (
+                <Grid key={index} container spacing={2} alignItems="center" style={{ cursor: 'pointer', paddingBottom: '10px' }}>
+                    <Grid item xs={3}>
+                        <Stack>
+                            <StyledBadge
+                                overlap="circular"
+                                anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+                                variant="dot"
+                            >
+                                <Avatar variant="inherit" alt={online?.username} src={online?.pic} />
+                            </StyledBadge>
 
-                </Stack>
-            </Grid>
-            <Grid item xs={9}>
-                <ToggleButton value="check"
-                    selected={selected}
-                    style={{ border: 'none',textTransform:'capitalize',position:'relative',left:'-10px' }}
-                    onChange={() => {
-                        setSelected(false);
-                    }}>
+                        </Stack>
+                    </Grid>
+                    <Grid item xs={9}>
+                        <ToggleButton value="check"
+                            selected={selected}
+                            style={{ border: 'none', textTransform: 'capitalize', position: 'relative', left: '-10px' }}
+                            onChange={() => {
+                                setSelected(false);
+                            }}>
 
-                 Emon Islam
-                </ToggleButton>
-            </Grid>
-            {/* online end */}
-        </Grid>
+                            {online.firstName + ' ' + online?.lastName}
+                        </ToggleButton>
+                    </Grid>
+                </Grid>
+            ))}
+        </>
     );
 }

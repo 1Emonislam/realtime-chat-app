@@ -1,21 +1,21 @@
-import { Badge, Box, FormControlLabel, FormGroup, Grid, IconButton, Switch, Tab, Tabs, Typography } from '@mui/material';
-import React, { useContext, useState } from 'react';
-import styles from './AboutPage.module.scss';
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import CloseIcon from '@mui/icons-material/Close';
+import CloudDownloadIcon from '@mui/icons-material/CloudDownload';
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import FacebookOutlinedIcon from '@mui/icons-material/FacebookOutlined';
-import TwitterIcon from '@mui/icons-material/Twitter';
-import YouTubeIcon from '@mui/icons-material/YouTube';
 import InstagramIcon from '@mui/icons-material/Instagram';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
-import { styled } from '@mui/material/styles';
-import ReportProblemIcon from '@mui/icons-material/ReportProblem';
-import { Link } from 'react-router-dom';
-import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
-import CloudDownloadIcon from '@mui/icons-material/CloudDownload';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
-import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
-import './../../components/__Container.css'
+import ReportProblemIcon from '@mui/icons-material/ReportProblem';
+import TwitterIcon from '@mui/icons-material/Twitter';
+import YouTubeIcon from '@mui/icons-material/YouTube';
+import { Badge, Box, FormControlLabel, FormGroup, Grid, IconButton, Switch, Tab, Tabs, Typography } from '@mui/material';
+import { styled } from '@mui/material/styles';
+import React, { useContext, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { ThemeSelectContext } from '../../App';
+import './../../components/__Container.css';
+import styles from './AboutPage.module.scss';
 // switch Button
 
 const IOSSwitch = styled((props) => (
@@ -82,7 +82,7 @@ const AboutPage = () => {
         <div className='current-user-about'>
             <Box className={styles.mainAboutSection}>
                 <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                    <Typography className={styles.subtitles} variant="subtitle2" gutterBottom component="div">
+                    <Typography className={styles.subtitles} variant="subtitle2"  component="div">
                         Profile
                     </Typography>
                     <IconButton sx={{ p: 0 }} aria-label="Example">
@@ -92,7 +92,7 @@ const AboutPage = () => {
                 </Box>
                 <Box className={styles.aboutSection}>
                     <img className={styles.profileImage} src="https://dreamschat.dreamguystech.com/template2/assets/img/avatar/avatar-2.jpg" alt="" />
-                    <Typography className={styles.titles} variant="subtitle2" gutterBottom component="div">
+                    <Typography className={styles.titles} variant="subtitle2"  component="div">
                         Name
                     </Typography>
                     <Badge
@@ -101,7 +101,7 @@ const AboutPage = () => {
                             horizontal: 'left',
                         }}
                         color="primary" overlap="circular" badgeContent="" variant="dot">
-                        <Typography sx={{ marginTop: -1, marginLeft: 2 }} variant="caption" gutterBottom component="div">
+                        <Typography sx={{ marginTop: -1, marginLeft: 2 }} variant="caption"  component="div">
                             online
                         </Typography>
 
@@ -122,22 +122,22 @@ const AboutPage = () => {
                     </Tabs>
                 </Box>
                 {value === 'one' ? <Box sx={{ mt: 3 }}>
-                    <Typography className={styles.aboutText} variant="subtitle2" gutterBottom component="div">
+                    <Typography className={styles.aboutText} variant="subtitle2"  component="div">
                         If several languages coalesce, the grammar of the resulting language is more simple and regular than that of the individual.
                     </Typography>
-                    <Typography sx={{ mt: 3 }} className={styles.subtitles} variant="subtitle2" gutterBottom component="div">
+                    <Typography sx={{ mt: 3 }} className={styles.subtitles} variant="subtitle2"  component="div">
                         Phone
                     </Typography>
-                    <Typography className={styles.aboutText} variant="subtitle2" gutterBottom component="div">
+                    <Typography className={styles.aboutText} variant="subtitle2"  component="div">
                         555-555-21541
                     </Typography>
-                    <Typography sx={{ mt: 3 }} className={styles.subtitles} variant="subtitle2" gutterBottom component="div">
+                    <Typography sx={{ mt: 3 }} className={styles.subtitles} variant="subtitle2"  component="div">
                         Nick Name
                     </Typography>
-                    <Typography className={styles.aboutText} variant="subtitle2" gutterBottom component="div">
+                    <Typography className={styles.aboutText} variant="subtitle2"  component="div">
                         Alberywo
                     </Typography>
-                    <Typography sx={{ mt: 3 }} className={styles.subtitles} variant="subtitle2" gutterBottom component="div">
+                    <Typography sx={{ mt: 3 }} className={styles.subtitles} variant="subtitle2"  component="div">
                         Social media accounts
                     </Typography>
                     <Box>
@@ -162,7 +162,7 @@ const AboutPage = () => {
                             <LinkedInIcon sx={{ color: `${theme === 'dark' ? '#ec407a' : '#420ba1'}`, borderRadius: 15, fontSize: 22, mr: 1 }} />
                         </IconButton>
                     </Box>
-                    <Typography sx={{ mt: 3 }} className={styles.subtitles} variant="subtitle2" gutterBottom component="div">
+                    <Typography sx={{ mt: 3 }} className={styles.subtitles} variant="subtitle2"  component="div">
                         Settings
                     </Typography>
                     <Box>
@@ -253,7 +253,7 @@ const AboutPage = () => {
                             </Grid>
                         </Grid>
                         <Link to="">
-                            <Typography sx={{ color: 'red', display: 'flex', alignItems: 'center', justifyContent: 'center', mt: 1, textAlign: 'center' }} variant="subtitle2" gutterBottom component="div">
+                            <Typography sx={{ color: 'red', display: 'flex', alignItems: 'center', justifyContent: 'center', mt: 1, textAlign: 'center' }} variant="subtitle2"  component="div">
                                 Report Chat <span><ArrowDropDownIcon /></span>
                             </Typography>
                         </Link>
@@ -261,12 +261,12 @@ const AboutPage = () => {
 
 
                 <Link to="">
-                    <Typography sx={{ color: 'red', display: 'flex', alignItems: 'center', mt: 5 }} variant="subtitle2" gutterBottom component="div">
+                    <Typography sx={{ color: 'red', display: 'flex', alignItems: 'center', mt: 5 }} variant="subtitle2"  component="div">
                         <span><ReportProblemIcon /></span> &nbsp; Report Chat
                     </Typography>
                 </Link>
                 <Link to="">
-                    <Typography sx={{ color: 'red', display: 'flex', alignItems: 'center', mt: 1 }} variant="subtitle2" gutterBottom component="div">
+                    <Typography sx={{ color: 'red', display: 'flex', alignItems: 'center', mt: 1 }} variant="subtitle2"  component="div">
                         <span><DeleteOutlineIcon /></span> &nbsp; Report Chat
                     </Typography>
                 </Link>

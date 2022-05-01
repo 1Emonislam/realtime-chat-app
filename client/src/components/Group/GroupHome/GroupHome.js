@@ -2,9 +2,9 @@ import GroupAddIcon from "@mui/icons-material/GroupAdd";
 import SearchIcon from '@mui/icons-material/Search';
 import { Grid, ToggleButton, Typography } from '@mui/material';
 import React from 'react';
-import GroupList from '../GroupList/GroupList';
 import '../Group.css';
-import '../__Groupcontainer.css'
+import GroupList from '../GroupList/GroupList';
+import '../__Groupcontainer.css';
 
 const GroupHome = () => {
     // const data = [
@@ -59,7 +59,7 @@ const GroupHome = () => {
                 },
                 fontFamily: `"Poppins", sans-serif`
               }}
-              gutterBottom
+              
               component="div"
             >
               GROUP CHAT
