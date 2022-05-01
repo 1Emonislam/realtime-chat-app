@@ -214,7 +214,7 @@ const AddGroups = ({ handleGroupClose, groupOpen }) => {
                 aria-labelledby="demo-row-radio-buttons-group-label"
                 name="row-radio-buttons-group"
               >
-                <ToggleButton value="nine" style={{ border: 'none' }}>
+                <ToggleButton value="seven" style={{ border: 'none' }}>
                   <FormControlLabel
                     value="private"
                     {...register("status", { min: 1 })} required
@@ -224,7 +224,7 @@ const AddGroups = ({ handleGroupClose, groupOpen }) => {
                   />
                 </ToggleButton>
 
-                <ToggleButton value="ten" style={{ border: 'none' }}>
+                <ToggleButton value="eight" style={{ border: 'none' }}>
                   <FormControlLabel
                     value="public"
                     {...register("status", { min: 0 })}
@@ -236,14 +236,14 @@ const AddGroups = ({ handleGroupClose, groupOpen }) => {
               </RadioGroup>
             </Box>
             <Box className="but" style={{ textAlign: "right" }}>
-              <ToggleButton value="six" style={{ cursor: 'pointer', marginRight: '50px', border: 'none', textTransform: 'capitalize' }} className="buttonContact1" onClick={handleGroupClose}>
+              <ToggleButton value="nine" style={{ cursor: 'pointer', marginRight: '50px', border: 'none', textTransform: 'capitalize' }} className="buttonContact1" onClick={handleGroupClose}>
                 Cancel
               </ToggleButton>
               {/* {console.log(groupData?.loading )} */}
               {groupData?.loading ? <div>
                 <Loading />
               </div> :
-                <ToggleButton value="six" style={{ cursor: 'pointer', border: 'none', marginLeft: '15px', textTransform: 'capitalize', background: 'blue', color: 'white', padding: '5px 30px!important' }} className="buttonContact1" type="submit" variant="contained">
+                <ToggleButton value="teen" style={{ cursor: 'pointer', border: 'none', marginLeft: '15px', textTransform: 'capitalize', background: 'blue', color: 'white', padding: '5px 30px!important' }} className="buttonContact1" type="submit" variant="contained">
                   Add Participants
                 </ToggleButton>
               }

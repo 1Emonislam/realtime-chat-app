@@ -8729,6 +8729,11 @@
   "resolved" "https://registry.npmjs.org/react-is/-/react-is-17.0.2.tgz"
   "version" "17.0.2"
 
+"react-media-recorder@^1.6.4":
+  "integrity" "sha512-mhFlG+oV3VF7I2FF+sVFbkZAjsMdU+o0EuCI+DKoPaFKWa56kAf4X+lS6ZnG8tmpzzywUKw2HFjHthp7rU0gKg=="
+  "resolved" "https://registry.npmjs.org/react-media-recorder/-/react-media-recorder-1.6.4.tgz"
+  "version" "1.6.4"
+
 "react-property@2.0.0":
   "integrity" "sha512-kzmNjIgU32mO4mmH5+iUyrqlpFQhF8K2k7eZ4fdLSOPFrD1XgEuSBv9LDEgxRXTMBqMd8ppT0x6TIzqE5pdGdw=="
   "resolved" "https://registry.npmjs.org/react-property/-/react-property-2.0.0.tgz"

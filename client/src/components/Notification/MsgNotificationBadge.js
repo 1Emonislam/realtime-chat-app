@@ -56,16 +56,16 @@ export default function MessageNotificationBadge({ handleSingleChat }) {
                 dispatch(getNotificationSeenList(auth?.user?.token))
               }} style={{ textTransform: 'none', margin: 'none', padding: 'none' }} value="three" label="Seen" />
             </Tabs>}
-            <Typography sx={{ py: 1, px: 3 }}>
+            <Typography sx={{ py: 0, px: 3 }}>
               {
-                !notification?.msgNotification?.length && <p style={{ textAlign: 'center' }}>No New Messages</p>
-              }
-              {
-                notification?.msgNotification?.length !== 0 && notification?.msgNotification?.length && notification?.msgNotification?.map(notify => (
-                  <MsgNotify handleSingleChat={handleSingleChat} key={notify?._id} notify={notify} auth={auth}> </MsgNotify>
-                ))
+                !notification?.msgNotification?.length && <p style={{ textAlign: 'center', paddingBottom: '20px!important' }}>No New Messages</p>
               }
             </Typography>
+            {
+              notification?.msgNotification?.length !== 0 && notification?.msgNotification?.length && notification?.msgNotification?.map(notify => (
+                <MsgNotify handleSingleChat={handleSingleChat} key={notify?._id} notify={notify} auth={auth}> </MsgNotify>
+              ))
+            }
           </div>
         </Popover>
       </ToggleButton>

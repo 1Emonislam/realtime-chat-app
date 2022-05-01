@@ -65,6 +65,14 @@ export const getSeenUser = (seenUsers, loggedUser) => {
 export const chatExists = (chatId, existId) => {
     return chatId === existId;
 }
-export const currentMsgNotificatin = (chatId, msgNotification) => {
+export const currentMsgNotification = (chatId, msgNotification) => {
     return msgNotification.filter(notify => notify?.chat?._id === chatId);
+}
+
+export const notificatinMessageCountRecentChat = (chatId, msgNotification) => {
+    // console.log(msgNotification?.filter(push => push?.chat?._id === chatId?._id && push?.seen === false)?.length)
+    return {
+        count: msgNotification?.filter(push => push?.chat?._id === chatId?._id && push?.seen === false)?.length,
+        msg: { ...msgNotification?.filter(push => push?.chat?._id === chatId?._id && push?.seen === false).slice(0, -1) }
+    }
 }

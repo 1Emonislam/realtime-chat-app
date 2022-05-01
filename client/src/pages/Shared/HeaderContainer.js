@@ -42,7 +42,7 @@ const HeaderContainer = () => {
                 xs: 400,
               },
             }}
-            gutterBottom
+            
             component="div"
           >
             Chats

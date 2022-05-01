@@ -25,6 +25,7 @@ function Chat({ children }) {
       setChatActive(false)
     }
   }
+  // console.log(onlineUser)
   return (
     <>
       <Grid container spacing={0} justifyContent="center" alignItems="center">

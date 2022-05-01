@@ -17,6 +17,7 @@ const noteRoutes = require('./routes/noteRoutes')
 const notificationRoutes = require('./routes/notificationRoutes');
 const Notification = require('./models/groupNotificationModel');
 const User = require('./models/userModel');
+const Chat = require('./models/chatModel');
 const app = express();
 const PORT = process.env.PORT || 5000;
 //middlewares
@@ -59,15 +60,16 @@ app.get('/', (req, res) => {
 serverApp.listen(PORT, () => {
     console.log('Sever Started on PORT', PORT)
 })
-io.on("connection", (socket) => {
-    console.log('a user connected');
-    socket.on('setup', async (userData) => {
+
+function onlyUnique(value, index, self) {
+    return self.indexOf(value) === index;
+}
+let users = {};
+const chatOnlineOfflineUser = {};
+io.on("connection", async (socket) => {
+    console.log("socket.io: User connected: ", socket.id);
+    socket.on('setup', (userData) => {
         socket.join(userData?._id);
-        // console.log(userData)
-        await User.findOneAndUpdate({ _id: userData?._id }, {
-            online: true,
-            socketId: socket.id,
-        }, { new: true })
         socket.emit('conected');
     })
     socket.on('join chat', (room) => {
@@ -79,12 +81,13 @@ io.on("connection", (socket) => {
         socket.in(room?.chat).emit("typing", room);
     })
     socket.on('stop typing', (room) => socket.in(room).emit("stop typing"))
-    socket.on('new message', (newMessageRecieved) => {
-        // console.log(newMessageRecieved)
+    socket.on('new message', async (newMessageRecieved) => {
+        //console.log(newMessageRecieved)
         let chat = newMessageRecieved.chat;
         if (!chat.members) return console.log('chat.members not defined');
+        const members = chat?.members?.filter(user => user?._id !== newMessageRecieved?.sender?._id);
         const notificationObj = {
-            receiver: chat?.members,
+            receiver: members,
             type: 'groupchat',
             subject: `New Message from ${newMessageRecieved?.sender?.firstName + ' ' + newMessageRecieved?.sender?.lastName}`,
             message: {
@@ -92,33 +95,41 @@ io.on("connection", (socket) => {
                 content: newMessageRecieved?.content,
             },
             seen: false,
+            sender: newMessageRecieved?.sender,
             chat: newMessageRecieved?.chat,
             _id: newMessageRecieved?._id,
             createdAt: newMessageRecieved.createdAt,
             updatedAt: newMessageRecieved.updatedAt
         }
         // console.log(notificationObj)
-        const members = chat?.members?.filter(user => user?._id !== newMessageRecieved?.sender?._id);
-        members.forEach(async (user) => {
-            if (user?._id == newMessageRecieved.sender?._id) return;
-            await Notification.create({
-                receiver: user?._id,
-                type: 'groupchat',
-                subject: `New Message from ${newMessageRecieved?.sender?.firstName + ' ' + newMessageRecieved?.sender?.lastName}`,
-                message: newMessageRecieved?._id,
-                chat: newMessageRecieved?.chat?._id,
-            })
-            socket.in(user._id).emit("message recieved", notificationObj)
+        members.forEach(user => {
+            if (user?._id?.toString() === newMessageRecieved.sender?._id?.toString()) return;
+            socket.in(user?._id).emit("message recieved", { newMessageRecieved, notificationObj })
         })
     })
     socket.on("online members", (onlineMember) => {
         socket.in(onlineMember?._id).emit("online member", onlineMember)
     })
-
     socket.off("setup", (userData) => {
         console.log('User Disconnected');
         socket.leave(userData?._id)
     })
+    const userSessionData = socket.handshake?.auth?.data?.user;
+    let loggedUser;
+    loggedUser = await User.findOneAndUpdate({ _id: userSessionData?._id }, {
+        online: true,
+        socketId: socket.id,
+    }, { new: true })
+    users[socket.id] = loggedUser?._id;
+    socket.emit('my info', loggedUser)
+    socket.on('disconnect', async () => {
+        delete users[socket.id];
+        loggedUser = await User.findOneAndUpdate({ _id: userSessionData?._id }, {
+            online: false,
+            socketId: null,
+        }, { new: true })
+    })
+    socket.emit("online user", users)
 })
 
 

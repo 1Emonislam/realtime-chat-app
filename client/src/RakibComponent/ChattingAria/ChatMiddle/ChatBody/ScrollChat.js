@@ -7,7 +7,7 @@ import Loading from '../../../../components/Spinner/Loading'
 import TypingIndicator from '../../../../components/Typing/TypingIndicatior'
 import Editor from '../../../../Editor/Editor'
 import MessageFunc from '../ChatBody/MessageFunc'
-import { isLastMessage, isSameSender, isSameSenderMargin, isSameSenderPermission, isSameUser } from './chatLogic'
+import { chatExists, isLastMessage, isSameSender, isSameSenderMargin, isSameSenderPermission, isSameUser } from './chatLogic'
 function ScrollChat({ messages, user, handleTyping, isTyping }) {
     const { selectedChat, groupMessage } = useSelector(state => state);
     const messagesEndRef = useRef(null)
@@ -97,7 +97,7 @@ function ScrollChat({ messages, user, handleTyping, isTyping }) {
                         </AvatarGroup>
                     }
                 </div>
-                {isTyping?.typing ? <>
+                {isTyping?.typing && chatExists(selectedChat?.chat?._id, isTyping?.user?.chat) ? <>
                     <TypingIndicator />
                     <div style={{ display: "flex", alignItems: 'center' }}>
                         <Tooltip style={{ cursor: "pointer" }} title={isTyping?.user?.user?.firstName + ' ' + isTyping?.user?.user?.lastName} arrow>

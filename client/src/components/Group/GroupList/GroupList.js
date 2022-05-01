@@ -176,7 +176,7 @@ const GroupList = () => {
                 },
                 fontFamily: `"Poppins", sans-serif`,
               }}
-              gutterBottom
+              
               component="div"
             >
               RECENT CHATS

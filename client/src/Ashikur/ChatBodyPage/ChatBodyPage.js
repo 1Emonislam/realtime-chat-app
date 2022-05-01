@@ -1,46 +1,34 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Box, Grid } from '@mui/material';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import io from 'socket.io-client';
 import ChatHome from '../../components/ChatHome';
 import { getGroupChatData } from '../../store/actions/groupActions';
-import { getNotification } from '../../store/actions/messageNotificationAction';
+import { removeNotificationDB } from '../../store/actions/messageNotificationAction';
+import { ONLINE_USER } from '../../store/reducers/allOnlineUserReducer';
 import { NOTIFICATION_PUSH } from '../../store/type/messageNotificationTypes';
 import { MESSAGE_WRITE, SEND_MESSAGE } from '../../store/type/messageTypes';
-import { SOCKET_GLOBAL } from '../../store/type/socketType';
 import BodyChat from './BodyChat';
 const ChatBodyPage = ({ handleSingleChat, chatActive }) => {
     const dispatch = useDispatch();
-    const { auth, groupData, notification, groupMessage, selectedChat } = useSelector(state => state);
+    const { auth, groupData, socketFunc, notification, groupMessage, selectedChat } = useSelector(state => state);
     const [typing, setTyping] = useState(false);
     const [isTyping, setIsTyping] = useState({ typing: false, user: null });
-    // console.log(socketConnected)
-    const socket = useRef();
-    const ENDPOINT = "http://localhost:5000";
+    const socket = socketFunc?.socket;
     useEffect(() => {
-        socket.current = io(ENDPOINT, {
-            auth: {
-                token: auth?.user?.token
-            }
-        });
-        if (auth?.user?.user) {
-            socket.current.emit("setup", auth?.user?.user)
-        }
-        dispatch({
-            type: SOCKET_GLOBAL,
-            payload: { socket },
-        })
+        if (!socket?.current) return;
         if (selectedChat?.chat?._id) {
-            socket.current.emit("join chat", selectedChat?.chat?._id);
+            socket?.current?.emit("setup", auth?.user?.user);
+            socket?.current?.emit("join chat", selectedChat?.chat?._id);
         }
-        socket.current.on("typing", (data) => {
+        socket?.current?.on("typing", (data) => {
             // console.log(data)
             setIsTyping({ typing: true, user: data })
         })
-        socket.current.on('stop typing', () => setIsTyping({ typing: false, user: null }))
-        return () => { socket.current?.disconnect() };
-    }, [auth?.user?.token, auth?.user?.user, dispatch, selectedChat?.chat?._id]);
+        socket?.current?.on('stop typing', () => setIsTyping({ typing: false, user: null }))
+    }, [auth?.user?.user, dispatch, selectedChat?.chat?._id]);
     const handleTyping = (e) => {
+        if (!socket?.current) return;
         dispatch({
             type: MESSAGE_WRITE,
             payload: {
@@ -52,26 +40,51 @@ const ChatBodyPage = ({ handleSingleChat, chatActive }) => {
         }
         if (!typing) {
             setTyping(true)
-            socket.current.emit('typing', { chat: selectedChat?.chat?._id, user: auth?.user?.user });
+            socket?.current?.emit('typing', { chat: selectedChat?.chat?._id, user: auth?.user?.user });
         } if (typing) {
             let lastTypingEpachType = new Date().getTime();
-            let timerLength = 5000;
+            let timerLength = 6000;
             setTimeout(() => {
                 let timeNow = new Date().getTime();
                 let timediff = timeNow - lastTypingEpachType;
                 if (timediff >= timerLength && typing) {
-                    socket.current.emit('stop typing', selectedChat?.chat?._id);
+                    socket?.current?.emit('stop typing', selectedChat?.chat?._id);
                     setTyping(false)
                 }
             }, timerLength);
         }
     }
+    // console.log(notification)
     useEffect(() => {
-        socket.current.on("message recieved", (newMessageRecieved) => {
-            // console.log(selectedChat?.chat?._id !== newMessageRecieved?.chat?._id)
+        if (!socket?.current) return;
+        if (groupMessage?.sendMsg?._id) {
+            socket?.current?.emit("new message", groupMessage?.sendMsg);
+            socket?.current?.emit("update message", groupMessage?.sendMsg);
+        }
+    }, [groupMessage.messageInfoStore?._id, groupMessage?.sendMsg, groupMessage?.sendMsg?._id]);
+    // console.log(socket?.current)
+    useEffect(() => {
+        if (!socket?.current) return
+        socket?.current?.off('online user').on('online user', (data) => {
+            dispatch({
+                type: ONLINE_USER,
+                payload: {
+                    data: data
+                }
+            })
+        })
+
+        socket?.current?.off("message recieved").on("message recieved", (data) => {
+            if (data?.newMessageRecieved) {
+                dispatch(getGroupChatData(auth?.user?.token))
+            }
+            const { newMessageRecieved, notificationObj } = data;
+            if (selectedChat?.chat?._id === newMessageRecieved?.chat?._id) {
+                dispatch(removeNotificationDB(notificationObj?.chat?._id, notificationObj?.message?._id, auth?.user?.token))
+            }
             if (selectedChat?.chat?._id !== newMessageRecieved?.chat?._id) {
                 if (!notification?.msgNotification?.includes(newMessageRecieved)) {
-                    const allMsg = [newMessageRecieved, ...notification?.msgNotification]
+                    const allMsg = [notificationObj, ...notification?.msgNotification]
                     const unsen = allMsg?.filter(msg => msg?.seen === false);
                     dispatch({
                         type: NOTIFICATION_PUSH,
@@ -82,8 +95,7 @@ const ChatBodyPage = ({ handleSingleChat, chatActive }) => {
                     })
                 }
             } else {
-                //console.log(newMessageRecieved)
-                if (newMessageRecieved?._id) {
+                if (newMessageRecieved) {
                     dispatch({
                         type: SEND_MESSAGE,
                         payload: {
@@ -93,20 +105,7 @@ const ChatBodyPage = ({ handleSingleChat, chatActive }) => {
                 }
             }
         })
-        // console.log('hello')
-    }, [auth?.user?.token, dispatch, notification?.msgNotification, selectedChat?.chat, selectedChat?.chat?._id])
-    // console.log(notification)
-    useEffect(() => {
-        dispatch(getGroupChatData(auth?.user?.token));
-        dispatch(getNotification(auth?.user?.token))
-    }, [auth?.user?.token, dispatch, groupMessage?.sendMsg?._id])
-
-    useEffect(() => {
-        if (groupMessage?.sendMsg?._id) {
-            socket.current.emit("new message", groupMessage?.sendMsg);
-        }
-    }, [groupMessage?.messageInfoStore?._id, groupMessage?.msg, groupMessage?.sendMsg, groupMessage?.sendMsg?._id])
-
+    })
     return (
         <Box>
             <Grid container spacing={0}>

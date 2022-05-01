@@ -1,4 +1,4 @@
-const socketServer = async () => {
+const socketerver = async () => {
     // console.log(io)
     // Apply middlewares
     // io.use(wrap(auth));
@@ -53,4 +53,4 @@ const socketServer = async () => {
     });
 };
 
-module.exports = socketServer;
+module.exports = socketerver;

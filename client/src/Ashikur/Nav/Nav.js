@@ -10,7 +10,7 @@ import AddGroups from "../../components/AddGroups/AddGroups";
 import MessageNotificationBadge from "../../components/Notification/MsgNotificationBadge";
 import "./nav.css";
 
-const Nav = ({handleSingleChat, children }) => {
+const Nav = ({ handleSingleChat, children }) => {
   const [selected, setSelected] = useState("");
   // const [contactOpen, setContactOpen] = React.useState(false);
   const [groupOpen, setGroupOpen] = React.useState(false);
@@ -252,13 +252,13 @@ const Nav = ({handleSingleChat, children }) => {
             xs={1}
             md={12}
           >
+            <AddGroups
+              handleGroupOpen={handleGroupOpen}
+              handleGroupClose={handleGroupClose}
+              groupOpen={groupOpen}
+            ></AddGroups>
+            {/* <FontAwesomeSvgIcon icon={faEllipsisV} /> */}
             <ToggleButton value="seven">
-              <AddGroups
-                handleGroupOpen={handleGroupOpen}
-                handleGroupClose={handleGroupClose}
-                groupOpen={groupOpen}
-              ></AddGroups>
-              {/* <FontAwesomeSvgIcon icon={faEllipsisV} /> */}
               <GroupAddIcon
                 onClick={handleGroupOpen}
                 sx={{

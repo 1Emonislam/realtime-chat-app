@@ -45,7 +45,7 @@ const AllStatus = () => {
                 },
               }}
               style={{ fontFamily: `"Poppins", sans-serif` }}
-              gutterBottom
+              
               component="div"
             >
               STATUS

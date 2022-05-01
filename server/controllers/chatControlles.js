@@ -6,6 +6,7 @@ const User = require("../models/userModel");
 const { upload } = require("../utils/file");
 const { mailSending } = require("../utils/func");
 const { genToken, genInviteGroup } = require("../utils/genToken");
+const GroupNotification = require("../models/groupNotificationModel");
 
 module.exports.acessChat = async (req, res, next) => {
   if (!req?.user?._id) {
@@ -25,11 +26,11 @@ module.exports.acessChat = async (req, res, next) => {
           { members: { $elemMatch: { $eq: userId } } },
         ],
       }).sort("-updatedAt")
-        .populate("members", "_id pic firstName lastName email")
-        .populate("latestMessage").populate("groupAdmin", "_id pic firstName lastName email")
+        .populate("members", "_id pic firstName lastName email online lastOnline")
+        .populate("latestMessage").populate("groupAdmin", "_id pic firstName lastName email online lastOnline")
       isChat = await User.populate(isChat, {
         path: "latesetMessage.sender",
-        select: "_id pic firstName lastName email",
+        select: "_id pic firstName lastName email online lastOnline",
       });
       if (isChat?.length > 0) {
         return res.json(isChat[0]);
@@ -43,7 +44,7 @@ module.exports.acessChat = async (req, res, next) => {
           const createdChat = await Chat.create(chatData);
           const fullChat = await Chat.findOne({
             _id: createdChat._id,
-          }).populate("members", "_id pic firstName lastName email").populate("groupAdmin", "_id pic firstName lastName email").populate("sender", "_id pic firstName lastName email").populate("latestMessage")
+          }).populate("members", "_id pic firstName lastName email online lastOnline").populate("groupAdmin", "_id pic firstName lastName email online lastOnline").populate("sender", "_id pic firstName lastName email online lastOnline").populate("latestMessage")
           await ViewsChat.create({
             viewsChatId: createdChat?._id,
           })
@@ -61,9 +62,16 @@ module.exports.acessChat = async (req, res, next) => {
 module.exports.getSingleChatMembers = async (req, res, next) => {
   try {
     const { chatId } = req.params;
-    let getChatMember = await Chat.findOne({ _id: chatId }).select("members groupAdmin _id seen img chatName latestMessage").populate("members", "_id pic firstName lastName email").populate("groupAdmin", "_id pic firstName lastName email").populate("seen", "_id pic firstName lastName email");
+    let getChatMember = await Chat.findOne({ _id: chatId }).select("members groupAdmin _id seen img chatName latestMessage").populate("members", "_id pic firstName lastName email online lastOnline").populate("groupAdmin", "_id pic firstName lastName email online lastOnline").populate("seen", "_id pic firstName lastName email online lastOnline");
     // console.log(getChatMember?.seen)
-
+    await Chat.findOneAndUpdate({ _id: chatId }, {
+      lastActive: new Date(),
+      $addToSet: { seen: req.user?._id }
+    }, { new: true })
+    await GroupNotification.find({ chat: chatId, receiver: req.user?._id }, {
+      seen: true,
+      lastSeen: new Date
+    })
     const data = {
       data: getChatMember,
       amIJoined: getChatMember?.members?.some(am => am?._id?.toString() === req.user?._id?.toString()),
@@ -80,11 +88,11 @@ module.exports.getChat = async (req, res, next) => {
     return res.status(400).json({ error: { email: 'User Credentials expired! Please login' } })
   }
   try {
-    await Chat.find({ members: { $elemMatch: { $eq: req.user._id } } }).sort("-updatedAt").populate("seen", "_id pic firstName lastName email").populate("members", "_id pic firstName lastName email").populate("latestMessage").populate("groupAdmin", "_id pic firstName lastName email").then(async (results) => {
+    await Chat.find({ members: { $elemMatch: { $eq: req.user._id } } }).sort("-updatedAt").populate("seen", "_id pic firstName lastName email online lastOnline").populate("members", "_id pic firstName lastName email online lastOnline").populate("latestMessage").populate("groupAdmin", "_id pic firstName lastName email online lastOnline").then(async (results) => {
       // console.log(results)
       results = await User.populate(results, {
         path: "latestMessage.sender",
-        select: "_id pic firstName lastName email"
+        select: "_id pic firstName lastName email online lastOnline"
       })
       return res.status(200).json({ data: results })
     })
@@ -130,7 +138,7 @@ module.exports.groupCreate = async (req, res, next) => {
       }
     }
 
-    const fullGroupChat = await Chat.findOne({ _id: groupChat._id }).populate("members", "_id pic firstName lastName email").populate("groupAdmin", "_id pic firstName lastName email");
+    const fullGroupChat = await Chat.findOne({ _id: groupChat._id }).populate("members", "_id pic firstName lastName email online lastOnline").populate("groupAdmin", "_id pic firstName lastName email online lastOnline");
     const memberJoinedInfo = {
       joinMemberCount: fullGroupChat?.members?.length,
       showMemberFront: fullGroupChat?.members?.slice(0, 5)
@@ -149,7 +157,7 @@ module.exports.groupRename = async (req, res, next) => {
   try {
     const updatedChat = await Chat.findOneAndUpdate({ _id: chatId, groupAdmin: req?.user?._id }, {
       chatName, topic, status, description, img
-    }, { new: true }).populate("members", "_id pic firstName lastName email").populate("groupAdmin", "_id pic firstName lastName email");
+    }, { new: true }).populate("members", "_id pic firstName lastName email online lastOnline").populate("groupAdmin", "_id pic firstName lastName email online lastOnline");
     if (!updatedChat) {
       return res.status(400).json({ error: { token: "you can perform only Admin Group Rename!" } });
     } if (updatedChat) {
@@ -179,7 +187,7 @@ module.exports.groupAddTo = async (req, res, next) => {
     }
     const added = await Chat.findByIdAndUpdate(chatId, {
       $addToSet: { members: userId },
-    }, { new: true }).populate("members", "_id pic firstName lastName email").populate("groupAdmin", "_id pic firstName lastName email");
+    }, { new: true }).populate("members", "_id pic firstName lastName email online lastOnline").populate("groupAdmin", "_id pic firstName lastName email online lastOnline");
     // console.log(added)
     if (!added) {
       return res.status(404).json({ error: { "notfound": "chat not founds!" }, data: [] });
@@ -415,7 +423,7 @@ module.exports.groupRemoveTo = async (req, res, next) => {
   try {
     const remove = await Chat.findByIdAndUpdate(chatId, {
       $pull: { members: userId },
-    }, { new: true }).populate("members", "_id pic firstName lastName email").populate("groupAdmin", "_id pic firstName lastName email");
+    }, { new: true }).populate("members", "_id pic firstName lastName email online lastOnline").populate("groupAdmin", "_id pic firstName lastName email online lastOnline");
     if (!remove) {
       return res.status(404).json({ error: { "notfound": "member not founds!" } });
     }

@@ -8,18 +8,18 @@ import Typography from '@mui/material/Typography';
 import * as React from 'react';
 import { useDispatch } from 'react-redux';
 import { getSingleNotification } from '../../store/actions/messageNotificationAction';
-
+import './MsgNotification.css';
 export default function MsgNotify({ handleSingleChat, auth, notify }) {
     const dispatch = useDispatch()
     // console.log(notify?.seen)
     return (
-        <ul style={{ margin: '0px !important', paddingLeft: '0px !important', cursor: 'pointer' }} className={notify?.seen ? 'seen-notify' : 'unseen-notify'} onClick={() => {
+        <ul style={{ margin: '0px !important', paddingLeft: '0px !important', cursor: 'pointer' }} onClick={() => {
             handleSingleChat(notify?.chat?._id, auth.user?.token)
             dispatch(getSingleNotification(notify?.chat?._id, auth.user?.token))
         }}>
 
-            <List sx={{ width: '100%', maxWidth: 360 }} className={notify?.seen ? 'unseen-notify' : 'seen-notify'}>
-                <ListItem alignItems="flex-start">
+            <List sx={{ width: '100%', maxWidth: 360 }}>
+                <ListItem alignItems="flex-start" id={notify?.seen ? 'seen-notify' : 'unseen-notify'} >
                     <ListItemAvatar>
                         <Avatar alt={notify?.chat?.chatName} src={notify?.chat?.img} />
                     </ListItemAvatar>

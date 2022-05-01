@@ -4,17 +4,17 @@ import CloudDownloadIcon from "@mui/icons-material/CloudDownload";
 import EditRoadIcon from '@mui/icons-material/EditRoad';
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import {
-  Box,
-  FormControlLabel,
-  FormGroup,
-  Grid,
-  IconButton,
-  Switch,
-  Tab,
-  Tabs, Typography
+    Box,
+    FormControlLabel,
+    FormGroup,
+    Grid,
+    IconButton,
+    Switch,
+    Tab,
+    Tabs, Typography
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import React, {  useState } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 // import { ThemeSelectContext } from "./../../../App";
 import styles from "./../../../Ashikur/AboutPage/AboutPage.module.scss";
@@ -153,7 +153,7 @@ const GroupInfo = () => {
               fontFamily: `"Poppins", sans-serif`,
             }}
             variant="subtitle2"
-            gutterBottom
+            
             component="div"
           >
             Group Details
@@ -179,7 +179,7 @@ const GroupInfo = () => {
           />
           <Typography
             variant="subtitle2"
-            gutterBottom
+            
             component="div"
             sx={{
               fontSize: "18px",
@@ -198,7 +198,7 @@ const GroupInfo = () => {
               fontSize: "13.5px",
             }}
             variant="caption"
-            gutterBottom
+            
             component="div"
           >
             Created on 25/02/2020
@@ -214,7 +214,7 @@ const GroupInfo = () => {
                 color: "#6d6d6d",
               }}
               variant="caption"
-              gutterBottom
+              
               component="div"
             >
               <EditRoadIcon sx={{ color: "#ee00ab", fontSize: "15px" }} /> Edit
@@ -253,7 +253,7 @@ const GroupInfo = () => {
                 fontFamily: `"Poppins", sans-serif`,
               }}
               variant="subtitle2"
-              gutterBottom
+              
               component="div"
             >
               If several languages coalesce, the grammar of the resulting
@@ -267,7 +267,7 @@ const GroupInfo = () => {
               sx={{ mt: 3 }}
               className={styles.subtitles}
               variant="subtitle2"
-              gutterBottom
+              
               component="div"
             >
               Settings
@@ -490,7 +490,7 @@ const GroupInfo = () => {
                   textAlign: "center",
                 }}
                 variant="subtitle2"
-                gutterBottom
+                
                 component="div"
               >
                 Report Chat{" "}

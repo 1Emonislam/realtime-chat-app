@@ -1,7 +1,7 @@
 import { SELECTED_CHAT_FAILED, SELECTED_CHAT_LOADING, SELECTED_CHAT_SUCCESS } from "../type/selectedChatTypes"
 
 export const getSelectedChat = (chatId, token) => {
-    //console.log(chatId, token)
+    // console.log(chatId, token)
     return async (dispatch) => {
         dispatch({
             type: SELECTED_CHAT_LOADING,

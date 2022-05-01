@@ -1,4 +1,4 @@
-const { Schema, model } = require("mongoose");
+const { Schema, model, mongoose } = require("mongoose");
 const groupNotificationSchema = new Schema(
     {
         receiver: {
@@ -21,6 +21,10 @@ const groupNotificationSchema = new Schema(
             type: Schema.Types.ObjectId,
             required: true,
             ref: "Chat",
+        },
+        sender: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "User",
         },
         message: {
             type: Schema.Types.ObjectId,
