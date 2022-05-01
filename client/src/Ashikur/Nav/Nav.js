@@ -1,7 +1,6 @@
 import GroupAddIcon from "@mui/icons-material/GroupAdd";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import MessageIcon from "@mui/icons-material/Message";
-import PeopleIcon from "@mui/icons-material/People";
 import SettingsIcon from "@mui/icons-material/Settings";
 import { Avatar, Grid, ToggleButton } from "@mui/material";
 import React, { useContext, useState } from "react";
