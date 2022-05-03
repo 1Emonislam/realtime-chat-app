@@ -19,7 +19,8 @@ const style = {
 };
 function GroupAllMember({ memberInfo, handleMemberClose, memberOpen }) {
     return (
-        <Modal
+         <Modal
+                style={{ overflowY: 'scroll' }}
             open={memberOpen}
             aria-labelledby="modal-modal-title"
             aria-describedby="modal-modal-description"

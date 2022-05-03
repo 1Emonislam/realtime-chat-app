@@ -97,110 +97,106 @@ export default function ToggleColorMode() {
     dispatch(getNotification(auth.user?.token))
   }, [auth.user?.token, dispatch, groupMessage?.msg])
   return (
-    <ColorModeContext.Provider value={colorMode}>
+    <ColorModeContext.Provider value={colorMode} sx={{
+      bgcolor: "background.default",
+      color: "text.default",
+      borderRadius: 1,
+      width: "100%",
+    }}>
       <ThemeSelectContext.Provider value={theme}>
         <ThemeProvider theme={theme}>
-          <Box
-            sx={{
-              bgcolor: "background.default",
-              color: "text.default",
-              borderRadius: 1,
-              width: "100%",
-            }}
-          >
-            <BrowserRouter>
-              <Routes>
-                <Route path="/home" element={<Home />}></Route>
-                <Route path="/" element={<Home />}></Route>
-                <Route path="/login" element={<Login />}>
-                </Route>
-                <Route path="/forget-password" element={<ForgetPassword />}>
-                </Route>
-                <Route
-                  path="/reset-password/:token"
-                  element={<ResetPassword />}
-                > </Route>
-                <Route path="/change-password" element={<ChangePassword />}>
-                </Route>
-                <Route path="/register" element={<Register />}>
-                </Route>
-                {/* private page start */}
-                <Route
-                  path="/chat"
-                  element={
-                    <Chat>
-                      <ThemeSwitch
-                        onClick={colorMode.toggleColorMode}
-                        style={{ fontSize: "20px" }}
-                        checked={!(theme.palette.mode === "light")}
-                      />
-                    </Chat>
-                  }
-                ></Route>
-                <Route
-                  path="/group"
-                  element={
-                    <Group>
+          <BrowserRouter>
+            <Routes>
+              <Route path="/home" element={<Home />}></Route>
+              <Route path="/" element={<Home />}></Route>
+              <Route path="/login" element={<Login />}>
+              </Route>
+              <Route path="/forget-password" element={<ForgetPassword />}>
+              </Route>
+              <Route
+                path="/reset-password/:token"
+                element={<ResetPassword />}
+              > </Route>
+              <Route path="/change-password" element={<ChangePassword />}>
+              </Route>
+              <Route path="/register" element={<Register />}>
+              </Route>
+              {/* private page start */}
+              <Route
+                path="/chat"
+                element={
+                  <Chat>
+                    <ThemeSwitch
+                      onClick={colorMode.toggleColorMode}
+                      style={{ fontSize: "20px" }}
+                      checked={!(theme.palette.mode === "light")}
+                    />
+                  </Chat>
+                }
+              ></Route>
+              <Route
+                path="/group"
+                element={
+                  <Group>
 
-                    </Group>
-                  }
-                ></Route>
-                <Route
-                  path="/call"
-                  element={
-                    <Call>
-                      <ThemeSwitch
-                        onClick={colorMode.toggleColorMode}
-                        style={{ fontSize: "20px" }}
-                        checked={!(theme.palette.mode === "light")}
-                      />
-                    </Call>
-                  }
-                ></Route>
-                <Route
-                  path="/settings"
-                  element={
-                    <Settings>
-                      <ThemeSwitch
-                        onClick={colorMode.toggleColorMode}
-                        style={{ fontSize: "20px" }}
-                        checked={!(theme.palette.mode === "light")}
-                      />
-                    </Settings>
-                  }
-                ></Route>
-                <Route
-                  path="/status"
-                  element={
-                    <Status>
-                      <ThemeSwitch
-                        onClick={colorMode.toggleColorMode}
-                        style={{ fontSize: "20px" }}
-                        checked={!(theme.palette.mode === "light")}
-                      />
-                    </Status>
-                  }
-                ></Route>
-                {/* Dashboard  start*/}
-                <Route path="/general-setting" element={< SettingsGeneral />}> </Route>
-                <Route path="/admob-setting" element={< SettingAdmob />}> </Route>
-                <Route path="/snich-setting" element={< SettingSinch />}> </Route>
-                <Route path="/firebase-setting" element={< SettingsFirebase />}> </Route>
-                <Route path="/dashboard" element={< DashBoardHome />}> </Route>
-                <Route path="/online" element={< OnLineAndOffLineStatusBar />}> </Route>
-                <Route path="/users" element={< Users />}> </Route>
-                <Route path="/blockusers" element={< BlockedUser />}> </Route>
-                <Route path="/report" element={< ReportUser />}> </Route>
-                {/* dashboard end */}
-                <Route
-                  path="*"
-                  element={
-                    <> <h2> Not Found</h2></>
-                  }>
-                </Route>
-              </Routes>
-            </BrowserRouter>
-          </Box>
+                  </Group>
+                }
+              ></Route>
+              <Route
+                path="/call"
+                element={
+                  <Call>
+                    <ThemeSwitch
+                      onClick={colorMode.toggleColorMode}
+                      style={{ fontSize: "20px" }}
+                      checked={!(theme.palette.mode === "light")}
+                    />
+                  </Call>
+                }
+              ></Route>
+              <Route
+                path="/settings"
+                element={
+                  <Settings>
+                    <ThemeSwitch
+                      onClick={colorMode.toggleColorMode}
+                      style={{ fontSize: "20px" }}
+                      checked={!(theme.palette.mode === "light")}
+                    />
+                  </Settings>
+                }
+              ></Route>
+              <Route
+                path="/status"
+                element={
+                  <Status>
+                    <ThemeSwitch
+                      onClick={colorMode.toggleColorMode}
+                      style={{ fontSize: "20px" }}
+                      checked={!(theme.palette.mode === "light")}
+                    />
+                  </Status>
+                }
+              ></Route>
+              {/* Dashboard  start*/}
+              <Route path="/general-setting" element={< SettingsGeneral />}> </Route>
+              <Route path="/admob-setting" element={< SettingAdmob />}> </Route>
+              <Route path="/snich-setting" element={< SettingSinch />}> </Route>
+              <Route path="/firebase-setting" element={< SettingsFirebase />}> </Route>
+              <Route path="/dashboard" element={< DashBoardHome />}> </Route>
+              <Route path="/online" element={< OnLineAndOffLineStatusBar />}> </Route>
+              <Route path="/users" element={< Users />}> </Route>
+              <Route path="/blockusers" element={< BlockedUser />}> </Route>
+              <Route path="/report" element={< ReportUser />}> </Route>
+              {/* dashboard end */}
+              <Route
+                path="*"
+                element={
+                  <> <h2> Not Found</h2></>
+                }>
+              </Route>
+            </Routes>
+          </BrowserRouter>
         </ThemeProvider >
       </ThemeSelectContext.Provider >
     </ColorModeContext.Provider >

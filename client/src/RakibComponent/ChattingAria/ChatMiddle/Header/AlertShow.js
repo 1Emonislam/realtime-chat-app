@@ -12,7 +12,7 @@ const style = {
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    width: 300,
+    width: 400,
     bgcolor: 'background.paper',
     border: 'none',
     boxShadow: 'none',
@@ -24,7 +24,8 @@ export default function AlertShow({ alertOpen, handleAlertClose, setAlertOpen, c
     const dispatch = useDispatch();
     return (
         <div>
-            <Modal
+             <Modal
+                style={{ overflowY: 'scroll' }}
                 open={alertOpen}
                 onClose={handleAlertClose}
                 aria-labelledby="modal-modal-title"
@@ -37,7 +38,7 @@ export default function AlertShow({ alertOpen, handleAlertClose, setAlertOpen, c
                         </Typography>
                     </ToggleButton>
                    
-                    <ToggleButton variant="two"style={{ textTransform: 'none', border: 'none' }}>
+                    <ToggleButton value="two"style={{ textTransform: 'none', border: 'none' }}>
                     <Typography id="modal-modal-description" sx={{ m: 2 }}>
                         Once you delete your copy of the conversation,it can't be undone.
                     </Typography>

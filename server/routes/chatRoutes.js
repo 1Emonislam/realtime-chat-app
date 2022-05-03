@@ -8,7 +8,7 @@ router.get('/', protect, getChat)
 router.get('/:chatId', protect, getSingleChatMembers)
 router.put('/group/addTo', protect, groupAddTo)
 router.put('/group/rename', protect, groupRename)
-router.post('/group/invite', protect, groupAddToInviteSent)
 router.post('/group/create', protect, groupCreate)
 router.put('/group/removeTo', protect, groupRemoveTo)
+router.post('/group/invite/gen', protect, groupAddToInviteSent)
 module.exports = router;

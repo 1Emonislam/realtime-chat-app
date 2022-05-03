@@ -9,8 +9,8 @@ function genToken_fourHours(id) {
         expiresIn: '4h'
     })
 }
-function genInviteGroup(id, inviteId, members, expire) {
-    return jwt.sign({ id, inviteId, members }, process.env.JWT_SECRET, {
+function genInviteGroup(id, inviteId, expire) {
+    return jwt.sign({ id, inviteId}, process.env.JWT_SECRET, {
         expiresIn: expire || '7d'
     })
 }

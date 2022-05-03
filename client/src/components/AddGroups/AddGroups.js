@@ -83,7 +83,8 @@ const AddGroups = ({ handleGroupClose, groupOpen }) => {
     })
   }
   return (
-    <Modal
+     <Modal
+                style={{ overflowY: 'scroll' }}
       open={groupOpen}
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"

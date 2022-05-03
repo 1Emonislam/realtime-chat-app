@@ -30,7 +30,8 @@ function ChildModal() {
   return (
     <React.Fragment>
       <Button onClick={handleOpen}>Open Child Modal</Button>
-      <Modal
+       <Modal
+                style={{ overflowY: 'scroll' }}
         hideBackdrop
         open={open}
         onClose={handleClose}
@@ -61,7 +62,8 @@ export default function NestedModal() {
   return (
     <div>
       <Button onClick={handleOpen}>Open modal</Button>
-      <Modal
+       <Modal
+                style={{ overflowY: 'scroll' }}
         open={open}
         onClose={handleClose}
         aria-labelledby="parent-modal-title"

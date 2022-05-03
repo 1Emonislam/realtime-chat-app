@@ -25,7 +25,8 @@ const style = {
 const AudioCall = ({  setAudioOpen,audioOpen }) => {
     return (
         <div>
-            <Modal
+             <Modal
+                style={{ overflowY: 'scroll' }}
                 aria-labelledby="transition-modal-title"
                 aria-describedby="transition-modal-description"
                 open={audioOpen}

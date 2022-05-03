@@ -32,7 +32,8 @@ const AllModal = (props) => {
         <div>
             {
              props.open===true? 
-             <Modal
+              <Modal
+                style={{ overflowY: 'scroll' }}
                 aria-labelledby="transition-modal-title"
                 aria-describedby="transition-modal-description"
                 open={props.open||props.video}
@@ -68,7 +69,8 @@ const AllModal = (props) => {
             }
             {
              props.video===true?
-             <Modal
+              <Modal
+                style={{ overflowY: 'scroll' }}
                 aria-labelledby="transition-modal-title"
                 aria-describedby="transition-modal-description"
                 open={props.open||props.video}

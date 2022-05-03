@@ -3,6 +3,7 @@ import { FAILED_MESSAGE, GET_MESSAGE, LOADING_MESSAGE, MESSAGE_WRITE, NOTE_CREAT
 const initState = {
     msg: [],
     sendMsg: {},
+    chat: '',
     write: '',
     loading: false,
     error: '',
@@ -23,9 +24,9 @@ export const messageReducer = (state = initState, action) => {
         return {
             ...state,
             loading: false,
+            sendMsg: payload?.updateMsg,
             success: payload.message,
             msg: payload.data?.data,
-
         }
     }
     if (type === UPDATE_MESSAGE_STORE) {
@@ -63,6 +64,7 @@ export const messageReducer = (state = initState, action) => {
             loading: false
         }
     }
+
     if (type === WRITE_MESSAGE_UPDATE) {
         return {
             ...state,

@@ -1,4 +1,4 @@
-import { FAILED_MESSAGE, GET_MESSAGE, LOADING_MESSAGE, NOTE_CREATE, REMOVE_MESSAGE, SEND_MESSAGE, UPDATE_MESSAGE, UPDATE_MESSAGE_FAILED, UPDATE_MESSAGE_STORE } from "../type/messageTypes"
+import { FAILED_MESSAGE, GET_MESSAGE, LOADING_MESSAGE, NOTE_CREATE, REMOVE_MESSAGE, SEND_MESSAGE, UPDATE_MESSAGE, UPDATE_MESSAGE_FAILED, UPDATE_MESSAGE_STORE } from "../type/messageTypes";
 export const getMessage = (chatId, token) => {
     return async (dispatch) => {
         dispatch({
@@ -48,7 +48,7 @@ export const getMessage = (chatId, token) => {
     }
 }
 
-export const sendMessage = (data, chatId, token, editor) => {
+export const sendMessage = (data, chatId, token, editor, socket) => {
     // console.log(token)
     if (data === '') {
         return;
@@ -80,8 +80,8 @@ export const sendMessage = (data, chatId, token, editor) => {
                 .then(res => res.json())
                 .then(data => {
                     if (data) {
-                        editor?.commands?.clearContent(true);
-                        //    console.log(socket)
+                        // editor?.commands?.clearContent(true);
+                        socket?.current?.emit("new message", data?.data);
                         dispatch({
                             type: SEND_MESSAGE,
                             payload: {
@@ -149,13 +149,17 @@ export const editMessage = (data, chatId, messageId, token, messageEditHandle) =
                     }
                     if (data) {
                         messageEditHandle(false)
-                        dispatch({
-                            type: UPDATE_MESSAGE,
-                            payload: {
-                                message: data?.message,
-                                data: data,
-                            }
-                        })
+                        if (data?.data) {
+                            const findUpdateMsg = data?.data.find(msg => msg?._id?.toString() === messageId?.toString())
+                            dispatch({
+                                type: UPDATE_MESSAGE,
+                                payload: {
+                                    message: data?.message,
+                                    data: data,
+                                    updateMsg: findUpdateMsg,
+                                }
+                            })
+                        }
                     }
 
                 })

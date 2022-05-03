@@ -27,39 +27,49 @@ const ChatBodyPage = ({ handleSingleChat, chatActive }) => {
         })
         socket?.current?.on('stop typing', () => setIsTyping({ typing: false, user: null }))
     }, [auth?.user?.user, dispatch, selectedChat?.chat?._id]);
-    const handleTyping = (e) => {
+
+
+    const [searchTerm, setSearchTerm] = useState('')
+    function handleTyping(e) {
         if (!socket?.current) return;
-        dispatch({
-            type: MESSAGE_WRITE,
-            payload: {
-                data: e.target?.value,
-            },
-        })
-        if (!auth?.user?.token) {
-            return;
-        }
-        if (!typing) {
-            setTyping(true)
-            socket?.current?.emit('typing', { chat: selectedChat?.chat?._id, user: auth?.user?.user });
-        } if (typing) {
-            let lastTypingEpachType = new Date().getTime();
-            let timerLength = 6000;
-            setTimeout(() => {
-                let timeNow = new Date().getTime();
-                let timediff = timeNow - lastTypingEpachType;
-                if (timediff >= timerLength && typing) {
-                    socket?.current?.emit('stop typing', selectedChat?.chat?._id);
-                    setTyping(false)
-                }
-            }, timerLength);
+        if (e.target?.value) {
+            setSearchTerm(e.target?.value)
         }
     }
+    useEffect(() => {
+        let lastTypingEpachType = new Date().getTime();
+        let timerLength = 6000;
+        const delayDebounceFn = setTimeout(() => {
+            if (searchTerm) {
+                dispatch({
+                    type: MESSAGE_WRITE,
+                    payload: {
+                        data: searchTerm
+                    },
+                })
+                if (!auth?.user?.token) {
+                    return;
+                }
+                if (!typing) {
+                    setTyping(true)
+                    socket?.current?.emit('typing', { chat: selectedChat?.chat?._id, user: auth?.user?.user });
+                } if (typing) {
+                    let timeNow = new Date().getTime();
+                    let timediff = timeNow - lastTypingEpachType;
+                    if (timediff >= timerLength && typing) {
+                        socket?.current?.emit('stop typing', selectedChat?.chat?._id);
+                        setTyping(false)
+                    }
+                }
+            }
+        }, timerLength)
+        return () => clearTimeout(delayDebounceFn)
+    }, [auth?.user?.token, dispatch, searchTerm])
     // console.log(notification)
     useEffect(() => {
         if (!socket?.current) return;
         if (groupMessage?.sendMsg?._id) {
             socket?.current?.emit("new message", groupMessage?.sendMsg);
-            socket?.current?.emit("update message", groupMessage?.sendMsg);
         }
     }, [groupMessage.messageInfoStore?._id, groupMessage?.sendMsg, groupMessage?.sendMsg?._id]);
     // console.log(socket?.current)

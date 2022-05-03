@@ -19,9 +19,11 @@ function RecentChat({ groupData, isTyping, chatActive, handleTyping, groupMessag
     })
     // console.log(groupData?.data)
     React.useEffect(() => {
-        setDataState({ activeObject: dataState?.activeObject, objects: [...groupData?.data] })
+        if (groupData?.data?.length) {
+            setDataState({ activeObject: dataState?.activeObject, objects: [...groupData?.data] })
+        }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [groupData])
+    }, [groupData?.data])
 
     function toggleActive(index) {
         setDataState({ ...dataState, activeObject: dataState.objects[index]?._id })
@@ -36,7 +38,6 @@ function RecentChat({ groupData, isTyping, chatActive, handleTyping, groupMessag
     }
     //console.log(dataState?.activeObject?._id)
     const [selected, setSelected] = React.useState(false);
-
     return (
         <div>
             <Grid container spacing={0} sx={{

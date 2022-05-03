@@ -21,7 +21,8 @@ const style = {
 
 const AddContact = ({ handleContactClose, contactOpen, handleContactOpen }) => {
   return (
-    <Modal
+     <Modal
+                style={{ overflowY: 'scroll' }}
       open={contactOpen}
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
