@@ -1,6 +1,6 @@
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import { Button, Container } from '@mui/material';
+import { Button, Container, ToggleButton } from '@mui/material';
 import FormControl from '@mui/material/FormControl';
 import IconButton from '@mui/material/IconButton';
 import Input from '@mui/material/Input';
@@ -89,7 +89,9 @@ function ResetPassword() {
                     <Link to="/"><img width="80px" height="80px" src={logo} alt="logo" style={{ display: 'block', margin: 'auto', marginBottom: '20px' }} /></Link>
                 </div>
                 <div className="auth-form" style={{ marginBottom: '50px' }}>
-                    <h2 className="text text-large">Reset Password</h2>
+                <ToggleButton value="one" style={{ fontSize: '20px',textTransform:'capitalize',border:'none' }}>
+                        Reset Password
+                    </ToggleButton>
                     <form onSubmit={handleSubmit(onSubmit)}>
                         <FormControl sx={{ m: 1, width: '95%' }} variant="standard">
                             <InputLabel htmlFor="standard-adornment-password">Password</InputLabel>

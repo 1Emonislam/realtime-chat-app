@@ -189,7 +189,7 @@ router.get('/api/chat', protect,getChat)
 router.put('/api/chat/group/addTo', protect, groupAddTo)
 router.put('/api/chat/group/rename', protect, groupRename)
 router.post('/api/chat/group/create', protect, groupCreate)
-router.put('/api/chat/group/removeTo', protect, groupRemoveTo)
+router.put('/api/chat/group/removeTo', protect, groupMemberRemoveTo)
 ```
 
 # chat-app-back-up-code

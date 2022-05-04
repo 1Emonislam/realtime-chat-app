@@ -14,7 +14,6 @@ const style = {
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: 400,
   bgcolor: "background.paper",
   border: "none",
   outline: 'none',
@@ -83,7 +82,8 @@ const AddGroups = ({ handleGroupClose, groupOpen }) => {
     })
   }
   return (
-    <Modal
+     <Modal
+                style={{ overflowY: 'scroll' }}
       open={groupOpen}
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"

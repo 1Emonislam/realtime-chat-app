@@ -11,6 +11,7 @@ import { toast, ToastContainer } from 'react-toastify';
 import { FAILED_MESSAGE, SUCCESS_MESSAGE_CLEAR } from '../../../../store/type/messageTypes';
 import '../ChatMiddle.css';
 import AlertShow from './AlertShow';
+import GroupInvite from './GroupInvite';
 import GroupPeople from './GroupPeople';
 import HeaderSkeletonMember from './HeaderSkeleton';
 import AudioCall from './Modal/AudioCall';
@@ -35,6 +36,9 @@ const Header = () => {
     const [alertOpen, setAlertOpen] = React.useState(false);
     const handleAlertOpen = () => setAlertOpen(true);
     const handleAlertClose = () => setAlertOpen(false);
+    const [groupInviteOpen, setGroupInviteOpen] = React.useState(false);
+    const handleGroupInvite = () => setGroupInviteOpen(true);
+    const handleGroupInviteClose = () => setGroupInviteOpen(false);
     // console.log(groupMessage?.success,groupMessage?.error)
     if (groupMessage?.success) {
         toast.success(`${groupMessage?.success}`, {
@@ -126,8 +130,8 @@ const Header = () => {
                                     <Typography sx={{pb: 1,pt:1, px: 2, display: 'flex', alignItems: 'center', justifyContent: 'space-around' }}>
 
                                         <span style={{ paddingRight: '8px' }}>Group Invite</span>
-                                        <AlertShow setAlertOpen={setAlertOpen} chatId={selectedChat?.chat?._id} token={auth?.user?.token} handleAlertOpen={handleAlertOpen} handleAlertClose={handleAlertClose} alertOpen={alertOpen} />
-                                        <FcInvite onClick={handleAlertOpen} />
+                                        <GroupInvite groupInviteOpen={groupInviteOpen} setGroupInviteOpen={setGroupInviteOpen} chatId={selectedChat?.chat?._id} token={auth?.user?.token} handleGroupInvite={handleGroupInvite} handleGroupInviteClose={handleGroupInviteClose} />
+                                        <FcInvite onClick={handleGroupInvite} />
                                     </Typography>
                                     <Divider />
                                     <Typography sx={{ pb: 1,pt:1, px: 2, display: 'flex', alignItems: 'center', justifyContent: 'space-around' }}>

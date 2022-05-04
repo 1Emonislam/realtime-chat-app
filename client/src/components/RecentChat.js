@@ -11,17 +11,19 @@ import { useSelector } from 'react-redux'
 import './Chat.css';
 import TypingIndicatior from './Typing/TypingIndicatior';
 import Badge from '@mui/material/Badge';
-function RecentChat({ groupData, isTyping, chatActive, handleTyping, groupMessage, handleSingleChat }) {
-    const { notification } = useSelector(state => state)
+function RecentChat({ isTyping, chatActive, handleTyping, groupMessage, handleSingleChat }) {
+    const { notification, groupData } = useSelector(state => state)
     const [dataState, setDataState] = React.useState({
         activeObject: null,
-        objects: [...groupData?.data]
+        objects: groupData?.data,
     })
     // console.log(groupData?.data)
     React.useEffect(() => {
-        setDataState({ activeObject: dataState?.activeObject, objects: [...groupData?.data] })
+        if (groupData?.data?.length) {
+            setDataState({ activeObject: dataState?.activeObject, objects: [...groupData?.data] })
+        }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [groupData])
+    }, [groupData?.data])
 
     function toggleActive(index) {
         setDataState({ ...dataState, activeObject: dataState.objects[index]?._id })
@@ -36,7 +38,6 @@ function RecentChat({ groupData, isTyping, chatActive, handleTyping, groupMessag
     }
     //console.log(dataState?.activeObject?._id)
     const [selected, setSelected] = React.useState(false);
-
     return (
         <div>
             <Grid container spacing={0} sx={{
@@ -129,7 +130,7 @@ function RecentChat({ groupData, isTyping, chatActive, handleTyping, groupMessag
                                         xs: 'space-between'
                                     },
                                 }}>
-                                    <Grid item xs={3}>
+                                    <Grid item xs={2}>
                                         <AvatarGroup total={chat?.members?.length}>
                                             {chat?.members?.slice(0, 2)?.map((user, index) => (
                                                 <Grid item xs={4} key={index} sx={{ flex: 'start' }}>

@@ -34,6 +34,10 @@ app.use(bodyParser.json({ limit: '50mb' }))
 app.use(cookieParser());
 // Middleware
 const serverApp = http.createServer(app);
+serverApp.listen(PORT, () => {
+    console.log('Sever Started on PORT', PORT)
+})
+
 const io = new Server(serverApp, {
     pingTimeout: 60000,
     cors: {
@@ -57,9 +61,6 @@ app.use('/api/message', messageRoutes);
 app.get('/', (req, res) => {
     res.send('server connected')
 })
-serverApp.listen(PORT, () => {
-    console.log('Sever Started on PORT', PORT)
-})
 
 function onlyUnique(value, index, self) {
     return self.indexOf(value) === index;
@@ -81,7 +82,7 @@ io.on("connection", async (socket) => {
         socket.in(room?.chat).emit("typing", room);
     })
     socket.on('stop typing', (room) => socket.in(room).emit("stop typing"))
-    socket.on('new message', async (newMessageRecieved) => {
+    socket.on('new message', (newMessageRecieved) => {
         //console.log(newMessageRecieved)
         let chat = newMessageRecieved.chat;
         if (!chat.members) return console.log('chat.members not defined');
@@ -131,12 +132,6 @@ io.on("connection", async (socket) => {
     })
     socket.emit("online user", users)
 })
-
-
-
-
-
-
 
 //handel error
 app.use(errorLog)

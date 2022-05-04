@@ -41,7 +41,6 @@ export default function PeopleOnline({ online }) {
             {online?.length !== 0 && online?.map((online, index) => (
                 <Grid key={index} container spacing={2} alignItems="center" style={{ cursor: 'pointer', paddingBottom: '10px' }}>
                     <Grid item xs={3}>
-                        <Stack>
                             <StyledBadge
                                 overlap="circular"
                                 anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
@@ -49,8 +48,6 @@ export default function PeopleOnline({ online }) {
                             >
                                 <Avatar variant="inherit" alt={online?.username} src={online?.pic} />
                             </StyledBadge>
-
-                        </Stack>
                     </Grid>
                     <Grid item xs={9}>
                         <ToggleButton value="check"

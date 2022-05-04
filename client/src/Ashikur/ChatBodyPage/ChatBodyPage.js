@@ -16,13 +16,17 @@ const ChatBodyPage = ({ handleSingleChat, chatActive }) => {
     const [isTyping, setIsTyping] = useState({ typing: false, user: null });
     const socket = socketFunc?.socket;
     useEffect(() => {
+        if (!auth?.user?.token) {
+            window.location.replace('/login')
+        }
         if (!socket?.current) return;
+        if (!auth?.user?.token) return;
         if (selectedChat?.chat?._id) {
             socket?.current?.emit("setup", auth?.user?.user);
             socket?.current?.emit("join chat", selectedChat?.chat?._id);
         }
         socket?.current?.on("typing", (data) => {
-            // console.log(data)
+            //console.log(data)
             setIsTyping({ typing: true, user: data })
         })
         socket?.current?.on('stop typing', () => setIsTyping({ typing: false, user: null }))
@@ -54,12 +58,10 @@ const ChatBodyPage = ({ handleSingleChat, chatActive }) => {
             }, timerLength);
         }
     }
-    // console.log(notification)
     useEffect(() => {
         if (!socket?.current) return;
         if (groupMessage?.sendMsg?._id) {
             socket?.current?.emit("new message", groupMessage?.sendMsg);
-            socket?.current?.emit("update message", groupMessage?.sendMsg);
         }
     }, [groupMessage.messageInfoStore?._id, groupMessage?.sendMsg, groupMessage?.sendMsg?._id]);
     // console.log(socket?.current)
@@ -106,6 +108,12 @@ const ChatBodyPage = ({ handleSingleChat, chatActive }) => {
             }
         })
     })
+
+    useEffect(() => {
+        if (!auth?.user?.token) {
+            window.location.replace('/login')
+        }
+    }, [auth?.user?.token])
     return (
         <Box>
             <Grid container spacing={0}>

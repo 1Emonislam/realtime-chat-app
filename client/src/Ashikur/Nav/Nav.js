@@ -1,13 +1,15 @@
 import GroupAddIcon from "@mui/icons-material/GroupAdd";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
+import LogoutIcon from '@mui/icons-material/Logout';
 import MessageIcon from "@mui/icons-material/Message";
-import SettingsIcon from "@mui/icons-material/Settings";
-import { Avatar, Grid, ToggleButton } from "@mui/material";
+import { Avatar, Grid, ToggleButton, Tooltip } from "@mui/material";
 import React, { useContext, useState } from "react";
+import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { ThemeSelectContext } from "../../App";
 import AddGroups from "../../components/AddGroups/AddGroups";
 import MessageNotificationBadge from "../../components/Notification/MsgNotificationBadge";
+import { AUTH_SUCCESS } from "../../store/type/authType";
 import "./nav.css";
 
 const Nav = ({ handleSingleChat, children }) => {
@@ -22,6 +24,7 @@ const Nav = ({ handleSingleChat, children }) => {
   const handleGroupClose = () => setGroupOpen(false);
 
   const { palette } = useContext(ThemeSelectContext);
+  const dispatch = useDispatch()
   const theme = palette?.mode;
   const themeMode = () => {
     if (theme === "light") {
@@ -46,7 +49,7 @@ const Nav = ({ handleSingleChat, children }) => {
             item
             sx={{
               padding: {
-                lg: "8px",
+                lg: "6px",
                 md: "0px",
                 sm: "0px",
                 xs: "0px",
@@ -80,7 +83,7 @@ const Nav = ({ handleSingleChat, children }) => {
             item
             sx={{
               padding: {
-                lg: "8px",
+                lg: "6px",
                 md: "0px",
                 sm: "0px",
                 xs: "0px",
@@ -113,7 +116,7 @@ const Nav = ({ handleSingleChat, children }) => {
             item
             sx={{
               padding: {
-                lg: "8px",
+                lg: "6px",
                 md: "0px",
                 sm: "0px",
                 xs: "0px",
@@ -142,11 +145,11 @@ const Nav = ({ handleSingleChat, children }) => {
               </ToggleButton>
             </Link> */}
           </Grid>
-          <Grid
+          {/* <Grid
             item
             sx={{
               padding: {
-                lg: "8px",
+                lg: "6px",
                 md: "0px",
                 sm: "0px",
                 xs: "0px",
@@ -154,8 +157,8 @@ const Nav = ({ handleSingleChat, children }) => {
             }}
             xs={1}
             md={12}
-          >
-            {/* <Link to="/status">
+          > 
+            <Link to="/status">
               <ToggleButton
                 value="four"
                 onChange={() => {
@@ -179,7 +182,7 @@ const Nav = ({ handleSingleChat, children }) => {
             item
             sx={{
               padding: {
-                lg: "8px",
+                lg: "6px",
                 md: "0px",
                 sm: "0px",
                 xs: "0px",
@@ -212,13 +215,13 @@ const Nav = ({ handleSingleChat, children }) => {
             item
             sx={{
               padding: {
-                lg: "8px",
+                lg: "6px",
                 md: "0px",
                 sm: "0px",
                 xs: "0px",
               },
             }}
-          > */}
+          > 
             <Link to="/settings">
               <ToggleButton
                 value="six"
@@ -238,12 +241,12 @@ const Nav = ({ handleSingleChat, children }) => {
                 />
               </ToggleButton>
             </Link>
-          </Grid>
+    </Grid>  */}
           <Grid
             item
             sx={{
               padding: {
-                lg: "8px",
+                lg: "6px",
                 md: "0px",
                 sm: "0px",
                 xs: "0px",
@@ -276,7 +279,7 @@ const Nav = ({ handleSingleChat, children }) => {
             item
             sx={{
               padding: {
-                lg: "8px",
+                lg: "6px",
                 md: "0px",
                 sm: "0px",
                 xs: "0px",
@@ -308,7 +311,7 @@ const Nav = ({ handleSingleChat, children }) => {
             item
             sx={{
               padding: {
-                lg: "8px",
+                lg: "6px",
                 md: "0px",
                 sm: "0px",
                 xs: "0px",
@@ -327,7 +330,7 @@ const Nav = ({ handleSingleChat, children }) => {
             item
             sx={{
               padding: {
-                lg: "8px",
+                lg: "6px",
                 md: "0px",
                 sm: "0px",
                 xs: "0px",
@@ -342,7 +345,7 @@ const Nav = ({ handleSingleChat, children }) => {
             item
             sx={{
               padding: {
-                lg: "8px",
+                lg: "6px",
                 md: "0px",
                 sm: "0px",
                 xs: "0px",
@@ -352,6 +355,32 @@ const Nav = ({ handleSingleChat, children }) => {
             md={12}
           >
             {children}
+          </Grid>
+          <Grid
+            item
+            sx={{
+              padding: {
+                lg: "6px",
+                md: "0px",
+                sm: "0px",
+                xs: "0px",
+              },
+            }}
+            xs={1}
+            md={12}
+          >
+            <Tooltip title="Log Out" arrow onClick={() => {
+              dispatch({
+                type: AUTH_SUCCESS,
+                payload: {
+                  message: 'Log Out Successfully ',
+                  data: ''
+                }
+              })
+              window.localStorage.removeItem('userInfoCurrent')
+            }} >
+              <LogoutIcon />
+            </Tooltip>
           </Grid>
         </Grid>
       </>

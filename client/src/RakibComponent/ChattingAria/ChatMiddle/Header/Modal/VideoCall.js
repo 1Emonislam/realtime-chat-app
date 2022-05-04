@@ -1,12 +1,12 @@
-import * as React from 'react';
-import Backdrop from '@mui/material/Backdrop';
-import Box from '@mui/material/Box';
-import Modal from '@mui/material/Modal';
-import Fade from '@mui/material/Fade';
-import chatImg from '../../../../../assets/images/avatar-8.jpg'
-import './AllModal.css'
 import CloseIcon from '@mui/icons-material/Close';
 import VideocamIcon from '@mui/icons-material/Videocam';
+import Backdrop from '@mui/material/Backdrop';
+import Box from '@mui/material/Box';
+import Fade from '@mui/material/Fade';
+import Modal from '@mui/material/Modal';
+import * as React from 'react';
+import chatImg from '../../../../../assets/images/avatar-8.jpg';
+import './AllModal.css';
 
 const style = {
     position: 'absolute',
@@ -24,7 +24,8 @@ const style = {
 
 function VideoCall({ videoOpen, setVideoOpen }) {
     return (
-        <Modal
+         <Modal
+                style={{ overflowY: 'scroll' }}
             aria-labelledby="transition-modal-title"
             aria-describedby="transition-modal-description"
             open={videoOpen}

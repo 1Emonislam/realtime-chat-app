@@ -172,7 +172,7 @@ module.exports.messageRemove = async (req, res, next) => {
             }
         }
         if (delete1?.deletedCount > 0 || delete2?.deletedCount > 0) {
-            await GroupNotification.deleteOne({ message: messageId, chat: chatId });
+            await GroupNotification.deleteMany({ message: messageId, chat: chatId });
             return res.status(200).json({
                 message: "Message Removed Successfully",
                 me: message?.length > 0 ? me : {},
@@ -279,7 +279,9 @@ module.exports.allMessageRemove = async (req, res, next) => {
         }
         const permission = await Chat.findOne({ _id: req.params.chatId, groupAdmin: req?.user?._id });
         if (!permission) {
-            return res.status(400).json({ error: { email: 'Permission denied You can perform only Group Admin' } })
+            return res.status(400).json({
+                error: { email: 'Permission denied You can perform only Group Admin' }
+            })
         }
         const deleted = await Message.deleteMany({ chat: req.params?.chatId });
         let message = await Message.find({ chat: req.params?.chatId })

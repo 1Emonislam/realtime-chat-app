@@ -1,8 +1,8 @@
 const Chat = require("../models/chatModel");
 const ViewsChat = require("../models/ChatViewsModel");
 const JoinGroup = require("../models/JoinGroupModel");
-const Notification = require('../models/groupNotificationModel')
 const User = require("../models/userModel");
+const moment = require('moment')
 const { upload } = require("../utils/file");
 const { mailSending } = require("../utils/func");
 const { genToken, genInviteGroup } = require("../utils/genToken");
@@ -26,11 +26,11 @@ module.exports.acessChat = async (req, res, next) => {
           { members: { $elemMatch: { $eq: userId } } },
         ],
       }).sort("-updatedAt")
-        .populate("members", "_id pic firstName lastName email online lastOnline")
-        .populate("latestMessage").populate("groupAdmin", "_id pic firstName lastName email online lastOnline")
+        .populate("members", "_id pic firstName lastName email online lastOnline createdAt")
+        .populate("latestMessage").populate("groupAdmin", "_id pic firstName lastName email online lastOnline createdAt")
       isChat = await User.populate(isChat, {
         path: "latesetMessage.sender",
-        select: "_id pic firstName lastName email online lastOnline",
+        select: "_id pic firstName lastName email online lastOnline createdAt",
       });
       if (isChat?.length > 0) {
         return res.json(isChat[0]);
@@ -44,7 +44,7 @@ module.exports.acessChat = async (req, res, next) => {
           const createdChat = await Chat.create(chatData);
           const fullChat = await Chat.findOne({
             _id: createdChat._id,
-          }).populate("members", "_id pic firstName lastName email online lastOnline").populate("groupAdmin", "_id pic firstName lastName email online lastOnline").populate("sender", "_id pic firstName lastName email online lastOnline").populate("latestMessage")
+          }).populate("members", "_id pic firstName lastName email online lastOnline createdAt").populate("groupAdmin", "_id pic firstName lastName email online lastOnline createdAt").populate("sender", "_id pic firstName lastName email online lastOnline createdAt").populate("latestMessage")
           await ViewsChat.create({
             viewsChatId: createdChat?._id,
           })
@@ -62,20 +62,20 @@ module.exports.acessChat = async (req, res, next) => {
 module.exports.getSingleChatMembers = async (req, res, next) => {
   try {
     const { chatId } = req.params;
-    let getChatMember = await Chat.findOne({ _id: chatId }).select("members groupAdmin _id seen img chatName latestMessage").populate("members", "_id pic firstName lastName email online lastOnline").populate("groupAdmin", "_id pic firstName lastName email online lastOnline").populate("seen", "_id pic firstName lastName email online lastOnline");
+    let getChatMember = await Chat.findOne({ _id: chatId }).select("members groupAdmin _id seen img chatName latestMessage").populate("members", "_id pic firstName lastName email online lastOnline createdAt").populate("groupAdmin", "_id pic firstName lastName email online lastOnline createdAt").populate("seen", "_id pic firstName lastName email online lastOnline createdAt");
     // console.log(getChatMember?.seen)
     await Chat.findOneAndUpdate({ _id: chatId }, {
       lastActive: new Date(),
       $addToSet: { seen: req.user?._id }
     }, { new: true })
-    await GroupNotification.find({ chat: chatId, receiver: req.user?._id }, {
+    await GroupNotification.updateMany({ chat: chatId, receiver: req.user?._id }, {
       seen: true,
       lastSeen: new Date
     })
     const data = {
       data: getChatMember,
       amIJoined: getChatMember?.members?.some(am => am?._id?.toString() === req.user?._id?.toString()),
-      amIAdmin: getChatMember?.groupAdmin?.some(am => am?._id?.toString() === req.user?._id?.toString())
+      amIAdmin: getChatMember?.groupAdmin?.some(am => am?._id?.toString() === req.user?._id?.toString()),
     }
     res.status(200).json(data);
   }
@@ -88,11 +88,11 @@ module.exports.getChat = async (req, res, next) => {
     return res.status(400).json({ error: { email: 'User Credentials expired! Please login' } })
   }
   try {
-    await Chat.find({ members: { $elemMatch: { $eq: req.user._id } } }).sort("-updatedAt").populate("seen", "_id pic firstName lastName email online lastOnline").populate("members", "_id pic firstName lastName email online lastOnline").populate("latestMessage").populate("groupAdmin", "_id pic firstName lastName email online lastOnline").then(async (results) => {
+    await Chat.find({ members: { $elemMatch: { $eq: req.user._id } } }).sort("-updatedAt").populate("seen", "_id pic firstName lastName email online lastOnline createdAt").populate("members", "_id pic firstName lastName email online lastOnline createdAt").populate("latestMessage").populate("groupAdmin", "_id pic firstName lastName email online lastOnline createdAt").then(async (results) => {
       // console.log(results)
       results = await User.populate(results, {
         path: "latestMessage.sender",
-        select: "_id pic firstName lastName email online lastOnline"
+        select: "_id pic firstName lastName email online lastOnline createdAt"
       })
       return res.status(200).json({ data: results })
     })
@@ -129,7 +129,7 @@ module.exports.groupCreate = async (req, res, next) => {
           userJoin: groupChat?.members[i]
         })
         // console.log(groupChat?.members[i])
-        await Notification.create({
+        await GroupNotification.create({
           receiver: groupChat?.members[i],
           type: 'group',
           subject: `added new group from ${groupChat?.chatName}`,
@@ -138,7 +138,7 @@ module.exports.groupCreate = async (req, res, next) => {
       }
     }
 
-    const fullGroupChat = await Chat.findOne({ _id: groupChat._id }).populate("members", "_id pic firstName lastName email online lastOnline").populate("groupAdmin", "_id pic firstName lastName email online lastOnline");
+    const fullGroupChat = await Chat.findOne({ _id: groupChat._id }).populate("members", "_id pic firstName lastName email online lastOnline createdAt").populate("groupAdmin", "_id pic firstName lastName email online lastOnline createdAt");
     const memberJoinedInfo = {
       joinMemberCount: fullGroupChat?.members?.length,
       showMemberFront: fullGroupChat?.members?.slice(0, 5)
@@ -157,12 +157,12 @@ module.exports.groupRename = async (req, res, next) => {
   try {
     const updatedChat = await Chat.findOneAndUpdate({ _id: chatId, groupAdmin: req?.user?._id }, {
       chatName, topic, status, description, img
-    }, { new: true }).populate("members", "_id pic firstName lastName email online lastOnline").populate("groupAdmin", "_id pic firstName lastName email online lastOnline");
+    }, { new: true }).populate("members", "_id pic firstName lastName email online lastOnline createdAt").populate("groupAdmin", "_id pic firstName lastName email online lastOnline createdAt");
     if (!updatedChat) {
       return res.status(400).json({ error: { token: "you can perform only Admin Group Rename!" } });
     } if (updatedChat) {
       for (let i = 0; i < groupChat?.members?.length; i++) {
-        await Notification.create({
+        await GroupNotification.create({
           receiver: groupChat?.members[i],
           type: 'group',
           subject: `${groupChat?.chatName} group Rename  from current group name ${updatedChat?.chatName}`,
@@ -187,18 +187,18 @@ module.exports.groupAddTo = async (req, res, next) => {
     }
     const added = await Chat.findByIdAndUpdate(chatId, {
       $addToSet: { members: userId },
-    }, { new: true }).populate("members", "_id pic firstName lastName email online lastOnline").populate("groupAdmin", "_id pic firstName lastName email online lastOnline");
+    }, { new: true }).populate("members", "_id pic firstName lastName email online lastOnline createdAt").populate("groupAdmin", "_id pic firstName lastName email online lastOnline createdAt");
     // console.log(added)
     if (!added) {
       return res.status(404).json({ error: { "notfound": "chat not founds!" }, data: [] });
     }
     if (added) {
       const newMember = User.findOne({ _id: userId });
-      await Notification.create({
+      await GroupNotification.create({
         receiver: userId,
-        type: 'group',
-        subject: ` group added new member ${newMember?.firstName}`,
-        message: `${req?.user?.firstName} ${req?.user?.lastName} added new member ${newMember?.firstName} ${newMember?.lastName}`,
+        type: 'groupchat',
+        subject: `Congratulations you have added this group ${added?.chatName} new member ${newMember?.firstName + ' ' + newMember?.lastName}`,
+        message: `${req?.user?.firstName} ${req?.user?.lastName} added to ${newMember?.firstName} ${newMember?.lastName}`,
       })
       await JoinGroup.create({
         joinChatId: chatId,
@@ -215,27 +215,100 @@ module.exports.groupAddTo = async (req, res, next) => {
     next(error)
   }
 }
-module.exports.groupAddToInviteSent = async (req, res, next) => {
+module.exports.groupInviteAccept = async (req, res, next) => {
+  if (!req?.user?._id) {
+    return res.status(400).json({ error: { email: 'User Credentials expired! Please login' } })
+  }
+  const { chatId, userId, invitedPerson, declined } = req.body;
+  // console.log(invitedPerson)
   try {
-    const { chatId, members, email, expire } = req.body;
-    function inviteGenLink(length, id) {
-      for (var s = ''; s.length < length; s += `${id}abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ01`.charAt(Math.random() * 62 | 0));
-      return s;
+    const exist = await Chat.findOne({ _id: chatId, members: userId });
+    if (exist) {
+      return res.status(400).json({ error: { members: "You Have Already Joined Member" } })
     }
-    const chatGroup = await Chat.findOne({ _id: chatId });
+    if (!invitedPerson) {
+      return res.status(400).json({ error: { email: 'Invitation Expired!' } })
+    }
+    if (declined) {
+      const newMember = User.findOne({ _id: userId });
+      if (newMember) {
+        await GroupNotification.create({
+          receiver: invitedPerson,
+          type: 'groupchat',
+          subject: `${exist?.chatName} group Invitation request declined ${newMember?.firstName + ' ' + newMember?.lastName}`,
+          message: `Invitation request declined ${newMember?.firstName} ${newMember?.lastName}`,
+        })
+        return res.status(200).json({ message: " group Invitation request declined!" })
+      }
+    }
+    const added = await Chat.findByIdAndUpdate(chatId, {
+      $addToSet: { members: userId },
+    }, { new: true }).populate("members", "_id pic firstName lastName email online lastOnline createdAt").populate("groupAdmin", "_id pic firstName lastName email online lastOnline createdAt");
+    // console.log(added)
+    if (!added) {
+      return res.status(404).json({ error: { "notfound": "chat not founds!" }, data: [] });
+    }
+    if (added) {
+      const newMember = User.findOne({ _id: userId });
+      if (newMember) {
+        await GroupNotification.create({
+          receiver: invitedPerson,
+          type: 'groupchat',
+          subject: `${added?.chatName} group Invitation request accepted ${newMember?.firstName + ' ' + newMember?.lastName}`,
+          message: `you have added to new member ${newMember?.firstName} ${newMember?.lastName}`,
+        })
+        await JoinGroup.create({
+          joinChatId: chatId,
+          userJoin: userId
+        })
+      }
+      const memberJoinedInfo = {
+        joinMemberCount: added?.members?.length,
+        showMemberFront: added?.members
+      }
+      return res.status(200).json({ message: "Member added successfully!", memberJoinedInfo, data: added })
+    }
+  }
+  catch (error) {
+    next(error)
+  }
+}
+module.exports.groupAddToInviteSent = async (req, res, next) => {
+  if (!req.user?._id) {
+    return res.status(400).json({ error: { invite: "Credentials expired! please login" } });
+  }
+  try {
+    const { chatId, email, expire } = req.body;
+    const chatGroup = await Chat.findOne({ _id: chatId }).populate("members", "_id pic firstName lastName email online lastOnline createdAt").populate("groupAdmin", "_id pic firstName lastName email online lastOnline createdAt");
     if (!chatGroup) {
       return res.status(400).json({ error: { invite: "Gen Invite Link expired! please provide valid Chat Group" } });
     }
-    const id = (chatGroup?._id + req.user?._id);
-    const inviteId = `${inviteGenLink(13, id)}`;
-    const token = genInviteGroup(chatGroup?._id, inviteId, members, expire);
-    if (inviteId && token) {
+    const data = {
+      chat: {
+        _id: chatGroup?._id,
+        chatName: chatGroup?.chatName,
+        members: chatGroup?.members,
+        img: chatGroup?.img
+      },
+      invitePerson: {
+        _id: req.user?._id,
+        firstName: req.user?.firstName,
+        lastName: req.user?.lastName,
+        pic: req.user?.pic,
+      },
+    }
+    const token = genInviteGroup(data, expire);
+    const link = `https://collaball.netlify.app/group/invite/${token}`;
+    if (!email?.length) {
+      return res.status(200).json({ data: link, msg: `group ${chatGroup.chatName} attend to join` });
+    }
+    if (email?.length) {
       const mailInfo = {
         subject: `${req?.user?.firstName} ${req?.user?.lastName} invited you to join`,
         msg: `${chatGroup.chatName}`,
-        chat: chatGroup,
+        chat: chatGroup?._id,
         date: moment().format(),
-        link: `https://collaball.netlify.app/group/invite/${token}}`
+        link: link
       }
       const htmlMSG = `<!DOCTYPE html>
           <html lang="en-US">
@@ -356,14 +429,13 @@ module.exports.groupAddToInviteSent = async (req, res, next) => {
                                   text-decoration: none !important;
                                   font-weight: 500;
                                   margin-top: 35px;
-                                  color: transparent;
+                                  color: white;
                                   text-transform: uppercase;
                                   font-size: 14px;
                                   padding: 10px 24px;
                                   display: inline-block;
                                   border-radius: 50px;
-                                "
-                                >Accept Invite</a
+                                ">Accept Invite</a
                               >
                             </td>
                           </tr>
@@ -401,44 +473,45 @@ module.exports.groupAddToInviteSent = async (req, res, next) => {
           </body>
           </html>`
       // console.log(sending)
-      if (email) {
+      if (email?.length) {
         const sending = await mailSending(email, mailInfo, htmlMSG);
         if (sending === true) {
-          return res.status(200).json({ message: 'You have invited link sent successfully', inviteId, token })
+          return res.status(200).json({ message: 'Invitation Link Successfully Sent Via Email', link: link, msg: `group ${chatGroup.chatName} attend to join` })
         }
       }
-      return res.status(200).json({ inviteId, token });
     }
   }
   catch (error) {
     next(error)
   }
-
 }
-module.exports.groupRemoveTo = async (req, res, next) => {
+const inviteLinkVerify = async (req, res, next) => {
+  try {
+
+  }
+  catch (error) {
+    next(error)
+  }
+}
+
+module.exports.groupMemberRemoveTo = async (req, res, next) => {
   if (!req?.user?._id) {
     return res.status(400).json({ error: { email: 'User Credentials expired! Please login' } })
   }
   const { chatId, userId } = req.body;
+  // console.log(chatId, userId)
   try {
-    const remove = await Chat.findByIdAndUpdate(chatId, {
+    const remove = await Chat.findOneAndUpdate({ _id: chatId, groupAdmin: req?.user?._id }, {
       $pull: { members: userId },
-    }, { new: true }).populate("members", "_id pic firstName lastName email online lastOnline").populate("groupAdmin", "_id pic firstName lastName email online lastOnline");
+    }, { new: true }).populate("members", "_id pic firstName lastName email online lastOnline createdAt").populate("groupAdmin", "_id pic firstName lastName email online lastOnline createdAt");
     if (!remove) {
-      return res.status(404).json({ error: { "notfound": "member not founds!" } });
+      return res.status(404).json({ error: { "isAdmin": "Permission Denied You can perform only admin" } });
     }
     if (remove) {
-      await JoinGroup.find({
+      await JoinGroup.deleteMany({
         joinChatId: chatId,
         userJoin: userId
-      }).remove();
-      const member = await User.find({ _id: userId });
-      await Notification.create({
-        receiver: userId,
-        type: 'group',
-        subject: `${groupChat?.chatName} group member remove`,
-        message: `${req?.user?.firstName} ${req?.user?.lastName} to Group member remove ${member?.firstName} ${member?.lastName}`,
-      })
+      });
       return res.status(200).json({ message: "removed successfully!", data: remove })
     }
   }

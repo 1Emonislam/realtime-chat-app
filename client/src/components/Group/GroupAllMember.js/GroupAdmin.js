@@ -44,12 +44,11 @@ export default function GroupMemberShow({ memberInfo }) {
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
-
     return (
         <Box sx={{ width: '100%' }}>
             <Box>
                 <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
-                    <Tab style={{ fontWeight: "bold", fontFamily: `"Poppins", sans-serif`, marginRight: '110px' }} label="Group Members" {...a11yProps(0)} />
+                    <Tab style={{ fontWeight: "bold", fontFamily: `"Poppins", sans-serif`, marginRight: '40px' }} label="Group Members" {...a11yProps(0)} />
                     <Tab style={{ fontWeight: "bold", fontFamily: `"Poppins", sans-serif` }} label="Group Admins" {...a11yProps(1)} />
                 </Tabs>
             </Box>
@@ -57,7 +56,7 @@ export default function GroupMemberShow({ memberInfo }) {
                 <ProfileGroupList memberInfo={memberInfo?.chat?.members} />
             </TabPanel>
             <TabPanel value={value} index={1}>
-            <ProfileGroupList memberInfo={memberInfo?.chat?.groupAdmin} />
+                <ProfileGroupList memberInfo={memberInfo?.chat?.groupAdmin} />
             </TabPanel>
         </Box>
     );
