@@ -16,56 +16,48 @@ const ChatBodyPage = ({ handleSingleChat, chatActive }) => {
     const [isTyping, setIsTyping] = useState({ typing: false, user: null });
     const socket = socketFunc?.socket;
     useEffect(() => {
+        if (!auth?.user?.token) {
+            window.location.replace('/login')
+        }
         if (!socket?.current) return;
+        if (!auth?.user?.token) return;
         if (selectedChat?.chat?._id) {
             socket?.current?.emit("setup", auth?.user?.user);
             socket?.current?.emit("join chat", selectedChat?.chat?._id);
         }
         socket?.current?.on("typing", (data) => {
-            // console.log(data)
+            //console.log(data)
             setIsTyping({ typing: true, user: data })
         })
         socket?.current?.on('stop typing', () => setIsTyping({ typing: false, user: null }))
     }, [auth?.user?.user, dispatch, selectedChat?.chat?._id]);
-
-
-    const [searchTerm, setSearchTerm] = useState('')
-    function handleTyping(e) {
+    const handleTyping = (e) => {
         if (!socket?.current) return;
-        if (e.target?.value) {
-            setSearchTerm(e.target?.value)
+        dispatch({
+            type: MESSAGE_WRITE,
+            payload: {
+                data: e.target?.value,
+            },
+        })
+        if (!auth?.user?.token) {
+            return;
+        }
+        if (!typing) {
+            setTyping(true)
+            socket?.current?.emit('typing', { chat: selectedChat?.chat?._id, user: auth?.user?.user });
+        } if (typing) {
+            let lastTypingEpachType = new Date().getTime();
+            let timerLength = 6000;
+            setTimeout(() => {
+                let timeNow = new Date().getTime();
+                let timediff = timeNow - lastTypingEpachType;
+                if (timediff >= timerLength && typing) {
+                    socket?.current?.emit('stop typing', selectedChat?.chat?._id);
+                    setTyping(false)
+                }
+            }, timerLength);
         }
     }
-    useEffect(() => {
-        let lastTypingEpachType = new Date().getTime();
-        let timerLength = 6000;
-        const delayDebounceFn = setTimeout(() => {
-            if (searchTerm) {
-                dispatch({
-                    type: MESSAGE_WRITE,
-                    payload: {
-                        data: searchTerm
-                    },
-                })
-                if (!auth?.user?.token) {
-                    return;
-                }
-                if (!typing) {
-                    setTyping(true)
-                    socket?.current?.emit('typing', { chat: selectedChat?.chat?._id, user: auth?.user?.user });
-                } if (typing) {
-                    let timeNow = new Date().getTime();
-                    let timediff = timeNow - lastTypingEpachType;
-                    if (timediff >= timerLength && typing) {
-                        socket?.current?.emit('stop typing', selectedChat?.chat?._id);
-                        setTyping(false)
-                    }
-                }
-            }
-        }, timerLength)
-        return () => clearTimeout(delayDebounceFn)
-    }, [auth?.user?.token, dispatch, searchTerm])
-    // console.log(notification)
     useEffect(() => {
         if (!socket?.current) return;
         if (groupMessage?.sendMsg?._id) {
@@ -116,6 +108,12 @@ const ChatBodyPage = ({ handleSingleChat, chatActive }) => {
             }
         })
     })
+
+    useEffect(() => {
+        if (!auth?.user?.token) {
+            window.location.replace('/login')
+        }
+    }, [auth?.user?.token])
     return (
         <Box>
             <Grid container spacing={0}>

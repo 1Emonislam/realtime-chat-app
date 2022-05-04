@@ -6,7 +6,6 @@ import { Divider, Grid, Popover, ToggleButton, Tooltip, Typography } from '@mui/
 import { Box } from '@mui/system';
 import React, { useState } from 'react';
 import { FcDeleteDatabase, FcInvite } from 'react-icons/fc';
-import { MdDelete } from 'react-icons/md';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast, ToastContainer } from 'react-toastify';
 import { FAILED_MESSAGE, SUCCESS_MESSAGE_CLEAR } from '../../../../store/type/messageTypes';

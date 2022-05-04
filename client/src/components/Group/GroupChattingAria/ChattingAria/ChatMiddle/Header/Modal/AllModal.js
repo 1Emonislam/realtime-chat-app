@@ -23,7 +23,7 @@ const style = {
   };
 
 const AllModal = (props) => {
-    console.log(props);
+    // console.log(props);
     const handleClose = () => {
         props.setOpen(false)
         props.setVideo(false)

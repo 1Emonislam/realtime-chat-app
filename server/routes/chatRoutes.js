@@ -1,6 +1,6 @@
 
 const express = require('express');
-const { acessChat, getChat, groupCreate, groupRename, groupAddTo, groupRemoveTo, groupAddToInviteSent, getSingleChatMembers } = require('../controllers/chatControlles');
+const { acessChat, getChat, groupCreate, groupRename, groupAddTo, groupMemberRemoveTo, groupAddToInviteSent, getSingleChatMembers, groupInviteAccept } = require('../controllers/chatControlles');
 const { protect } = require('../middlewares/protect');
 const router = express.Router();
 router.post('/', protect, acessChat)
@@ -9,6 +9,7 @@ router.get('/:chatId', protect, getSingleChatMembers)
 router.put('/group/addTo', protect, groupAddTo)
 router.put('/group/rename', protect, groupRename)
 router.post('/group/create', protect, groupCreate)
-router.put('/group/removeTo', protect, groupRemoveTo)
 router.post('/group/invite/gen', protect, groupAddToInviteSent)
+router.put('/group/member/removeTo', protect, groupMemberRemoveTo)
+router.put('/group/invite/verify/:id', protect, groupInviteAccept)
 module.exports = router;

@@ -31,7 +31,7 @@ function ChildModal() {
     <React.Fragment>
       <Button onClick={handleOpen}>Open Child Modal</Button>
        <Modal
-                style={{ overflowY: 'scroll' }}
+       style={{ overflowY: 'scroll' }}
         hideBackdrop
         open={open}
         onClose={handleClose}

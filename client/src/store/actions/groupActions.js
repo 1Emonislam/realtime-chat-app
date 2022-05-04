@@ -1,4 +1,4 @@
-import { GROUP_FAILED_DATA, GROUP_GET_DATA, GROUP_INVITE_GEN_FAILED, GROUP_INVITE_GEN_SUCCESS, GROUP_LOADING_DATA, GROUP_SUCCESS_DATA } from "../type/groupType"
+import { GROUP_FAILED_DATA, GROUP_GET_DATA, GROUP_INVITE_ACCEPTED, GROUP_INVITE_DECLINED, GROUP_INVITE_GEN_FAILED, GROUP_INVITE_GEN_SUCCESS, GROUP_LOADING_DATA, GROUP_SUCCESS_DATA } from "../type/groupType"
 export const getGroupChatData = (token) => {
     return (dispatch) => {
         dispatch({
@@ -73,8 +73,7 @@ export const postGroupChatData = (data, token, reset) => {
     }
 }
 
-export const groupInviteGen = (chatId, token, reset) => {
-    // console.log(data,token)
+export const groupInvite = (chatId, token, handleCopy, email) => {
     return async (dispatch) => {
         dispatch({
             type: GROUP_LOADING_DATA,
@@ -89,18 +88,18 @@ export const groupInviteGen = (chatId, token, reset) => {
                     'Content-Type': "application/json",
                     "authorization": `Bearer ${token}`
                 },
-                body: JSON.stringify({ chatId })
+                body: JSON.stringify({ chatId, email })
             })
                 .then(res => res.json())
                 .then(data => {
-                    console.log(data)
+                    handleCopy(data)
                     if (data?.data) {
-                        reset();
                         dispatch({
                             type: GROUP_INVITE_GEN_SUCCESS,
                             payload: {
                                 message: data.message,
-                                data: data.data
+                                data: data.data,
+                                loading: false
                             }
                         })
                     }
@@ -119,4 +118,84 @@ export const groupInviteGen = (chatId, token, reset) => {
         }
     }
 }
+
+export const inviteLinkVerify = (chatId, userId, invitedPerson, token) => {
+    return async (dispatch) => {
+        try {
+            fetch(`http://localhost:5000/api/chat/group/invite/verify/${token}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': "application/json",
+                    "authorization": `Bearer ${token}`
+                },
+                body: JSON.stringify({ chatId, userId, invitedPerson })
+            })
+                .then(res => res.json())
+                .then(data => {
+                    dispatch({
+                        type: GROUP_INVITE_ACCEPTED,
+                        payload: {
+                            message: data.message,
+                        }
+                    })
+                    if (data.error) {
+                        dispatch({
+                            type: GROUP_INVITE_DECLINED,
+                            payload: {
+                                error: data.error,
+                            }
+                        })
+                    }
+                })
+        }
+        catch (error) {
+
+        }
+    }
+}
+export const inviteLinkDeclined = (chatId, userId, invitedPerson, declined, token) => {
+    return async (dispatch) => {
+        try {
+            fetch(`http://localhost:5000/api/chat/group/invite/verify/${token}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': "application/json",
+                    "authorization": `Bearer ${token}`
+                },
+                body: JSON.stringify({ chatId, userId, invitedPerson, declined })
+            })
+                .then(res => res.json())
+                .then(data => {
+                    console.log(data)
+                })
+        }
+        catch (error) {
+
+        }
+    }
+}
+
+
+export const groupMemberRemove = (chatId, userId, token) => {
+    return async (dispatch) => {
+        try {
+            fetch(`http://localhost:5000/api/chat/group/member/removeTo/`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': "application/json",
+                    "authorization": `Bearer ${token}`
+                },
+                body: JSON.stringify({ chatId, userId })
+            })
+                .then(res => res.json())
+                .then(data => {
+
+                })
+        }
+        catch (error) {
+
+        }
+    }
+}
+
 

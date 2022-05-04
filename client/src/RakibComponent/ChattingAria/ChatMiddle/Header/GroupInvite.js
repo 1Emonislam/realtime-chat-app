@@ -5,9 +5,11 @@ import Button from '@mui/material/Button';
 import Modal from '@mui/material/Modal';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
 import UserSearchList from '../../../../components/Group/GroupAllMember.js/UserSearchList';
 import Loading from '../../../../components/Spinner/Loading';
 import { allUserSearch } from '../../../../store/actions/allSearchUserAction';
+import { groupInvite } from '../../../../store/actions/groupActions';
 import { deleteAllMessage } from '../../../../store/actions/messageAction';
 
 const style = {
@@ -25,11 +27,63 @@ const style = {
 
 export default function GroupInvite({ groupInviteOpen, setGroupInviteOpen, handleGroupInvite, handleGroupInviteClose, chatId, token }) {
     const dispatch = useDispatch();
-    const { auth, allSearch } = useSelector(state => state)
+    const { auth, theme, allSearch } = useSelector(state => state)
     const [searchTerm, setSearchTerm] = useState('')
+    const [emailCollection, setEmailCollection] = useState([])
     const [page, setPage] = React.useState(1);
     const [count, setCount] = React.useState(0);
-    const limit = 2;
+    const limit = 10;
+    const emailStore = [];
+    if (emailCollection?.length) {
+        for (let emailSelect of emailCollection) {
+            emailStore.push(emailSelect?.email)
+        }
+    }
+    // console.log(emailStore)
+    const handleCopy = (data) => {
+        // console.log(data)
+        if (data?.data) {
+            navigator.clipboard.writeText(data?.data)
+            toast.success(`Invitation Link Copied`, {
+                position: "bottom-right",
+                theme: theme?.theme,
+                fontWeight: '500',
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            });
+        }
+        if (data?.message) {
+            toast.success(data?.message, {
+                position: "bottom-right",
+                theme: theme?.theme,
+                fontWeight: '500',
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            });
+        }
+        if (data?.error?.invite || data?.error?.token) {
+            toast.error(data?.error.invite || data?.error?.token, {
+                position: "bottom-right",
+                theme: theme?.theme,
+                fontWeight: '500',
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            });
+        }
+    }
+
     const handlePageChange = (event, value) => {
         setPage(value);
     };
@@ -42,11 +96,13 @@ export default function GroupInvite({ groupInviteOpen, setGroupInviteOpen, handl
     useEffect(() => {
         const delayDebounceFn = setTimeout(() => {
             if (searchTerm) {
-                dispatch(allUserSearch(searchTerm, page,setCount, limit, auth?.user?.token))
+                dispatch(allUserSearch(searchTerm, page, setCount, limit, auth?.user?.token))
             }
         }, 500)
         return () => clearTimeout(delayDebounceFn)
     }, [auth?.user?.token, dispatch, page, searchTerm])
+
+
     return (
         <div>
             <Modal
@@ -65,16 +121,16 @@ export default function GroupInvite({ groupInviteOpen, setGroupInviteOpen, handl
                     </div>
                     <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                         <ToggleButton value="two" style={{ textTransform: 'none', border: 'none' }}>
-                            <TextField onChange={handleSearch} id="standard-basic" fullWidth label="Search People Email Invite" variant="standard" />
+                            <TextField onChange={(e) => handleSearch(e)} id="standard-basic" fullWidth label="Search People Email Invite" variant="standard" />
                         </ToggleButton>
-                        <ToggleButton value="two" style={{ textTransform: 'none', border: 'none' }}>
+                        {auth?.user?.token && <ToggleButton value="two" style={{ textTransform: 'none', border: 'none' }} onClick={() => dispatch(groupInvite(chatId, auth?.user?.token, handleCopy, emailCollection))}>
                             Only Invite link
-                        </ToggleButton>
+                        </ToggleButton>}
 
                     </div>
                     {/* {console.log(allSearch?.searchUser)} */}
                     {allSearch?.loading && <Loading />}
-                     <UserSearchList handlePageChange={handlePageChange} setPage={setPage} limit={limit} page={page} userInfo={allSearch?.searchUser} count={count} />
+                    <UserSearchList emailStore={emailStore} chatId={chatId} auth={auth} handleCopy={handleCopy} emailCollection={emailCollection} setEmailCollection={setEmailCollection} handlePageChange={handlePageChange} setPage={setPage} limit={limit} page={page} userInfo={allSearch?.searchUser} count={count} />
                     <Button onClick={() => setGroupInviteOpen(false)}>
                     </Button>
                     {token && chatId ? <Button onClick={() => {

@@ -6,21 +6,23 @@ import List from '@mui/material/List';
 import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
 import React from 'react';
+import { useDispatch } from 'react-redux';
+import { groupInvite } from '../../../store/actions/groupActions';
 
-export default function UserSearchList({ setPage, userInfo, handlePageChange, count, page }) {
-  const [selected, setSelected] = React.useState([]);
+export default function UserSearchList({ setPage,emailStore, chatId, auth, handleCopy, setEmailCollection, emailCollection, userInfo, handlePageChange, count, page }) {
+  const dispatch = useDispatch()
   const handleSelectedUser = (user) => () => {
-    const find = selected.find(checkUser => checkUser?._id === user?._id);
+    const find = emailCollection?.find(checkUser => checkUser?._id === user?._id);
     if (!find) {
-      setSelected([...selected, user])
+      setEmailCollection([...emailCollection, user])
     } else {
       return;
     }
   };
   // console.log(userInfo)
   const handleGroupInviteRemove = (rm) => () => {
-    const filter = selected?.filter(user => user?._id !== rm?._id);
-    setSelected(filter)
+    const filter = emailCollection?.filter(user => user?._id !== rm?._id);
+    setEmailCollection(filter)
   }
   return (
     <Grid container spacing={0}>
@@ -46,8 +48,8 @@ export default function UserSearchList({ setPage, userInfo, handlePageChange, co
       <Grid item xs={6}>
         <>
           <List sx={{ width: '100%', bgcolor: 'background.paper' }}>
-            {selected?.length !== 0 &&
-              selected?.map((user, index) => (
+            {emailCollection?.length !== 0 && emailCollection?.length &&
+              emailCollection?.map((user, index) => (
                 <span key={index} style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
                   <Avatar
                     alt={user.username}
@@ -61,7 +63,7 @@ export default function UserSearchList({ setPage, userInfo, handlePageChange, co
 
               ))
             }
-            {selected?.length !== 0 && <ToggleButton style={{ textAlign: 'right', marginLeft: '30px' }} value="one" primary='contained'>
+            {emailCollection?.length !== 0 && auth?.user?.token && <ToggleButton style={{ textAlign: 'right', marginLeft: '30px' }} value="one" primary='contained' onClick={() => dispatch(groupInvite(chatId, auth?.user?.token, handleCopy, emailStore))}>
               People Invite
             </ToggleButton>}
           </List>

@@ -1,7 +1,6 @@
 const Chat = require("../models/chatModel");
 const ViewsChat = require("../models/ChatViewsModel");
 const JoinGroup = require("../models/JoinGroupModel");
-const Notification = require('../models/groupNotificationModel')
 const User = require("../models/userModel");
 const moment = require('moment')
 const { upload } = require("../utils/file");
@@ -130,7 +129,7 @@ module.exports.groupCreate = async (req, res, next) => {
           userJoin: groupChat?.members[i]
         })
         // console.log(groupChat?.members[i])
-        await Notification.create({
+        await GroupNotification.create({
           receiver: groupChat?.members[i],
           type: 'group',
           subject: `added new group from ${groupChat?.chatName}`,
@@ -163,7 +162,7 @@ module.exports.groupRename = async (req, res, next) => {
       return res.status(400).json({ error: { token: "you can perform only Admin Group Rename!" } });
     } if (updatedChat) {
       for (let i = 0; i < groupChat?.members?.length; i++) {
-        await Notification.create({
+        await GroupNotification.create({
           receiver: groupChat?.members[i],
           type: 'group',
           subject: `${groupChat?.chatName} group Rename  from current group name ${updatedChat?.chatName}`,
@@ -195,11 +194,11 @@ module.exports.groupAddTo = async (req, res, next) => {
     }
     if (added) {
       const newMember = User.findOne({ _id: userId });
-      await Notification.create({
+      await GroupNotification.create({
         receiver: userId,
-        type: 'group',
-        subject: ` group added new member ${newMember?.firstName}`,
-        message: `${req?.user?.firstName} ${req?.user?.lastName} added new member ${newMember?.firstName} ${newMember?.lastName}`,
+        type: 'groupchat',
+        subject: `Congratulations you have added this group ${added?.chatName} new member ${newMember?.firstName + ' ' + newMember?.lastName}`,
+        message: `${req?.user?.firstName} ${req?.user?.lastName} added to ${newMember?.firstName} ${newMember?.lastName}`,
       })
       await JoinGroup.create({
         joinChatId: chatId,
@@ -216,31 +215,100 @@ module.exports.groupAddTo = async (req, res, next) => {
     next(error)
   }
 }
+module.exports.groupInviteAccept = async (req, res, next) => {
+  if (!req?.user?._id) {
+    return res.status(400).json({ error: { email: 'User Credentials expired! Please login' } })
+  }
+  const { chatId, userId, invitedPerson, declined } = req.body;
+  // console.log(invitedPerson)
+  try {
+    const exist = await Chat.findOne({ _id: chatId, members: userId });
+    if (exist) {
+      return res.status(400).json({ error: { members: "You Have Already Joined Member" } })
+    }
+    if (!invitedPerson) {
+      return res.status(400).json({ error: { email: 'Invitation Expired!' } })
+    }
+    if (declined) {
+      const newMember = User.findOne({ _id: userId });
+      if (newMember) {
+        await GroupNotification.create({
+          receiver: invitedPerson,
+          type: 'groupchat',
+          subject: `${exist?.chatName} group Invitation request declined ${newMember?.firstName + ' ' + newMember?.lastName}`,
+          message: `Invitation request declined ${newMember?.firstName} ${newMember?.lastName}`,
+        })
+        return res.status(200).json({ message: " group Invitation request declined!" })
+      }
+    }
+    const added = await Chat.findByIdAndUpdate(chatId, {
+      $addToSet: { members: userId },
+    }, { new: true }).populate("members", "_id pic firstName lastName email online lastOnline createdAt").populate("groupAdmin", "_id pic firstName lastName email online lastOnline createdAt");
+    // console.log(added)
+    if (!added) {
+      return res.status(404).json({ error: { "notfound": "chat not founds!" }, data: [] });
+    }
+    if (added) {
+      const newMember = User.findOne({ _id: userId });
+      if (newMember) {
+        await GroupNotification.create({
+          receiver: invitedPerson,
+          type: 'groupchat',
+          subject: `${added?.chatName} group Invitation request accepted ${newMember?.firstName + ' ' + newMember?.lastName}`,
+          message: `you have added to new member ${newMember?.firstName} ${newMember?.lastName}`,
+        })
+        await JoinGroup.create({
+          joinChatId: chatId,
+          userJoin: userId
+        })
+      }
+      const memberJoinedInfo = {
+        joinMemberCount: added?.members?.length,
+        showMemberFront: added?.members
+      }
+      return res.status(200).json({ message: "Member added successfully!", memberJoinedInfo, data: added })
+    }
+  }
+  catch (error) {
+    next(error)
+  }
+}
 module.exports.groupAddToInviteSent = async (req, res, next) => {
-  console.log('calling')
+  if (!req.user?._id) {
+    return res.status(400).json({ error: { invite: "Credentials expired! please login" } });
+  }
   try {
     const { chatId, email, expire } = req.body;
-    function inviteGenLink(length, id) {
-      for (var s = ''; s.length < length; s += `${id}abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ01`.charAt(Math.random() * 62 | 0));
-      return s;
-    }
-    const chatGroup = await Chat.findOne({ _id: chatId });
+    const chatGroup = await Chat.findOne({ _id: chatId }).populate("members", "_id pic firstName lastName email online lastOnline createdAt").populate("groupAdmin", "_id pic firstName lastName email online lastOnline createdAt");
     if (!chatGroup) {
       return res.status(400).json({ error: { invite: "Gen Invite Link expired! please provide valid Chat Group" } });
     }
-    const id = (chatGroup?._id + req.user?._id);
-    const inviteId = `${inviteGenLink(13, id)}`;
-    const token = genInviteGroup(chatGroup?._id, inviteId, expire);
-    if (!email) {
-      return res.status(200).json({ data: `https://collaball.netlify.app/group/invite/${token}` });
+    const data = {
+      chat: {
+        _id: chatGroup?._id,
+        chatName: chatGroup?.chatName,
+        members: chatGroup?.members,
+        img: chatGroup?.img
+      },
+      invitePerson: {
+        _id: req.user?._id,
+        firstName: req.user?.firstName,
+        lastName: req.user?.lastName,
+        pic: req.user?.pic,
+      },
     }
-    if (inviteId && token) {
+    const token = genInviteGroup(data, expire);
+    const link = `https://collaball.netlify.app/group/invite/${token}`;
+    if (!email?.length) {
+      return res.status(200).json({ data: link, msg: `group ${chatGroup.chatName} attend to join` });
+    }
+    if (email?.length) {
       const mailInfo = {
         subject: `${req?.user?.firstName} ${req?.user?.lastName} invited you to join`,
         msg: `${chatGroup.chatName}`,
         chat: chatGroup?._id,
         date: moment().format(),
-        link: `https://collaball.netlify.app/group/invite/${token}}`
+        link: link
       }
       const htmlMSG = `<!DOCTYPE html>
           <html lang="en-US">
@@ -361,14 +429,13 @@ module.exports.groupAddToInviteSent = async (req, res, next) => {
                                   text-decoration: none !important;
                                   font-weight: 500;
                                   margin-top: 35px;
-                                  color: transparent;
+                                  color: white;
                                   text-transform: uppercase;
                                   font-size: 14px;
                                   padding: 10px 24px;
                                   display: inline-block;
                                   border-radius: 50px;
-                                "
-                                >Accept Invite</a
+                                ">Accept Invite</a
                               >
                             </td>
                           </tr>
@@ -406,44 +473,45 @@ module.exports.groupAddToInviteSent = async (req, res, next) => {
           </body>
           </html>`
       // console.log(sending)
-      if (email) {
+      if (email?.length) {
         const sending = await mailSending(email, mailInfo, htmlMSG);
         if (sending === true) {
-          return res.status(200).json({ message: 'You have invited link sent successfully', inviteId, token })
+          return res.status(200).json({ message: 'Invitation Link Successfully Sent Via Email', link: link, msg: `group ${chatGroup.chatName} attend to join` })
         }
       }
-      return res.status(200).json({ inviteId, token });
     }
   }
   catch (error) {
     next(error)
   }
-
 }
-module.exports.groupRemoveTo = async (req, res, next) => {
+const inviteLinkVerify = async (req, res, next) => {
+  try {
+
+  }
+  catch (error) {
+    next(error)
+  }
+}
+
+module.exports.groupMemberRemoveTo = async (req, res, next) => {
   if (!req?.user?._id) {
     return res.status(400).json({ error: { email: 'User Credentials expired! Please login' } })
   }
   const { chatId, userId } = req.body;
+  // console.log(chatId, userId)
   try {
-    const remove = await Chat.findByIdAndUpdate(chatId, {
+    const remove = await Chat.findOneAndUpdate({ _id: chatId, groupAdmin: req?.user?._id }, {
       $pull: { members: userId },
     }, { new: true }).populate("members", "_id pic firstName lastName email online lastOnline createdAt").populate("groupAdmin", "_id pic firstName lastName email online lastOnline createdAt");
     if (!remove) {
-      return res.status(404).json({ error: { "notfound": "member not founds!" } });
+      return res.status(404).json({ error: { "isAdmin": "Permission Denied You can perform only admin" } });
     }
     if (remove) {
-      await JoinGroup.find({
+      await JoinGroup.deleteMany({
         joinChatId: chatId,
         userJoin: userId
-      }).remove();
-      const member = await User.find({ _id: userId });
-      await Notification.create({
-        receiver: userId,
-        type: 'group',
-        subject: `${groupChat?.chatName} group member remove`,
-        message: `${req?.user?.firstName} ${req?.user?.lastName} to Group member remove ${member?.firstName} ${member?.lastName}`,
-      })
+      });
       return res.status(200).json({ message: "removed successfully!", data: remove })
     }
   }

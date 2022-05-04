@@ -50,13 +50,13 @@ global.io = io;
 connectedDb();
 //Use Routes
 
+app.use('/api', notificationRoutes)
 app.use('/api/auth', userRoutes);
 app.use('/api/chat', chatRoutes)
 app.use('/api/note', noteRoutes);
 app.use('/api/friend', friendRoutes);
 app.use('/api/profile', profileRoutes);
 app.use('/api/message', messageRoutes);
-app.use('/api', notificationRoutes)
 
 app.get('/', (req, res) => {
     res.send('server connected')

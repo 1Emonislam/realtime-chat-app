@@ -82,10 +82,8 @@ export const userLogin = (data, reset) => {
             }).then(res => res.json())
                 .then(data => {
                     // console.log(data)
+                    const token = window?.localStorage?.getItem('inviteToken') ? JSON.parse(window.localStorage.getItem('inviteToken')) : null;
                     if (data?.data) {
-                        reset()
-                        window?.localStorage?.setItem("userInfoCurrent", JSON.stringify(data?.data))
-                        window.location?.replace('/chat');
                         dispatch({
                             type: AUTH_SUCCESS,
                             payload: {
@@ -93,6 +91,14 @@ export const userLogin = (data, reset) => {
                                 data: data.data
                             }
                         })
+                        reset()
+                        window?.localStorage?.setItem("userInfoCurrent", JSON.stringify(data?.data))
+                        if (token) {
+                            window.localStorage?.removeItem('inviteToken');
+                            window.location?.replace(`/group/invite/${token}`);
+                        } else {
+                            window.location?.replace('/chat');
+                        }
                     }
                     if (data?.error) {
                         reset()
@@ -117,57 +123,29 @@ export const userLogin = (data, reset) => {
     }
 }
 
-export const logOut = (data, token) => {
-    return async (dispatch) => {
+export const logOut = () => {
+    return (dispatch) => {
+        window.localStorage?.removeItem('userInfoCurrent');
         try {
             dispatch({
-                type: AUTH_LOADING,
+                type: AUTH_SUCCESS,
                 payload: {
-                    loading: true,
+                    message: 'Log Out Successfully ',
+                    data: ''
                 }
             })
-            // console.log(data)
-            fetch("http://localhost:5000/api/auth/logout", {
-                method: "POST",
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
-                },
-                body: JSON.stringify(data)
-            }).then(res => res.json())
-                .then(data => {
-                    // console.log(data)
-                    if (data?.data) {
-                        dispatch({
-                            type: AUTH_SUCCESS,
-                            payload: {
-                                message: data?.message,
-                                data: data.data
-                            }
-                        })
-                    }
-                    if (data?.error) {
-                        dispatch({
-                            type: AUTH_FAILED,
-                            payload: {
-                                error: data.error
-                            }
-                        })
-                    }
-                })
         }
         catch (error) {
             dispatch({
-                type: AUTH_FAILED,
+                type: AUTH_SUCCESS,
                 payload: {
-                    error: error.message
+                    message: 'Log Out Successfully ',
+                    data: ''
                 }
             })
         }
     }
 }
-
-
 export const resetPassword = (data, reset, token) => {
     return async (dispatch) => {
         try {

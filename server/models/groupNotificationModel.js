@@ -8,7 +8,7 @@ const groupNotificationSchema = new Schema(
         },
         type: {
             type: String,
-            enum: ["privateChat", "groupchat", "status", 'call', 'inbox', 'contact', 'others'],
+            enum: ["privateChat", "groupchat","group", "status", 'call', 'inbox', 'contact', 'others'],
             default: 'groupchat'
         },
         subject: String,
@@ -19,7 +19,6 @@ const groupNotificationSchema = new Schema(
         },
         chat: {
             type: Schema.Types.ObjectId,
-            required: true,
             ref: "Chat",
         },
         sender: {
@@ -28,7 +27,6 @@ const groupNotificationSchema = new Schema(
         },
         message: {
             type: Schema.Types.ObjectId,
-            required: true,
             ref: "Message",
         },
         lastSeen: {

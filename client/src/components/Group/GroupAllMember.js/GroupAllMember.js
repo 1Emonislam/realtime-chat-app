@@ -5,10 +5,9 @@ import React from 'react';
 import GroupMemberShow from "./GroupAdmin";
 const style = {
     position: "absolute",
-    top: "30%",
+    top: "50%",
     left: "50%",
     transform: "translate(-50%, -50%)",
-    width: 400,
     bgcolor: "background.paper",
     border: "none",
     boxShadow: 24,
@@ -19,8 +18,8 @@ const style = {
 };
 function GroupAllMember({ memberInfo, handleMemberClose, memberOpen }) {
     return (
-         <Modal
-                style={{ overflowY: 'scroll' }}
+        <Modal
+            style={{ overflowY: 'scroll' }}
             open={memberOpen}
             aria-labelledby="modal-modal-title"
             aria-describedby="modal-modal-description"

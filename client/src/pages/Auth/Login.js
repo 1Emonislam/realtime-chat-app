@@ -1,6 +1,6 @@
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import { Button, Container } from '@mui/material';
+import { Button, Container, ToggleButton } from '@mui/material';
 import FormControl from '@mui/material/FormControl';
 import IconButton from '@mui/material/IconButton';
 import Input from '@mui/material/Input';
@@ -30,9 +30,9 @@ function Login() {
         dispatch(userLogin(data, reset))
     };
     useEffect(() => {
-            if (auth?.user?.user?.email) {
-                window?.location.replace("/chat")
-            }
+        if (auth?.user?.user?.email) {
+            window?.location.replace("/chat")
+        }
     }, [auth?.user?.user?.email])
     if (message) {
         toast.success(`${message}`, {
@@ -49,7 +49,7 @@ function Login() {
             type: AUTH_MESSAGE
         })
     }
-    if (Object?.values(error)?.length) {
+    if (error) {
         Object.values(error)?.forEach((err) => {
             toast.error(`${err}`, {
                 position: "bottom-right",
@@ -85,7 +85,9 @@ function Login() {
                     <Link to="/"><img width="80px" height="80px" src={logo} alt="logo" style={{ display: 'block', margin: 'auto', marginBottom: '20px' }} /></Link>
                 </div>
                 <div className="auth-form" style={{ marginBottom: '50px' }}>
-                    <h2 className="text text-large">Login</h2>
+                    <ToggleButton value="one" style={{ fontSize: '20px', textTransform: 'capitalize', border: 'none' }}>
+                        Login
+                    </ToggleButton>
                     <form onSubmit={handleSubmit(onSubmit)}>
                         <FormControl sx={{ m: 1, width: '95%' }} variant="standard">
                             <InputLabel htmlFor="standard-adornment-email">Email</InputLabel>
@@ -121,8 +123,13 @@ function Login() {
                         </div> :
                             <Button type="submit" variant="contained" id="auth-btn" style={{ margin: '20px auto', fontSize: '15px', textTransform: 'capitalize', display: 'block', }}> Login</Button>}
                     </form>
-                    <span className="text-center">New user? <span><Link to="/register" style={{ color: 'blueviolet' }} className="text text-links">Create an account</Link></span>
-                    </span>
+                    <div style={{ display: 'flex', alignItems: 'center',justifyContent:'center', }}>
+                        <ToggleButton style={{textTransform:'none',border:'none'}} value="two" className="text-center">New user?
+                        </ToggleButton>
+                        <ToggleButton style={{textTransform:'none',border:'none'}} value="two" className="text-center">
+                            <Link to="/register" style={{ color: 'blueviolet' }} className="text text-links">Create an account</Link>
+                        </ToggleButton>
+                    </div>
                 </div>
                 <ToastContainer
                     position="bottom-right"

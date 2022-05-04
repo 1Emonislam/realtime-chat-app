@@ -1,6 +1,6 @@
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import { Button, Container, Grid } from '@mui/material';
+import { Button, Container, Grid, ToggleButton } from '@mui/material';
 import FormControl from '@mui/material/FormControl';
 import IconButton from '@mui/material/IconButton';
 import Input from '@mui/material/Input';
@@ -97,7 +97,9 @@ function Register() {
           <Link to="/"><img width="80px" height="80px" src={logo} alt="logo" style={{ display: 'block', margin: 'auto', marginBottom: '20px' }} /></Link>
         </div>
         <div className="auth-form">
-          <h2 className="text text-large">Register</h2>
+          <ToggleButton value="one" style={{ fontSize: '20px', textTransform: 'capitalize', border: 'none' }}>
+            Register
+          </ToggleButton>
           <form onSubmit={handleSubmit(onSubmit)}>
             <Grid container spacing={0} textAlign="center">
               <Grid item xs={6}>
@@ -195,8 +197,13 @@ function Register() {
             </div> :
               <Button type="submit" variant="contained" id="auth-btn" style={{ margin: '20px auto', fontSize: '15px', textTransform: 'capitalize', display: 'block', }}> Register</Button>}
           </form>
-          <span className="text-center">Already user? <span><Link to="/login" style={{ color: 'blueviolet' }} className="text text-links">Login</Link></span>
-          </span>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', }}>
+            <ToggleButton style={{ textTransform: 'none', border: 'none' }} value="two" className="text-center">Already user?
+            </ToggleButton>
+            <ToggleButton style={{ border: 'none' }} value="two" className="text-center"><span><Link to="/login" style={{ color: 'blueviolet' }} className="text text-links"> Login</Link></span>
+            </ToggleButton>
+          </div>
+
         </div>
         <ToastContainer
           position="bottom-right"

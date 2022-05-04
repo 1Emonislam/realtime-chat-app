@@ -17,6 +17,7 @@ import SettingsGeneral from "./components/DashBoardSettings/SettingsGeneral";
 import SettingSinch from "./components/DashBoardSettings/SettingSinch";
 import Users from "./components/DashBoardSettings/Users";
 import Group from "./components/Group/Group";
+import GroupInviteAccept from "./components/GroupInviteAccept";
 import Settings from "./components/Settings/Settings/Settings";
 import Status from "./components/Status/Status/Status";
 import { ThemeSwitch } from "./hooks/useThemes";
@@ -179,6 +180,7 @@ export default function ToggleColorMode() {
                 }
               ></Route>
               {/* Dashboard  start*/}
+              <Route path="/group/invite/:token" element={<GroupInviteAccept />}> </Route>
               <Route path="/general-setting" element={< SettingsGeneral />}> </Route>
               <Route path="/admob-setting" element={< SettingAdmob />}> </Route>
               <Route path="/snich-setting" element={< SettingSinch />}> </Route>
