@@ -31,6 +31,7 @@ app.use(bodyParser.urlencoded({
     extended: true
 }))
 app.use(bodyParser.json({ limit: '50mb' }))
+app.use(cors())
 app.use(cookieParser());
 // Middleware
 const serverApp = http.createServer(app);
