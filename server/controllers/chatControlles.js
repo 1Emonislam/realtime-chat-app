@@ -230,7 +230,7 @@ module.exports.groupAddTo = async (req, res, next) => {
       joinMemberCount: added?.members?.length,
       showMemberFront: added?.members
     }
-    return res.status(200).json({ message: `${userId?.length !== 0 && userId?.length} new Member added successfully!`, memberJoinedInfo, data })
+    return res.status(200).json({ message: `${userId?.length !== 0 && userId?.length} new member added successfully!`, memberJoinedInfo, data })
   }
   catch (error) {
     next(error)
