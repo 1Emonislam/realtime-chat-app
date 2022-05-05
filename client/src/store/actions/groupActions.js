@@ -379,3 +379,49 @@ export const groupDelete = (chatId, token) => {
         }
     }
 }
+
+export const groupUpdate = (data, token) => {
+    return async (dispatch) => {
+        try {
+            fetch(`https://collaballapp.herokuapp.com/api/chat/group/rename`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': "application/json",
+                    "authorization": `Bearer ${token}`
+                },
+                body: JSON.stringify(data)
+                //chatId, chatName, topic, status, description, img 
+            })
+                .then(res => res.json())
+                .then(data => {
+                    dispatch({
+                        type: GROUP_LOADING_DATA,
+                        payload: {
+                            loading: false,
+                        }
+                    })
+                    if (data?.error) {
+                        dispatch({
+                            type: GROUP_FAILED_DATA,
+                            payload: {
+                                error: data.error,
+                            }
+                        })
+                    }
+                    if (data.data) {
+                        dispatch({
+                            type: GROUP_SUCCESS_DATA,
+                            payload: {
+                                message: data.message,
+                                data: data.data
+                            }
+                        })
+                        window.location?.reload()
+                    }
+                })
+        }
+        catch (error) {
+
+        }
+    }
+}

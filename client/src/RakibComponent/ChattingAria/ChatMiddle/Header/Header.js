@@ -1,3 +1,4 @@
+import Cancel from '@mui/icons-material/Cancel';
 import Delete from '@mui/icons-material/Delete';
 import LocalPhoneIcon from '@mui/icons-material/LocalPhone';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
@@ -6,23 +7,23 @@ import VideocamIcon from '@mui/icons-material/Videocam';
 import { Divider, Grid, Popover, ToggleButton, Tooltip, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import React, { useEffect, useState } from 'react';
-import { FcDeleteDatabase, FcInvite } from 'react-icons/fc';
+import { FcDataBackup, FcDeleteDatabase, FcInvite } from 'react-icons/fc';
+import { MdPersonAddAlt1 } from 'react-icons/md';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast, ToastContainer } from 'react-toastify';
+import UpdateGroup from '../../../../components/AddGroups/UpdateGroup';
+import { getMessage } from '../../../../store/actions/messageAction';
 import { FAILED_MESSAGE, SUCCESS_MESSAGE_CLEAR } from '../../../../store/type/messageTypes';
+import { MESSAGE_SEARCH_SELECTED } from '../../../../store/type/selectedChatTypes';
 import '../ChatMiddle.css';
 import AlertShow from './AlertShow';
+import GroupAllMemberSearch from './AllMembersSearch';
 import GroupAlertShow from './GroupAlertShow';
 import GroupInvite from './GroupInvite';
 import GroupPeople from './GroupPeople';
 import HeaderSkeletonMember from './HeaderSkeleton';
 import AudioCall from './Modal/AudioCall';
 import VideoCall from './Modal/VideoCall';
-import { MdPersonAddAlt1 } from 'react-icons/md'
-import GroupAllMemberSearch from './AllMembersSearch';
-import Cancel from '@mui/icons-material/Cancel';
-import { MESSAGE_SEARCH_SELECTED } from '../../../../store/type/selectedChatTypes';
-import { getMessage } from '../../../../store/actions/messageAction';
 const Header = () => {
     const dispatch = useDispatch()
     const { selectedChat, groupMessage, theme, auth } = useSelector(state => state)
@@ -51,7 +52,10 @@ const Header = () => {
     const [addMemberOpen, setAddMemberOpen] = React.useState(false);
     const handleAddMemberOpen = () => setAddMemberOpen(true);
     const handleAddMemberClose = () => setAddMemberOpen(false);
-
+    //group update 
+    const [groupOpen, setGroupOpen] = React.useState(false);
+    const handleGroupOpen = () => setGroupOpen(true) ;
+    const handleGroupClose = () => setGroupOpen(false);
     useEffect(() => {
         const delayDebounceFn = setTimeout(() => {
             if (selectedChat?.chat?._id && selectedChat?.search && auth?.user?.token) {
@@ -181,11 +185,19 @@ const Header = () => {
                                     </Typography>
                                     <Divider />
                                     <Typography sx={{ pb: 1, pt: 1, px: 2, display: 'flex', alignItems: 'center', justifyContent: 'space-around' }}>
+                                        <span style={{ paddingRight: '8px' }}>Group Update</span>
+                                   
+                                        <UpdateGroup groupInfo={selectedChat} groupOpen={groupOpen}handleGroupClose={handleGroupClose} />
+                                        <FcDataBackup onClick={handleGroupOpen } style={{ color: '#d1c4e6' }} />
+                                    </Typography>
+                                    <Divider />
+                                    <Typography sx={{ pb: 1, pt: 1, px: 2, display: 'flex', alignItems: 'center', justifyContent: 'space-around' }}>
                                         <span style={{ paddingRight: '8px' }}> Group Delete</span>
                                         <GroupAlertShow setAlertOpenGroup={setAlertOpenGroup} chatId={selectedChat?.chat?._id} token={auth?.user?.token} handleAlertOpenGroup={handleAlertOpenGroup} handleAlertCloseGroup={handleAlertCloseGroup} alertOpenGroup={alertOpenGroup} />
                                         <Delete style={{ color: '#d1c4e9' }} onClick={handleAlertOpenGroup} />
                                     </Typography>
                                     <Divider />
+
                                     <Typography sx={{ pb: 1, pt: 1, px: 2, display: 'flex', alignItems: 'center', justifyContent: 'space-around' }}>
                                         <span style={{ paddingRight: '8px' }}> All Conversion</span>
                                         <AlertShow setAlertOpen={setAlertOpen} chatId={selectedChat?.chat?._id} token={auth?.user?.token} handleAlertOpen={handleAlertOpen} handleAlertClose={handleAlertClose} alertOpen={alertOpen} />

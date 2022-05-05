@@ -11,7 +11,7 @@ import { GROUP_FAILED_DATA, GROUP_SUCCESS_DATA } from "../../store/type/groupTyp
 import Loading from "../Spinner/Loading";
 const style = {
   position: "absolute",
-  top: "50%",
+  top: "60%",
   left: "50%",
   transform: "translate(-50%, -50%)",
   bgcolor: "background.paper",
@@ -32,7 +32,7 @@ const AddGroups = ({ handleGroupClose, groupOpen }) => {
     if (previewSource) data.img = previewSource;
     dispatch(postGroupChatData(data, auth?.user?.token, reset))
   };
-  console.log(groupData.error)
+  // console.log(groupData.error)
   const fileReader = (file) => {
     const reader = new FileReader();
     reader.readAsDataURL(file);
@@ -87,6 +87,7 @@ const AddGroups = ({ handleGroupClose, groupOpen }) => {
       <Modal
         style={{ overflowY: 'scroll' }}
         open={groupOpen}
+        onClose={handleGroupClose}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
@@ -161,7 +162,11 @@ const AddGroups = ({ handleGroupClose, groupOpen }) => {
                 </ToggleButton>
                 <Box style={{ display: "flex", justifyContent: 'center' }}>
                   {previewSource ? <>
-                    <img style={{ width: '100px', height: '100px', borderRadius: '100%' }} src={previewSource} alt="chosen" />
+                    <img style={{ width: '100px', height: '100px', position: 'absolute', zIndex: '-1', borderRadius: '100%' }} src={previewSource} alt="chosen" />
+                    <label className="browseFile" style={{ opacity: 'none', background: 'transparent', padding: '40px', border: 'none' }}>
+                      <input sx={{ opacity: 'none', color: 'white', height: '100px', padding: '30px 30px!important' }} onChange={(e) => setSelected(e)} type="file" />
+                      Browse File
+                    </label>
                   </> :
                     <>
                       <TextField fullWidth size="small" style={{ width: 280 }} />
