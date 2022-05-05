@@ -207,6 +207,14 @@ module.exports.groupAddTo = async (req, res, next) => {
 
     if (userId?.length) {
       for (const member of userId) {
+        const user = await User.findOne({ _id: member });
+        await GroupNotification.create({
+          receiver: member,
+          type: 'group',
+          chat: added?._id,
+          subject: ` ${user?.firstName + ' ' + user?.lastName} added New member ${added?.chatName} group`,
+          text: ` ${added?.chatName} Group Member`,
+        })
         await JoinGroup.create({
           joinChatId: chatId,
           userJoin: member
@@ -248,7 +256,7 @@ module.exports.groupInviteAccept = async (req, res, next) => {
         await GroupNotification.create({
           receiver: invitedPerson,
           type: 'group',
-          chat:exist?._id,
+          chat: exist?._id,
           subject: `${exist?.chatName} group Invitation request declined ${newMember?.firstName + ' ' + newMember?.lastName}`,
           text: `Invitation request declined ${newMember?.firstName} ${newMember?.lastName}`,
         })
