@@ -7,9 +7,9 @@ import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { groupInvite } from '../../../store/actions/groupActions';
+import { groupInvite, groupMemberAdd } from '../../../store/actions/groupActions';
 
-export default function UserSearchList({ setPage,emailStore, chatId, auth, handleCopy, setEmailCollection, emailCollection, userInfo, handlePageChange, count, page }) {
+export default function UserSearchList({ setPage, userStore,emailStore, addMember, chatId, auth, handleCopy, setEmailCollection, emailCollection, userInfo, handlePageChange, count, page }) {
   const dispatch = useDispatch()
   const handleSelectedUser = (user) => () => {
     const find = emailCollection?.find(checkUser => checkUser?._id === user?._id);
@@ -19,7 +19,6 @@ export default function UserSearchList({ setPage,emailStore, chatId, auth, handl
       return;
     }
   };
-  // console.log(userInfo)
   const handleGroupInviteRemove = (rm) => () => {
     const filter = emailCollection?.filter(user => user?._id !== rm?._id);
     setEmailCollection(filter)
@@ -63,9 +62,18 @@ export default function UserSearchList({ setPage,emailStore, chatId, auth, handl
 
               ))
             }
-            {emailCollection?.length !== 0 && auth?.user?.token && <ToggleButton style={{ textAlign: 'right', marginLeft: '30px' }} value="one" primary='contained' onClick={() => dispatch(groupInvite(chatId, auth?.user?.token, handleCopy, emailStore))}>
-              People Invite
-            </ToggleButton>}
+            {addMember ? <>
+              {emailCollection?.length !== 0 && auth?.user?.token && <ToggleButton style={{ textAlign: 'right', marginLeft: '30px' }} value="one" primary='contained' onClick={() => dispatch(groupMemberAdd(chatId, userStore, auth?.user?.token,handleCopy))}>
+                People Add
+              </ToggleButton>}
+            </>
+              :
+              <>
+                {emailCollection?.length !== 0 && auth?.user?.token && <ToggleButton style={{ textAlign: 'right', marginLeft: '30px' }} value="one" primary='contained' onClick={() => dispatch(groupInvite(chatId, auth?.user?.token, handleCopy, emailStore))}>
+                  People Invite
+                </ToggleButton>}
+              </>
+            }
           </List>
         </>
       </Grid>

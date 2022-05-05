@@ -4,6 +4,7 @@ import { BsEmojiSmile } from 'react-icons/bs';
 import { MdOutlineAttachFile, MdSend, MdSettingsVoice } from 'react-icons/md';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast, ToastContainer } from 'react-toastify';
+import VoiceMessage from '../components/VoiceMessage.js/VoiceMessage';
 import { editMessage, sendMessage } from '../store/actions/messageAction';
 import { SUCCESS_MESSAGE_CLEAR, UPDATE_MESSAGE_FAILED, WRITE_MESSAGE_UPDATE } from '../store/type/messageTypes';
 import './Editor.css';
@@ -113,16 +114,17 @@ function Editor({ handleTyping, messageEditHandle, editMsg, isTyping, size = 25 
                 <Grid item xs={0.7}>
                     <ToggleButton value="three" sx={{ marginBottom: '0px!important', border: 'none' }}>
                         <MdSettingsVoice size={size} />
+
                     </ToggleButton>
                 </Grid>
                 <>
                     {editMsg ? <Grid item xs={2}>
                         <ToggleButton className='send-btn' value="four" sx={{ marginBottom: '0px!important', border: 'none' }}>
-                            {auth?.user?.token && selectedChat?.chat?._id ? <MdSend size={size} onClick={() => dispatch(editMessage(groupMessage?.messageInfoStore?.content?.text, groupMessage?.messageInfoStore?.chat?._id, groupMessage?.messageInfoStore?._id, auth?.user?.token, messageEditHandle))} /> : <Tooltip style={{cursor:"pointer"}} title="Permission Denied" arrow> <MdSend /></Tooltip>}
+                            {auth?.user?.token && selectedChat?.chat?._id ? <MdSend size={size} onClick={() => dispatch(editMessage(groupMessage?.messageInfoStore?.content?.text, groupMessage?.messageInfoStore?.chat?._id, groupMessage?.messageInfoStore?._id, auth?.user?.token, messageEditHandle))} /> : <Tooltip style={{ cursor: "pointer" }} title="Permission Denied" arrow> <MdSend /></Tooltip>}
                         </ToggleButton>
                     </Grid> : <Grid item xs={1}>
                         <ToggleButton className='send-btn' value="four" sx={{ marginBottom: '0px!important', border: 'none' }}>
-                            {auth?.user?.token && selectedChat?.chat?._id ? <MdSend size={size} onClick={handleSendMessage} /> : <Tooltip style={{cursor:"pointer"}} title="Permission Denied" arrow> <MdSend /></Tooltip>}
+                            {auth?.user?.token && selectedChat?.chat?._id ? <MdSend size={size} onClick={handleSendMessage} /> : <Tooltip style={{ cursor: "pointer" }} title="Permission Denied" arrow> <MdSend /></Tooltip>}
                         </ToggleButton>
                     </Grid>}
                 </>
@@ -137,6 +139,7 @@ function Editor({ handleTyping, messageEditHandle, editMsg, isTyping, size = 25 
                     draggable
                     pauseOnHover
                 />
+                {/* <VoiceMessage /> */}
             </Grid>
         </div>
     )

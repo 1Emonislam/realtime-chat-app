@@ -33,7 +33,7 @@ function Chat({ children }) {
           <Nav handleSingleChat={handleSingleChat}>{children}</Nav>
         </Grid>
         <Grid item xs={12} md={11.2}>
-          <ChatBodyPage chatActive={chatActive}handleSingleChat={handleSingleChat}></ChatBodyPage>
+          <ChatBodyPage chatActive={chatActive} handleSingleChat={handleSingleChat}></ChatBodyPage>
         </Grid>
       </Grid>
     </>

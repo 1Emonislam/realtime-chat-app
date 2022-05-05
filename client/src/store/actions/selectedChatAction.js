@@ -19,8 +19,13 @@ export const getSelectedChat = (chatId, token) => {
             })
                 .then(res => res.json())
                 .then(data => {
+                    dispatch({
+                        type: SELECTED_CHAT_LOADING,
+                        payload: {
+                            loading: false,
+                        }
+                    })
                     if (data) {
-                        // console.log(data)
                         dispatch({
                             type: SELECTED_CHAT_SUCCESS,
                             payload: {
@@ -39,6 +44,12 @@ export const getSelectedChat = (chatId, token) => {
                 })
         }
         catch (error) {
+            dispatch({
+                type: SELECTED_CHAT_LOADING,
+                payload: {
+                    loading: false,
+                }
+            })
             dispatch({
                 type: SELECTED_CHAT_FAILED,
                 payload: {

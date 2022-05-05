@@ -5,7 +5,7 @@ import Modal from '@mui/material/Modal';
 import Typography from '@mui/material/Typography';
 import * as React from 'react';
 import { useDispatch } from 'react-redux';
-import { deleteAllMessage } from '../../../../store/actions/messageAction';
+import { groupDelete } from '../../../../store/actions/groupActions';
 
 const style = {
     position: 'absolute',
@@ -20,36 +20,38 @@ const style = {
     p: 4,
 };
 
-export default function AlertShow({ alertOpen,handleAlertClose, setAlertOpen, chatId, token }) {
+
+
+export default function GroupAlertShow({ alertOpenGroup,handleAlertCloseGroup, setAlertOpenGroup, chatId, token }) {
     const dispatch = useDispatch();
     return (
         <div>
              <Modal
                 style={{ overflowY: 'scroll' }}
-                open={alertOpen}
-                onClose={handleAlertClose}
+                open={alertOpenGroup}
+                onClose={handleAlertCloseGroup}
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
             >
                 <Box sx={style}>
                     <ToggleButton value="one"style={{ textTransform: 'none', border: 'none' }}>
                         <Typography id="modal-modal-title" variant="h6" component="h2">
-                        Delete this entire conversation?
+                        Delete this entire Group?
                         </Typography>
                     </ToggleButton>
                    
                     <ToggleButton value="two"style={{ textTransform: 'none', border: 'none' }}>
                     <Typography id="modal-modal-description" sx={{ m: 2 }}>
-                    Once you delete your copy of the conversation,it can't be undone.
+                    Once you delete your copy of the Group conversation, it can't be undone.
                     </Typography>
                     </ToggleButton>
                    
-                    <Button onClick={() => setAlertOpen(false)}>
+                    <Button onClick={() => setAlertOpenGroup(false)}>
                         Cancell
                     </Button>
                    {token && chatId ? <Button onClick={() => {
-                        dispatch(deleteAllMessage(chatId, token))
-                        setAlertOpen(false)
+                        dispatch(groupDelete(chatId, token))
+                        setAlertOpenGroup(false)
                     }}>
                         Delete
                     </Button>

@@ -1,7 +1,6 @@
 import CancelIcon from '@mui/icons-material/Cancel';
-import { TextField, ToggleButton, Tooltip } from '@mui/material';
+import { TextField, ToggleButton } from '@mui/material';
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
 import Modal from '@mui/material/Modal';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -10,7 +9,6 @@ import UserSearchList from '../../../../components/Group/GroupAllMember.js/UserS
 import Loading from '../../../../components/Spinner/Loading';
 import { allUserSearch } from '../../../../store/actions/allSearchUserAction';
 import { groupInvite } from '../../../../store/actions/groupActions';
-import { deleteAllMessage } from '../../../../store/actions/messageAction';
 
 const style = {
     position: 'absolute',
@@ -35,8 +33,8 @@ export default function GroupInvite({ groupInviteOpen, setGroupInviteOpen, handl
     const limit = 10;
     const emailStore = [];
     if (emailCollection?.length) {
-        for (let emailSelect of emailCollection) {
-            emailStore.push(emailSelect?.email)
+        for (let emailSelecte of emailCollection) {
+            emailStore.push(emailSelecte?.email)
         }
     }
     // console.log(emailStore)
@@ -123,7 +121,7 @@ export default function GroupInvite({ groupInviteOpen, setGroupInviteOpen, handl
                         <ToggleButton value="two" style={{ textTransform: 'none', border: 'none' }}>
                             <TextField onChange={(e) => handleSearch(e)} id="standard-basic" fullWidth label="Search People Email Invite" variant="standard" />
                         </ToggleButton>
-                        {auth?.user?.token && <ToggleButton value="two" style={{ textTransform: 'none', border: 'none' }} onClick={() => dispatch(groupInvite(chatId, auth?.user?.token, handleCopy, emailCollection))}>
+                        {auth?.user?.token && <ToggleButton value="two" style={{ textTransform: 'none', border: 'none' }} onClick={() => dispatch(groupInvite(chatId, auth?.user?.token, handleCopy, ''))}>
                             Only Invite link
                         </ToggleButton>}
 
@@ -131,20 +129,6 @@ export default function GroupInvite({ groupInviteOpen, setGroupInviteOpen, handl
                     {/* {console.log(allSearch?.searchUser)} */}
                     {allSearch?.loading && <Loading />}
                     <UserSearchList emailStore={emailStore} chatId={chatId} auth={auth} handleCopy={handleCopy} emailCollection={emailCollection} setEmailCollection={setEmailCollection} handlePageChange={handlePageChange} setPage={setPage} limit={limit} page={page} userInfo={allSearch?.searchUser} count={count} />
-                    <Button onClick={() => setGroupInviteOpen(false)}>
-                    </Button>
-                    {token && chatId ? <Button onClick={() => {
-                        dispatch(deleteAllMessage(chatId, token))
-                        setGroupInviteOpen(false)
-                    }}>
-
-                    </Button>
-                        : <Tooltip style={{ cursor: "pointer" }} title="Permission denied" arrow>
-                            <Button>
-                                Delete
-                            </Button>
-                        </Tooltip>
-                    }
                 </Box>
             </Modal>
         </div >

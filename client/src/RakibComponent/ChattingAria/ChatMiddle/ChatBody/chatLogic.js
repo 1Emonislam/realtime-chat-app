@@ -76,3 +76,7 @@ export const notificatinMessageCountRecentChat = (chatId, msgNotification) => {
         msg: { ...msgNotification?.filter(push => push?.chat?._id === chatId?._id && push?.seen === false).slice(0, -1) }
     }
 }
+export const amIAdmin = (groupAdmin, amI) => {
+    console.log(groupAdmin)
+    return groupAdmin?.includes(amI);
+}

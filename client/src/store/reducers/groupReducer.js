@@ -1,4 +1,4 @@
-import { GROUP_FAILED_DATA, GROUP_GET_DATA, GROUP_INVITE_GEN_FAILED, GROUP_INVITE_GEN_SUCCESS, GROUP_LOADING_DATA, GROUP_SUCCESS_DATA, RECENT_MESSAGE_DATA, GROUP_INVITE_SAVE, GROUP_INVITE_ACCEPTED, GROUP_INVITE_DECLINED } from "../type/groupType";
+import { GROUP_FAILED_DATA, GROUP_GET_DATA, GROUP_INVITE_GEN_FAILED, GROUP_INVITE_GEN_SUCCESS, GROUP_INVITE_SAVE, GROUP_LOADING_DATA, GROUP_PROGRESS_ACCEPTED, GROUP_PROGRESS_DECLINED, GROUP_SUCCESS_DATA, RECENT_MESSAGE_DATA } from "../type/groupType";
 
 const initState = {
     message: '',
@@ -15,10 +15,10 @@ export const groupReducer = (state = initState, action) => {
     if (type === GROUP_SUCCESS_DATA) {
         return {
             ...state,
-            loading: false,
-            message: payload.message,
-            error: '',
             data: payload.data,
+            message: payload.message,
+            loading: false,
+            error: '',
         }
     }
     if (type === GROUP_GET_DATA) {
@@ -37,7 +37,6 @@ export const groupReducer = (state = initState, action) => {
             message: '',
             loading: false,
             error: payload.error,
-            data: null,
         }
     }
     if (type === RECENT_MESSAGE_DATA) {
@@ -76,13 +75,13 @@ export const groupReducer = (state = initState, action) => {
             invited: payload.invite,
         }
     }
-    if (type === GROUP_INVITE_ACCEPTED) {
+    if (type === GROUP_PROGRESS_ACCEPTED) {
         return {
             ...state,
             message: payload.message,
         }
     }
-    if (type === GROUP_INVITE_DECLINED) {
+    if (type === GROUP_PROGRESS_DECLINED) {
         return {
             ...state,
             error: payload.error,

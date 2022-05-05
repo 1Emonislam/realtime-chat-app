@@ -1,9 +1,8 @@
 import styled from '@emotion/styled';
 import { Avatar, Badge, Grid, ToggleButton, Tooltip } from '@mui/material';
-import moment from 'moment'
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { toast, ToastContainer } from 'react-toastify';
+import { toast } from 'react-toastify';
 import { groupMemberRemove } from '../../../store/actions/groupActions';
 import { AUTH_ERROR, AUTH_MESSAGE } from '../../../store/type/authType';
 const StyledBadge = styled(Badge)(({ theme }) => ({
@@ -127,35 +126,16 @@ function ProfileGroupList({ memberInfo }) {
                             }} style={{ border: 'none', textTransform: 'capitalize', marginBottom: '0px!important' }}>
                             {member.firstName + ' ' + member?.lastName}
                         </ToggleButton>
-                        <ToggleButton value="check"
-                            style={{ marginBottom: '0px!important' }}
+                        <ToggleButton value="check" onClick={() => handleRemoveMember(member)} style={{ marginLeft: '10px', marginBottom: '0px!important',textTransform:'capitalize', padding: '0px' }}
                             selected={selected}
                             onChange={() => {
                                 setSelected(false);
                             }}>
-                            <i style={{ fontSize: '9px' }}> Joined {moment(member?.createdAt).fromNow()}</i>
-                        </ToggleButton>
-                        <ToggleButton value="check" onClick={() => handleRemoveMember(member)} style={{ marginLeft: '10px', marginBottom: '0px!important', padding: '0px' }}
-                            selected={selected}
-                            onChange={() => {
-                                setSelected(false);
-                            }}>
-                            <i style={{ fontSize: '9px', }}>Remove</i>
+                            <span style={{ fontSize: '10px', }}>Member Leave</span>
                         </ToggleButton>
                     </Grid>
                 </Grid>
             ))}
-            <ToastContainer
-                position="bottom-right"
-                autoClose={5000}
-                hideProgressBar={false}
-                newestOnTop={false}
-                closeOnClick
-                rtl={false}
-                pauseOnFocusLoss
-                draggable
-                pauseOnHover
-            />
         </>
     )
 }

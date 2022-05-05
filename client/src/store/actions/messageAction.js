@@ -1,6 +1,5 @@
 import { FAILED_MESSAGE, GET_MESSAGE, LOADING_MESSAGE, NOTE_CREATE, REMOVE_MESSAGE, SEND_MESSAGE, UPDATE_MESSAGE, UPDATE_MESSAGE_FAILED, UPDATE_MESSAGE_STORE } from "../type/messageTypes";
-export const getMessage = (chatId, token) => {
-    
+export const getMessage = (chatId, token, search) => {
     return async (dispatch) => {
         dispatch({
             type: LOADING_MESSAGE,
@@ -9,7 +8,7 @@ export const getMessage = (chatId, token) => {
             },
         })
         try {
-            fetch(`http://localhost:5000/api/message/${chatId}`, {
+            fetch(`http://localhost:5000/api/message/${chatId}?search=${search || ''}`, {
                 method: 'GET',
                 headers: {
                     "Content-Type": "application/json",

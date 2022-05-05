@@ -1,13 +1,13 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Avatar, Button, Modal, ToggleButton } from '@mui/material'
-import { Box } from '@mui/system'
-import React, { useEffect, useState } from 'react'
+import { Avatar, Button, Modal, ToggleButton } from '@mui/material';
+import { Box } from '@mui/system';
 import jwt_decoded from 'jwt-decode';
-import { useDispatch, useSelector } from 'react-redux'
-import { useParams } from 'react-router-dom'
-import { GROUP_INVITE_ACCEPTED, GROUP_INVITE_DECLINED, GROUP_INVITE_SAVE } from '../store/type/groupType'
-import { inviteLinkDeclined, inviteLinkVerify } from '../store/actions/groupActions';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
+import { inviteLinkDeclined, inviteLinkVerify } from '../store/actions/groupActions';
+import { GROUP_INVITE_SAVE, GROUP_PROGRESS_ACCEPTED, GROUP_PROGRESS_DECLINED } from '../store/type/groupType';
 const style = {
     position: 'absolute',
     top: '50%',
@@ -78,7 +78,7 @@ export default function GroupInviteAccept() {
             progress: undefined,
         });
         dispatch({
-            type: GROUP_INVITE_ACCEPTED,
+            type: GROUP_PROGRESS_ACCEPTED,
             payload: {
                 message: '',
             }
@@ -98,7 +98,7 @@ export default function GroupInviteAccept() {
                 progress: undefined,
             });
             dispatch({
-                type: GROUP_INVITE_DECLINED,
+                type: GROUP_PROGRESS_DECLINED,
                 payload: {
                     error: [],
                 }

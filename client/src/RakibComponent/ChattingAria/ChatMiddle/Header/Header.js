@@ -1,22 +1,28 @@
+import Delete from '@mui/icons-material/Delete';
 import LocalPhoneIcon from '@mui/icons-material/LocalPhone';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import SearchIcon from '@mui/icons-material/Search';
 import VideocamIcon from '@mui/icons-material/Videocam';
 import { Divider, Grid, Popover, ToggleButton, Tooltip, Typography } from '@mui/material';
 import { Box } from '@mui/system';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FcDeleteDatabase, FcInvite } from 'react-icons/fc';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast, ToastContainer } from 'react-toastify';
 import { FAILED_MESSAGE, SUCCESS_MESSAGE_CLEAR } from '../../../../store/type/messageTypes';
 import '../ChatMiddle.css';
 import AlertShow from './AlertShow';
+import GroupAlertShow from './GroupAlertShow';
 import GroupInvite from './GroupInvite';
 import GroupPeople from './GroupPeople';
 import HeaderSkeletonMember from './HeaderSkeleton';
 import AudioCall from './Modal/AudioCall';
 import VideoCall from './Modal/VideoCall';
-
+import { MdPersonAddAlt1 } from 'react-icons/md'
+import GroupAllMemberSearch from './AllMembersSearch';
+import Cancel from '@mui/icons-material/Cancel';
+import { MESSAGE_SEARCH_SELECTED } from '../../../../store/type/selectedChatTypes';
+import { getMessage } from '../../../../store/actions/messageAction';
 const Header = () => {
     const dispatch = useDispatch()
     const { selectedChat, groupMessage, theme, auth } = useSelector(state => state)
@@ -34,12 +40,47 @@ const Header = () => {
     const open = Boolean(anchorEl);
     const id = open ? 'simple-popover' : undefined;
     const [alertOpen, setAlertOpen] = React.useState(false);
+    const [alertOpenGroup, setAlertOpenGroup] = React.useState(false);
     const handleAlertOpen = () => setAlertOpen(true);
     const handleAlertClose = () => setAlertOpen(false);
+    const handleAlertOpenGroup = () => setAlertOpenGroup(true);
+    const handleAlertCloseGroup = () => setAlertOpenGroup(false);
     const [groupInviteOpen, setGroupInviteOpen] = React.useState(false);
     const handleGroupInvite = () => setGroupInviteOpen(true);
     const handleGroupInviteClose = () => setGroupInviteOpen(false);
-    // console.log(groupMessage?.success,groupMessage?.error)
+    const [addMemberOpen, setAddMemberOpen] = React.useState(false);
+    const handleAddMemberOpen = () => setAddMemberOpen(true);
+    const handleAddMemberClose = () => setAddMemberOpen(false);
+
+    useEffect(() => {
+        const delayDebounceFn = setTimeout(() => {
+            if (selectedChat?.chat?._id && selectedChat?.search && auth?.user?.token) {
+                dispatch(getMessage(selectedChat?.chat?._id, auth?.user?.token, selectedChat?.search))
+            }
+        }, 500)
+        return () => clearTimeout(delayDebounceFn)
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [dispatch, selectedChat?.chat?._id, selectedChat?.search])
+    const handleMessageSearch = (e) => {
+        dispatch({
+            type: MESSAGE_SEARCH_SELECTED,
+            payload: {
+                search: e.target?.value
+            }
+        })
+    }
+    const handleCancelSearch = () => {
+        setSearch('')
+        if (selectedChat?.chat?._id && selectedChat?.search && auth?.user?.token) {
+            dispatch(getMessage(selectedChat?.chat?._id, auth?.user?.token))
+        }
+        dispatch({
+            type: MESSAGE_SEARCH_SELECTED,
+            payload: {
+                search: ''
+            }
+        })
+    }
     if (groupMessage?.success) {
         toast.success(`${groupMessage?.success}`, {
             position: "bottom-right",
@@ -77,15 +118,14 @@ const Header = () => {
     }
     return (
         <>
-            <Box className='chatHeader_section' style={{ paddingBottom: '10px', marginBottom: '5px' }}>
+            {selectedChat?.chat?._id && <Box className='chatHeader_section' style={{ paddingBottom: '10px', marginBottom: '5px' }}>
                 <Grid container spacing={2} className='header_row'>
                     <Grid item xs={8.5} sx={{ textAlign: 'start' }}>
                         <Grid container spacing={0} alignItems="center">
                             <Grid item xs={6}>
                                 <Box className='profile_image'>
                                     <Box sx={{ marginLeft: '15px' }}>
-                                        {!selectedChat?.chat?.members?.length ? <> <HeaderSkeletonMember /></> : <>
-                                            {/* {console.log(selectedChat)} */}
+                                        {selectedChat?.loading ? <> <HeaderSkeletonMember /></> : <>
                                             <GroupPeople memberInfo={selectedChat} />
                                         </>}
                                     </Box>
@@ -127,14 +167,26 @@ const Header = () => {
                                         horizontal: 'left',
                                     }}
                                 >
-                                    <Typography sx={{pb: 1,pt:1, px: 2, display: 'flex', alignItems: 'center', justifyContent: 'space-around' }}>
+                                    <Typography sx={{ pb: 1, pt: 1, px: 2, display: 'flex', alignItems: 'center', justifyContent: 'space-around' }}>
 
                                         <span style={{ paddingRight: '8px' }}>Group Invite</span>
                                         <GroupInvite groupInviteOpen={groupInviteOpen} setGroupInviteOpen={setGroupInviteOpen} chatId={selectedChat?.chat?._id} token={auth?.user?.token} handleGroupInvite={handleGroupInvite} handleGroupInviteClose={handleGroupInviteClose} />
                                         <FcInvite onClick={handleGroupInvite} />
                                     </Typography>
                                     <Divider />
-                                    <Typography sx={{ pb: 1,pt:1, px: 2, display: 'flex', alignItems: 'center', justifyContent: 'space-around' }}>
+                                    <Typography sx={{ pb: 1, pt: 1, px: 2, display: 'flex', alignItems: 'center', justifyContent: 'space-around' }}>
+                                        <span style={{ paddingRight: '8px' }}>Add Member</span>
+                                        <GroupAllMemberSearch addMemberOpen={addMemberOpen} setAddMemberOpen={setAddMemberOpen} chatId={selectedChat?.chat?._id} token={auth?.user?.token} handleAddMemberOpen={handleAddMemberOpen} handleAddMemberClose={handleAddMemberClose} />
+                                        <MdPersonAddAlt1 onClick={handleAddMemberOpen} style={{ color: '#d1c4e6' }} />
+                                    </Typography>
+                                    <Divider />
+                                    <Typography sx={{ pb: 1, pt: 1, px: 2, display: 'flex', alignItems: 'center', justifyContent: 'space-around' }}>
+                                        <span style={{ paddingRight: '8px' }}> Group Delete</span>
+                                        <GroupAlertShow setAlertOpenGroup={setAlertOpenGroup} chatId={selectedChat?.chat?._id} token={auth?.user?.token} handleAlertOpenGroup={handleAlertOpenGroup} handleAlertCloseGroup={handleAlertCloseGroup} alertOpenGroup={alertOpenGroup} />
+                                        <Delete style={{ color: '#d1c4e9' }} onClick={handleAlertOpenGroup} />
+                                    </Typography>
+                                    <Divider />
+                                    <Typography sx={{ pb: 1, pt: 1, px: 2, display: 'flex', alignItems: 'center', justifyContent: 'space-around' }}>
                                         <span style={{ paddingRight: '8px' }}> All Conversion</span>
                                         <AlertShow setAlertOpen={setAlertOpen} chatId={selectedChat?.chat?._id} token={auth?.user?.token} handleAlertOpen={handleAlertOpen} handleAlertClose={handleAlertClose} alertOpen={alertOpen} />
                                         <FcDeleteDatabase onClick={handleAlertOpen} />
@@ -158,8 +210,8 @@ const Header = () => {
                         search === 'search' && <div className={search === 'search' ? 'chat-search visible-chat transform' : 'chat-search visible-chat transform'}>
                             <div className="search_form">
                                 <SearchIcon />
-                                <input type="text" name="chat-search" placeholder="Search Chats" className="form-control" />
-                                <button className='close-btn-chat' onClick={() => setSearch('')}>X</button>
+                                <input onChange={(e) => handleMessageSearch(e)} type="text" style={{ color: 'darkcyan', border: 'none' }} name="chat-search" placeholder="Conversations Search.." className="form-control" />
+                                <Cancel style={{ position: "relative", left: '-10px' }} onClick={handleCancelSearch} />
                             </div>
                         </div>
                     }
@@ -177,7 +229,7 @@ const Header = () => {
                     draggable
                     pauseOnHover
                 />
-            </Box>
+            </Box>}
         </>
     );
 };

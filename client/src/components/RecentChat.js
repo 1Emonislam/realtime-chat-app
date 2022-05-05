@@ -1,16 +1,17 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import EditRoadIcon from '@mui/icons-material/EditRoad';
 import { Avatar, AvatarGroup, Grid, ToggleButton, Tooltip, Typography } from '@mui/material';
+import Badge from '@mui/material/Badge';
 // import TypingIndicatior from './Typing/TypingIndicatior';
 import moment from 'moment';
 import React from 'react';
-import { BsFillCheckCircleFill } from 'react-icons/bs';
+import { BsFillCheckCircleFill, BsThreeDots } from 'react-icons/bs';
+import { useSelector } from 'react-redux';
 import SkeletonRecentGroup from '../Editor/SkeletonRecentGroup';
 import { chatExists } from '../RakibComponent/ChattingAria/ChatMiddle/ChatBody/chatLogic';
-import { useSelector } from 'react-redux'
 import './Chat.css';
+import GroupSort from './GroupSort';
 import TypingIndicatior from './Typing/TypingIndicatior';
-import Badge from '@mui/material/Badge';
 function RecentChat({ isTyping, chatActive, handleTyping, groupMessage, handleSingleChat }) {
     const { notification, groupData } = useSelector(state => state)
     const [dataState, setDataState] = React.useState({
@@ -38,6 +39,16 @@ function RecentChat({ isTyping, chatActive, handleTyping, groupMessage, handleSi
     }
     //console.log(dataState?.activeObject?._id)
     const [selected, setSelected] = React.useState(false);
+
+    // const [anchorEl, setAnchorEl] = React.useState(null);
+
+    // const handleClick = (event) => {
+    //     setAnchorEl(event.currentTarget);
+    // };
+    const [sortAncorEl, setSortAncorEl] = React.useState(null);
+    const handleSortClick = (event) => {
+        setSortAncorEl(event.currentTarget);
+    };
     return (
         <div>
             <Grid container spacing={0} sx={{
@@ -83,7 +94,8 @@ function RecentChat({ isTyping, chatActive, handleTyping, groupMessage, handleSi
                         selected={selected}
                         onChange={() => {
                             setSelected(false);
-                        }}>
+                        }}onClick={handleSortClick}>
+                         
                         <EditRoadIcon sx={{
                             textTransform: 'capitalize',
                             fontSize: {
@@ -106,136 +118,148 @@ function RecentChat({ isTyping, chatActive, handleTyping, groupMessage, handleSi
                             }
                         }} />
                     </ToggleButton>
+                    <GroupSort setSortAncorEl={setSortAncorEl}sortAncorEl={sortAncorEl}handleSortClick/>
                 </Grid>
             </Grid>
             <Grid container spacing={0} padding={'10px 0px'} justifyContent="center">
-                {groupData?.data?.length === 0 ? <SkeletonRecentGroup /> :
+                {groupData?.loading && <SkeletonRecentGroup />}
+                {!groupData?.loading &&
                     <> {groupData?.data?.map((chat, index) => (
                         <Grid key={index} item xs={12} className={toggleActiveStyle(index)} alignItems="center" justifyContent="center">
                             {/* { toggleActiveStyle(index) } */}
-                            <ToggleButton value="check"
-                                selected={selected}
-                                onChange={() => {
-                                    setSelected(false);
-                                }} className={toggleActiveStyle(index)} sx={{ padding: '14px!important', margin: '0 5px', border: 'none', width: '96%', textTransform: 'capitalize' }} onClick={() => {
-                                    toggleActive(index)
-                                    handleSingleChat(chat._id)
-                                }
-                                } >
-                                <Grid container spacing={0} alignItems="center" sx={{
-                                    justifyContent: {
-                                        lg: 'space-between',
-                                        md: 'space-between',
-                                        sm: 'space-between',
-                                        xs: 'space-between'
-                                    },
-                                }}>
-                                    <Grid item xs={2}>
-                                        <AvatarGroup total={chat?.members?.length}>
-                                            {chat?.members?.slice(0, 2)?.map((user, index) => (
-                                                <Grid item xs={4} key={index} sx={{ flex: 'start' }}>
-                                                    <Tooltip style={{ cursor: "pointer" }} title={user.firstName + ' ' + user?.lastName} key={index}>
-                                                        <Avatar key={index} alt={user.username} src={user?.pic} />
-                                                    </Tooltip>
-                                                </Grid>
-                                            ))}
-                                        </AvatarGroup>
-                                    </Grid>
-                                    <Grid item xs={9} sm={10.6} md={9} lg={9}>
-                                        <Grid container spacing={0} alignItems="center" justifyContent="center">
-                                            <Grid item xs={6}>
-                                                <Typography sx={{
-                                                    color: "inherit",
-                                                    textAlign: 'center',
-                                                    marginLeft: '0px',
-                                                    fontSize: {
-                                                        md: 14,
-                                                        sm: 14,
-                                                        xs: 14
-                                                    },
-                                                    fontWeight: {
-                                                        lg: 600,
-                                                        md: 600,
-                                                        sm: 500,
-                                                        xs: 400
-                                                    },
-                                                }}>
-                                                    {chat?.chatName}
-                                                </Typography>
-                                                <span style={{ fontSize: '11px' }}>{chat?.latestMessage?.content?.text?.slice(0, 10)}..</span>
+                            <Grid container spacing={0} alignItems="center" >
+                                <Grid item xs={10.9}>
+                                    <ToggleButton value="check"
+                                        selected={selected}
+                                        onChange={() => {
+                                            setSelected(false);
+                                        }} className={toggleActiveStyle(index)} sx={{ padding: '14px!important', margin: '0 5px', border: 'none', width: '96%', textTransform: 'capitalize' }} onClick={() => {
+                                            toggleActive(index)
+                                            handleSingleChat(chat._id)
+                                        }
+                                        } >
+                                        <Grid container spacing={0} alignItems="center" sx={{
+                                            justifyContent: {
+                                                lg: 'space-between',
+                                                md: 'space-between',
+                                                sm: 'space-between',
+                                                xs: 'space-between'
+                                            },
+                                        }}>
+                                            <Grid item xs={2}>
+                                                <AvatarGroup total={chat?.members?.length}>
+                                                    {chat?.members?.slice(0, 2)?.map((user, index) => (
+                                                        <Grid item xs={4} key={index} sx={{ flex: 'start' }}>
+                                                            <Tooltip style={{ cursor: "pointer" }} title={user.firstName + ' ' + user?.lastName} key={index}>
+                                                                <Avatar key={index} alt={user.username} src={user?.pic} />
+                                                            </Tooltip>
+                                                        </Grid>
+                                                    ))}
+                                                </AvatarGroup>
                                             </Grid>
-                                            {/* {console.log(groupData)} */}
-
-                                            <Grid item xs={5}>
-                                                <Grid item textAlign="right">
-                                                    {/*  xs={2}  */}
-                                                    <Typography sx={{
-                                                        color: "inherit",
-                                                        fontSize: {
-                                                            lg: 12,
-                                                            md: 10,
-                                                            sm: 10,
-                                                            xs: 10
-                                                        },
-                                                        fontWeight: {
-                                                            lg: 200,
-                                                            md: 200,
-                                                            sm: 200,
-                                                            xs: 200
-                                                        },
-                                                    }}>
-
-                                                        {moment(chat?.latestMessage?.updatedAt).fromNow()}
-                                                    </Typography>
-                                                    {/* {console.log(chat)} */}
-                                                    {/* {console.log(chat?.seen)} */}
-                                                    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                                                        <div sx={{
-                                                            textAlign: 'left',
+                                            <Grid item xs={9} sm={10.6} md={9} lg={9}>
+                                                <Grid container spacing={0} alignItems="center" justifyContent="center">
+                                                    <Grid item xs={6}>
+                                                        <Typography sx={{
                                                             color: "inherit",
-                                                            marginLeft: '53px',
+                                                            textAlign: 'center',
+                                                            marginLeft: '0px',
                                                             fontSize: {
-                                                                lg: 13,
-                                                                md: 11,
-                                                                sm: 11,
-                                                                xs: 11
+                                                                md: 14,
+                                                                sm: 14,
+                                                                xs: 14
                                                             },
                                                             fontWeight: {
-                                                                lg: 400,
-                                                                md: 400,
-                                                                sm: 300,
-                                                                xs: 300
+                                                                lg: 600,
+                                                                md: 600,
+                                                                sm: 500,
+                                                                xs: 400
                                                             },
-                                                        }} component="div">
-                                                            {isTyping?.typing && chatExists(chat?._id, isTyping?.user?.chat) ? <>
-                                                                <TypingIndicatior />
-                                                                <div style={{ display: "flex", alignItems: 'center' }}>
-                                                                    <Tooltip style={{ cursor: "pointer" }} title={isTyping?.user?.user?.firstName + ' ' + isTyping?.user?.user?.lastName} arrow>
-                                                                        <Avatar sx={{ height: '15px', width: '15px' }} alt={isTyping?.user?.user?.username} src={isTyping?.user?.user?.pic} />
-                                                                    </Tooltip>
-                                                                </div>
-                                                            </> : <> </>}
-                                                            {groupMessage?.latestMessage?.sent && <BsFillCheckCircleFill />}
-                                                        </div>
-                                                        {chat?.seen?.length && <AvatarGroup max={3}>
-                                                            {chat?.seen?.slice(0, 3)?.map((user, i) => (
-                                                                <Tooltip style={{ cursor: "pointer" }} title={'seen'} key={i}>
-                                                                    <Avatar sx={{ height: '12px', width: '12px', marginTop: '3px' }} alt={user.username} src={user?.pic} />
-                                                                </Tooltip>
-                                                            ))}
-                                                        </AvatarGroup>}
-                                                    </div>
+                                                        }}>
+                                                            {chat?.chatName}
+                                                        </Typography>
+                                                        <span style={{ fontSize: '11px' }}>{chat?.latestMessage?.content?.text?.slice(0, 10)}..</span>
+                                                    </Grid>
+                                                    {/* {console.log(groupData)} */}
 
+                                                    <Grid item xs={5}>
+                                                        <Grid item textAlign="right">
+                                                            {/*  xs={2}  */}
+                                                            <Typography sx={{
+                                                                color: "inherit",
+                                                                fontSize: {
+                                                                    lg: 12,
+                                                                    md: 10,
+                                                                    sm: 10,
+                                                                    xs: 10
+                                                                },
+                                                                fontWeight: {
+                                                                    lg: 200,
+                                                                    md: 200,
+                                                                    sm: 200,
+                                                                    xs: 200
+                                                                },
+                                                            }}>
+
+                                                                {moment(chat?.latestMessage?.updatedAt).fromNow()}
+                                                            </Typography>
+                                                            {/* {console.log(chat)} */}
+                                                            {/* {console.log(chat?.seen)} */}
+                                                            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                                                                <div sx={{
+                                                                    textAlign: 'left',
+                                                                    color: "inherit",
+                                                                    marginLeft: '53px',
+                                                                    fontSize: {
+                                                                        lg: 13,
+                                                                        md: 11,
+                                                                        sm: 11,
+                                                                        xs: 11
+                                                                    },
+                                                                    fontWeight: {
+                                                                        lg: 400,
+                                                                        md: 400,
+                                                                        sm: 300,
+                                                                        xs: 300
+                                                                    },
+                                                                }} component="div">
+                                                                    {isTyping?.typing && chatExists(chat?._id, isTyping?.user?.chat) ? <>
+                                                                        <TypingIndicatior />
+                                                                        <div style={{ display: "flex", alignItems: 'center' }}>
+                                                                            <Tooltip style={{ cursor: "pointer" }} title={isTyping?.user?.user?.firstName + ' ' + isTyping?.user?.user?.lastName} arrow>
+                                                                                <Avatar sx={{ height: '15px', width: '15px' }} alt={isTyping?.user?.user?.username} src={isTyping?.user?.user?.pic} />
+                                                                            </Tooltip>
+                                                                        </div>
+                                                                    </> : <> </>}
+                                                                    {groupMessage?.latestMessage?.sent && <BsFillCheckCircleFill />}
+                                                                </div>
+                                                                {chat?.seen?.length && <AvatarGroup max={3}>
+                                                                    {chat?.seen?.slice(0, 3)?.map((user, i) => (
+                                                                        <Tooltip style={{ cursor: "pointer" }} title={'seen'} key={i}>
+                                                                            <Avatar sx={{ height: '12px', width: '12px', marginTop: '3px' }} alt={user.username} src={user?.pic} />
+                                                                        </Tooltip>
+                                                                    ))}
+                                                                </AvatarGroup>}
+                                                            </div>
+
+                                                        </Grid>
+                                                    </Grid>
+                                                    <Grid item xs={1}>
+                                                        {(notification?.msgNotification?.filter(push => push?.chat?._id === chat?._id && push?.seen === false)?.length) !== 0 && <Badge badgeContent={(notification?.msgNotification?.filter(push => push?.chat?._id === chat?._id && push?.seen === false)?.length)} color="primary">
+                                                        </Badge>}
+                                                    </Grid>
                                                 </Grid>
                                             </Grid>
-                                            <Grid item xs={1}>
-                                                {(notification?.msgNotification?.filter(push => push?.chat?._id === chat?._id && push?.seen === false)?.length) !== 0 && <Badge badgeContent={(notification?.msgNotification?.filter(push => push?.chat?._id === chat?._id && push?.seen === false)?.length)} color="primary">
-                                                </Badge>}
-                                            </Grid>
                                         </Grid>
-                                    </Grid>
+                                    </ToggleButton>
                                 </Grid>
-                            </ToggleButton>
+                                <Grid item xs={0.5}>
+                                    <ToggleButton value="two" style={{ border: 'none' }} >
+                                        <BsThreeDots style={{ fontSize: '14px' }} />
+                                    </ToggleButton>
+                                    {/* {<GroupInfo anchorEl={anchorEl} setAnchorEl={setAnchorEl} handleClick={handleClick} />} */}
+                                </Grid>
+                            </Grid>
                         </Grid>
                     ))} </>}
             </Grid >

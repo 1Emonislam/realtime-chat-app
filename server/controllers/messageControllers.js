@@ -88,7 +88,19 @@ module.exports.allMessage = async (req, res, next) => {
         return res.status(400).json({ error: { email: 'User Credentials expired! Please login' } })
     }
     try {
-        let message = await Message.find({ chat: req.params.chatId })
+        const keyword = req.query.search ? {
+            chat: req.params.chatId,
+            $or: [
+                { "content.text": { $regex: req.query.search, $options: "i" } },
+            ],
+        } : { chat: req.params.chatId };
+
+        let message;
+        if (req.query?.search) {
+            message = await Message.find(keyword).sort('-createdAt')
+        } else {
+            message = await Message.find({ chat: req.params.chatId })
+        }
         message = await User.populate(message, {
             path: 'sender',
             select: '_id pic firstName lastName email online lastOnline'

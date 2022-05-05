@@ -218,3 +218,14 @@ button {
   padding: 5px !important;
   margin-bottom: 8px !important;
 }
+ul.sort-menu {
+  padding: 10px 20px !important;
+  list-style: none;
+  font-size: 14px;
+}
+ul.sort-menu li {
+  border-bottom: 1px solid rgba(221, 221, 221, 0.412);
+  padding-bottom: 6px;
+  padding-top: 6px;
+  cursor: pointer;
+}

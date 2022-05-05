@@ -7,6 +7,7 @@ const { upload } = require("../utils/file");
 const { mailSending } = require("../utils/func");
 const { genToken, genInviteGroup } = require("../utils/genToken");
 const GroupNotification = require("../models/groupNotificationModel");
+const Message = require("../models/messageModel");
 
 module.exports.acessChat = async (req, res, next) => {
   if (!req?.user?._id) {
@@ -88,14 +89,39 @@ module.exports.getChat = async (req, res, next) => {
     return res.status(400).json({ error: { email: 'User Credentials expired! Please login' } })
   }
   try {
-    await Chat.find({ members: { $elemMatch: { $eq: req.user._id } } }).sort("-updatedAt").populate("seen", "_id pic firstName lastName email online lastOnline createdAt").populate("members", "_id pic firstName lastName email online lastOnline createdAt").populate("latestMessage").populate("groupAdmin", "_id pic firstName lastName email online lastOnline createdAt").then(async (results) => {
-      // console.log(results)
-      results = await User.populate(results, {
-        path: "latestMessage.sender",
-        select: "_id pic firstName lastName email online lastOnline createdAt"
-      })
-      return res.status(200).json({ data: results })
-    })
+    const { status, page = 1, limit = 10 } = req.query;
+    if (status == 'recent') {
+      const latest = await Chat.find({ members: { $elemMatch: { $eq: req.user._id } } }).limit(limit * 1)
+        .skip((page - 1) * limit).sort("-updatedAt").populate("seen", "_id pic firstName lastName email online lastOnline createdAt").populate("members", "_id pic firstName lastName email online lastOnline createdAt").populate("latestMessage").populate("groupAdmin", "_id pic firstName lastName email online lastOnline createdAt").populate({
+          path: "latestMessage.sender",
+          select: "_id pic firstName lastName email online lastOnline createdAt"
+        })
+      return res.status(200).json({ data: latest })
+    }
+    if (status == 'latest') {
+      const latest = await Chat.find({ members: { $elemMatch: { $eq: req.user._id } } }).limit(limit * 1)
+        .skip((page - 1) * limit).sort("-createdAt").populate("seen", "_id pic firstName lastName email online lastOnline createdAt").populate("members", "_id pic firstName lastName email online lastOnline createdAt").populate("latestMessage").populate("groupAdmin", "_id pic firstName lastName email online lastOnline createdAt").populate({
+          path: "latestMessage.sender",
+          select: "_id pic firstName lastName email online lastOnline createdAt"
+        })
+      return res.status(200).json({ data: latest })
+    }
+    if (status == 'popular' || 'acc') {
+      const latest = await Chat.find({ members: { $elemMatch: { $eq: req.user._id } } }).limit(limit * 1)
+        .skip((page - 1) * limit).sort("-members").populate("seen", "_id pic firstName lastName email online lastOnline createdAt").populate("members", "_id pic firstName lastName email online lastOnline createdAt").populate("latestMessage").populate("groupAdmin", "_id pic firstName lastName email online lastOnline createdAt").populate({
+          path: "latestMessage.sender",
+          select: "_id pic firstName lastName email online lastOnline createdAt"
+        })
+      return res.status(200).json({ data: latest })
+    }
+    if (status == 'oldChat' || 'dec') {
+      const latest = await Chat.find({ members: { $elemMatch: { $eq: req.user._id } } }).limit(limit * 1)
+        .skip((page - 1) * limit).sort("createdAt").populate("seen", "_id pic firstName lastName email online lastOnline createdAt").populate("members", "_id pic firstName lastName email online lastOnline createdAt").populate("latestMessage").populate("groupAdmin", "_id pic firstName lastName email online lastOnline createdAt").populate({
+          path: "latestMessage.sender",
+          select: "_id pic firstName lastName email online lastOnline createdAt"
+        })
+      return res.status(200).json({ data: latest })
+    }
   } catch (error) {
     next(error)
   }
@@ -121,29 +147,8 @@ module.exports.groupCreate = async (req, res, next) => {
       members: [req?.user?._id],
       groupAdmin: req?.user?._id,
     });
-
-    if (groupChat) {
-      for (let i = 0; i < groupChat?.members?.length; i++) {
-        await JoinGroup.create({
-          joinChatId: groupChat?._id,
-          userJoin: groupChat?.members[i]
-        })
-        // console.log(groupChat?.members[i])
-        await GroupNotification.create({
-          receiver: groupChat?.members[i],
-          type: 'group',
-          subject: `added new group from ${groupChat?.chatName}`,
-          message: `${req?.user?.firstName} ${req?.user?.lastName} added group`,
-        })
-      }
-    }
-
-    const fullGroupChat = await Chat.findOne({ _id: groupChat._id }).populate("members", "_id pic firstName lastName email online lastOnline createdAt").populate("groupAdmin", "_id pic firstName lastName email online lastOnline createdAt");
-    const memberJoinedInfo = {
-      joinMemberCount: fullGroupChat?.members?.length,
-      showMemberFront: fullGroupChat?.members?.slice(0, 5)
-    }
-    return res.status(200).json({ message: `Create New Group ${groupChat?.chatName} ${groupChat?.status} Group Join Member ${groupChat?.members?.length}`, memberJoinedInfo, data: fullGroupChat })
+    const fullGroupChat = await Chat.find({ members: req.user?._id }).populate("members", "_id pic firstName lastName email online lastOnline createdAt").populate("groupAdmin", "_id pic firstName lastName email online lastOnline createdAt");
+    return res.status(200).json({ message: `Create New Group ${groupChat?.chatName} ${groupChat?.status} Group Join Member ${groupChat?.members?.length}`, data: fullGroupChat })
   } catch (error) {
     error.status = 400;
     next(error);
@@ -190,26 +195,33 @@ module.exports.groupAddTo = async (req, res, next) => {
     }, { new: true }).populate("members", "_id pic firstName lastName email online lastOnline createdAt").populate("groupAdmin", "_id pic firstName lastName email online lastOnline createdAt");
     // console.log(added)
     if (!added) {
-      return res.status(404).json({ error: { "notfound": "chat not founds!" }, data: [] });
+      return res.status(404).json({ error: { "notfound": "chat not exists!" } });
     }
-    if (added) {
-      const newMember = User.findOne({ _id: userId });
-      await GroupNotification.create({
-        receiver: userId,
-        type: 'groupchat',
-        subject: `Congratulations you have added this group ${added?.chatName} new member ${newMember?.firstName + ' ' + newMember?.lastName}`,
-        message: `${req?.user?.firstName} ${req?.user?.lastName} added to ${newMember?.firstName} ${newMember?.lastName}`,
-      })
+    let getChatMember = await Chat.findOne({ _id: added?._id }).select("members groupAdmin _id seen img chatName latestMessage").populate("members", "_id pic firstName lastName email online lastOnline createdAt").populate("groupAdmin", "_id pic firstName lastName email online lastOnline createdAt").populate("seen", "_id pic firstName lastName email online lastOnline createdAt");
+    const data = {
+      data: getChatMember,
+      amIJoined: getChatMember?.members?.some(am => am?._id?.toString() === req.user?._id?.toString()),
+      amIAdmin: getChatMember?.groupAdmin?.some(am => am?._id?.toString() === req.user?._id?.toString()),
+    }
+
+    if (userId?.length) {
+      for (const member of userId) {
+        await JoinGroup.create({
+          joinChatId: chatId,
+          userJoin: member
+        })
+      }
+    } else {
       await JoinGroup.create({
         joinChatId: chatId,
         userJoin: userId
       })
-      const memberJoinedInfo = {
-        joinMemberCount: added?.members?.length,
-        showMemberFront: added?.members
-      }
-      return res.status(200).json({ message: "Member added successfully!", memberJoinedInfo, data: added })
     }
+    const memberJoinedInfo = {
+      joinMemberCount: added?.members?.length,
+      showMemberFront: added?.members
+    }
+    return res.status(200).json({ message: `${userId?.length !== 0 && userId?.length} new Member added successfully!`, memberJoinedInfo, data })
   }
   catch (error) {
     next(error)
@@ -485,6 +497,38 @@ module.exports.groupAddToInviteSent = async (req, res, next) => {
     next(error)
   }
 }
+
+module.exports.singleGroupDelete = async (req, res, next) => {
+  try {
+    const { chatId } = req.body;
+    const chat = await Chat.findOne({ _id: chatId })
+    if (!chat) {
+      return res.status(400).json({ error: { group: 'group not exists!' } })
+    }
+    if (chat) {
+      const removed = await Chat.findOneAndRemove({ _id: chat?._id, groupAdmin: req?.user?._id })
+      if (!removed) {
+        return res.status(400).json({ error: { group: 'Permission Denied! you can perform only group admin!' } })
+      }
+      if (removed) {
+        await JoinGroup.deleteMany({
+          joinChatId: chatId,
+        });
+        await Message.deleteMany({
+          chat: chatId,
+        });
+        await GroupNotification.deleteMany({
+          chat: chatId,
+        });
+        const data = await Chat.find({ members: req.user?._id }).select("members groupAdmin _id seen img chatName latestMessage").populate("members", "_id pic firstName lastName email online lastOnline createdAt").populate("groupAdmin", "_id pic firstName lastName email online lastOnline createdAt").populate("seen", "_id pic firstName lastName email online lastOnline createdAt");
+        return res.status(200).json({ message: 'group removed Successfully', data })
+      }
+    }
+  }
+  catch (error) {
+    next(error)
+  }
+}
 const inviteLinkVerify = async (req, res, next) => {
   try {
 
@@ -503,20 +547,25 @@ module.exports.groupMemberRemoveTo = async (req, res, next) => {
   try {
     const remove = await Chat.findOneAndUpdate({ _id: chatId, groupAdmin: req?.user?._id }, {
       $pull: { members: userId },
-    }, { new: true }).populate("members", "_id pic firstName lastName email online lastOnline createdAt").populate("groupAdmin", "_id pic firstName lastName email online lastOnline createdAt");
+    }, { new: true });
     if (!remove) {
       return res.status(404).json({ error: { "isAdmin": "Permission Denied You can perform only admin" } });
     }
     if (remove) {
+      let getChatMember = await Chat.findOne({ _id: chatId }).select("members groupAdmin _id seen img chatName latestMessage").populate("members", "_id pic firstName lastName email online lastOnline createdAt").populate("groupAdmin", "_id pic firstName lastName email online lastOnline createdAt").populate("seen", "_id pic firstName lastName email online lastOnline createdAt");
+      const data = {
+        data: getChatMember,
+        amIJoined: getChatMember?.members?.some(am => am?._id?.toString() === req.user?._id?.toString()),
+        amIAdmin: getChatMember?.groupAdmin?.some(am => am?._id?.toString() === req.user?._id?.toString()),
+      }
       await JoinGroup.deleteMany({
         joinChatId: chatId,
         userJoin: userId
       });
-      return res.status(200).json({ message: "removed successfully!", data: remove })
+      return res.status(200).json({ message: "removed successfully!", data })
     }
   }
   catch (error) {
     next(error)
   }
 }
-

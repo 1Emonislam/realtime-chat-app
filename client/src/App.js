@@ -1,5 +1,4 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import Box from "@mui/material/Box";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import * as React from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -94,7 +93,7 @@ export default function ToggleColorMode() {
     return () => { socket.current?.disconnect() };
   }, [auth?.user, dispatch])
   React.useMemo(() => {
-    dispatch(getGroupChatData(auth?.user?.token));
+    dispatch(getGroupChatData(auth?.user?.token,'recent'));
     dispatch(getNotification(auth.user?.token))
   }, [auth.user?.token, dispatch, groupMessage?.msg])
   return (
