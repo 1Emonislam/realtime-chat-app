@@ -10,7 +10,7 @@ export const getSelectedChat = (chatId, token) => {
             }
         })
         try {
-            fetch(`https://collaball.netlify.app/api/chat/${chatId}`, {
+            fetch(`http://localhost:5000/api/chat/${chatId}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': "application/json",

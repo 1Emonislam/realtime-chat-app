@@ -2,10 +2,10 @@
 
 # back end api
 
-## User login https://collaball.netlify.app/api/authlogin
+## User login http://localhost:5000/api/authlogin
 
 ```
-fetch('https://collaball.netlify.app/api/auth',{
+fetch('http://localhost:5000/api/auth',{
     method: 'POST',
     headers: {
     'Content-Type': 'application/json',
@@ -17,10 +17,10 @@ fetch('https://collaball.netlify.app/api/auth',{
     })
 ```
 
-## User log Out https://collaball.netlify.app/api/auth/logout
+## User log Out http://localhost:5000/api/auth/logout
 
 ```
-fetch('https://collaball.netlify.app/api/auth/logout',{
+fetch('http://localhost:5000/api/auth/logout',{
     method: 'POST',
     headers: {
     'Content-Type': 'application/json',
@@ -29,10 +29,10 @@ fetch('https://collaball.netlify.app/api/auth/logout',{
     })
 ```
 
-## User Register https://collaball.netlify.app/api/auth/register
+## User Register http://localhost:5000/api/auth/register
 
 ```
-fetch('https://collaball.netlify.app/api/auth/register',{
+fetch('http://localhost:5000/api/auth/register',{
     method: 'POST',
     headers: {
     'Content-Type': 'application/json',
@@ -49,10 +49,10 @@ fetch('https://collaball.netlify.app/api/auth/register',{
     })
 ```
 
-## User change password https://collaball.netlify.app/api/auth/change-password
+## User change password http://localhost:5000/api/auth/change-password
 
 ```
-fetch('https://collaball.netlify.app/api/auth/change-password',{
+fetch('http://localhost:5000/api/auth/change-password',{
     method: 'PUT',
     headers: {
     'Content-Type': 'application/json',
@@ -66,10 +66,10 @@ fetch('https://collaball.netlify.app/api/auth/change-password',{
     })
 ```
 
-## User forget password https://collaball.netlify.app/api/auth/forget-password
+## User forget password http://localhost:5000/api/auth/forget-password
 
 ```
-fetch('https://collaball.netlify.app/api/auth/forget-password',{
+fetch('http://localhost:5000/api/auth/forget-password',{
     method: 'POST',
     headers: {
     'Content-Type': 'application/json',
@@ -80,10 +80,10 @@ fetch('https://collaball.netlify.app/api/auth/forget-password',{
     })
 ```
 
-## User reset password https://collaball.netlify.app/api/auth/reset-password
+## User reset password http://localhost:5000/api/auth/reset-password
 
 ```
-fetch('https://collaball.netlify.app/api/auth/reset-password',{
+fetch('http://localhost:5000/api/auth/reset-password',{
     method: 'POST',
     headers: {
     'Content-Type': 'application/json',
@@ -96,10 +96,10 @@ fetch('https://collaball.netlify.app/api/auth/reset-password',{
     })
 ```
 
-## get my profile https://collaball.netlify.app/api/profile
+## get my profile http://localhost:5000/api/profile
 
 ```
-fetch('https://collaball.netlify.app/api/profile',{
+fetch('http://localhost:5000/api/profile',{
     method: 'GET',
     headers: {
     'Content-Type': 'application/json',
@@ -108,10 +108,10 @@ fetch('https://collaball.netlify.app/api/profile',{
     })
 ```
 
-## get public single profile https://collaball.netlify.app/api/profile/:id
+## get public single profile http://localhost:5000/api/profile/:id
 
 ```
-fetch('https://collaball.netlify.app/api/profile/:id',{
+fetch('http://localhost:5000/api/profile/:id',{
     method: 'GET',
     headers: {
     'Content-Type': 'application/json',
@@ -120,10 +120,10 @@ fetch('https://collaball.netlify.app/api/profile/:id',{
     })
 ```
 
-## delete public single profile https://collaball.netlify.app/api/profile/:id
+## delete public single profile http://localhost:5000/api/profile/:id
 
 ```
-fetch('https://collaball.netlify.app/api/profile/:id',{
+fetch('http://localhost:5000/api/profile/:id',{
     method: 'DELETE',
     headers: {
     'Content-Type': 'application/json',
@@ -132,10 +132,10 @@ fetch('https://collaball.netlify.app/api/profile/:id',{
     })
 ```
 
-## update my profile https://collaball.netlify.app/api/profile/update
+## update my profile http://localhost:5000/api/profile/update
 
 ```
-fetch('https://collaball.netlify.app/api/profile/update',{
+fetch('http://localhost:5000/api/profile/update',{
     method: 'PUT',
     headers: {
     'Content-Type': 'application/json',

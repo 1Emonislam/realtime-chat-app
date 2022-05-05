@@ -170,8 +170,9 @@ module.exports.groupRename = async (req, res, next) => {
         await GroupNotification.create({
           receiver: groupChat?.members[i],
           type: 'group',
+          chat: updatedChat?._id,
           subject: `${groupChat?.chatName} group Rename  from current group name ${updatedChat?.chatName}`,
-          message: ` ${req?.user?.firstName} ${req?.user?.lastName} Group Rename`,
+          text: ` ${req?.user?.firstName} ${req?.user?.lastName} Group Rename`,
         })
       }
       return res.status(200).json({ message: "chat successfully updated!", data: updatedChat })
@@ -242,13 +243,14 @@ module.exports.groupInviteAccept = async (req, res, next) => {
       return res.status(400).json({ error: { email: 'Invitation Expired!' } })
     }
     if (declined) {
-      const newMember = User.findOne({ _id: userId });
+      const newMember = await User.findOne({ _id: userId });
       if (newMember) {
         await GroupNotification.create({
           receiver: invitedPerson,
-          type: 'groupchat',
+          type: 'group',
+          chat:exist?._id,
           subject: `${exist?.chatName} group Invitation request declined ${newMember?.firstName + ' ' + newMember?.lastName}`,
-          message: `Invitation request declined ${newMember?.firstName} ${newMember?.lastName}`,
+          text: `Invitation request declined ${newMember?.firstName} ${newMember?.lastName}`,
         })
         return res.status(200).json({ message: " group Invitation request declined!" })
       }
@@ -261,13 +263,14 @@ module.exports.groupInviteAccept = async (req, res, next) => {
       return res.status(404).json({ error: { "notfound": "chat not founds!" }, data: [] });
     }
     if (added) {
-      const newMember = User.findOne({ _id: userId });
+      const newMember = await User.findOne({ _id: userId });
       if (newMember) {
         await GroupNotification.create({
           receiver: invitedPerson,
-          type: 'groupchat',
+          type: 'group',
+          chat: added?._id,
           subject: `${added?.chatName} group Invitation request accepted ${newMember?.firstName + ' ' + newMember?.lastName}`,
-          message: `you have added to new member ${newMember?.firstName} ${newMember?.lastName}`,
+          text: `you have added to new member ${newMember?.firstName} ${newMember?.lastName}`,
         })
         await JoinGroup.create({
           joinChatId: chatId,
@@ -310,7 +313,7 @@ module.exports.groupAddToInviteSent = async (req, res, next) => {
       },
     }
     const token = genInviteGroup(data, expire);
-    const link = `https://collaball.netlify.app/group/invite/${token}`;
+    const link = `http://localhost:5000/group/invite/${token}`;
     if (!email?.length) {
       return res.status(200).json({ data: link, msg: `group ${chatGroup.chatName} attend to join` });
     }
@@ -363,7 +366,7 @@ module.exports.groupAddToInviteSent = async (req, res, next) => {
                     <tr>
                       <td style="text-align: center">
                         <a
-                          href="https://collaball.netlify.app/"
+                          href="http://localhost:5000/"
                           title="logo"
                           target="_blank"
                         >

@@ -8,7 +8,7 @@ const groupNotificationSchema = new Schema(
         },
         type: {
             type: String,
-            enum: ["privateChat", "groupchat","group", "status", 'call', 'inbox', 'contact', 'others'],
+            enum: ["privateChat", "groupchat", "group", "status", 'call', 'inbox', 'contact', 'others'],
             default: 'groupchat'
         },
         subject: String,
@@ -24,6 +24,9 @@ const groupNotificationSchema = new Schema(
         sender: {
             type: mongoose.Schema.Types.ObjectId,
             ref: "User",
+        },
+        text: {
+            type: 'String',
         },
         message: {
             type: Schema.Types.ObjectId,

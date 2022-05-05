@@ -9,7 +9,7 @@ export const allUserSearch = (search, page, setCount, limit, token) => {
                     loading: true,
                 }
             })
-            fetch(`https://collaball.netlify.app/api/auth/all/users/search?search=${search || ''}&page=${page}&limit=${limit}`, {
+            fetch(`http://localhost:5000/api/auth/all/users/search?search=${search || ''}&page=${page}&limit=${limit}`, {
                 method: "GET",
                 headers: {
                     'Content-Type': 'application/json',

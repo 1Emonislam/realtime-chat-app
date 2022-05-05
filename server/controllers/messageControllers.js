@@ -63,7 +63,7 @@ module.exports.sendMessage = async (req, res, next) => {
             const sendUser = await message?.chat?.members?.filter(member => {
                 return (member?._id?.toString() !== req?.user?._id?.toString());
             });
-            //console.log(message)
+            // console.log(message.chat)
             if (sendUser?.length) {
                 for (const member of sendUser) {
                     await GroupNotification.create({
