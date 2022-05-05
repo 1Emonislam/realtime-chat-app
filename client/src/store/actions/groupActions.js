@@ -1,6 +1,6 @@
 import { GROUP_FAILED_DATA, GROUP_GET_DATA, GROUP_INVITE_GEN_FAILED, GROUP_INVITE_GEN_SUCCESS, GROUP_LOADING_DATA, GROUP_PROGRESS_ACCEPTED, GROUP_PROGRESS_DECLINED, GROUP_SUCCESS_DATA } from "../type/groupType"
 import { GROUP_ADD_MEMBER_FAILED, GROUP_ADD_MEMBER_SUCCESS, SELECTED_CHAT_LOADING } from "../type/selectedChatTypes"
-export const getGroupChatData = (token,status,page,limit) => {
+export const getGroupChatData = (token, status, page, limit) => {
     return (dispatch) => {
         dispatch({
             type: GROUP_LOADING_DATA,
@@ -18,6 +18,12 @@ export const getGroupChatData = (token,status,page,limit) => {
             .then(res => res.json())
             .then(data => {
                 if (data) {
+                    dispatch({
+                        type: GROUP_LOADING_DATA,
+                        payload: {
+                            loading: false
+                        }
+                    })
                     dispatch({
                         type: GROUP_GET_DATA,
                         payload: {
@@ -49,6 +55,12 @@ export const postGroupChatData = (data, token, reset) => {
             })
                 .then(res => res.json())
                 .then(data => {
+                    dispatch({
+                        type: GROUP_LOADING_DATA,
+                        payload: {
+                            loading: false
+                        }
+                    })
                     if (data?.data) {
                         reset();
                         dispatch({
@@ -280,15 +292,15 @@ export const groupMemberRemove = (chatId, userId, token) => {
                         }
                     })
                     dispatch({
-                        type: GROUP_PROGRESS_ACCEPTED,
+                        type: GROUP_LOADING_DATA,
                         payload: {
-                            message: data.message
+                            loading: false
                         }
                     })
                     dispatch({
-                        type: GROUP_LOADING_DATA,
+                        type: GROUP_PROGRESS_ACCEPTED,
                         payload: {
-                            loading: false,
+                            message: data.message
                         }
                     })
                     if (data.error) {
