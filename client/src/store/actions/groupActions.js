@@ -8,7 +8,7 @@ export const getGroupChatData = (token, status, page, limit) => {
                 loading: true,
             }
         })
-        fetch(`https://collaball.netlify.app/api/chat?status=${status || ''}&page=${page || 1}&limit=${limit || 10}`, {
+        fetch(`https://collaballapp.herokuapp.com/api/chat?status=${status || ''}&page=${page || 1}&limit=${limit || 10}`, {
             method: 'GET',
             headers: {
                 "Content-Type": "application/json",
@@ -45,7 +45,7 @@ export const postGroupChatData = (data, token, reset) => {
             }
         })
         try {
-            fetch('https://collaball.netlify.app/api/chat/group/create', {
+            fetch('https://collaballapp.herokuapp.com/api/chat/group/create', {
                 method: 'POST',
                 headers: {
                     'Content-Type': "application/json",
@@ -96,7 +96,7 @@ export const groupInvite = (chatId, token, handleCopy, email) => {
             }
         })
         try {
-            fetch(`https://collaball.netlify.app/api/chat/group/invite/gen`, {
+            fetch(`https://collaballapp.herokuapp.com/api/chat/group/invite/gen`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': "application/json",
@@ -142,7 +142,7 @@ export const groupInvite = (chatId, token, handleCopy, email) => {
 export const inviteLinkVerify = (chatId, userId, invitedPerson, token) => {
     return async (dispatch) => {
         try {
-            fetch(`https://collaball.netlify.app/api/chat/group/invite/verify/${token}`, {
+            fetch(`https://collaballapp.herokuapp.com/api/chat/group/invite/verify/${token}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': "application/json",
@@ -182,7 +182,7 @@ export const inviteLinkVerify = (chatId, userId, invitedPerson, token) => {
 export const inviteLinkDeclined = (chatId, userId, invitedPerson, declined, token) => {
     return async (dispatch) => {
         try {
-            fetch(`https://collaball.netlify.app/api/chat/group/invite/verify/${token}`, {
+            fetch(`https://collaballapp.herokuapp.com/api/chat/group/invite/verify/${token}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': "application/json",
@@ -219,7 +219,7 @@ export const groupMemberAdd = (chatId, userCollection, token, handleCopy) => {
             }
         })
         try {
-            fetch(`https://collaball.netlify.app/api/chat/group/addTo`, {
+            fetch(`https://collaballapp.herokuapp.com/api/chat/group/addTo`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': "application/json",
@@ -275,7 +275,7 @@ export const groupMemberRemove = (chatId, userId, token) => {
             }
         })
         try {
-            fetch(`https://collaball.netlify.app/api/chat/group/member/removeTo/`, {
+            fetch(`https://collaballapp.herokuapp.com/api/chat/group/member/removeTo/`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': "application/json",
@@ -338,7 +338,7 @@ export const groupMemberRemove = (chatId, userId, token) => {
 export const groupDelete = (chatId, token) => {
     return async (dispatch) => {
         try {
-            fetch(`https://collaball.netlify.app/api/chat/group/delete`, {
+            fetch(`https://collaballapp.herokuapp.com/api/chat/group/delete`, {
                 method: 'Delete',
                 headers: {
                     'Content-Type': "application/json",
