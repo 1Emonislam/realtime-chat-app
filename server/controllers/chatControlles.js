@@ -166,12 +166,12 @@ module.exports.groupRename = async (req, res, next) => {
     if (!updatedChat) {
       return res.status(400).json({ error: { token: "you can perform only Admin Group Rename!" } });
     } if (updatedChat) {
-      for (let i = 0; i < groupChat?.members?.length; i++) {
+      for (let i = 0; i < updatedChat?.members?.length; i++) {
         await GroupNotification.create({
-          receiver: groupChat?.members[i],
+          receiver: updatedChat?.members[i],
           type: 'group',
           chat: updatedChat?._id,
-          subject: `${groupChat?.chatName} group Rename  from current group name ${updatedChat?.chatName}`,
+          subject: `${updatedChat?.chatName} group Rename  from current group name ${updatedChat?.chatName}`,
           text: ` ${req?.user?.firstName} ${req?.user?.lastName} Group Rename`,
         })
       }

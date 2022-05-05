@@ -6,7 +6,7 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { toast, ToastContainer } from 'react-toastify';
-import { postGroupChatData } from "../../store/actions/groupActions";
+import { groupUpdate } from "../../store/actions/groupActions";
 import { GROUP_FAILED_DATA, GROUP_SUCCESS_DATA } from "../../store/type/groupType";
 import Loading from "../Spinner/Loading";
 const style = {
@@ -29,11 +29,11 @@ const UpdateGroup = ({ handleGroupClose, groupOpen, groupInfo }) => {
     const [previewSource, setPreviewSource] = useState("")
     const { auth, groupData, theme } = useSelector(state => state);
     const onSubmit = data => {
+        if(groupInfo?.chat?._id)data.chatId = groupInfo?.chat?._id;
         if (previewSource) data.img = previewSource;
-        dispatch(postGroupChatData(data, auth?.user?.token, reset))
+        dispatch(groupUpdate(data, auth?.user?.token, reset))
     };
     //   console.log(groupData.error)
-    console.log(groupInfo)
     const fileReader = (file) => {
         const reader = new FileReader();
         reader.readAsDataURL(file);
@@ -191,7 +191,7 @@ const UpdateGroup = ({ handleGroupClose, groupOpen, groupInfo }) => {
                                                 Topic (Optional)
                                             </Typography>
                                         </ToggleButton>
-                                        <TextField fullWidth size="small"{...register("topic", { min: 0 })} />
+                                        <TextField fullWidth placeholder={groupInfo?.chat?.topic} size="small"{...register("topic", { min: 0 })} />
                                     </>
                                 </Box>
                                 <Box >
@@ -208,7 +208,7 @@ const UpdateGroup = ({ handleGroupClose, groupOpen, groupInfo }) => {
                                             Description
                                         </Typography>
                                     </ToggleButton>
-                                    <TextField fullWidth size="large"{...register("description", { min: 0 })} required />
+                                    <TextField placeholder={groupInfo?.chat?.description} fullWidth size="large"{...register("description", { min: 0 })} required />
                                     <Button
                                         variant="inherit" // <-- Just add me!
                                         label="My Label">
@@ -220,7 +220,9 @@ const UpdateGroup = ({ handleGroupClose, groupOpen, groupInfo }) => {
                                     row
                                     aria-labelledby="demo-row-radio-buttons-group-label"
                                     name="row-radio-buttons-group"
+                                    placeholder={groupInfo?.chat?.status}
                                 >
+
                                     <ToggleButton value="seven" style={{ border: 'none' }}>
                                         <FormControlLabel
                                             value="private"
@@ -230,7 +232,6 @@ const UpdateGroup = ({ handleGroupClose, groupOpen, groupInfo }) => {
                                             style={{ fontFamily: `"Poppins", sans-serif` }}
                                         />
                                     </ToggleButton>
-
                                     <ToggleButton value="eight" style={{ border: 'none' }}>
                                         <FormControlLabel
                                             value="public"
@@ -251,7 +252,7 @@ const UpdateGroup = ({ handleGroupClose, groupOpen, groupInfo }) => {
                                     <Loading />
                                 </div> :
                                     <ToggleButton value="teen" style={{ cursor: 'pointer', border: 'none', marginLeft: '15px', textTransform: 'capitalize', background: 'blue', color: 'white', padding: '5px 30px!important' }} className="buttonContact1" type="submit" variant="contained">
-                                        Add Participants
+                                        Update Group
                                     </ToggleButton>
                                 }
                             </Box>

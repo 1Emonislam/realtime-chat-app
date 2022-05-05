@@ -380,7 +380,7 @@ export const groupDelete = (chatId, token) => {
     }
 }
 
-export const groupUpdate = (data, token) => {
+export const groupUpdate = (data, token, reset) => {
     return async (dispatch) => {
         try {
             fetch(`https://collaballapp.herokuapp.com/api/chat/group/rename`, {
@@ -394,6 +394,7 @@ export const groupUpdate = (data, token) => {
             })
                 .then(res => res.json())
                 .then(data => {
+                    reset()
                     dispatch({
                         type: GROUP_LOADING_DATA,
                         payload: {
