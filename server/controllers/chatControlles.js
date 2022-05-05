@@ -366,7 +366,7 @@ module.exports.groupAddToInviteSent = async (req, res, next) => {
                     <tr>
                       <td style="text-align: center">
                         <a
-                          href="https://collaball.netlify.app/"
+                          href="https://collaballapp.herokuapp.com/"
                           title="logo"
                           target="_blank"
                         >
