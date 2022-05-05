@@ -171,7 +171,7 @@ module.exports.groupRename = async (req, res, next) => {
           receiver: updatedChat?.members[i],
           type: 'group',
           chat: updatedChat?._id,
-          subject: `${updatedChat?.chatName} group Rename  from current group name ${updatedChat?.chatName}`,
+          subject: `${updatedChat?.chatName} group Rename  from updated name ${updatedChat?.chatName}`,
           text: ` ${req?.user?.firstName} ${req?.user?.lastName} Group Rename`,
         })
       }

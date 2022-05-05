@@ -36,7 +36,7 @@ export default function MsgNotify({ handleSingleChat, auth, notify }) {
                                     {notify?.subject}
                                 </Typography>
                                 <br />
-                                {`${notify?.message?.content?.text?.slice(0, 30)}`}...
+                                {notify?.message?.content?.text && notify?.message?.content?.text?.slice(0, 30)}...
                             </React.Fragment>
                         }
                     />
