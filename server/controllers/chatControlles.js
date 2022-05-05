@@ -313,7 +313,7 @@ module.exports.groupAddToInviteSent = async (req, res, next) => {
       },
     }
     const token = genInviteGroup(data, expire);
-    const link = `http://localhost:5000/group/invite/${token}`;
+    const link = `https://collaball.netlify.app/group/invite/${token}`;
     if (!email?.length) {
       return res.status(200).json({ data: link, msg: `group ${chatGroup.chatName} attend to join` });
     }
@@ -366,7 +366,7 @@ module.exports.groupAddToInviteSent = async (req, res, next) => {
                     <tr>
                       <td style="text-align: center">
                         <a
-                          href="http://localhost:5000/"
+                          href="https://collaball.netlify.app/"
                           title="logo"
                           target="_blank"
                         >

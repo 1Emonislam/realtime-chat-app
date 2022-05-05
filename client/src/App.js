@@ -77,7 +77,7 @@ export default function ToggleColorMode() {
     }
   }, [auth?.user?.user?.email])
   const socket = React.useRef();
-  const ENDPOINT = "http://localhost:5000/";
+  const ENDPOINT = "https://collaball.netlify.app/";
   const dispatch = useDispatch()
   React.useEffect(() => {
     socket.current = io(ENDPOINT, {
