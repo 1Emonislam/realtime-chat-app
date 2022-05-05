@@ -33,6 +33,9 @@ app.use(bodyParser.urlencoded({
 app.use(bodyParser.json({ limit: '50mb' }))
 app.use(cors())
 app.use(cookieParser());
+app.use(function (req, res, next) {
+    res.header("Access-Control-Allow-Headers", "Access-Control-Allow-Headers")
+})
 // Middleware
 const serverApp = http.createServer(app);
 serverApp.listen(PORT, () => {
