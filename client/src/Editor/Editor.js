@@ -4,7 +4,7 @@ import { BsEmojiSmile } from 'react-icons/bs';
 import { MdOutlineAttachFile, MdSend, MdSettingsVoice } from 'react-icons/md';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast, ToastContainer } from 'react-toastify';
-import VoiceMessage from '../components/VoiceMessage.js/VoiceMessage';
+// import VoiceMessage from '../components/VoiceMessage.js/VoiceMessage';
 import { editMessage, sendMessage } from '../store/actions/messageAction';
 import { SUCCESS_MESSAGE_CLEAR, UPDATE_MESSAGE_FAILED, WRITE_MESSAGE_UPDATE } from '../store/type/messageTypes';
 import './Editor.css';

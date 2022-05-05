@@ -5,7 +5,7 @@ import { Box } from "@mui/system";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
-import { toast, ToastContainer } from 'react-toastify';
+import { toast } from 'react-toastify';
 import { postGroupChatData } from "../../store/actions/groupActions";
 import { GROUP_FAILED_DATA, GROUP_SUCCESS_DATA } from "../../store/type/groupType";
 import Loading from "../Spinner/Loading";
