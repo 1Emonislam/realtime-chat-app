@@ -93,7 +93,7 @@ export default function ToggleColorMode() {
     return () => { socket.current?.disconnect() };
   }, [auth?.user, dispatch])
   React.useMemo(() => {
-    dispatch(getGroupChatData(auth?.user?.token,'recent'));
+    dispatch(getGroupChatData(auth?.user?.token, 'recent'));
     dispatch(getNotification(auth.user?.token))
   }, [auth.user?.token, dispatch, groupMessage?.msg])
   return (
@@ -157,7 +157,7 @@ export default function ToggleColorMode() {
               <Route
                 path="/settings"
                 element={
-                  <Settings>
+                  <Settings mode={mode}>
                     <ThemeSwitch
                       onClick={colorMode.toggleColorMode}
                       style={{ fontSize: "20px" }}

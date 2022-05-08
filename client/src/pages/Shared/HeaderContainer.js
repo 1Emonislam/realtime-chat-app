@@ -1,16 +1,18 @@
 import SearchIcon from "@mui/icons-material/Search";
-import { Grid, Typography } from "@mui/material";
+import { Box, Grid, Typography } from "@mui/material";
 import React from "react";
-import { useDispatch } from "react-redux";
-import { logOut } from "../../store/actions/authAction";
+import { useNavigate } from "react-router-dom";
 
-const HeaderContainer = () => {
-  const dispatch = useDispatch();
+
+const HeaderContainer = ({ mode }) => {
+
+  const navigate = useNavigate()
   const handleLogOut = () => {
-    dispatch(logOut)
+    localStorage.removeItem('userInfoCurrent');
+    navigate('/')
   }
   return (
-    <div className="chat-box-container">
+    <Box>
       <Grid
         container
         spacing={0}
@@ -28,7 +30,6 @@ const HeaderContainer = () => {
         <Grid item xs={6}>
           <Typography
             sx={{
-              color: "inherit",
               fontSize: {
                 lg: 20,
                 md: 20,
@@ -42,7 +43,8 @@ const HeaderContainer = () => {
                 xs: 400,
               },
             }}
-            
+            gutterBottom
+            color={mode !== 'dark' ? 'inherit' : '#fff'}
             component="div"
           >
             Chats
@@ -58,24 +60,25 @@ const HeaderContainer = () => {
             color: "rgba(0, 0, 0, 0.54)",
           }}
         >
-          <button onClick={handleLogOut} className="buttonContact2">SignOut</button>
+          <button style={{ color: 'white' }} onClick={handleLogOut} className="buttonContact2">SignOut</button>
         </Grid>
         <Grid
           item
           xs={12}
-          style={{ padding: "6px 0", backgroundColor: "transparent" }}
+          style={{ padding: "6px 0" }}
+          color={mode !== 'dark' ? 'inherit' : '#fff'}
         >
-          <div className="search-field-box">
+          <Box className="search-field-box">
             <SearchIcon />
-            <input
+            <Typography component="input"
               type="text"
               placeholder="Search Contacts"
-              style={{ backgroundColor: "transparent" }}
+              color={mode !== 'dark' ? 'inherit' : '#fff'}
             />
-          </div>
+          </Box>
         </Grid>
       </Grid>
-    </div>
+    </Box>
   );
 };
 
