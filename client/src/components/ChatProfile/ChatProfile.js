@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import Button from '@mui/material/Button';
 import Popover from '@mui/material/Popover';
-import { Avatar, Typography } from '@mui/material';
+import { Avatar, Tooltip, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import { Link } from 'react-router-dom';
 import SettingsIcon from '@mui/icons-material/Settings';
@@ -30,13 +30,15 @@ const ChatProfile = ({ mode }) => {
 
   return (
     <Box>
-      <Button aria-describedby={id} onClick={handleClick}>
-        <Avatar
-          alt=""
-          style={{ display: "block", margin: "0 auto" }}
-          src="https://mui.com/static/images/avatar/3.jpg"
-        />
-      </Button>
+      <Tooltip followCursor title='Profile'>
+        <Button aria-describedby={id} onClick={handleClick}>
+          <Avatar
+            alt=""
+            style={{ display: "block", margin: "0 auto" }}
+            src="https://mui.com/static/images/avatar/3.jpg"
+          />
+        </Button>
+      </Tooltip>
       <Popover
         id={id}
         open={open}

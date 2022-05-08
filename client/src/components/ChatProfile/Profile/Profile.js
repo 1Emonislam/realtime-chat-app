@@ -1,7 +1,7 @@
 import { Modal, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import React from 'react';
-import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
+import {FiUser} from 'react-icons/fi';
 import ProfileSetting from "../ProfileSetting/ProfileSetting";
 
 const style = {
@@ -29,7 +29,7 @@ const Profile = ({ mode }) => {
         <Box>
             <Box sx={{ display: 'flex', justifyContent: 'space-between', pb: 1 }}>
                 <Typography sx={{ fontFamily: 'Poppins' }}>Profile</Typography>
-                <AssignmentIndIcon onClick={handleOpen} sx={{ fontSize: '20px' }} />
+                <FiUser onClick={handleOpen} sx={{ fontSize: '20px' }} />
             </Box>
             <Modal
                 open={open}

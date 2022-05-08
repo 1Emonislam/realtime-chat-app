@@ -2,7 +2,7 @@ import GroupAddIcon from "@mui/icons-material/GroupAdd";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import LogoutIcon from '@mui/icons-material/Logout';
 import MessageIcon from "@mui/icons-material/Message";
-import {  Grid, ToggleButton, Tooltip } from "@mui/material";
+import { Grid, ToggleButton, Tooltip } from "@mui/material";
 import React, { useContext, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
@@ -59,7 +59,7 @@ const Nav = ({ handleSingleChat, children }) => {
             xs={1}
             md={12}
           >
-            <Link to="/">
+            <Link to="/dashboard">
               <ToggleButton
                 value="one"
                 onChange={() => {
@@ -93,25 +93,27 @@ const Nav = ({ handleSingleChat, children }) => {
             xs={1}
             md={12}
           >
-            <Link to="/chat">
-              <ToggleButton
-                value="two"
-                onChange={() => {
-                  setSelected(selected === "two" ? "" : "two");
-                }}
-              >
-                <MessageIcon
-                  sx={{
-                    fontSize: {
-                      lg: "25px",
-                      md: "15px",
-                      sm: "10px",
-                      xs: "10px",
-                    },
+            <Tooltip followCursor title='Chat'>
+              <Link to="/chat">
+                <ToggleButton
+                  value="two"
+                  onChange={() => {
+                    setSelected(selected === "two" ? "" : "two");
                   }}
-                />
-              </ToggleButton>
-            </Link>
+                >
+                  <MessageIcon
+                    sx={{
+                      fontSize: {
+                        lg: "25px",
+                        md: "15px",
+                        sm: "10px",
+                        xs: "10px",
+                      },
+                    }}
+                  />
+                </ToggleButton>
+              </Link>
+            </Tooltip>
           </Grid>
           <Grid
             item
@@ -262,19 +264,21 @@ const Nav = ({ handleSingleChat, children }) => {
               groupOpen={groupOpen}
             ></AddGroups>
             {/* <FontAwesomeSvgIcon icon={faEllipsisV} /> */}
-            <ToggleButton value="seven">
-              <GroupAddIcon
-                onClick={handleGroupOpen}
-                sx={{
-                  fontSize: {
-                    lg: "25px",
-                    md: "15px",
-                    sm: "10px",
-                    xs: "10px",
-                  },
-                }}
-              />
-            </ToggleButton>
+            <Tooltip followCursor title='Create Group'>
+              <ToggleButton value="seven">
+                <GroupAddIcon
+                  onClick={handleGroupOpen}
+                  sx={{
+                    fontSize: {
+                      lg: "25px",
+                      md: "15px",
+                      sm: "10px",
+                      xs: "10px",
+                    },
+                  }}
+                />
+              </ToggleButton>
+            </Tooltip>
           </Grid>
           <Grid
             item

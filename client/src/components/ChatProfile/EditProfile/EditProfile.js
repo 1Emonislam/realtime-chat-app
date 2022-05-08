@@ -1,7 +1,7 @@
 import { Modal, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import React from 'react';
-import EditRoadIcon from '@mui/icons-material/EditRoad';
+import {FiEdit} from 'react-icons/fi';
 import GeneralSettings from '../GeneralSettings/GeneralSettings';
 
 const style = {
@@ -25,7 +25,7 @@ const EditProfile = ({ mode }) => {
         <Box>
             <Box sx={{ display: 'flex', justifyContent: 'space-between', pb: 1 }}>
                 <Typography sx={{ fontFamily: 'Poppins' }}>Edit Profile</Typography>
-                <EditRoadIcon onClick={handleOpen} sx={{ fontSize: '20px' }} />
+                <FiEdit onClick={handleOpen} sx={{ fontSize: '20px' }} />
             </Box>
             <Modal
                 open={open}
