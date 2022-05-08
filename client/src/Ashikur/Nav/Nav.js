@@ -2,7 +2,7 @@ import GroupAddIcon from "@mui/icons-material/GroupAdd";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import LogoutIcon from '@mui/icons-material/Logout';
 import MessageIcon from "@mui/icons-material/Message";
-import { Avatar, Grid, ToggleButton, Tooltip } from "@mui/material";
+import {  Grid, ToggleButton, Tooltip } from "@mui/material";
 import React, { useContext, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
@@ -11,6 +11,7 @@ import AddGroups from "../../components/AddGroups/AddGroups";
 import MessageNotificationBadge from "../../components/Notification/MsgNotificationBadge";
 import { AUTH_SUCCESS } from "../../store/type/authType";
 import "./nav.css";
+import ChatProfile from "../../components/ChatProfile/ChatProfile";
 
 const Nav = ({ handleSingleChat, children }) => {
   const [selected, setSelected] = useState("");
@@ -307,7 +308,7 @@ const Nav = ({ handleSingleChat, children }) => {
             />
          </ToggleButton> */}
           </Grid>
-          <Grid
+          {/* <Grid
             item
             sx={{
               padding: {
@@ -325,6 +326,21 @@ const Nav = ({ handleSingleChat, children }) => {
               style={{ display: "block", margin: "0 auto" }}
               src="https://mui.com/static/images/avatar/3.jpg"
             />
+          </Grid> */}
+          <Grid
+            item
+            sx={{
+              padding: {
+                lg: "8px",
+                md: "0px",
+                sm: "0px",
+                xs: "0px",
+              },
+            }}
+            xs={1}
+            md={12}
+          >
+            <ChatProfile mode={theme} />
           </Grid>
           <Grid
             item
