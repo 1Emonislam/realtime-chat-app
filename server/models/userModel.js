@@ -104,7 +104,8 @@ const userSchema = new mongoose.Schema({
     },
     userInfo: {
         type: String,
-        trim: true
+        trim: true,
+        default:'N/A'
     },
     status: {
         type: String,
