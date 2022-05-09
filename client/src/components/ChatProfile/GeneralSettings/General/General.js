@@ -1,11 +1,11 @@
+import { Box, Button, Grid, Paper, TextField, Typography } from '@mui/material';
+import { deepPurple, grey } from '@mui/material/colors';
 import React from 'react';
-import { Box, Button, TextField, Typography, Paper, Grid } from '@mui/material';
-import { deepPurple, grey, } from '@mui/material/colors';
 import { useForm } from 'react-hook-form';
 
 
 const General = ({ mode }) => {
-    const { register, handleSubmit, reset, formState: { errors } } = useForm();
+    const { register, handleSubmit, reset, } = useForm();
     const onSubmit = data => console.log(data);
     return (
         <>
