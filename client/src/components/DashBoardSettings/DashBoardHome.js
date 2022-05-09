@@ -1,25 +1,31 @@
-import { Box, Container, Grid, Paper, Typography } from '@mui/material';
-import React from 'react';
-import { AiOutlineArrowDown, AiOutlineArrowUp } from "react-icons/ai";
-import { BsFillChatLeftFill, BsFillPeopleFill } from "react-icons/bs";
+import { Container, Grid, Box, Paper, Typography } from '@mui/material';
 import { FcDoughnutChart } from "react-icons/fc";
+import { AiOutlineArrowUp } from "react-icons/ai";
+import { AiOutlineArrowDown } from "react-icons/ai";
+import { BsFillPeopleFill } from "react-icons/bs";
 import { HiUserGroup } from "react-icons/hi";
-import { IoIosChatboxes, IoIosNotifications } from "react-icons/io";
-import { MdGroup, MdGroupAdd } from "react-icons/md";
-import pic from "../../images/increase.png";
+import { MdGroupAdd } from "react-icons/md";
+import { IoIosChatboxes } from "react-icons/io";
+import { IoIosNotifications } from "react-icons/io";
+import { BsFillChatLeftFill } from "react-icons/bs";
+import { MdGroup } from "react-icons/md";
+import pic from "../../images/increase.png"
+import React from 'react';
 
 const DashBoardHome = () => {
     return (
         <Container sx={{ py: "50px" }}>
             <Grid container spacing={6}>
                 <Grid item xs={12} md={4}>
-                    <Box sx={{ p: "10px", backgroundColor: "lightgray" }}>
+                    <Box sx={{ boxShadow: '1px 1px 10px #dacdcd' }}>
                         <Box>
-                            <Paper sx={{ p: "15px", }} elevation={3}>
-                                <bOX SX={{ display: "flex", alignItems: "center", mb: "15px" }}>
-                                    <FcDoughnutChart ></FcDoughnutChart>
-                                    <Typography variant="subtitle2" component="div" sx={{ display: "inline-block", ml: "5px", fontWeight: "bold" }}>Charts</Typography>
-                                </bOX>
+                            <Paper sx={{ p: "25px", }} elevation={3}>
+                                <Box sx={{ display: "flex", alignItems: "center", mb: "15px" }}>
+                                    <Box sx={{ fontSize: '24px' }}>
+                                        <FcDoughnutChart />
+                                    </Box>
+                                    <Typography variant="subtitle2" component="div" sx={{ display: "inline-block", ml: "5px", fontWeight: "bold", fontSize: '16px' }}>Charts</Typography>
+                                </Box>
                                 <Box sx={{ display: "flex", alignItems: "center", my: "30px" }}>
                                     <Box sx={{ mr: "30px" }}>
                                         <Typography sx={{ mb: "13px" }} variant="subtitle2" component="div">Average</Typography>
@@ -56,13 +62,15 @@ const DashBoardHome = () => {
                     </Box>
                 </Grid>
                 <Grid item xs={12} md={4}>
-                    <Box sx={{ p: "10px", backgroundColor: "lightgray" }}>
+                    <Box sx={{ boxShadow: '1px 1px 10px #dacdcd' }}>
                         <Box>
-                            <Paper sx={{ p: "15px", }} elevation={3}>
-                                <bOX SX={{ display: "flex", alignItems: "center", mb: "15px" }}>
-                                    <BsFillPeopleFill ></BsFillPeopleFill>
-                                    <Typography variant="subtitle2" component="div" sx={{ display: "inline-block", ml: "5px", fontWeight: "bold" }}>Visitors</Typography>
-                                </bOX>
+                            <Paper sx={{ p: "25px", }} elevation={3}>
+                                <Box sx={{ display: "flex", alignItems: "center", mb: "15px" }}>
+                                    <Box sx={{ fontSize: '24px', color: '#5ab267' }}>
+                                        <BsFillPeopleFill />
+                                    </Box>
+                                    <Typography variant="subtitle2" component="div" sx={{ display: "inline-block", ml: "5px", fontWeight: "bold", fontSize: '16px' }}>Visitors</Typography>
+                                </Box>
                                 <Box sx={{ display: "flex", alignItems: "center", my: "30px" }}>
                                     <Box sx={{ mr: "30px" }}>
                                         <Typography sx={{ mb: "13px" }} variant="subtitle2" component="div">Today</Typography>
@@ -92,13 +100,15 @@ const DashBoardHome = () => {
                     </Box>
                 </Grid>
                 <Grid item xs={12} md={4}>
-                    <Box sx={{ p: "10px", backgroundColor: "lightgray" }}>
+                    <Box sx={{ boxShadow: '1px 1px 10px #dacdcd' }}>
                         <Box>
-                            <Paper sx={{ p: "15px", }} elevation={3}>
-                                <bOX SX={{ display: "flex", alignItems: "center", mb: "15px" }}>
-                                    <MdGroupAdd ></MdGroupAdd>
-                                    <Typography variant="subtitle2" component="div" sx={{ display: "inline-block", ml: "5px", fontWeight: "bold" }}>Create Group</Typography>
-                                </bOX>
+                            <Paper sx={{ p: "25px", }} elevation={3}>
+                                <Box sx={{ display: "flex", alignItems: "center", mb: "15px" }}>
+                                    <Box sx={{ fontSize: '24px', color: '#5ab267' }}>
+                                        <MdGroupAdd ></MdGroupAdd>
+                                    </Box>
+                                    <Typography variant="subtitle2" component="div" sx={{ display: "inline-block", ml: "5px", fontWeight: "bold", fontSize: '16px' }}>Create Group</Typography>
+                                </Box>
                                 <Box sx={{ display: "flex", alignItems: "center", my: "30px" }}>
                                     <Box sx={{ mr: "30px" }}>
                                         <Typography sx={{ mb: "13px" }} variant="subtitle2" component="div">Today</Typography>
@@ -128,35 +138,34 @@ const DashBoardHome = () => {
                     </Box>
                 </Grid>
                 <Grid item xs={12} md={4}>
-                    <Box sx={{ p: "10px", backgroundColor: "lightgray" }}>
-                        <Box sx={{ p: "15px", backgroundColor: "white", mb: "4px" }}>
-                            <Typography sx={{ textAlign: "center" }} variant="h4" component="h4">Meeting Group</Typography>
-
+                    <Box sx={{ boxShadow: '1px 1px 10px #dacdcd' }}>
+                        <Box sx={{ p: "25px", backgroundColor: "white", mb: "4px", borderBottom: '1px solid #ddd' }}>
+                            <Typography sx={{ textAlign: "center", fontSize: '16px', fontWeight: 'bold' }} variant="h4" component="h4">Meeting Group</Typography>
                         </Box>
-                        <Box sx={{ p: "10px", backgroundColor: "whitesmoke", }}>
-                            <Box sx={{ textAlign: "center", mb: "4px" }}>
+                        <Box sx={{ p: "10px", backgroundColor: "white" }}>
+                            <Box sx={{ textAlign: "center", mb: "4px", fontSize: '20px' }}>
                                 <IoIosChatboxes></IoIosChatboxes>
-                                <Typography sx={{ textAlign: "center" }} variant="h6"  component="div">Chat</Typography>
+                                <Typography sx={{ textAlign: "center", fontSize: '14px' }} variant="h6" gutterBottom component="div">Chat</Typography>
                             </Box>
                             <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between", px: "30px" }}>
-                                <Box sx={{ textAlign: "center", mb: "4px" }}>
+                                <Box sx={{ textAlign: "center", mb: "4px", fontSize: '20px' }}>
                                     <BsFillChatLeftFill></BsFillChatLeftFill>
-                                    <Typography sx={{ textAlign: "center" }} variant="h6"  component="div">Chat</Typography>
+                                    <Typography sx={{ textAlign: "center", fontSize: '14px' }} variant="h6" gutterBottom component="div">Chat</Typography>
                                 </Box>
-                                <Box sx={{ textAlign: "center", mb: "4px" }}>
+                                <Box sx={{ textAlign: "center", mb: "4px", fontSize: '20px' }}>
                                     <IoIosNotifications></IoIosNotifications>
-                                    <Typography sx={{ textAlign: "center" }} variant="h6"  component="div">Notification</Typography>
+                                    <Typography sx={{ textAlign: "center", fontSize: '14px' }} variant="h6" gutterBottom component="div">Notification</Typography>
                                 </Box>
 
                             </Box>
                             <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between", px: "30px" }}>
-                                <Box sx={{ textAlign: "center", mb: "4px" }}>
+                                <Box sx={{ textAlign: "center", mb: "4px", fontSize: '20px' }}>
                                     <MdGroup></MdGroup>
-                                    <Typography sx={{ textAlign: "center" }} variant="h6"  component="div">messages</Typography>
+                                    <Typography sx={{ textAlign: "center", fontSize: '14px' }} variant="h6" gutterBottom component="div">messages</Typography>
                                 </Box>
-                                <Box sx={{ textAlign: "center", mb: "4px" }}>
+                                <Box sx={{ textAlign: "center", mb: "4px", fontSize: '20px' }}>
                                     <IoIosNotifications></IoIosNotifications>
-                                    <Typography sx={{ textAlign: "center" }} variant="h6"  component="div">Notification</Typography>
+                                    <Typography sx={{ textAlign: "center", fontSize: '14px' }} variant="h6" gutterBottom component="div">Notification</Typography>
                                 </Box>
 
                             </Box>
@@ -167,13 +176,15 @@ const DashBoardHome = () => {
 
 
                 <Grid item xs={12} md={4}>
-                    <Box sx={{ p: "10px", backgroundColor: "lightgray" }}>
+                    <Box sx={{ boxShadow: '1px 1px 10px #dacdcd' }}>
                         <Box>
-                            <Paper sx={{ p: "15px", }} elevation={3}>
-                                <bOX SX={{ display: "flex", alignItems: "center", mb: "15px" }}>
-                                    <HiUserGroup ></HiUserGroup>
-                                    <Typography variant="subtitle2" component="div" sx={{ display: "inline-block", ml: "5px", fontWeight: "bold" }}>Join Group</Typography>
-                                </bOX>
+                            <Paper sx={{ p: "25px", }} elevation={3}>
+                                <Box sx={{ display: "flex", alignItems: "center", mb: "15px" }}>
+                                    <Box sx={{ fontSize: '24px', color: '#5ab267' }}>
+                                        <HiUserGroup ></HiUserGroup>
+                                    </Box>
+                                    <Typography variant="subtitle2" component="div" sx={{ display: "inline-block", ml: "5px", fontWeight: "bold", fontSize: '16px' }}>Join Group</Typography>
+                                </Box>
                                 <Box sx={{ display: "flex", alignItems: "center", my: "30px" }}>
                                     <Box sx={{ mr: "30px" }}>
                                         <Typography sx={{ mb: "13px" }} variant="subtitle2" component="div">Today</Typography>

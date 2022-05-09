@@ -1,10 +1,12 @@
+import { Box } from '@mui/system';
 import React from 'react';
+import GeneralSettings from '../../ChatProfile/GeneralSettings/GeneralSettings';
 
-const OtherSettings = () => {
+const OtherSettings = ({ mode }) => {
     return (
-        <div>
-            
-        </div>
+        <Box sx={{ p: 3 }}>
+            <GeneralSettings mode={mode} />
+        </Box>
     );
 };
 

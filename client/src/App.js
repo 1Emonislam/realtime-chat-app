@@ -27,6 +27,8 @@ import Login from "./pages/Auth/Login";
 import Register from "./pages/Auth/Register";
 import ResetPassword from "./pages/Auth/ResetPassword";
 import Home from "./pages/Home/Home";
+import Dashboard from './pages/Dashboard/Dashboard';
+import DHome from './pages/Dashboard/DHome/DHome';
 import { getGroupChatData } from "./store/actions/groupActions";
 import { getNotification } from "./store/actions/messageNotificationAction";
 import { SOCKET_GLOBAL } from "./store/type/socketType";
@@ -93,7 +95,7 @@ export default function ToggleColorMode() {
     return () => { socket.current?.disconnect() };
   }, [auth?.user, dispatch])
   React.useMemo(() => {
-    dispatch(getGroupChatData(auth?.user?.token,'recent'));
+    dispatch(getGroupChatData(auth?.user?.token, 'recent'));
     dispatch(getNotification(auth.user?.token))
   }, [auth.user?.token, dispatch, groupMessage?.msg])
   return (
@@ -157,7 +159,7 @@ export default function ToggleColorMode() {
               <Route
                 path="/settings"
                 element={
-                  <Settings>
+                  <Settings mode={mode}>
                     <ThemeSwitch
                       onClick={colorMode.toggleColorMode}
                       style={{ fontSize: "20px" }}
@@ -189,7 +191,10 @@ export default function ToggleColorMode() {
               <Route path="/users" element={< Users />}> </Route>
               <Route path="/blockusers" element={< BlockedUser />}> </Route>
               <Route path="/report" element={< ReportUser />}> </Route>
-              {/* dashboard end */}
+              {/* Admin Dashboard */}
+              <Route path="admin-dashboard" element={<Dashboard />}>
+                <Route path="" element={<DHome />} />
+              </Route>
               <Route
                 path="*"
                 element={
