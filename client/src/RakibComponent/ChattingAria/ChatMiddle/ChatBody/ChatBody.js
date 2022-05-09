@@ -6,7 +6,7 @@ const ChatBody = ({ handleTyping, isTyping }) => {
 
     return (
         <div className="chat-body">
-              <Header/>
+            <Header />
             <ScrollChat isTyping={isTyping} handleTyping={handleTyping} messages={groupMessage?.msg} user={auth?.user?.user} />
         </div>
     );

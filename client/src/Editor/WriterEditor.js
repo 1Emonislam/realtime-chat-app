@@ -154,7 +154,7 @@ const MenuBar = ({ editor }) => {
                 </button>
                 {auth?.user?.token && selectedChat?.chat?._id ? <button onClick={() => dispatch(sendMessage(groupMessage?.write, selectedChat?.chat, auth?.user?.token, editor))}>
                     <RiSendPlane2Fill />
-                </button> : <Tooltip style={{cursor:"pointer"}} title="Permission Denied!" arrow>
+                </button> : <Tooltip style={{ cursor: "pointer" }} title="Permission Denied!" arrow>
                     <button style={{ color: '#ccc' }}><RiSendPlane2Fill /></button>
                 </Tooltip>}
             </div>
@@ -179,7 +179,7 @@ export const WriterEditor = () => {
     });
     return (
         <div className="textEditor">
-            <EditorContent style={{ color: 'darkcyan' }}editor={editor} />
+            <EditorContent style={{ color: 'darkcyan' }} editor={editor} />
             <MenuBar editor={editor} />
         </div >
     );

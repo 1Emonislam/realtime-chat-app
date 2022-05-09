@@ -1,6 +1,5 @@
 import { Grid, ToggleButton, Tooltip } from '@mui/material';
 import React from 'react';
-import { BsEmojiSmile } from 'react-icons/bs';
 import { MdOutlineAttachFile, MdSend, MdSettingsVoice } from 'react-icons/md';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast, ToastContainer } from 'react-toastify';
@@ -8,6 +7,8 @@ import { toast, ToastContainer } from 'react-toastify';
 import { editMessage, sendMessage } from '../store/actions/messageAction';
 import { SUCCESS_MESSAGE_CLEAR, UPDATE_MESSAGE_FAILED, WRITE_MESSAGE_UPDATE } from '../store/type/messageTypes';
 import './Editor.css';
+import FileUploadPopup from './FileUploadPopup';
+import IconPopup from './IconPopup';
 function Editor({ handleTyping, messageEditHandle, editMsg, isTyping, size = 25 }) {
 
     const { groupMessage, theme, selectedChat, socketFunc, auth } = useSelector(state => state);
@@ -78,15 +79,10 @@ function Editor({ handleTyping, messageEditHandle, editMsg, isTyping, size = 25 
         }}>
             <Grid container spacing={0} alignItems="center" justifyContent={'space-between'} >
                 <Grid item xs={0.6}>
-                    <ToggleButton value="one" sx={{ marginBottom: '0px!important', border: 'none' }}>
-                        <BsEmojiSmile size={size} />
-                    </ToggleButton>
+                    <IconPopup />
                 </Grid>
                 <Grid item xs={1}>
-                    <ToggleButton value="two" sx={{ marginBottom: '0px!important', border: 'none' }}>
-                        <MdOutlineAttachFile size={size} />
-                    </ToggleButton>
-
+                    <FileUploadPopup />
                 </Grid>
                 {editMsg ? <Grid item xs={6}>
                     <textarea className='text-msg' sx={{
