@@ -5,13 +5,17 @@ import Badge from '@mui/material/Badge';
 // import TypingIndicatior from './Typing/TypingIndicatior';
 import moment from 'moment';
 import React from 'react';
-import { BsFillCheckCircleFill, BsThreeDots } from 'react-icons/bs';
+import { BsFillCheckCircleFill, BsFillFileEarmarkFill, BsThreeDots } from 'react-icons/bs';
 import { useSelector } from 'react-redux';
 import SkeletonRecentGroup from '../Editor/SkeletonRecentGroup';
 import { chatExists } from '../RakibComponent/ChattingAria/ChatMiddle/ChatBody/chatLogic';
 import './Chat.css';
 import GroupSort from './GroupSort';
 import TypingIndicatior from './Typing/TypingIndicatior';
+import { FaVideo } from 'react-icons/fa'
+import { SiAudiomack } from 'react-icons/si'
+import { IoIosImages } from 'react-icons/io'
+
 function RecentChat({ isTyping, chatActive, handleTyping, groupMessage, handleSingleChat }) {
     const { notification, groupData } = useSelector(state => state)
     const [dataState, setDataState] = React.useState({
@@ -94,8 +98,8 @@ function RecentChat({ isTyping, chatActive, handleTyping, groupMessage, handleSi
                         selected={selected}
                         onChange={() => {
                             setSelected(false);
-                        }}onClick={handleSortClick}>
-                         
+                        }} onClick={handleSortClick}>
+
                         <EditRoadIcon sx={{
                             textTransform: 'capitalize',
                             fontSize: {
@@ -118,7 +122,7 @@ function RecentChat({ isTyping, chatActive, handleTyping, groupMessage, handleSi
                             }
                         }} />
                     </ToggleButton>
-                    <GroupSort setSortAncorEl={setSortAncorEl}sortAncorEl={sortAncorEl}handleSortClick/>
+                    <GroupSort setSortAncorEl={setSortAncorEl} sortAncorEl={sortAncorEl} handleSortClick />
                 </Grid>
             </Grid>
             <Grid container spacing={0} padding={'10px 0px'} justifyContent="center">
@@ -178,7 +182,11 @@ function RecentChat({ isTyping, chatActive, handleTyping, groupMessage, handleSi
                                                         }}>
                                                             {chat?.chatName}
                                                         </Typography>
-                                                        <span style={{ fontSize: '11px' }}>{chat?.latestMessage?.content?.text?.slice(0, 10)}..</span>
+                                                        <span style={{ fontSize: '16px' }}>{chat?.latestMessage?.content?.text?.slice(0, 10)}..</span>
+                                                        {!chat?.latestMessage?.content?.audio?.length ? '' : <SiAudiomack style={{ fontSize: '16px', marginRight: '5px' }}></SiAudiomack>}
+                                                        {!chat?.latestMessage?.content?.video?.length ? '' : <FaVideo style={{ fontSize: '16px', marginRight: '5px' }}></FaVideo>}
+                                                        {!chat?.latestMessage?.content?.images?.length  ? '' : <IoIosImages style={{ fontSize: '16px', marginRight: '5px' }}></IoIosImages>}
+                                                        {!chat?.latestMessage?.content?.others?.length  ? '' :<BsFillFileEarmarkFill style={{ fontSize: '16px', marginRight: '5px' }}></BsFillFileEarmarkFill>}
                                                     </Grid>
                                                     {/* {console.log(groupData)} */}
 

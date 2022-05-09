@@ -265,7 +265,7 @@ module.exports.changedPassword = async (req, res) => {
             <tr>
               <td style="text-align: center">
                 <a
-                  href="https://collaballapp.herokuapp.com/"
+                  href="http://localhost:5000/"
                   title="logo"
                   target="_blank"
                 >
@@ -432,7 +432,7 @@ module.exports.forgetPassword = async (req, res, next) => {
       following link and follow the instructions.`,
       user: user,
       date: moment().format(),
-      link: `https://collaballapp.herokuapp.com/reset-password/${genToken_fourHours(user?._id)}`
+      link: `http://localhost:5000/reset-password/${genToken_fourHours(user?._id)}`
     }
     const htmlMSG = `<!DOCTYPE html>
 <html lang="en-US">
@@ -475,7 +475,7 @@ module.exports.forgetPassword = async (req, res, next) => {
           <tr>
             <td style="text-align: center">
               <a
-                href="https://collaballapp.herokuapp.com/"
+                href="http://localhost:5000/"
                 title="logo"
                 target="_blank"
               >

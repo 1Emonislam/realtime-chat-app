@@ -229,3 +229,11 @@ ul.sort-menu li {
   padding-top: 6px;
   cursor: pointer;
 }
+.audio-recent {
+  width: 170px;
+  height: 20px;
+  position: absolute;
+  left: -21px;
+  right: 0;
+  margin: auto;
+}

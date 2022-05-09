@@ -60,7 +60,7 @@ function ScrollChat({ messages, user, handleTyping, isTyping }) {
                                     <span style={{ position: 'absolute', left: '-20px', top: '18px', color: 'blue', fontWeight: '900' }}>
                                         {user?._id && <MessageFunc handleTyping={handleTyping} isTyping={isTyping} isSameSenderPermission={isSameSenderPermission(messages, m, i, user?._id)} message={m?.content?.text} messageInfo={m} />}
                                     </span>
-                                    {m?.content?.text && <>
+                                    {<>
                                         <div>
                                             <Typography sx={{
                                                 color: "inherit",
@@ -82,7 +82,12 @@ function ScrollChat({ messages, user, handleTyping, isTyping }) {
                                         </div>
                                         <div>
                                             {/* <EditorLogicMessage data={m?.content?.text} /> */}
-                                            <span>{m?.content?.text} </span>
+                                            {m?.content?.text&&<span>{m?.content?.text} </span>}
+                                            {m?.content?.audio?.length&& <span> {m?.content?.audio?.map((el, index) => (
+                                                <span key={index}>
+                                                    <audio src={el} controls />
+                                                </span>
+                                            ))}</span>}
                                         </div>
                                     </>}
                                 </span>
