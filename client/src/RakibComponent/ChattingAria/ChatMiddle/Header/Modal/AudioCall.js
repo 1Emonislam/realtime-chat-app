@@ -1,12 +1,12 @@
-import CloseIcon from '@mui/icons-material/Close';
-import SettingsVoiceIcon from '@mui/icons-material/SettingsVoice';
+import * as React from 'react';
+import './AllModal.css';
 import Backdrop from '@mui/material/Backdrop';
 import Box from '@mui/material/Box';
 import Fade from '@mui/material/Fade';
 import Modal from '@mui/material/Modal';
-import * as React from 'react';
 import chatImg from '../../../../../assets/images/avatar-8.jpg';
-import './AllModal.css';
+import SettingsVoiceIcon from '@mui/icons-material/SettingsVoice';
+import CloseIcon from '@mui/icons-material/Close';
 
 const style = {
     position: 'absolute',
@@ -48,7 +48,7 @@ const AudioCall = ({  setAudioOpen,audioOpen }) => {
                                             </h4>
                                         </div>
                                         <div className="call-items">
-                                            <span onClick={() => setAudioOpen(false)}><CloseIcon /></span>
+                                            <span onClick={() => setAudioOpen(false)}><CloseIcon/></span>
                                             <span className='green_btn'><SettingsVoiceIcon /></span>
                                         </div>
                                     </div>

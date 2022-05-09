@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import EditRoadIcon from '@mui/icons-material/EditRoad';
+// import EditRoadIcon from '@mui/icons-material/EditRoad';
 import { Avatar, AvatarGroup, Grid, ToggleButton, Tooltip, Typography } from '@mui/material';
 import Badge from '@mui/material/Badge';
 // import TypingIndicatior from './Typing/TypingIndicatior';
@@ -12,6 +12,8 @@ import { chatExists } from '../RakibComponent/ChattingAria/ChatMiddle/ChatBody/c
 import './Chat.css';
 import GroupSort from './GroupSort';
 import TypingIndicatior from './Typing/TypingIndicatior';
+import {FiEdit} from 'react-icons/fi'
+
 function RecentChat({ isTyping, chatActive, handleTyping, groupMessage, handleSingleChat }) {
     const { notification, groupData } = useSelector(state => state)
     const [dataState, setDataState] = React.useState({
@@ -84,19 +86,20 @@ function RecentChat({ isTyping, chatActive, handleTyping, groupMessage, handleSi
                                 xs: 500
                             },
                         }}>
-                            RECENT GROUP CHATS
+                            RECENTS
                         </Typography>
                     </ToggleButton>
 
                 </Grid>
                 <Grid item xs={4} className="headIcon" sx={{ display: 'flex', justifyContent: 'end', color: 'rgba(0, 0, 0, 0.54)' }}>
+                <Tooltip title="Edit">
                     <ToggleButton value="check"
                         selected={selected}
                         onChange={() => {
                             setSelected(false);
                         }}onClick={handleSortClick}>
                          
-                        <EditRoadIcon sx={{
+                        <FiEdit sx={{
                             textTransform: 'capitalize',
                             fontSize: {
                                 lg: 20,
@@ -118,6 +121,7 @@ function RecentChat({ isTyping, chatActive, handleTyping, groupMessage, handleSi
                             }
                         }} />
                     </ToggleButton>
+                </Tooltip>
                     <GroupSort setSortAncorEl={setSortAncorEl}sortAncorEl={sortAncorEl}handleSortClick/>
                 </Grid>
             </Grid>

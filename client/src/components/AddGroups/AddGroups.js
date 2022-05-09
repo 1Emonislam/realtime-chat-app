@@ -170,11 +170,12 @@ const AddGroups = ({ handleGroupClose, groupOpen }) => {
                   </> :
                     <>
                       <TextField fullWidth size="small" style={{ width: 280 }} />
-                      <label className="browseFile">
-                        <input sx={{ background: "blue", color: 'white', padding: '5px 30px!important' }} onChange={(e) => setSelected(e)} type="file" />
+                      <label style={{color:'white'}} className="browseFile">
+                        <input sx={{ bgcolor: "blue", color: 'white', padding: '5px 30px!important' }} onChange={(e) => setSelected(e)} type="file" />
                         Browse File
                       </label></>}
                 </Box>
+                
                 <Box >
                   <>
                     <ToggleButton value="five" style={{ border: 'none', textTransform: 'capitalize' }}>
