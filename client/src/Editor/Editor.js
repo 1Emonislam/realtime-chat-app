@@ -68,7 +68,7 @@ function Editor({ handleTyping, messageEditHandle, editMsg, isTyping, size = 25 
             dispatch(sendMessage(groupMessage?.write, selectedChat?.chat?._id, auth?.user?.token, socketFunc))
         }
     }
-    // console.log(isTyping)
+    //console.log(isTyping)
     return (
         <div style={{
             marginTop: '30px',
