@@ -111,28 +111,29 @@ export default function MessageFunc({ isSameSenderPermission, handleTyping, isTy
                 }}
             >
 
-            {/* copy message */}
-                <Typography onClick={handleCopy} sx={{ cursor:'pointer', '&:hover':{bgcolor:'rgb(234, 234, 234, 0.5)'}, py: 1, px: 2, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                    <span style={{fontSize:14}}>Copy </span>
+                {/* copy message */}
+                <Typography onClick={handleCopy} sx={{ cursor: 'pointer', '&:hover': { bgcolor: 'rgb(234, 234, 234, 0.5)' }, py: 1, px: 2, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                    <span style={{ fontSize: 14 }}>Copy </span>
                     <span>
-                    <img style={{height:'20px', marginLeft:'10px'}} src={copyImg} alt='' />
+                        <img style={{ height: '20px', marginLeft: '10px' }} src={copyImg} alt='' />
                     </span>
                 </Typography>
                 {isSameSenderPermission && <>
                     <Typography onClick={() => {
-                            messageEditHandle(true)
-                            dispatch(updateMessageStore(messageInfo))
-                        }} sx={{cursor:'pointer', '&:hover':{bgcolor:'rgb(234, 234, 234, 0.5)'}, fontSize:14, py: 1, px: 2, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }} >
+                        messageEditHandle(true)
+                        dispatch(updateMessageStore(messageInfo))
+                    }} sx={{ cursor: 'pointer', '&:hover': { bgcolor: 'rgb(234, 234, 234, 0.5)' }, fontSize: 14, py: 1, px: 2, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }} >
                         Edit <EditMessage handleTyping={handleTyping} isTyping={isTyping} messageInfo={messageInfo} messageText={message} messageEditHandle={messageEditHandle} editMessageOpen={editMessageOpen} />
                         <span>
-                            <img style={{height:'20px', marginLeft:'10px'}} src={editImg} alt='' />
+                            <img style={{ height: '20px', marginLeft: '10px' }} src={editImg} alt='' />
                         </span>
                     </Typography>
 
                     {/* Delete message */}
-                    <Typography  onClick={() => {
-                            dispatch(deleteMessage(messageInfo?.chat?._id, messageInfo?._id, auth?.user?.token))}} sx={{cursor:'pointer', '&:hover':{bgcolor:'rgb(234, 234, 234, 0.5)'}, py: 1, px: 2, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                        <span style={{fontSize:14}}> Delete </span>
+                    <Typography onClick={() => {
+                        dispatch(deleteMessage(messageInfo?.chat?._id, messageInfo?._id, auth?.user?.token))
+                    }} sx={{ cursor: 'pointer', '&:hover': { bgcolor: 'rgb(234, 234, 234, 0.5)' }, py: 1, px: 2, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                        <span style={{ fontSize: 14 }}> Delete </span>
                         {/* {messageInfo?.chat?._id && messageInfo?._id && auth?.user?.token 
                         ? 
                         <span onClick={() => {
@@ -140,51 +141,51 @@ export default function MessageFunc({ isSameSenderPermission, handleTyping, isTy
                         }}><MdDelete style={{ position: 'relative', top: '3px', paddingLeft: '5px' }} />
                         </span>
                          :  */}
-                         <Tooltip style={{ cursor: "pointer" }} title="Permission Denied" arrow>
-                         <img style={{height:'20px', marginLeft:'10px'}} src={deleteImg} alt='' />
+                        <Tooltip style={{ cursor: "pointer" }} title="Permission Denied" arrow>
+                            <img style={{ height: '20px', marginLeft: '10px' }} src={deleteImg} alt='' />
                         </Tooltip>
                         {/* } */}
                     </Typography>
                 </>}
 
-                    {/* Add to Note Message */}
-                    <Typography onClick={() => dispatch(noteCreate(messageInfo?._id, messageInfo?.chat?._id, auth.user?.token))} sx={{cursor:'pointer', '&:hover':{bgcolor:'rgb(234, 234, 234, 0.5)'}, py: 1, px: 2, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                            <span style={{fontSize:14}}> add To Note </span>
-                        <span>
-                        <img style={{height:'20px', marginLeft:'10px'}} src={addNoteImg} alt='' />
-                        </span>
-                    </Typography>
-                
-                
+                {/* Add to Note Message */}
+                <Typography onClick={() => dispatch(noteCreate(messageInfo?._id, messageInfo?.chat?._id, auth.user?.token))} sx={{ cursor: 'pointer', '&:hover': { bgcolor: 'rgb(234, 234, 234, 0.5)' }, py: 1, px: 2, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                    <span style={{ fontSize: 14 }}> add To Note </span>
+                    <span>
+                        <img style={{ height: '20px', marginLeft: '10px' }} src={addNoteImg} alt='' />
+                    </span>
+                </Typography>
+
+
                 {/* this is need to solve for question */}
-                    <Typography onClick={() => {
-                            dispatch(sendMessage('Question?', messageInfo?.chat?._id, auth.user?.token))
-                        }} sx={{cursor:'pointer', '&:hover':{bgcolor:'rgb(234, 234, 234, 0.5)'}, py: 1, px: 2, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                        <span style={{fontSize:14}}>Question</span>
-                        <span>
-                        <img style={{height:'20px', marginLeft:'10px'}} src={questionImg} alt='' />
-                        </span>
-                    </Typography>
+                <Typography onClick={() => {
+                    dispatch(sendMessage('Question?', messageInfo?.chat?._id, auth.user?.token))
+                }} sx={{ cursor: 'pointer', '&:hover': { bgcolor: 'rgb(234, 234, 234, 0.5)' }, py: 1, px: 2, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                    <span style={{ fontSize: 14 }}>Question</span>
+                    <span>
+                        <img style={{ height: '20px', marginLeft: '10px' }} src={questionImg} alt='' />
+                    </span>
+                </Typography>
 
                 {/* Repeat Message */}
                 <Typography onClick={() => {
-                        dispatch(sendMessage('Repeat!', messageInfo?.chat?._id, auth.user?.token))
-                    }} sx={{cursor:'pointer', '&:hover':{bgcolor:'rgb(234, 234, 234, 0.5)'}, py: 1, px: 2, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                    <span style={{fontSize:14}}>Repeat </span>
+                    dispatch(sendMessage('Repeat!', messageInfo?.chat?._id, auth.user?.token))
+                }} sx={{ cursor: 'pointer', '&:hover': { bgcolor: 'rgb(234, 234, 234, 0.5)' }, py: 1, px: 2, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                    <span style={{ fontSize: 14 }}>Repeat </span>
                     <span>
-                    <img style={{height:'20px', marginLeft:'10px'}} src={resendImg} alt='' />
+                        <img style={{ height: '20px', marginLeft: '10px' }} src={resendImg} alt='' />
                     </span>
                 </Typography>
 
                 {/* Don't Understand Message */}
-                <Typography  onClick={() => {
-                        dispatch(sendMessage("Don't Understand!", messageInfo?.chat?._id, auth.user?.token))
-                    }} sx={{cursor:'pointer', '&:hover':{bgcolor:'rgb(234, 234, 234, 0.5)'}, py: 1, px: 2, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                    <span style={{fontSize:14}}> Don't Understand
+                <Typography onClick={() => {
+                    dispatch(sendMessage("Don't Understand!", messageInfo?.chat?._id, auth.user?.token))
+                }} sx={{ cursor: 'pointer', '&:hover': { bgcolor: 'rgb(234, 234, 234, 0.5)' }, py: 1, px: 2, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                    <span style={{ fontSize: 14 }}> Don't Understand
                     </span>
                     <span>
                         {/* <RiQuestionnaireFill style={{ position: 'relative', top: '3px', paddingLeft: '5px' }} /> */}
-                        <img style={{height:'20px', marginLeft:'10px'}} src={confusedImg} alt='' />
+                        <img style={{ height: '20px', marginLeft: '10px' }} src={confusedImg} alt='' />
                     </span>
                 </Typography>
 
