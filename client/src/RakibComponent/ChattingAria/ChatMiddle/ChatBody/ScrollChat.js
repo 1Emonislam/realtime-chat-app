@@ -3,14 +3,14 @@ import moment from 'moment'
 import { useEffect, useRef } from 'react'
 import { useSelector } from 'react-redux'
 import ScrollableFeed from 'react-scrollable-feed'
+import confusedImg from '../../../../Ashikur/chatRepliedImages/confused.png'
+import questionImg from '../../../../Ashikur/chatRepliedImages/question.png'
+import resendImg from '../../../../Ashikur/chatRepliedImages/resend.png'
 import Loading from '../../../../components/Spinner/Loading'
 import TypingIndicator from '../../../../components/Typing/TypingIndicatior'
 import Editor from '../../../../Editor/Editor'
 import MessageFunc from '../ChatBody/MessageFunc'
-import { chatExists, isLastMessage, isSameSender, isSameSenderMargin, isSameSenderPermission, isSameUser } from './chatLogic';
-import resendImg from '../../../../Ashikur/chatRepliedImages/resend.png';
-import confusedImg from '../../../../Ashikur/chatRepliedImages/confused.png';
-import questionImg from '../../../../Ashikur/chatRepliedImages/question.png';
+import { chatExists, isLastMessage, isSameSender, isSameSenderMargin, isSameSenderPermission, isSameUser } from './chatLogic'
 
 function ScrollChat({ messages, user, handleTyping, isTyping }) {
     const { selectedChat, groupMessage } = useSelector(state => state);

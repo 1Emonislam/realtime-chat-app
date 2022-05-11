@@ -1,5 +1,9 @@
 .box {
   position: relative;
+  scrollbar-width: none;
+}
+.box::-webkit-scrollbar {
+  display: none;
 }
 
 .circle_ripple {
@@ -7,7 +11,7 @@
   width: 30px;
   background: #36b37e;
   border-radius: 50%;
-  -webkit-animation-name: ripple 2s infinite;
+  animation-name: ripple 2s infinite;
   animation: ripple 2s infinite;
   position: absolute;
   left: 5px;
@@ -19,7 +23,7 @@
   width: 30px;
   background: #36b37e;
   border-radius: 50%;
-  -webkit-animation-name: ripple 2s infinite;
+  animation-name: ripple 2s infinite;
   animation: ripple-2 2s infinite;
   position: absolute;
   left: 5px;
@@ -31,7 +35,7 @@
     transform: scale(1);
   }
   50% {
-    transform: scale(2);
+    transform: scale(1.5);
     opacity: 0.3;
   }
   100% {
@@ -43,7 +47,7 @@
     transform: scale(1);
   }
   50% {
-    transform: scale(2);
+    transform: scale(1.5);
     opacity: 0.3;
   }
   100% {
@@ -194,9 +198,19 @@
     margin-bottom: 20px;
   }
 }
-
 .box-voice {
-  position: absolute;
-  top: -114px;
-  left: -24px;
+  position: relative;
+  top: -120px;
+  left: -5px;
+  cursor: pointer;
+}
+.record-box {
+  width: 40px;
+  height: 40px;
+  position: relative;
+  left: -6px;
+  border-radius: 112px;
+  top: 5px;
+  background: transparent;
+  display: none;
 }

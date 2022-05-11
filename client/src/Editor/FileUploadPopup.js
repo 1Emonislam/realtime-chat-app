@@ -2,11 +2,10 @@ import * as React from "react";
 import Popover from "@mui/material/Popover";
 import { Box, List, ToggleButton, Typography } from "@mui/material";
 import AudioFileIcon from '@mui/icons-material/AudioFile';
-import { MdOutlineAttachFile } from 'react-icons/md';
+import { MdOutlineAttachFile, MdVideocam } from 'react-icons/md';
 import Divider from '@mui/material/Divider';
 import ImageIcon from '@mui/icons-material/Image';
 import UploadFileIcon from '@mui/icons-material/UploadFile';
-import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 
 const FileUploadPopup = () => {
     const [anchorEl, setAnchorEl] = React.useState(null);
@@ -44,7 +43,7 @@ const FileUploadPopup = () => {
                     </Box>
                     <Divider />
                     <Box sx={{ display: 'flex', justifyContent: 'space-around', alignItems: 'center', p: 1 }}>
-                        <PlayArrowIcon sx={{ mx: 1, fontSize: '20px' }} />
+                        <MdVideocam sx={{ mx: 1, fontSize: '20px' }} />
                         <Typography sx={{ mr: 1.5 }}>Video</Typography>
                     </Box>
                     <Divider />

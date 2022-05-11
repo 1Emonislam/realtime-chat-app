@@ -13,11 +13,10 @@ module.exports.sendMessage = async (req, res, next) => {
         return res.status(400);
     }
     const text = req.body?.content?.text;
-    const audio = req.body?.content?.audio;
+    let audio = req.body?.content?.audio;
     const video = req.body?.content?.video;
     let images = req.body?.content?.images;
     const others = req.body?.content?.others;
-    // console.log(audio)
     let newMessage = {
         sender: req.user._id,
         content: {
@@ -31,7 +30,6 @@ module.exports.sendMessage = async (req, res, next) => {
     }
     try {
         let message = await Message.create(newMessage);
-        console.log(message)
         await Chat.findByIdAndUpdate(req.body.chatId, {
             latestMessage: message?._id,
             seen: [req.user?._id],

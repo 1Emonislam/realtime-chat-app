@@ -1,24 +1,20 @@
-import { SpatialTrackingOutlined } from '@mui/icons-material';
 import { Tooltip } from '@mui/material';
 import Popover from '@mui/material/Popover';
 import Typography from '@mui/material/Typography';
 import * as React from 'react';
-import { AiFillThunderbolt } from 'react-icons/ai';
 import { BsThreeDotsVertical } from 'react-icons/bs';
-import { MdDelete, MdFileCopy, MdStickyNote2 } from 'react-icons/md';
-import { RiEditCircleFill, RiQuestionnaireFill } from 'react-icons/ri';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast, ToastContainer } from 'react-toastify';
+import addNoteImg from '../../../../Ashikur/chatRepliedImages/add-note.png';
+import confusedImg from '../../../../Ashikur/chatRepliedImages/confused.png';
+import copyImg from '../../../../Ashikur/chatRepliedImages/copy.png';
+import deleteImg from '../../../../Ashikur/chatRepliedImages/delete.png';
+import editImg from '../../../../Ashikur/chatRepliedImages/edit.png';
+import questionImg from '../../../../Ashikur/chatRepliedImages/question.png';
+import resendImg from '../../../../Ashikur/chatRepliedImages/resend.png';
 import EditMessage from '../../../../Editor/EditMessage';
 import { deleteMessage, noteCreate, sendMessage, updateMessageStore } from '../../../../store/actions/messageAction';
 import { FAILED_MESSAGE, SUCCESS_MESSAGE_CLEAR } from '../../../../store/type/messageTypes';
-import resendImg from '../../../../Ashikur/chatRepliedImages/resend.png';
-import addNoteImg from '../../../../Ashikur/chatRepliedImages/add-note.png';
-import confusedImg from '../../../../Ashikur/chatRepliedImages/confused.png';
-import editImg from '../../../../Ashikur/chatRepliedImages/edit.png';
-import questionImg from '../../../../Ashikur/chatRepliedImages/question.png';
-import copyImg from '../../../../Ashikur/chatRepliedImages/copy.png';
-import deleteImg from '../../../../Ashikur/chatRepliedImages/delete.png';
 
 
 
@@ -187,7 +183,6 @@ export default function MessageFunc({ isSameSenderPermission, handleTyping, isTy
                         <img style={{height:'20px', marginLeft:'10px'}} src={confusedImg} alt='' />
                     </span>
                 </Typography>
-
             </Popover>
             <ToastContainer
                 position="top-center"
