@@ -41,9 +41,9 @@
 }
 .call-items span {
   background: #fd6286;
-  border-radius: 50px;
-  width: 30px;
-  height: 34px;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -52,6 +52,7 @@
   background: #10e599 !important;
 }
 .call-items span svg {
-  color: transparent;
+  color: white;
+  opacity: 0.5;
   font-size: 25px;
 }

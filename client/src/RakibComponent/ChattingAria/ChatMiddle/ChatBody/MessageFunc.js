@@ -1,3 +1,4 @@
+import { SpatialTrackingOutlined } from '@mui/icons-material';
 import { Tooltip } from '@mui/material';
 import Popover from '@mui/material/Popover';
 import Typography from '@mui/material/Typography';
@@ -11,6 +12,16 @@ import { toast, ToastContainer } from 'react-toastify';
 import EditMessage from '../../../../Editor/EditMessage';
 import { deleteMessage, noteCreate, sendMessage, updateMessageStore } from '../../../../store/actions/messageAction';
 import { FAILED_MESSAGE, SUCCESS_MESSAGE_CLEAR } from '../../../../store/type/messageTypes';
+import resendImg from '../../../../Ashikur/chatRepliedImages/resend.png';
+import addNoteImg from '../../../../Ashikur/chatRepliedImages/add-note.png';
+import confusedImg from '../../../../Ashikur/chatRepliedImages/confused.png';
+import editImg from '../../../../Ashikur/chatRepliedImages/edit.png';
+import questionImg from '../../../../Ashikur/chatRepliedImages/question.png';
+import copyImg from '../../../../Ashikur/chatRepliedImages/copy.png';
+import deleteImg from '../../../../Ashikur/chatRepliedImages/delete.png';
+
+
+
 export default function MessageFunc({ isSameSenderPermission, handleTyping, isTyping, message, messageInfo }) {
     const { theme, auth, groupMessage } = useSelector(state => state);
     const dispatch = useDispatch()
@@ -99,56 +110,84 @@ export default function MessageFunc({ isSameSenderPermission, handleTyping, isTy
                     horizontal: 'left',
                 }}
             >
-                <Typography onClick={handleCopy} sx={{ py: 1, px: 3, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                    <span>Copy </span>
+
+            {/* copy message */}
+                <Typography onClick={handleCopy} sx={{ cursor:'pointer', '&:hover':{bgcolor:'rgb(234, 234, 234, 0.5)'}, py: 1, px: 2, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                    <span style={{fontSize:14}}>Copy </span>
                     <span>
-                        <MdFileCopy style={{ position: 'relative', top: '3px', paddingLeft: '5px' }} />
+                    <img style={{height:'20px', marginLeft:'10px'}} src={copyImg} alt='' />
                     </span>
                 </Typography>
                 {isSameSenderPermission && <>
-                    <Typography sx={{ py: 1, px: 3, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }} >
-                        Edit <EditMessage handleTyping={handleTyping} isTyping={isTyping} messageInfo={messageInfo} messageText={message} messageEditHandle={messageEditHandle} editMessageOpen={editMessageOpen} />
-                        <span onClick={() => {
+                    <Typography onClick={() => {
                             messageEditHandle(true)
                             dispatch(updateMessageStore(messageInfo))
-                        }}>
-                            <RiEditCircleFill style={{ position: 'relative', top: '3px', paddingLeft: '5px' }} />
+                        }} sx={{cursor:'pointer', '&:hover':{bgcolor:'rgb(234, 234, 234, 0.5)'}, fontSize:14, py: 1, px: 2, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }} >
+                        Edit <EditMessage handleTyping={handleTyping} isTyping={isTyping} messageInfo={messageInfo} messageText={message} messageEditHandle={messageEditHandle} editMessageOpen={editMessageOpen} />
+                        <span>
+                            <img style={{height:'20px', marginLeft:'10px'}} src={editImg} alt='' />
                         </span>
                     </Typography>
-                    <Typography sx={{ py: 1, px: 3, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                        <span> Delete </span>
-                        {messageInfo?.chat?._id && messageInfo?._id && auth?.user?.token ? <span onClick={() => {
+
+                    {/* Delete message */}
+                    <Typography  onClick={() => {
+                            dispatch(deleteMessage(messageInfo?.chat?._id, messageInfo?._id, auth?.user?.token))}} sx={{cursor:'pointer', '&:hover':{bgcolor:'rgb(234, 234, 234, 0.5)'}, py: 1, px: 2, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                        <span style={{fontSize:14}}> Delete </span>
+                        {/* {messageInfo?.chat?._id && messageInfo?._id && auth?.user?.token 
+                        ? 
+                        <span onClick={() => {
                             dispatch(deleteMessage(messageInfo?.chat?._id, messageInfo?._id, auth?.user?.token))
                         }}><MdDelete style={{ position: 'relative', top: '3px', paddingLeft: '5px' }} />
-                        </span> : <Tooltip style={{ cursor: "pointer" }} title="Permission Denied" arrow>
-                            <MdDelete style={{ position: 'relative', top: '3px', paddingLeft: '5px' }} />
-                        </Tooltip>}
+                        </span>
+                         :  */}
+                         <Tooltip style={{ cursor: "pointer" }} title="Permission Denied" arrow>
+                         <img style={{height:'20px', marginLeft:'10px'}} src={deleteImg} alt='' />
+                        </Tooltip>
+                        {/* } */}
                     </Typography>
                 </>}
-                <Typography sx={{ py: 1, px: 3, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                    <span> add To Note </span>
-                    <span onClick={() => dispatch(noteCreate(messageInfo?._id, messageInfo?.chat?._id, auth.user?.token))}>
-                        <MdStickyNote2 style={{ position: 'relative', top: '3px', paddingLeft: '5px' }} />
+
+                    {/* Add to Note Message */}
+                    <Typography onClick={() => dispatch(noteCreate(messageInfo?._id, messageInfo?.chat?._id, auth.user?.token))} sx={{cursor:'pointer', '&:hover':{bgcolor:'rgb(234, 234, 234, 0.5)'}, py: 1, px: 2, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                            <span style={{fontSize:14}}> add To Note </span>
+                        <span>
+                        <img style={{height:'20px', marginLeft:'10px'}} src={addNoteImg} alt='' />
+                        </span>
+                    </Typography>
+                
+                
+                {/* this is need to solve for question */}
+                    <Typography onClick={() => {
+                            dispatch(sendMessage('Question?', messageInfo?.chat?._id, auth.user?.token))
+                        }} sx={{cursor:'pointer', '&:hover':{bgcolor:'rgb(234, 234, 234, 0.5)'}, py: 1, px: 2, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                        <span style={{fontSize:14}}>Question</span>
+                        <span>
+                        <img style={{height:'20px', marginLeft:'10px'}} src={questionImg} alt='' />
+                        </span>
+                    </Typography>
+
+                {/* Repeat Message */}
+                <Typography onClick={() => {
+                        dispatch(sendMessage('Repeat!', messageInfo?.chat?._id, auth.user?.token))
+                    }} sx={{cursor:'pointer', '&:hover':{bgcolor:'rgb(234, 234, 234, 0.5)'}, py: 1, px: 2, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                    <span style={{fontSize:14}}>Repeat </span>
+                    <span>
+                    <img style={{height:'20px', marginLeft:'10px'}} src={resendImg} alt='' />
                     </span>
                 </Typography>
 
-                <Typography sx={{ py: 1, px: 3, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                    <span>Question Repeat </span>
-                    <span onClick={() => {
-                        dispatch(sendMessage('Question Repeat!', messageInfo?.chat?._id, auth.user?.token))
-                    }}>
-                        <AiFillThunderbolt style={{ position: 'relative', top: '3px', paddingLeft: '5px' }} />
-                    </span>
-                </Typography>
-                <Typography sx={{ py: 1, px: 3, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                    <span> Don't Understand
-                    </span>
-                    <span onClick={() => {
+                {/* Don't Understand Message */}
+                <Typography  onClick={() => {
                         dispatch(sendMessage("Don't Understand!", messageInfo?.chat?._id, auth.user?.token))
-                    }}>
-                        <RiQuestionnaireFill style={{ position: 'relative', top: '3px', paddingLeft: '5px' }} />
+                    }} sx={{cursor:'pointer', '&:hover':{bgcolor:'rgb(234, 234, 234, 0.5)'}, py: 1, px: 2, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                    <span style={{fontSize:14}}> Don't Understand
+                    </span>
+                    <span>
+                        {/* <RiQuestionnaireFill style={{ position: 'relative', top: '3px', paddingLeft: '5px' }} /> */}
+                        <img style={{height:'20px', marginLeft:'10px'}} src={confusedImg} alt='' />
                     </span>
                 </Typography>
+
             </Popover>
             <ToastContainer
                 position="top-center"

@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import EditRoadIcon from '@mui/icons-material/EditRoad';
+// import EditRoadIcon from '@mui/icons-material/EditRoad';
 import { Avatar, AvatarGroup, Grid, ToggleButton, Tooltip, Typography } from '@mui/material';
 import Badge from '@mui/material/Badge';
 // import TypingIndicatior from './Typing/TypingIndicatior';
@@ -12,9 +12,13 @@ import { chatExists } from '../RakibComponent/ChattingAria/ChatMiddle/ChatBody/c
 import './Chat.css';
 import GroupSort from './GroupSort';
 import TypingIndicatior from './Typing/TypingIndicatior';
+
 import { FaVideo } from 'react-icons/fa'
 import { SiAudiomack } from 'react-icons/si'
 import { IoIosImages } from 'react-icons/io'
+
+import {FiEdit} from 'react-icons/fi'
+
 
 function RecentChat({ isTyping, chatActive, handleTyping, groupMessage, handleSingleChat }) {
     const { notification, groupData } = useSelector(state => state)
@@ -88,19 +92,24 @@ function RecentChat({ isTyping, chatActive, handleTyping, groupMessage, handleSi
                                 xs: 500
                             },
                         }}>
-                            RECENT GROUP CHATS
+                            RECENTS
                         </Typography>
                     </ToggleButton>
 
                 </Grid>
                 <Grid item xs={4} className="headIcon" sx={{ display: 'flex', justifyContent: 'end', color: 'rgba(0, 0, 0, 0.54)' }}>
+                <Tooltip title="Edit" arrow>
                     <ToggleButton value="check"
                         selected={selected}
                         onChange={() => {
                             setSelected(false);
+
                         }} onClick={handleSortClick}>
 
-                        <EditRoadIcon sx={{
+                        {/* <EditRoadIcon sx={{}} onClick={handleSortClick}> */}
+                         
+                        <FiEdit sx={{
+
                             textTransform: 'capitalize',
                             fontSize: {
                                 lg: 20,
@@ -122,7 +131,12 @@ function RecentChat({ isTyping, chatActive, handleTyping, groupMessage, handleSi
                             }
                         }} />
                     </ToggleButton>
-                    <GroupSort setSortAncorEl={setSortAncorEl} sortAncorEl={sortAncorEl} handleSortClick />
+                </Tooltip>
+
+                    {/* <GroupSort setSortAncorEl={setSortAncorEl} sortAncorEl={sortAncorEl} handleSortClick/> */}
+
+                    <GroupSort setSortAncorEl={setSortAncorEl} sortAncorEl={sortAncorEl} handleSortClick/>
+
                 </Grid>
             </Grid>
             <Grid container spacing={0} padding={'10px 0px'} justifyContent="center">
@@ -243,7 +257,7 @@ function RecentChat({ isTyping, chatActive, handleTyping, groupMessage, handleSi
                                                                 </div>
                                                                 {chat?.seen?.length && <AvatarGroup max={3}>
                                                                     {chat?.seen?.slice(0, 3)?.map((user, i) => (
-                                                                        <Tooltip style={{ cursor: "pointer" }} title={'seen'} key={i}>
+                                                                        <Tooltip style={{ cursor: "pointer" }} title='seen' key={i}>
                                                                             <Avatar sx={{ height: '12px', width: '12px', marginTop: '3px' }} alt={user.username} src={user?.pic} />
                                                                         </Tooltip>
                                                                     ))}

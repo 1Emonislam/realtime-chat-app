@@ -1,4 +1,4 @@
-import { Avatar, AvatarGroup, Tooltip, Typography } from '@mui/material'
+import { Avatar, AvatarGroup, Grid, Tooltip, Typography } from '@mui/material'
 import moment from 'moment'
 import { useEffect, useRef } from 'react'
 import { useSelector } from 'react-redux'
@@ -7,7 +7,11 @@ import Loading from '../../../../components/Spinner/Loading'
 import TypingIndicator from '../../../../components/Typing/TypingIndicatior'
 import Editor from '../../../../Editor/Editor'
 import MessageFunc from '../ChatBody/MessageFunc'
-import { chatExists, isLastMessage, isSameSender, isSameSenderMargin, isSameSenderPermission, isSameUser } from './chatLogic'
+import { chatExists, isLastMessage, isSameSender, isSameSenderMargin, isSameSenderPermission, isSameUser } from './chatLogic';
+import resendImg from '../../../../Ashikur/chatRepliedImages/resend.png';
+import confusedImg from '../../../../Ashikur/chatRepliedImages/confused.png';
+import questionImg from '../../../../Ashikur/chatRepliedImages/question.png';
+
 function ScrollChat({ messages, user, handleTyping, isTyping }) {
     const { selectedChat, groupMessage } = useSelector(state => state);
     const messagesEndRef = useRef(null)
@@ -19,7 +23,11 @@ function ScrollChat({ messages, user, handleTyping, isTyping }) {
     }, [messages]);
     return (
         <ScrollableFeed >
-            {groupMessage?.loading ? <Loading style={{ marginTop: "50px" }} /> : <>
+            {groupMessage?.loading 
+            ? 
+            <Loading style={{ marginTop: "50px" }} /> 
+            : 
+            <>
                 <div style={{ marginTop: "50px" }}>
                     {messages?.length !== 0 && messages?.length && messages?.map((m, i) => (
                         <span key={i}>
@@ -53,7 +61,7 @@ function ScrollChat({ messages, user, handleTyping, isTyping }) {
                                         flexDirection: 'column',
                                         position: 'relative',
                                         borderRadius: " 20px 20px 20px 0",
-                                        padding: "14px 20px",
+                                        padding: "8px 14px",
                                         fontWeight: "500"
                                     }}
                                 >
@@ -80,15 +88,38 @@ function ScrollChat({ messages, user, handleTyping, isTyping }) {
                                                 {moment(m?.updatedAt).fromNow()}
                                             </Typography>
                                         </div>
-                                        <div>
+                                        <Grid sx={{display:'flex', alignItems: 'center', justifyContent:'space-between'}}>
                                             {/* <EditorLogicMessage data={m?.content?.text} /> */}
-                                            {m?.content?.text&&<span>{m?.content?.text} </span>}
-                                            {m?.content?.audio?.length&& <span> {m?.content?.audio?.map((el, index) => (
+
+                                            {/* {m?.content?.text&&<span>{m?.content?.text} </span>} */}
+                                            {/* {m?.content?.audio?.length&& <span> {m?.content?.audio?.map((el, index) => (
                                                 <span key={index}>
                                                     <audio src={el} controls />
                                                 </span>
-                                            ))}</span>}
-                                        </div>
+                                            ))}</span>} */}
+                                            
+                                            <Typography sx={{display:'inline-block'}} fontSize={14} fontWeight={600}>
+                                            {m?.content?.text} 
+                                            </Typography>
+                                            
+
+                                            {/* conditional image of message */}
+                                            {
+                                            m?.content?.text.toLowerCase() === "question?" || "don't understand!" || "repeat!" ?
+                                            <img 
+                                                 style={{height:'25px', marginLeft:'7px'}}
+                                                 src={m?.content?.text.toLowerCase() === "question?" ? questionImg
+                                                 :
+                                                  m?.content?.text.toLowerCase() === "don't understand!" ? confusedImg 
+                                                 : 
+                                                 m?.content?.text.toLowerCase() === "repeat!" ? resendImg : ""
+                                                } 
+                                                alt=''
+                                            /> 
+                                            :
+                                            ""
+                                            }
+                                        </Grid>
                                     </>}
                                 </span>
                             </div>
