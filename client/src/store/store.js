@@ -10,6 +10,7 @@ import { themeReducer } from './reducers/ThemeReducer';
 // import { composeWithDevTools } from 'redux-devtools-extension';
 import { onlineUserReducer } from './reducers/allOnlineUserReducer';
 import { allUserSearchReducer } from './reducers/allSearchUserReducer';
+import { myProfileReducer } from './reducers/profileReducer';
 const rootReducer = combineReducers({
     theme: themeReducer,
     auth: authReducer,
@@ -20,6 +21,7 @@ const rootReducer = combineReducers({
     notification: messageNotificationPush,
     onlineUser: onlineUserReducer,
     allSearch: allUserSearchReducer,
+    profile: myProfileReducer,
 });
 const middleware = [thunk];
 const store = createStore(rootReducer, compose(
