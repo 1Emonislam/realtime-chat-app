@@ -18,7 +18,7 @@ function ScrollChat({ messages, user, handleTyping, isTyping }) {
         scrollToBottom()
     }, [messages]);
     return (
-        <ScrollableFeed >
+        <ScrollableFeed style={{scrollbarWidth: 'none'}}>
             {groupMessage?.loading ? <Loading style={{ marginTop: "50px" }} /> : <>
                 <div style={{ marginTop: "50px" }}>
                     {messages?.length !== 0 && messages?.length && messages?.map((m, i) => (
@@ -82,10 +82,20 @@ function ScrollChat({ messages, user, handleTyping, isTyping }) {
                                         </div>
                                         <div>
                                             {/* <EditorLogicMessage data={m?.content?.text} /> */}
-                                            {m?.content?.text&&<span>{m?.content?.text} </span>}
-                                            {m?.content?.audio?.length&& <span> {m?.content?.audio?.map((el, index) => (
+                                            {m?.content?.text && <span>{m?.content?.text} </span>}
+                                            {m?.content?.audio?.length !== 0 && <span> {m?.content?.audio?.map((el, index) => (
                                                 <span key={index}>
                                                     <audio src={el} controls />
+                                                </span>
+                                            ))}</span>}
+                                            {m?.content?.video?.length !== 0 && <span> {m?.content?.video?.map((el, index) => (
+                                                <span key={index}>
+                                                    <video src={el} controls />
+                                                </span>
+                                            ))}</span>}
+                                            {m?.content?.images?.length !== 0 && <span> {m?.content?.images?.map((el, index) => (
+                                                <span key={index}>
+                                                    <img src={el} alt="" />
                                                 </span>
                                             ))}</span>}
                                         </div>

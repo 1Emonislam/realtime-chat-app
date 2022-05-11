@@ -48,7 +48,8 @@ export const getMessage = (chatId, token, search) => {
     }
 }
 
-export const sendMessage = (data, chatId, token, audio, video, others) => {
+
+export const sendMessage = (data, chatId, token,audio) => {
     return async (dispatch) => {
         dispatch({
             type: LOADING_MESSAGE,
@@ -61,15 +62,62 @@ export const sendMessage = (data, chatId, token, audio, video, others) => {
             fetch(`http://localhost:5000/api/message`, {
                 method: 'POST',
                 headers: {
-                    "Content-Type": "application/json",
+                    'Content-Type': 'application/json',
                     "authorization": `Bearer ${token}`
                 },
                 body: JSON.stringify({
                     content: {
                         text: data,
+                        audio:audio,
+                    },
+                    chatId: chatId,
+                })
+            })
+                .then(res => res.json())
+                .then(data => {
+                    //console.log(data)
+                    if (data) {
+                        dispatch({
+                            type: SEND_MESSAGE,
+                            payload: {
+                                message: data?.message,
+                                data: data,
+                            }
+                        })
+                    }
+                    if (data.error) {
+                        dispatch({
+                            type: FAILED_MESSAGE,
+                            payload: {
+                                error: data?.error,
+                            }
+                        })
+                    }
+                })
+        }
+        catch (error) {
+        }
+    }
+}
+export const sendMessageAudio = (audio, chatId, token) => {
+    return async (dispatch) => {
+        dispatch({
+            type: LOADING_MESSAGE,
+            payload: {
+                loading: true,
+            },
+        })
+        try {
+            //make sure all data array passing
+            fetch(`http://localhost:5000/api/message`, {
+                method: 'POST',
+                headers: {
+                    'content-type': 'multipart/form-data',
+                    "authorization": `Bearer ${token}`
+                },
+                body: JSON.stringify({
+                    content: {
                         audio: audio,
-                        video: video,
-                        others: others
                     },
                     chatId: chatId,
                 })
