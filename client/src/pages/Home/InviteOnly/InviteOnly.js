@@ -4,7 +4,7 @@ import React from 'react';
 
 const InviteOnly = () => {
     return (
-        <Box sx={{ py: 12 }}>
+        <Box sx={{ py: 12, background: 'white' }}>
             <Container>
                 <Grid container spacing={2}>
                     <Grid item xs={12} md={7}>
@@ -14,8 +14,8 @@ const InviteOnly = () => {
                     </Grid>
                     <Grid item xs={12} md={5}>
                         <Box sx={{ px: 4, mt: 4 }}>
-                            <Typography variant='h2' sx={{ fontSize: { md: '48px', xs: '27px' }, fontWeight: 'bold', pb: 4 }}>Create an invite-only place where you belong</Typography>
-                            <Typography sx={{ fontSize: { md: '20px', xs: '18px' }, fontWeight: 300 }} variant='p'>Discord servers are organized into topic-based channels where you can collaborate, share, and just talk about your day without clogging up a group chat.</Typography>
+                            <Typography variant='h2' sx={{ fontSize: { md: '48px', xs: '27px' }, fontWeight: 'bold', pb: 4 }}>Create groups and share ideas</Typography>
+                            <Typography sx={{ fontSize: { md: '20px', xs: '18px' }, fontWeight: 300 }} variant='p'>Discuss your topics using custom features that will help understanding concepts.</Typography>
                         </Box>
                     </Grid>
                 </Grid>
