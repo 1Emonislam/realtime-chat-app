@@ -16,7 +16,7 @@ const TopBanner = () => {
             }}
         >
             <Header />
-            <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '570px', }}>
+            <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '630px', }}>
                 <Box sx={{ maxWidth: '810px', textAlign: 'center' }}>
                     <Box sx={{ color: 'white', px: 2 }}>
                         <Typography sx={{ fontSize: { lg: '38px', sm: '28px', xs: '24px' }, fontWeight: 600, lineHeight: 1.3 }} variant="h2">Modern chat support system is a web-based application that facilitates productive meetings between students with and without dyslexia and/or ADHD.</Typography>
