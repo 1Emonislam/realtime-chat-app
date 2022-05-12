@@ -10,7 +10,7 @@ const Footer = () => {
                 <Grid container spacing={3} sx={{ borderBottom: '1px solid #5865f2', pb: 5 }}>
                     <Grid item xs={8} md={4}>
                         <Box>
-                            <Typography sx={{ fontSize: '32px', color: '#5865f2', fontWeight: 800 }} variant="h4">IMAGINE A <br /> PLACE</Typography>
+                            <Typography sx={{ fontSize: '32px', color: '#5865f2', fontWeight: 800 }} variant="h4">Collaborate</Typography>
                             <Box sx={{ color: 'white', display: 'flex', pt: 4 }}>
                                 <Typography sx={{ mr: 2, fontSize: '24px', cursor: 'pointer' }}><i className="fa-brands fa-twitter"></i></Typography>
                                 <Typography sx={{ mr: 2, fontSize: '24px', cursor: 'pointer' }}><i className="fa-brands fa-linkedin-in"></i></Typography>
