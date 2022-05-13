@@ -32,6 +32,8 @@ import DHome from './pages/Dashboard/DHome/DHome';
 import { getGroupChatData } from "./store/actions/groupActions";
 import { getNotification } from "./store/actions/messageNotificationAction";
 import { SOCKET_GLOBAL } from "./store/type/socketType";
+import Nav from "./Ashikur/Nav/Nav";
+import UserDashboard from "./components/UserDashboard/UserDashboard";
 export const ThemeSelectContext = React.createContext();
 const ColorModeContext = React.createContext({ toggleColorMode: () => { } });
 export default function ToggleColorMode() {
@@ -157,6 +159,18 @@ export default function ToggleColorMode() {
                 }
               ></Route>
               <Route
+                path="/dashboard"
+                element={
+                  <UserDashboard mode={mode}>
+                    <ThemeSwitch
+                      onClick={colorMode.toggleColorMode}
+                      style={{ fontSize: "20px" }}
+                      checked={!(theme.palette.mode === "light")}
+                    />
+                  </UserDashboard>
+                }
+              ></Route>
+              <Route
                 path="/settings"
                 element={
                   <Settings mode={mode}>
@@ -186,7 +200,7 @@ export default function ToggleColorMode() {
               <Route path="/admob-setting" element={< SettingAdmob />}> </Route>
               <Route path="/snich-setting" element={< SettingSinch />}> </Route>
               <Route path="/firebase-setting" element={< SettingsFirebase />}> </Route>
-              <Route path="/dashboard" element={< DashBoardHome />}> </Route>
+              {/* <Route path="/dashboard" element={< DashBoardHome />}> </Route> */}
               <Route path="/online" element={< OnLineAndOffLineStatusBar />}> </Route>
               <Route path="/users" element={< Users />}> </Route>
               <Route path="/blockusers" element={< BlockedUser />}> </Route>

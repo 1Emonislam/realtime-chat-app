@@ -12,14 +12,24 @@ import { MdGroup } from "react-icons/md";
 import pic from "../../images/increase.png"
 import React from 'react';
 
-const DashBoardHome = () => {
+const DashBoardHome = ({ mode }) => {
     return (
         <Container sx={{ py: "50px" }}>
+            <Box>
+                <Typography
+                    color={mode !== 'dark' ? 'black' : 'white'}
+                    sx={{ fontSize: '24px', pb: 3 }}
+                    variant='h4'
+                >Dashboard</Typography>
+            </Box>
             <Grid container spacing={6}>
                 <Grid item xs={12} md={4}>
                     <Box sx={{ boxShadow: '1px 1px 10px #dacdcd' }}>
                         <Box>
-                            <Paper sx={{ p: "25px", }} elevation={3}>
+                            <Paper
+                                sx={{ p: "25px", backgroundColor: `${mode === 'dark' ? 'black' : 'white'}` }}
+                                elevation={3}
+                            >
                                 <Box sx={{ display: "flex", alignItems: "center", mb: "15px" }}>
                                     <Box sx={{ fontSize: '24px' }}>
                                         <FcDoughnutChart />
@@ -64,7 +74,10 @@ const DashBoardHome = () => {
                 <Grid item xs={12} md={4}>
                     <Box sx={{ boxShadow: '1px 1px 10px #dacdcd' }}>
                         <Box>
-                            <Paper sx={{ p: "25px", }} elevation={3}>
+                            <Paper
+                                sx={{ p: "25px", backgroundColor: `${mode === 'dark' ? 'black' : 'white'}` }}
+                                elevation={3}
+                            >
                                 <Box sx={{ display: "flex", alignItems: "center", mb: "15px" }}>
                                     <Box sx={{ fontSize: '24px', color: '#5ab267' }}>
                                         <BsFillPeopleFill />
@@ -102,7 +115,10 @@ const DashBoardHome = () => {
                 <Grid item xs={12} md={4}>
                     <Box sx={{ boxShadow: '1px 1px 10px #dacdcd' }}>
                         <Box>
-                            <Paper sx={{ p: "25px", }} elevation={3}>
+                            <Paper
+                                sx={{ p: "25px", backgroundColor: `${mode === 'dark' ? 'black' : 'white'}` }}
+                                elevation={3}
+                            >
                                 <Box sx={{ display: "flex", alignItems: "center", mb: "15px" }}>
                                     <Box sx={{ fontSize: '24px', color: '#5ab267' }}>
                                         <MdGroupAdd ></MdGroupAdd>
@@ -139,10 +155,12 @@ const DashBoardHome = () => {
                 </Grid>
                 <Grid item xs={12} md={4}>
                     <Box sx={{ boxShadow: '1px 1px 10px #dacdcd' }}>
-                        <Box sx={{ p: "25px", backgroundColor: "white", mb: "4px", borderBottom: '1px solid #ddd' }}>
-                            <Typography sx={{ textAlign: "center", fontSize: '16px', fontWeight: 'bold' }} variant="h4" component="h4">Meeting Group</Typography>
+                        <Box sx={{ p: "25px", backgroundColor: `${mode === 'dark' ? '#141414' : 'white'}`, mb: "4px", borderBottom: '1px solid #ddd' }}>
+                            <Typography color={mode !== 'dark' ? 'black' : 'white'} sx={{ textAlign: "center", fontSize: '16px', fontWeight: 'bold' }} variant="h4" component="h4">Meeting Group</Typography>
                         </Box>
-                        <Box sx={{ p: "10px", backgroundColor: "white" }}>
+                        <Box
+                            color={mode !== 'dark' ? '#141414' : 'white'}
+                            sx={{ p: "10px", backgroundColor: `${mode === 'dark' ? '#141414' : 'white'}` }}>
                             <Box sx={{ textAlign: "center", mb: "4px", fontSize: '20px' }}>
                                 <IoIosChatboxes></IoIosChatboxes>
                                 <Typography sx={{ textAlign: "center", fontSize: '14px' }} variant="h6" gutterBottom component="div">Chat</Typography>
@@ -178,7 +196,10 @@ const DashBoardHome = () => {
                 <Grid item xs={12} md={4}>
                     <Box sx={{ boxShadow: '1px 1px 10px #dacdcd' }}>
                         <Box>
-                            <Paper sx={{ p: "25px", }} elevation={3}>
+                            <Paper
+                                sx={{ p: "25px", backgroundColor: `${mode === 'dark' ? 'black' : 'white'}` }}
+                                elevation={3}
+                            >
                                 <Box sx={{ display: "flex", alignItems: "center", mb: "15px" }}>
                                     <Box sx={{ fontSize: '24px', color: '#5ab267' }}>
                                         <HiUserGroup ></HiUserGroup>
