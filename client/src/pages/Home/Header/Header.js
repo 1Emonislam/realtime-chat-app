@@ -1,21 +1,24 @@
 import { Box, Button, Container, Typography } from '@mui/material';
 import React from 'react';
 import { NavLink } from 'react-router-dom';
+import white_large from '../../../assets/logo/white_large.png';
 
 const Header = () => {
     return (
         <Container>
             <Box sx={{ display: 'flex', justifyContent: 'space-between', pt: 3 }}>
-                <div>
+                <Typography sx={{ height: { lg: '28px', sm: '25px', xs: '20px' } }} component='img' src={white_large} />
+                {/* <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                    <Typography sx={{ height: '30px' }} component='img' src={logo_white} />
                     <Typography sx={{
                         fontSize: {
-                            lg: '24px',
-                            md: '20px',
-                            sm: '18px',
-                            xs: "16px"
-                        }, color: '#fff', fontWeight: 'bold', letterSpacing: 1.6
-                    }}>CollabAll</Typography>
-                </div>
+                            lg: '28px',
+                            md: '28px',
+                            sm: '28px',
+                            xs: "28px"
+                        }, color: '#fff', fontFamily: 'Comfortaa', fontWeight: 'bold', letterSpacing: 1.6, ml: 1
+                    }}>chale</Typography>
+                </Box> */}
                 <div>
                     <NavLink to="/login">
                         <Button sx={{

@@ -17,9 +17,10 @@ const TopBanner = () => {
         >
             <Header />
             <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '630px', }}>
-                <Box sx={{ maxWidth: '740px', textAlign: 'center' }}>
+                <Box sx={{ maxWidth: '800px', textAlign: 'center', }}>
                     <Box sx={{ color: 'white', px: 2 }}>
-                        <Typography sx={{ fontSize: { lg: '38px', sm: '28px', xs: '24px' }, fontWeight: 600, lineHeight: 1.3 }} variant="h2">Modern chat support systems that facilitates productive meetings between students with and without dyslexia and/or ADHD.</Typography>
+                        <Typography sx={{ fontSize: { lg: '38px', sm: '28px', xs: '24px' }, fontFamily: 'Comfortaa', fontWeight: 'bold', lineHeight: 1.3 }} variant="h2">Modern chat support systems...</Typography>
+                        <Typography sx={{ mt: 1.5, fontSize: { lg: '28px', sm: '28px', xs: '24px' }, fontFamily: 'Comfortaa', fontWeight: 600, lineHeight: 1.5 }} variant="h2">...that facilitates productive meetings between students with and without dyslexia and/or ADHD.</Typography>
                     </Box>
                     {/* <Box sx={{ mt: 4 }}>
                         <Button sx={{
