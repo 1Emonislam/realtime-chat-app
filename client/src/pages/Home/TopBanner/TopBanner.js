@@ -20,7 +20,7 @@ const TopBanner = () => {
                 <Box sx={{ maxWidth: '800px', textAlign: 'center', }}>
                     <Box sx={{ color: 'white', px: 2 }}>
                         <Typography sx={{ fontSize: { lg: '38px', sm: '28px', xs: '24px' }, fontFamily: 'Comfortaa', fontWeight: 'bold', lineHeight: 1.3 }} variant="h2">Modern chat support systems...</Typography>
-                        <Typography sx={{ mt: 1.5, fontSize: { lg: '28px', sm: '28px', xs: '24px' }, fontFamily: 'Comfortaa', fontWeight: 600, lineHeight: 1.5 }} variant="h2">...that facilitates productive meetings between students with and without dyslexia and/or ADHD.</Typography>
+                        <Typography sx={{ mt: 1.5, fontSize: { lg: '28px', sm: '24px', xs: '20px' }, fontFamily: 'Comfortaa', fontWeight: 600, lineHeight: 1.5 }} variant="h2">...that facilitates productive meetings between students with and without dyslexia and/or ADHD.</Typography>
                     </Box>
                     {/* <Box sx={{ mt: 4 }}>
                         <Button sx={{
