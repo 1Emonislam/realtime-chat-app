@@ -1,19 +1,9 @@
 import { Box, Typography } from '@mui/material';
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { getMyProfile } from '../../../store/actions/profileAction';
+import React from 'react';
 // import "./general.css"
 
-const ProfileSetting = ({ mode }) => {
-
-    const dispatch = useDispatch();
-    const { auth } = useSelector(state => state);
-    const { pic, email, firstName, lastName, username, userInfo } = auth?.user?.user
-    useEffect(() => {
-        dispatch(getMyProfile(auth.user?.token))
-    }, [auth.user?.token, dispatch])
-    console.log(auth);
-
+const ProfileSetting = ({ mode,profileInfo }) => {
+    const { pic, email, firstName, lastName, username, userInfo } = profileInfo;
     return (
         <Box sx={{
             display: 'block',
@@ -98,8 +88,6 @@ const ProfileSetting = ({ mode }) => {
                         </Box>
                     </Box>
                 </Box>
-
-
 
             </Box>
 

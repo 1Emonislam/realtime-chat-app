@@ -1,7 +1,8 @@
 import { Modal, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import React from 'react';
-import {FiUser} from 'react-icons/fi';
+import { FiUser } from 'react-icons/fi';
+import { useSelector } from 'react-redux';
 import ProfileSetting from "../ProfileSetting/ProfileSetting";
 
 const style = {
@@ -23,11 +24,12 @@ const style = {
 
 const Profile = ({ mode }) => {
     const [open, setOpen] = React.useState(false);
+    const { auth } = useSelector(state => state)
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
     return (
         <Box>
-            <Box onClick={handleOpen} sx={{ cursor:'pointer', display: 'flex', justifyContent: 'space-between', pb: 1 }}>
+            <Box onClick={handleOpen} sx={{ cursor: 'pointer', display: 'flex', justifyContent: 'space-between', pb: 1 }}>
                 <Typography sx={{ fontFamily: 'Poppins' }}>Profile</Typography>
                 <FiUser sx={{ fontSize: '20px' }} />
             </Box>
@@ -38,7 +40,7 @@ const Profile = ({ mode }) => {
                 aria-describedby="modal-modal-description"
             >
                 <Box sx={style}>
-                    <ProfileSetting mode={mode} />
+                    <ProfileSetting profileInfo={auth?.user?.user} mode={mode} />
                 </Box>
             </Modal>
         </Box>

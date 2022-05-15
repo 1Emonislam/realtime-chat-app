@@ -50,7 +50,7 @@ const Profile = () => {
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
     const handleClick = (event) => {
-        console.log(event);
+        // console.log(event);
         setAnchorEl(event.currentTarget);
     };
     const handleClose = () => {
