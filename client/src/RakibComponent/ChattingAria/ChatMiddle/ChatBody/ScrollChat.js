@@ -19,6 +19,7 @@ import Loading from '../../../../components/Spinner/Loading'
 import TypingIndicator from '../../../../components/Typing/TypingIndicatior'
 import Editor from '../../../../Editor/Editor'
 import MessageFunc from '../ChatBody/MessageFunc'
+import DocViewer from 'react-doc-viewer'
 import { chatExists, isLastMessage, isSameSender, isSameSenderMargin, isSameSenderPermission, isSameUser } from './chatLogic'
 
 function ScrollChat({ messages, user, handleTyping, isTyping }) {
@@ -176,6 +177,7 @@ function ScrollChat({ messages, user, handleTyping, isTyping }) {
                                         </>}
                                     </span>
                                 </div>
+
                                 {
                                     !moment(m?.updatedAt)?.fromNow()?.includes('hours')
                                     &&
@@ -240,6 +242,50 @@ function ScrollChat({ messages, user, handleTyping, isTyping }) {
                                         }
                                     </>
                                 }
+                                <>
+                                    <div syle={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                                        {
+                                            m?.content?.audio?.length !== 0 && m?.content?.audio?.map((audio, index) => (
+                                                <div key={index}>
+                                                    <audio width={'100%'} src={audio?.url} controls> </audio>
+                                                </div>
+
+                                            ))
+                                        }
+                                        {
+                                            m?.content?.video?.length !== 0 && m?.content?.video?.map((video, index) => (
+                                                <div key={index}>
+                                                    <video width={'100%'} src={video?.url} controls> </video>
+                                                </div>
+
+                                            ))
+                                        }
+                                        {
+
+                                            m?.content?.images?.length !== 0 && m?.content?.images?.map((pic, index) => (
+                                                <div key={index}>
+                                                    <img width={'100%'} alt={pic?.filename} src={pic?.url} />
+                                                </div>
+
+                                            ))
+                                        }
+                                        {
+
+                                            m?.content?.others?.length !== 0 && m?.content?.others?.map((other, index) => (
+                                                <div key={index}>
+                                                    <DocViewer documents={[{
+                                                        uri:
+                                                            other?.url
+                                                    },]} />
+                                                </div>
+
+                                            ))
+                                        }
+
+                                    </div>
+
+                                </>
+
                             </span>
                         ))}
                         {selectedChat?.chat?.seen?.length &&

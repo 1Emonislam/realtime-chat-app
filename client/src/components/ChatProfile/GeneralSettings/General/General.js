@@ -15,7 +15,7 @@ const General = ({ mode }) => {
     const { firstName, lastName, nickname, bio } = auth?.user?.user;
     useEffect(() => {
         dispatch(getMyProfile(auth?.user?.token))
-    }, [])
+    }, [auth?.user?.token, dispatch])
 
     return (
         <>

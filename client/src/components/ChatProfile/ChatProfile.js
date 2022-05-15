@@ -35,7 +35,7 @@ const ChatProfile = ({ mode }) => {
   const { pic } = auth?.user?.user
   useEffect(() => {
     dispatch(getMyProfile(auth.user?.token))
-  }, [])
+  }, [auth.user?.token, dispatch])
 
   return (
     <Box>
