@@ -11,6 +11,7 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import { onlineUserReducer } from './reducers/allOnlineUserReducer';
 import { allUserSearchReducer } from './reducers/allSearchUserReducer';
 import { uploadReducer } from './reducers/uploadReducer';
+import { myProfileReducer } from './reducers/profileReducer';
 const rootReducer = combineReducers({
     theme: themeReducer,
     auth: authReducer,
@@ -22,6 +23,7 @@ const rootReducer = combineReducers({
     onlineUser: onlineUserReducer,
     allSearch: allUserSearchReducer,
     uploads: uploadReducer,
+    profile: myProfileReducer,
 });
 const middleware = [thunk];
 const store = createStore(rootReducer, compose(

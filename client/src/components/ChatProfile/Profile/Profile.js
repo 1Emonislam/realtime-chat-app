@@ -27,9 +27,9 @@ const Profile = ({ mode }) => {
     const handleClose = () => setOpen(false);
     return (
         <Box>
-            <Box sx={{ display: 'flex', justifyContent: 'space-between', pb: 1 }}>
+            <Box onClick={handleOpen} sx={{ cursor:'pointer', display: 'flex', justifyContent: 'space-between', pb: 1 }}>
                 <Typography sx={{ fontFamily: 'Poppins' }}>Profile</Typography>
-                <FiUser onClick={handleOpen} sx={{ fontSize: '20px' }} />
+                <FiUser sx={{ fontSize: '20px' }} />
             </Box>
             <Modal
                 open={open}

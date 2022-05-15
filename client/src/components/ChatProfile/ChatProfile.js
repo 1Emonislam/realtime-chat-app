@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Button from '@mui/material/Button';
 import Popover from '@mui/material/Popover';
 import { Avatar, Tooltip, Typography } from '@mui/material';
@@ -9,6 +9,8 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import EditProfile from './EditProfile/EditProfile';
 import { useNavigate } from 'react-router-dom';
 import Profile from './Profile/Profile';
+import { useDispatch, useSelector } from 'react-redux';
+import { getMyProfile } from '../../store/actions/profileAction';
 
 const ChatProfile = ({ mode }) => {
 
@@ -28,6 +30,13 @@ const ChatProfile = ({ mode }) => {
     navigate('/')
   }
 
+  const dispatch = useDispatch();
+  const { auth } = useSelector(state => state);
+  const { pic } = auth?.user?.user
+  useEffect(() => {
+    dispatch(getMyProfile(auth.user?.token))
+  }, [])
+
   return (
     <Box>
       <Tooltip followCursor title='Profile'>
@@ -35,7 +44,8 @@ const ChatProfile = ({ mode }) => {
           <Avatar
             alt=""
             style={{ display: "block", margin: "0 auto" }}
-            src="https://mui.com/static/images/avatar/3.jpg"
+            // src="https://mui.com/static/images/avatar/3.jpg"
+            src={pic}
           />
         </Button>
       </Tooltip>
@@ -57,21 +67,21 @@ const ChatProfile = ({ mode }) => {
           <EditProfile mode={mode} />
           <Profile mode={mode} />
 
-          <Box sx={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            pb: 1,
-          }}
-            color={mode !== 'dark' ? '#000' : '#fff'}
-          >
-            <Typography sx={{ fontFamily: 'Poppins' }}>Settings</Typography>
-            <Link to='/settings'>
-              <SettingsIcon sx={{ fontSize: '20px', color: `${mode !== 'dark' ? '#000' : '#fff'}` }} />
-            </Link>
-          </Box>
-          <Box sx={{ display: 'flex', justifyContent: 'space-between', pb: 1 }}>
+          <Link to='/settings'>
+            <Box sx={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              pb: 1,
+            }}
+              color={mode !== 'dark' ? '#000' : '#fff'}
+            >
+              <Typography sx={{ fontFamily: 'Poppins' }}>Settings</Typography>
+                <SettingsIcon sx={{ fontSize: '20px', color: `${mode !== 'dark' ? '#000' : '#fff'}` }} />
+            </Box>
+          </Link>
+          <Box onClick={handleLogOut} sx={{cursor:'pointer', display: 'flex', justifyContent: 'space-between', pb: 1 }}>
             <Typography sx={{ fontFamily: 'Poppins' }}>Log Out</Typography>
-            <LogoutIcon onClick={handleLogOut} sx={{ fontSize: '20px' }} />
+            <LogoutIcon sx={{ fontSize: '20px' }} />
           </Box>
         </Box>
       </Popover >

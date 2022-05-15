@@ -1,9 +1,15 @@
-/* eslint-disable no-mixed-operators */
-/* eslint-disable eqeqeq */
-import { Avatar, AvatarGroup, Grid, Tooltip, Typography } from '@mui/material'
+import CheckBoxOutlineBlank from "@mui/icons-material/CheckBoxOutlineBlank"
+import CheckCircleOutline from "@mui/icons-material/CheckCircleOutline"
+import Forum from "@mui/icons-material/Forum"
+import PriorityHigh from "@mui/icons-material/PriorityHigh"
+import QuestionMark from "@mui/icons-material/QuestionMark"
+import Replay from "@mui/icons-material/Replay"
+import SentimentDissatisfied from "@mui/icons-material/SentimentDissatisfied"
+import ThumbDown from "@mui/icons-material/ThumbDown"
+import ThumbUpAlt from "@mui/icons-material/ThumbUpAlt"
+import { Avatar, AvatarGroup, Chip, Divider, Grid, Tooltip, Typography } from '@mui/material'
 import moment from 'moment'
 import { useEffect, useRef } from 'react'
-import DocViewer from "react-doc-viewer"
 import { useSelector } from 'react-redux'
 import ScrollableFeed from 'react-scrollable-feed'
 import confusedImg from '../../../../Ashikur/chatRepliedImages/confused.png'
@@ -14,9 +20,9 @@ import TypingIndicator from '../../../../components/Typing/TypingIndicatior'
 import Editor from '../../../../Editor/Editor'
 import MessageFunc from '../ChatBody/MessageFunc'
 import { chatExists, isLastMessage, isSameSender, isSameSenderMargin, isSameSenderPermission, isSameUser } from './chatLogic'
-function ScrollChat({ messages, user, handleTyping, isTyping }) {
 
-    const { selectedChat, groupMessage, uploads } = useSelector(state => state);
+function ScrollChat({ messages, user, handleTyping, isTyping }) {
+    const { selectedChat, groupMessage } = useSelector(state => state);
     const messagesEndRef = useRef(null)
     const scrollToBottom = () => {
         messagesEndRef.current?.scrollIntoView({ behavior: "auto" })
@@ -25,7 +31,7 @@ function ScrollChat({ messages, user, handleTyping, isTyping }) {
         scrollToBottom()
     }, [messages]);
     return (
-        <ScrollableFeed >
+        <ScrollableFeed style={{ overflow: 'hidden' }}>
             {groupMessage?.loading
                 ?
                 <Loading style={{ marginTop: "50px" }} />
@@ -34,7 +40,7 @@ function ScrollChat({ messages, user, handleTyping, isTyping }) {
                     <div style={{ marginTop: "50px" }}>
                         {messages?.length !== 0 && messages?.length && messages?.map((m, i) => (
                             <span key={i}>
-                                <div style={{ display: "flex", alignItems: 'center', margin: '20px' }} ref={messagesEndRef}>
+                                <div style={{ display: "flex", alignItems: 'center', marginBottom: '10px' }} ref={messagesEndRef}>
                                     <div>
 
                                         {(isSameSender(messages, m, i, user._id) ||
@@ -88,85 +94,154 @@ function ScrollChat({ messages, user, handleTyping, isTyping }) {
                                                         xs: 200
                                                     },
                                                 }}>
-                                                    {moment(m?.updatedAt).fromNow()}
+                                                    {
+                                                        !moment(m?.updatedAt)?.fromNow()?.includes("few seconds")
+                                                            ?
+                                                            moment(m?.updatedAt).fromNow()
+                                                            :
+                                                            "just now"
+
+                                                    }
+
                                                 </Typography>
                                             </div>
+
                                             <Grid sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
 
-                                                <Typography sx={{ display: 'inline-block' }} fontSize={14} fontWeight={600}>
-                                                    {m?.content?.text}
-                                                </Typography>
-
-
-                                                {/* conditional image of message */}
                                                 {
-                                                    m?.content?.text?.toLowerCase() === "question?" || "don't understand!" || "repeat!" ?
-                                                        <img
-                                                            style={{ height: '25px', marginLeft: '7px' }}
-                                                            src={m?.content?.text?.toLowerCase() === "question?" ? questionImg
-                                                                :
-                                                                m?.content?.text?.toLowerCase() === "don't understand!" ? confusedImg
+                                                    m?.content?.text?.toLowerCase() === "question?" ||
+                                                        m?.content?.text?.toLowerCase() === "don't understand!" ||
+                                                        m?.content?.text?.toLowerCase() === "repeat!" ||
+                                                        m?.content?.text?.toLowerCase() === "forumicon" ||
+                                                        m?.content?.text?.toLowerCase() === "blankboxicon" ||
+                                                        m?.content?.text?.toLowerCase() === "checkedicon" ||
+                                                        m?.content?.text?.toLowerCase() === "questionicon" ||
+                                                        m?.content?.text?.toLowerCase() === "replyicon" ||
+                                                        m?.content?.text?.toLowerCase() === "priorityicon" ||
+                                                        m?.content?.text?.toLowerCase() === "thumbupicon" ||
+                                                        m?.content?.text?.toLowerCase() === "thumbdownicon" ||
+                                                        m?.content?.text?.toLowerCase() === "sentimenticon"
+                                                        ?
+                                                        <>
+                                                            {
+                                                                m?.content?.text?.toLowerCase() === "question?" ||
+                                                                    m?.content?.text?.toLowerCase() === "don't understand!" ||
+                                                                    m?.content?.text?.toLowerCase() === "repeat!"
+
+                                                                    ?
+
+                                                                    <img
+                                                                        style={{ height: '25px', marginLeft: '7px' }}
+                                                                        src={m?.content?.text?.toLowerCase() === "question?" ? questionImg
+                                                                            :
+                                                                            m?.content?.text?.toLowerCase() === "don't understand!" ? confusedImg
+                                                                                :
+                                                                                m?.content?.text?.toLowerCase() === "repeat!" ? resendImg : ""
+                                                                        }
+                                                                        alt=''
+                                                                    />
                                                                     :
-                                                                    m?.content?.text?.toLowerCase() === "repeat!" ? resendImg : ""
+
+                                                                    <>
+                                                                        {
+                                                                            m?.content?.text?.toLowerCase() === "forumicon" ? <Forum sx={{ color: 'black' }} />
+                                                                                :
+                                                                                m?.content?.text?.toLowerCase() === "blankboxicon" ? <CheckBoxOutlineBlank sx={{ color: 'black' }} />
+                                                                                    :
+                                                                                    m?.content?.text?.toLowerCase() === "checkedicon" ? <CheckCircleOutline sx={{ color: 'black' }} />
+                                                                                        :
+                                                                                        m?.content?.text?.toLowerCase() === "questionicon" ? <QuestionMark sx={{ color: 'black' }} />
+                                                                                            :
+                                                                                            m?.content?.text?.toLowerCase() === "replyicon" ? <Replay sx={{ color: 'black' }} />
+                                                                                                :
+                                                                                                m?.content?.text?.toLowerCase() === "priorityicon" ? <PriorityHigh sx={{ color: 'black' }} />
+                                                                                                    :
+                                                                                                    m?.content?.text?.toLowerCase() === "thumbupicon" ? <ThumbUpAlt sx={{ color: 'black' }} />
+                                                                                                        :
+                                                                                                        m?.content?.text?.toLowerCase() === "thumbdownicon" ? <ThumbDown sx={{ color: 'black' }} />
+                                                                                                            :
+                                                                                                            m?.content?.text?.toLowerCase() === "sentimenticon" ? <SentimentDissatisfied sx={{ color: 'black' }} />
+                                                                                                                :
+                                                                                                                ""
+                                                                        }
+                                                                    </>
                                                             }
-                                                            alt=''
-                                                        />
+                                                        </>
                                                         :
-                                                        ""
+                                                        <Typography sx={{ display: 'inline-block' }} fontSize={14} fontWeight={600}>
+                                                            {m?.content?.text}
+                                                        </Typography>
                                                 }
-                                                <>
-                                                    <div syle={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                                                        {
-                                                            m?.content?.audio?.length !== 0 && m?.content?.audio?.map((audio, index) => (
-                                                                <div key={index}>
-                                                                    <audio width={'100%'} src={audio?.url} controls> </audio>
-                                                                </div>
-
-                                                            ))
-                                                        }
-                                                        {
-                                                            m?.content?.video?.length !== 0 && m?.content?.video?.map((video, index) => (
-                                                                <div key={index}>
-                                                                    <video width={'100%'} src={video?.url} controls> </video>
-                                                                </div>
-
-                                                            ))
-                                                        }
-                                                        {
-
-                                                            m?.content?.images?.length !== 0 && m?.content?.images?.map((pic, index) => (
-                                                                <div key={index}>
-                                                                    <img width={'100%'} alt={pic?.filename} src={pic?.url} />
-                                                                </div>
-
-                                                            ))
-                                                        }
-                                                        {
-
-                                                            m?.content?.others?.length !== 0 && m?.content?.others?.map((other, index) => (
-                                                                <div key={index}>
-                                                                    <DocViewer documents={[{
-                                                                        uri:
-                                                                            other?.url
-                                                                    },]} />
-                                                                </div>
-
-                                                            ))
-                                                        }
-
-                                                    </div>
-
-                                                </>
-
                                             </Grid>
                                         </>}
                                     </span>
                                 </div>
+                                {
+                                    !moment(m?.updatedAt)?.fromNow()?.includes('hours')
+                                    &&
+                                    <>
+                                        {
+                                            !moment(m?.updatedAt)?.fromNow()?.includes('hour')
+                                            &&
+                                            <>
+                                                {
+                                                    !moment(m?.updatedAt)?.fromNow()?.includes('minutes')
+                                                    &&
+                                                    <>
+                                                        {
+                                                            !moment(m?.updatedAt)?.fromNow()?.includes('seconds')
+                                                            &&
+                                                            <Divider>
+                                                                <Chip
+                                                                    variant='outlined'
+                                                                    size='small'
+                                                                    label={`
+                                                                ${(new Date(m?.updatedAt))?.toLocaleDateString('en-us', { weekday: "long" })
+                                                                        },
+                                                                
+                                                                ${(new Date(m?.updatedAt))?.toLocaleDateString('en-us', { month: "long" })
+                                                                        }
+                                                                ${(new Date(m?.updatedAt))?.toLocaleDateString('en-us', { day: "numeric" })
+                                                                        }${(parseInt((new Date(m?.updatedAt))?.toLocaleDateString('en-us', { day: "numeric" }))) === 31
+                                                                            ||
+                                                                            (parseInt((new Date(m?.updatedAt))?.toLocaleDateString('en-us', { day: "numeric" }))) === 21
+                                                                            ||
+                                                                            (parseInt((new Date(m?.updatedAt))?.toLocaleDateString('en-us', { day: "numeric" }))) === 1
+                                                                            ?
+                                                                            "st"
+                                                                            :
+                                                                            (parseInt((new Date(m?.updatedAt))?.toLocaleDateString('en-us', { day: "numeric" }))) === 22
+                                                                                ||
+                                                                                (parseInt((new Date(m?.updatedAt))?.toLocaleDateString('en-us', { day: "numeric" }))) === 2
+                                                                                ?
+                                                                                "nd"
+                                                                                :
+                                                                                (parseInt((new Date(m?.updatedAt))?.toLocaleDateString('en-us', { day: "numeric" }))) === 23
+                                                                                    ||
+                                                                                    (parseInt((new Date(m?.updatedAt))?.toLocaleDateString('en-us', { day: "numeric" }))) === 3
+                                                                                    ?
+                                                                                    "rd"
+                                                                                    :
+                                                                                    "th"
+
+                                                                        // condition style-1
+                                                                        // (31==d||21==d||1==d?"st":22==d||2==d?"nd":23==d||3==d?"rd":"th")
+                                                                        // condition style-2
+                                                                        // n>3&&n<21?"th":n%10==2?"nd":n%10==2?"nd":n%10==3?"rd":"th"
+                                                                        }
+                                                                `
+                                                                    }
+                                                                />
+                                                            </Divider>
+                                                        }
+                                                    </>
+                                                }
+                                            </>
+                                        }
+                                    </>
+                                }
                             </span>
                         ))}
-                        {uploads?.loading && <>
-                           <Loading/>
-                        </>}
                         {selectedChat?.chat?.seen?.length &&
                             <AvatarGroup style={{ cursor: 'pointer' }} total={selectedChat?.chat?.seen?.length}>
                                 {selectedChat?.chat?.seen?.map((user, i) => (

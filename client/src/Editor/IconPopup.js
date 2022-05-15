@@ -11,8 +11,13 @@ import PriorityHighIcon from "@mui/icons-material/PriorityHigh";
 import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
 import ThumbDownIcon from "@mui/icons-material/ThumbDown";
 import SentimentDissatisfiedIcon from "@mui/icons-material/SentimentDissatisfied";
+import { useDispatch, useSelector } from 'react-redux';
+// import {MESSAGE_WRITE} from './../store/type/messageTypes';
+import { sendMessage } from "../store/actions/messageAction";
 
 const IconPopup = () => {
+    const dispatch = useDispatch();
+    const { auth, selectedChat } = useSelector(state => state);
     const [anchorEl, setAnchorEl] = React.useState(null);
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
@@ -22,6 +27,14 @@ const IconPopup = () => {
     };
     const open = Boolean(anchorEl);
     const id = open ? "simple-popover" : undefined;
+    
+    // onClick={()=>dispatch({
+    //     type:MESSAGE_WRITE,
+    //     payload:{
+    //         data:'done'
+    //     }
+    // })}
+
     return (
         <div>
             <ToggleButton aria-describedby={id} onClick={handleClick} value="one" sx={{ marginBottom: '0px!important', border: 'none' }}>
@@ -45,6 +58,9 @@ const IconPopup = () => {
                     <Grid container spacing={0}>
                         <Grid item xs={4}>
                             <ListItem
+                                onClick={() => {
+                                dispatch(sendMessage('forumicon', selectedChat?.chat?._id , auth.user?.token))
+                                }}
                                 sx={{ px: 0, display: "flex", justifyContent: "center" }}
                                 autoFocus
                                 button
@@ -54,6 +70,9 @@ const IconPopup = () => {
                         </Grid>
                         <Grid item xs={4}>
                             <ListItem
+                                onClick={() => {
+                                dispatch(sendMessage('blankboxicon', selectedChat?.chat?._id , auth.user?.token))
+                                }}
                                 sx={{ px: 0, display: "flex", justifyContent: "center" }}
                                 autoFocus
                                 button
@@ -63,6 +82,9 @@ const IconPopup = () => {
                         </Grid>
                         <Grid item xs={4}>
                             <ListItem
+                                onClick={() => {
+                                dispatch(sendMessage('checkedicon', selectedChat?.chat?._id , auth.user?.token))
+                                }}
                                 sx={{ px: 0, display: "flex", justifyContent: "center" }}
                                 autoFocus
                                 button
@@ -72,6 +94,9 @@ const IconPopup = () => {
                         </Grid>
                         <Grid item xs={4}>
                             <ListItem
+                                onClick={() => {
+                                dispatch(sendMessage('questionicon', selectedChat?.chat?._id , auth.user?.token))
+                                }}
                                 sx={{ px: 0, display: "flex", justifyContent: "center" }}
                                 autoFocus
                                 button
@@ -81,6 +106,9 @@ const IconPopup = () => {
                         </Grid>
                         <Grid item xs={4}>
                             <ListItem
+                                onClick={() => {
+                                dispatch(sendMessage('replyicon', selectedChat?.chat?._id , auth.user?.token))
+                                }}
                                 sx={{ px: 0, display: "flex", justifyContent: "center" }}
                                 autoFocus
                                 button
@@ -90,6 +118,9 @@ const IconPopup = () => {
                         </Grid>
                         <Grid item xs={4}>
                             <ListItem
+                                onClick={() => {
+                                dispatch(sendMessage('priorityicon', selectedChat?.chat?._id , auth.user?.token))
+                                }}
                                 sx={{ px: 0, display: "flex", justifyContent: "center" }}
                                 autoFocus
                                 button
@@ -99,6 +130,9 @@ const IconPopup = () => {
                         </Grid>
                         <Grid item xs={4}>
                             <ListItem
+                                onClick={() => {
+                                dispatch(sendMessage('thumbupicon', selectedChat?.chat?._id , auth.user?.token))
+                                }}
                                 sx={{ px: 0, display: "flex", justifyContent: "center" }}
                                 autoFocus
                                 button
@@ -108,6 +142,9 @@ const IconPopup = () => {
                         </Grid>
                         <Grid item xs={4}>
                             <ListItem
+                                onClick={() => {
+                                dispatch(sendMessage('thumbdownicon', selectedChat?.chat?._id , auth.user?.token))
+                                }}
                                 sx={{ px: 0, display: "flex", justifyContent: "center" }}
                                 autoFocus
                                 button
@@ -117,6 +154,9 @@ const IconPopup = () => {
                         </Grid>
                         <Grid item xs={4}>
                             <ListItem
+                                onClick={() => {
+                                dispatch(sendMessage('sentimenticon', selectedChat?.chat?._id , auth.user?.token))
+                                }}
                                 sx={{ px: 0, display: "flex", justifyContent: "center" }}
                                 autoFocus
                                 button

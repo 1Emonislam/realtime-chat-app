@@ -1,17 +1,17 @@
+import AppsIcon from '@mui/icons-material/Apps';
 import GroupAddIcon from "@mui/icons-material/GroupAdd";
-import LocationOnIcon from "@mui/icons-material/LocationOn";
-import LogoutIcon from '@mui/icons-material/Logout';
+import HomeIcon from '@mui/icons-material/Home';
+import LibraryAddIcon from '@mui/icons-material/LibraryAdd';
 import MessageIcon from "@mui/icons-material/Message";
 import { Grid, ToggleButton, Tooltip } from "@mui/material";
 import React, { useContext, useState } from "react";
-import { useDispatch } from "react-redux";
+// import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { ThemeSelectContext } from "../../App";
 import AddGroups from "../../components/AddGroups/AddGroups";
-import MessageNotificationBadge from "../../components/Notification/MsgNotificationBadge";
-import { AUTH_SUCCESS } from "../../store/type/authType";
-import "./nav.css";
 import ChatProfile from "../../components/ChatProfile/ChatProfile";
+import MessageNotificationBadge from "../../components/Notification/MsgNotificationBadge";
+import "./nav.css";
 
 const Nav = ({ handleSingleChat, children }) => {
   const [selected, setSelected] = useState("");
@@ -25,7 +25,7 @@ const Nav = ({ handleSingleChat, children }) => {
   const handleGroupClose = () => setGroupOpen(false);
 
   const { palette } = useContext(ThemeSelectContext);
-  const dispatch = useDispatch()
+  // const dispatch = useDispatch()
   const theme = palette?.mode;
   const themeMode = () => {
     if (theme === "light") {
@@ -36,7 +36,7 @@ const Nav = ({ handleSingleChat, children }) => {
     }
   };
   return (
-    <div id="nav-dash">
+    <div id="nav-dash" style={{display:'flex', alignContent:'space-between'}}>
       <>
         <Grid
           container
@@ -45,63 +45,30 @@ const Nav = ({ handleSingleChat, children }) => {
           justifyContent="center"
           alignItems="center"
           textAlign="center"
+          // sx={{alignContent:'space-around'}}
         >
-          <Grid
-            item
-            sx={{
-              padding: {
-                lg: "6px",
-                md: "0px",
-                sm: "0px",
-                xs: "0px",
-              },
-            }}
-            xs={1}
-            md={12}
-          >
-            <Link to="/dashboard">
-              <ToggleButton
-                value="one"
-                onChange={() => {
-                  setSelected(selected === "one" ? "" : "one");
-                }}
-              >
-                <LocationOnIcon
-                  sx={{
-                    transform: "rotate(-55deg)",
-                    fontSize: {
-                      lg: "25px",
-                      md: "15px",
-                      sm: "10px",
-                      xs: "10px",
-                    },
-                  }}
-                />
-              </ToggleButton>
-            </Link>
-          </Grid>
-          <Grid
-            item
-            sx={{
-              padding: {
-                lg: "6px",
-                md: "0px",
-                sm: "0px",
-                xs: "0px",
-              },
-            }}
-            xs={1}
-            md={12}
-          >
-            <Tooltip followCursor title='Chat'>
-              <Link to="/chat">
+        <Tooltip followCursor title='home' arrow>
+            <Grid
+              item
+              sx={{
+                padding: {
+                  lg: "6px",
+                  md: "0px",
+                  sm: "0px",
+                  xs: "0px",
+                }
+              }}
+              xs={1}
+              md={12}
+            >
+              <Link to="/">
                 <ToggleButton
-                  value="two"
+                  value="one"
                   onChange={() => {
-                    setSelected(selected === "two" ? "" : "two");
+                    setSelected(selected === "one" ? "" : "one");
                   }}
                 >
-                  <MessageIcon
+                  <HomeIcon
                     sx={{
                       fontSize: {
                         lg: "25px",
@@ -113,295 +80,229 @@ const Nav = ({ handleSingleChat, children }) => {
                   />
                 </ToggleButton>
               </Link>
-            </Tooltip>
-          </Grid>
-          <Grid
-            item
-            sx={{
-              padding: {
-                lg: "6px",
-                md: "0px",
-                sm: "0px",
-                xs: "0px",
-              },
-            }}
-            xs={1}
-            md={12}
-          >
-            {/* <Link to="/group">
-              <ToggleButton
-                value="three"
-                onChange={() => {
-                  setSelected(selected === "three" ? "" : "three");
-                }}
-              >
-                <PeopleIcon
-                  sx={{
-                    fontSize: {
-                      lg: "25px",
-                      md: "15px",
-                      sm: "10px",
-                      xs: "10px",
-                    },
-                  }}
-                />
-              </ToggleButton>
-            </Link> */}
-          </Grid>
-          {/* <Grid
-            item
-            sx={{
-              padding: {
-                lg: "6px",
-                md: "0px",
-                sm: "0px",
-                xs: "0px",
-              },
-            }}
-            xs={1}
-            md={12}
-          > 
-            <Link to="/status">
-              <ToggleButton
-                value="four"
-                onChange={() => {
-                  setSelected(selected === "four" ? "" : "four");
-                }}
-              >
-                <ArticleIcon
-                  sx={{
-                    fontSize: {
-                      lg: "25px",
-                      md: "15px",
-                      sm: "10px",
-                      xs: "10px",
-                    },
-                  }}
-                />
-              </ToggleButton>
-            </Link>
-          </Grid>
-          <Grid
-            item
-            sx={{
-              padding: {
-                lg: "6px",
-                md: "0px",
-                sm: "0px",
-                xs: "0px",
-              },
-            }}
-            xs={1}
-            md={12}
-          >
-            <Link to="/call">
-              <ToggleButton
-                value="five"
-                onChange={() => {
-                  setSelected(selected === "five" ? "" : "five");
-                }}
-              >
-                <PhoneIcon
-                  sx={{
-                    fontSize: {
-                      lg: "25px",
-                      md: "15px",
-                      sm: "10px",
-                      xs: "10px",
-                    },
-                  }}
-                />
-              </ToggleButton>
-            </Link>
-          </Grid>
-          <Grid
-            item
-            sx={{
-              padding: {
-                lg: "6px",
-                md: "0px",
-                sm: "0px",
-                xs: "0px",
-              },
-            }}
-          > 
-            <Link to="/settings">
-              <ToggleButton
-                value="six"
-                onChange={() => {
-                  setSelected(selected === "six" ? "" : "six");
-                }}
-              >
-                <SettingsIcon
-                  sx={{
-                    fontSize: {
-                      lg: "25px",
-                      md: "15px",
-                      sm: "10px",
-                      xs: "10px",
-                    },
-                  }}
-                />
-              </ToggleButton>
-            </Link>
-    </Grid>  */}
-          <Grid
-            item
-            sx={{
-              padding: {
-                lg: "6px",
-                md: "0px",
-                sm: "0px",
-                xs: "0px",
-              },
-            }}
-            xs={1}
-            md={12}
-          >
-            <AddGroups
-              handleGroupOpen={handleGroupOpen}
-              handleGroupClose={handleGroupClose}
-              groupOpen={groupOpen}
-            ></AddGroups>
-            {/* <FontAwesomeSvgIcon icon={faEllipsisV} /> */}
-            <Tooltip followCursor title='Create Group'>
-              <ToggleButton value="seven">
-                <GroupAddIcon
-                  onClick={handleGroupOpen}
-                  sx={{
-                    fontSize: {
-                      lg: "25px",
-                      md: "15px",
-                      sm: "10px",
-                      xs: "10px",
-                    },
-                  }}
-                />
-              </ToggleButton>
-            </Tooltip>
-          </Grid>
-          <Grid
-            item
-            sx={{
-              padding: {
-                lg: "6px",
-                md: "0px",
-                sm: "0px",
-                xs: "0px",
-              },
-            }}
-            xs={1}
-            md={12}
-          >
-            {/* <ToggleButton value="nine">
-            <AddContact
-              handleContactOpen={handleContactOpen}
-              handleContactClose={handleContactClose}
-              contactOpen={contactOpen}
-            ></AddContact>
-            <AddIcon
-              onClick={handleContactOpen}
+            </Grid>
+          </Tooltip>
+          <Tooltip followCursor title='dashboard' arrow>
+            <Grid
+              item
               sx={{
-                fontSize: {
-                  lg: "25px",
-                  md: "15px",
-                  sm: "10px",
-                  xs: "10px",
+                padding: {
+                  lg: "6px",
+                  md: "0px",
+                  sm: "0px",
+                  xs: "0px",
+                },
+                mt:{md:-4}
+              }}
+              xs={1}
+              md={12}
+            >
+              <Link to="/dashboard">
+                <ToggleButton
+                  value="one"
+                  onChange={() => {
+                    setSelected(selected === "one" ? "" : "one");
+                  }}
+                >
+                  <AppsIcon
+                    sx={{
+                      fontSize: {
+                        lg: "25px",
+                        md: "15px",
+                        sm: "10px",
+                        xs: "10px",
+                      },
+                    }}
+                  />
+                </ToggleButton>
+              </Link>
+            </Grid>
+          </Tooltip>
+            <Grid
+              item
+              sx={{
+                padding: {
+                  lg: "6px",
+                  md: "0px",
+                  sm: "0px",
+                  xs: "0px",
+                },
+                my:{md:-5}
+              }}
+              xs={1}
+              md={12}
+            >
+              <Tooltip followCursor title='Chat' arrow>
+                <Link to="/chat">
+                  <ToggleButton
+                    value="two"
+                    onChange={() => {
+                      setSelected(selected === "two" ? "" : "two");
+                    }}
+                  >
+                    <MessageIcon
+                      sx={{
+                        fontSize: {
+                          lg: "25px",
+                          md: "15px",
+                          sm: "10px",
+                          xs: "10px",
+                        },
+                      }}
+                    />
+                  </ToggleButton>
+                </Link>
+              </Tooltip>
+            </Grid>
+            <Grid
+              item
+              sx={{
+                padding: {
+                  lg: "6px",
+                  md: "0px",
+                  sm: "0px",
+                  xs: "0px",
+                },
+                mt:{md:-4}
+              }}
+              xs={1}
+              md={12}
+            >
+            </Grid>
+            <Grid
+              item
+              sx={{
+                padding: {
+                  lg: "6px",
+                  md: "0px",
+                  sm: "0px",
+                  xs: "0px",
+                },
+                mt:{md:-3.5}
+              }}
+              xs={1}
+              md={12}
+            >
+              <AddGroups
+                handleGroupOpen={handleGroupOpen}
+                handleGroupClose={handleGroupClose}
+                groupOpen={groupOpen}
+              ></AddGroups>
+              {/* <FontAwesomeSvgIcon icon={faEllipsisV} /> */}
+              <Tooltip followCursor title='Create Group' arrow>
+                <ToggleButton value="seven">
+                  <GroupAddIcon
+                    onClick={handleGroupOpen}
+                    sx={{
+                      fontSize: {
+                        lg: "25px",
+                        md: "15px",
+                        sm: "10px",
+                        xs: "10px",
+                      },
+                    }}
+                  />
+                </ToggleButton>
+              </Tooltip>
+            </Grid>
+            <Grid
+              item
+              sx={{
+                padding: {
+                  lg: "6px",
+                  md: "0px",
+                  sm: "0px",
+                  xs: "0px",
+                },
+                mt:{md:-4}
+              }}
+              xs={1}
+              md={12}
+            >
+              <AddGroups
+                handleGroupOpen={handleGroupOpen}
+                handleGroupClose={handleGroupClose}
+                groupOpen={groupOpen}
+              ></AddGroups>
+              {/* <FontAwesomeSvgIcon icon={faEllipsisV} /> */}
+              <Tooltip followCursor title='Notes' arrow>
+                <ToggleButton value="seven">
+                  <LibraryAddIcon
+                    onClick={handleGroupOpen}
+                    sx={{
+                      fontSize: {
+                        lg: "25px",
+                        md: "15px",
+                        sm: "10px",
+                        xs: "10px",
+                      },
+                    }}
+                  />
+                </ToggleButton>
+              </Tooltip>
+            </Grid>
+            <Grid
+              item
+              sx={{
+                padding: {
+                  lg: "6px",
+                  md: "0px",
+                  sm: "0px",
+                  xs: "0px",
+                },
+                mb:{md:15}
+              }}
+              xs={1}
+              md={12}
+            >
+            </Grid>
+          <Tooltip followCursor title='notifications' arrow>
+            <Grid
+              item
+              sx={{
+                padding: {
+                  lg: "6px",
+                  md: "0px",
+                  sm: "0px",
+                  xs: "0px",
                 },
               }}
-            />
-         </ToggleButton> */}
-          </Grid>
-          {/* <Grid
-            item
-            sx={{
-              padding: {
-                lg: "6px",
-                md: "0px",
-                sm: "0px",
-                xs: "0px",
-              },
-            }}
-            xs={1}
-            md={12}
-          >
-            <Avatar
-              alt=""
-              style={{ display: "block", margin: "0 auto" }}
-              src="https://mui.com/static/images/avatar/3.jpg"
-            />
-          </Grid> */}
-          <Grid
-            item
-            sx={{
-              padding: {
-                lg: "8px",
-                md: "0px",
-                sm: "0px",
-                xs: "0px",
-              },
-            }}
-            xs={1}
-            md={12}
-          >
-            <ChatProfile mode={theme} />
-          </Grid>
-          <Grid
-            item
-            sx={{
-              padding: {
-                lg: "6px",
-                md: "0px",
-                sm: "0px",
-                xs: "0px",
-              },
-            }}
-            xs={1}
-            md={12}
-          >
-            <MessageNotificationBadge handleSingleChat={handleSingleChat} />
-          </Grid>
-          <Grid
-            item
-            sx={{
-              padding: {
-                lg: "6px",
-                md: "0px",
-                sm: "0px",
-                xs: "0px",
-              },
-            }}
-            xs={1}
-            md={12}
-          >
-            {children}
-          </Grid>
-          <Grid
-            item
-            sx={{
-              padding: {
-                lg: "6px",
-                md: "0px",
-                sm: "0px",
-                xs: "0px",
-              },
-            }}
-            xs={1}
-            md={12}
-          >
-            <Tooltip title="Log Out" arrow onClick={() => {
-              dispatch({
-                type: AUTH_SUCCESS,
-                payload: {
-                  message: 'Log Out Successfully ',
-                  data: ''
-                }
-              })
-              window.localStorage.removeItem('userInfoCurrent')
-            }} >
-              <LogoutIcon />
-            </Tooltip>
-          </Grid>
+              xs={1}
+              md={12}
+            >
+              <MessageNotificationBadge handleSingleChat={handleSingleChat} />
+            </Grid>
+          </Tooltip>
+            <Grid
+              item
+              sx={{
+                padding: {
+                  lg: "6px",
+                  md: "0px",
+                  sm: "0px",
+                  xs: "0px",
+                },
+              }}
+              xs={1}
+              md={12}
+            >
+              {children}
+            </Grid>
+            <Grid
+              item
+              sx={{
+                padding: {
+                  lg: "8px",
+                  md: "0px",
+                  sm: "0px",
+                  xs: "0px",
+                },
+              }}
+              xs={1}
+              md={12}
+            >
+              <ChatProfile mode={theme} />
+            </Grid>
         </Grid>
       </>
     </div>

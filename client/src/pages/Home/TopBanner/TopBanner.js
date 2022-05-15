@@ -1,4 +1,4 @@
-import { Button, Typography } from '@mui/material';
+import { Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import React from 'react';
 import bannerImg from '../../../assets/images/banners.png';
@@ -16,49 +16,33 @@ const TopBanner = () => {
             }}
         >
             <Header />
-            <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '570px', }}>
-                <Box sx={{ maxWidth: '780px', textAlign: 'center' }}>
-                    <Box sx={{ color: 'transparent' }}>
-                        <Typography sx={{ fontSize: {lg: '60px', sm: '48px', xs: '30px'}, fontWeight: 800 }} variant="h2">IMAGINE A PLACE...</Typography>
-                        <Typography sx={{ mt: {md: '40px', xs: '20px'}, display: 'block', fontSize: {md: '18px', xs: '16px'}, fontWeight: 200, lineHeight: 1.8, }} variant="p">...where you can belong to a school club, a gaming group, or a worldwide art community. Where just you and a handful of friends can spend time together. A place that makes it easy to talk every day and hang out more often.</Typography>
+            <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '630px', }}>
+                <Box sx={{ maxWidth: '800px', textAlign: 'center', }}>
+                    <Box sx={{ color: 'white', px: 2 }}>
+                        <Typography sx={{ fontSize: { lg: '38px', sm: '28px', xs: '24px' }, fontFamily: 'Comfortaa', fontWeight: 'bold', lineHeight: 1.3 }} variant="h2">Modern chat support systems...</Typography>
+                        <Typography sx={{ mt: 1.5, fontSize: { lg: '28px', sm: '24px', xs: '20px' }, fontFamily: 'Comfortaa', fontWeight: 600, lineHeight: 1.5 }} variant="h2">...that facilitates productive meetings between students with and without dyslexia and/or ADHD.</Typography>
                     </Box>
-
-                    <Box sx={{ mt: 4 }}>
+                    {/* <Box sx={{ mt: 4 }}>
                         <Button sx={{
                             fontSize: '16px',
                             fontWeight: '500',
                             background: 'transparent',
                             textTransform: 'capitalize',
-                            color: 'black',
+                            color: 'white',
+                            border: '1px solid white',
                             borderRadius: '40px',
                             padding: '16px 32px !important',
                             mr: 2,
                             mt: '15px',
 
                             '&:hover': {
-                                color: 'blue',
+                                color: '#ddd',
                                 background: 'transparent',
-                                boxShadow: '1px 1px 1px transparent'
+                                boxShadow: '1px 1px 1px #ddd'
                             }
 
                         }}> <Typography sx={{ mr: 1 }}><i className="fa-solid fa-circle-arrow-down"></i> </Typography> Download for Windows</Button>
-                        <Button sx={{
-                            fontSize: '16px',
-                            fontWeight: '500',
-                            background: '#23272a',
-                            textTransform: 'capitalize',
-                            color: 'transparent',
-                            borderRadius: '40px',
-                            padding: '16px 32px !important',
-                            mt: '15px',
-
-                            '&:hover': {
-                                background: '#23272a',
-                                boxShadow: '1px 1px 1px #23272a'
-                            }
-
-                        }}>Open Discord in your browser</Button>
-                    </Box>
+                    </Box> */}
                 </Box>
             </Box>
 

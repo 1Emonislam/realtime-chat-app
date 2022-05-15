@@ -1,16 +1,15 @@
-import { SELECTED_CHAT_FAILED, SELECTED_CHAT_LOADING, SELECTED_CHAT_SUCCESS } from "../type/selectedChatTypes"
+import { PROFILE_REQUEST, PROFILE_SUCCESS, PROFILE_FAILED } from "../type/profileType";
 
-export const getSelectedChat = (chatId, token) => {
-    // console.log(chatId, token)
+export const getMyProfile = (token) => {
     return async (dispatch) => {
         dispatch({
-            type: SELECTED_CHAT_LOADING,
+            type: PROFILE_REQUEST,
             payload: {
-                loading: true,
+                loading: true
             }
         })
         try {
-            fetch(`https://collaballapp.herokuapp.com/api/chat/${chatId}`, {
+            fetch('https://collaballapp.herokuapp.com/api/auth/my-profile', {
                 method: 'GET',
                 headers: {
                     'Content-Type': "application/json",
@@ -20,14 +19,14 @@ export const getSelectedChat = (chatId, token) => {
                 .then(res => res.json())
                 .then(data => {
                     dispatch({
-                        type: SELECTED_CHAT_LOADING,
+                        type: PROFILE_REQUEST,
                         payload: {
                             loading: false,
                         }
                     })
                     if (data) {
                         dispatch({
-                            type: SELECTED_CHAT_SUCCESS,
+                            type: PROFILE_SUCCESS,
                             payload: {
                                 data: data
                             }
@@ -35,7 +34,7 @@ export const getSelectedChat = (chatId, token) => {
                     }
                     if (data?.error) {
                         dispatch({
-                            type: SELECTED_CHAT_FAILED,
+                            type: PROFILE_FAILED,
                             payload: {
                                 error: data.error,
                             }
@@ -45,13 +44,13 @@ export const getSelectedChat = (chatId, token) => {
         }
         catch (error) {
             dispatch({
-                type: SELECTED_CHAT_LOADING,
+                type: PROFILE_REQUEST,
                 payload: {
                     loading: false,
                 }
             })
             dispatch({
-                type: SELECTED_CHAT_FAILED,
+                type: PROFILE_FAILED,
                 payload: {
                     error: error.message,
                 }

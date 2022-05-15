@@ -186,12 +186,12 @@ function Editor({ handleTyping, messageEditHandle, editMsg, isTyping, size = 25 
                 </Grid>
                 <>
                     {editMsg ? <Grid item xs={2}>
-                        <ToggleButton className='send-btn' value="four" sx={{ marginBottom: '0px!important', border: 'none' }}>
-                            {auth?.user?.token && selectedChat?.chat?._id ? <MdSend size={size} onClick={() => dispatch(editMessage(groupMessage?.messageInfoStore?.content?.text, groupMessage?.messageInfoStore?.chat?._id, groupMessage?.messageInfoStore?._id, auth?.user?.token, messageEditHandle))} /> : <Tooltip style={{ cursor: "pointer" }} title="Permission Denied" arrow> <MdSend /></Tooltip>}
+                        <ToggleButton  onClick={() => dispatch(editMessage(groupMessage?.messageInfoStore?.content?.text, groupMessage?.messageInfoStore?.chat?._id, groupMessage?.messageInfoStore?._id, auth?.user?.token, messageEditHandle))} className='send-btn' value="four" sx={{ marginBottom: '0px!important', border: 'none' }}>
+                            {auth?.user?.token && selectedChat?.chat?._id ? <MdSend size={size}/> : <Tooltip style={{ cursor: "pointer" }} title="Permission Denied" arrow> <MdSend /></Tooltip>}
                         </ToggleButton>
                     </Grid> : <Grid item xs={1}>
-                        <ToggleButton className='send-btn' value="four" sx={{ marginBottom: '0px!important', border: 'none' }}>
-                            {auth?.user?.token && selectedChat?.chat?._id ? <MdSend size={size} onClick={handleSendMessage} /> : <Tooltip style={{ cursor: "pointer" }} title="Permission Denied" arrow> <MdSend /></Tooltip>}
+                        <ToggleButton onClick={handleSendMessage} className='send-btn' value="four" sx={{ marginBottom: '0px!important', border: 'none' }}>
+                            {auth?.user?.token && selectedChat?.chat?._id ? <MdSend size={size}/> : <Tooltip style={{ cursor: "pointer" }} title="Permission Denied" arrow> <MdSend /></Tooltip>}
                         </ToggleButton>
                     </Grid>}
                 </>

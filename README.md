@@ -2,10 +2,10 @@
 
 # back end api
 
-## User login https://collaballsystem.herokuapp.com/api/authlogin
+## User login https://collaballapp.herokuapp.com/api/authlogin
 
 ```
-fetch('https://collaballsystem.herokuapp.com/api/auth',{
+fetch('https://collaballapp.herokuapp.com/api/auth',{
     method: 'POST',
     headers: {
     'Content-Type': 'application/json',
@@ -17,10 +17,10 @@ fetch('https://collaballsystem.herokuapp.com/api/auth',{
     })
 ```
 
-## User log Out https://collaballsystem.herokuapp.com/api/auth/logout
+## User log Out https://collaballapp.herokuapp.com/api/auth/logout
 
 ```
-fetch('https://collaballsystem.herokuapp.com/api/auth/logout',{
+fetch('https://collaballapp.herokuapp.com/api/auth/logout',{
     method: 'POST',
     headers: {
     'Content-Type': 'application/json',
@@ -29,10 +29,10 @@ fetch('https://collaballsystem.herokuapp.com/api/auth/logout',{
     })
 ```
 
-## User Register https://collaballsystem.herokuapp.com/api/auth/register
+## User Register https://collaballapp.herokuapp.com/api/auth/register
 
 ```
-fetch('https://collaballsystem.herokuapp.com/api/auth/register',{
+fetch('https://collaballapp.herokuapp.com/api/auth/register',{
     method: 'POST',
     headers: {
     'Content-Type': 'application/json',
@@ -49,10 +49,10 @@ fetch('https://collaballsystem.herokuapp.com/api/auth/register',{
     })
 ```
 
-## User change password https://collaballsystem.herokuapp.com/api/auth/change-password
+## User change password https://collaballapp.herokuapp.com/api/auth/change-password
 
 ```
-fetch('https://collaballsystem.herokuapp.com/api/auth/change-password',{
+fetch('https://collaballapp.herokuapp.com/api/auth/change-password',{
     method: 'PUT',
     headers: {
     'Content-Type': 'application/json',
@@ -66,10 +66,10 @@ fetch('https://collaballsystem.herokuapp.com/api/auth/change-password',{
     })
 ```
 
-## User forget password https://collaballsystem.herokuapp.com/api/auth/forget-password
+## User forget password https://collaballapp.herokuapp.com/api/auth/forget-password
 
 ```
-fetch('https://collaballsystem.herokuapp.com/api/auth/forget-password',{
+fetch('https://collaballapp.herokuapp.com/api/auth/forget-password',{
     method: 'POST',
     headers: {
     'Content-Type': 'application/json',
@@ -80,10 +80,10 @@ fetch('https://collaballsystem.herokuapp.com/api/auth/forget-password',{
     })
 ```
 
-## User reset password https://collaballsystem.herokuapp.com/api/auth/reset-password
+## User reset password https://collaballapp.herokuapp.com/api/auth/reset-password
 
 ```
-fetch('https://collaballsystem.herokuapp.com/api/auth/reset-password',{
+fetch('https://collaballapp.herokuapp.com/api/auth/reset-password',{
     method: 'POST',
     headers: {
     'Content-Type': 'application/json',
@@ -96,10 +96,10 @@ fetch('https://collaballsystem.herokuapp.com/api/auth/reset-password',{
     })
 ```
 
-## get my profile https://collaballsystem.herokuapp.com/api/profile
+## get my profile https://collaballapp.herokuapp.com/api/profile
 
 ```
-fetch('https://collaballsystem.herokuapp.com/api/profile',{
+fetch('https://collaballapp.herokuapp.com/api/profile',{
     method: 'GET',
     headers: {
     'Content-Type': 'application/json',
@@ -108,10 +108,10 @@ fetch('https://collaballsystem.herokuapp.com/api/profile',{
     })
 ```
 
-## get public single profile https://collaballsystem.herokuapp.com/api/profile/:id
+## get public single profile https://collaballapp.herokuapp.com/api/profile/:id
 
 ```
-fetch('https://collaballsystem.herokuapp.com/api/profile/:id',{
+fetch('https://collaballapp.herokuapp.com/api/profile/:id',{
     method: 'GET',
     headers: {
     'Content-Type': 'application/json',
@@ -120,10 +120,10 @@ fetch('https://collaballsystem.herokuapp.com/api/profile/:id',{
     })
 ```
 
-## delete public single profile https://collaballsystem.herokuapp.com/api/profile/:id
+## delete public single profile https://collaballapp.herokuapp.com/api/profile/:id
 
 ```
-fetch('https://collaballsystem.herokuapp.com/api/profile/:id',{
+fetch('https://collaballapp.herokuapp.com/api/profile/:id',{
     method: 'DELETE',
     headers: {
     'Content-Type': 'application/json',
@@ -132,10 +132,10 @@ fetch('https://collaballsystem.herokuapp.com/api/profile/:id',{
     })
 ```
 
-## update my profile https://collaballsystem.herokuapp.com/api/profile/update
+## update my profile https://collaballapp.herokuapp.com/api/profile/update
 
 ```
-fetch('https://collaballsystem.herokuapp.com/api/profile/update',{
+fetch('https://collaballapp.herokuapp.com/api/profile/update',{
     method: 'PUT',
     headers: {
     'Content-Type': 'application/json',

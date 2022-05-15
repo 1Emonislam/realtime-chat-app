@@ -1,12 +1,22 @@
 import { Box, Button, Grid, Paper, TextField, Typography } from '@mui/material';
 import { deepPurple, grey } from '@mui/material/colors';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
+import { useDispatch, useSelector } from 'react-redux';
+import { getMyProfile } from '../../../../store/actions/profileAction';
 
 
 const General = ({ mode }) => {
     const { register, handleSubmit, reset, } = useForm();
     const onSubmit = data => console.log(data);
+
+    const dispatch = useDispatch();
+    const { auth } = useSelector(state => state);
+    const { firstName, lastName, nickname, bio } = auth?.user?.user;
+    useEffect(() => {
+        dispatch(getMyProfile(auth?.user?.token))
+    }, [])
+
     return (
         <>
             <Box>
@@ -22,54 +32,57 @@ const General = ({ mode }) => {
                     <form onSubmit={handleSubmit(onSubmit)}>
                         <Grid container spacing={2}>
                             <Grid item xs={12} sm={4}>
-                                <Typography sx={{ color: grey[800] }} fontWeight={600} fontSize={14} gutterBottom component="div">
+                                <Typography sx={{ color: grey[800], px: '10px' }} fontWeight={600} fontSize={14} gutterBottom component="div">
                                     First Name
                                 </Typography>
-                                <TextField sx={{ mb: 3 }} {...register("firstName")} fullWidth id="fullWidth" />
+                                <TextField sx={{ mb: 3, px: '10px' }} {...register("firstName")} fullWidth id="fullWidth" defaultValue={firstName} />
 
                             </Grid>
                             <Grid item xs={12} sm={4}>
-                                <Typography sx={{ color: grey[800] }} fontWeight={600} fontSize={14} gutterBottom component="div">
+                                <Typography sx={{ color: grey[800], px: '10px' }} fontWeight={600} fontSize={14} gutterBottom component="div">
                                     Last Name
                                 </Typography>
-                                <TextField sx={{ mb: 3 }} {...register("lastName")} fullWidth id="fullWidth" />
+                                <TextField sx={{ mb: 3, px: '10px' }} {...register("lastName")} fullWidth id="fullWidth" defaultValue={lastName} />
 
                             </Grid>
                             <Grid item xs={12} sm={4}>
-                                <Typography sx={{ color: grey[800] }} fontWeight={600} fontSize={14} gutterBottom component="div">
+                                <Typography sx={{ color: grey[800], px: '10px' }} fontWeight={600} fontSize={14} gutterBottom component="div">
                                     Nickname (optional)
                                 </Typography>
-                                <TextField sx={{ mb: 3 }} {...register("nickname")} fullWidth id="fullWidth" />
+                                <TextField sx={{ mb: 3, px: '10px' }} {...register("nickname")} fullWidth id="fullWidth" defaultValue={nickname} />
 
                             </Grid>
                             <Grid item xs={12} sm={4}>
-                                <Typography sx={{ color: grey[800] }} fontWeight={600} fontSize={14} gutterBottom component="div">
+                                <Typography sx={{ color: grey[800], px: '10px' }} fontWeight={600} fontSize={14} gutterBottom component="div">
                                     Choose Profile Picture
                                 </Typography>
                                 {/* <  type='file' sx={{mb:3}} {...register("profilePicture")} fullWidth id="fullWidth" /> */}
-                                <Button
-                                    component="label"
-                                    fullWidth
-                                    sx={{
-                                        py: 1.8,
-                                        textTransform: 'none',
-                                        border: `${mode !== 'dark' ? '1px solid #cbcbcb' : '1px solid #424242'}`,
-                                        color: `${mode !== 'dark' ? 'black' : '#726f6f'}`
-                                    }}
-                                >
-                                    Upload File
-                                    <input
-                                        {...register("profilePicture")}
-                                        type="file"
-                                        hidden
-                                    />
-                                </Button>
+                                <Typography sx={{ px: '10px' }}>
+                                    <Button
+                                        component="label"
+                                        fullWidth
+                                        sx={{
+                                            py: 1.8,
+                                            textTransform: 'none',
+                                            border: `${mode !== 'dark' ? '1px solid #cbcbcb' : '1px solid #424242'}`,
+                                            color: `${mode !== 'dark' ? 'black' : '#726f6f'}`
+                                        }}
+                                    >
+                                        Upload File
+                                        <input
+                                            {...register("pic")}
+                                            type="file"
+                                            hidden
+                                        // defaultValue={pic}
+                                        />
+                                    </Button>
+                                </Typography>
                             </Grid>
                             <Grid item xs={12} sm={8}>
-                                <Typography sx={{ color: grey[800] }} fontWeight={600} fontSize={14} gutterBottom component="div">
+                                <Typography sx={{ color: grey[800], px: '10px' }} fontWeight={600} fontSize={14} gutterBottom component="div">
                                     Bio
                                 </Typography>
-                                <TextField type='text' sx={{ mb: 3 }} {...register("bio")} fullWidth id="fullWidth" />
+                                <TextField type='text' sx={{ mb: 3, px: '10px' }} {...register("bio")} fullWidth id="fullWidth" defaultValue={bio} />
 
                             </Grid>
                         </Grid>

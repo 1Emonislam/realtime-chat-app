@@ -7,7 +7,6 @@ import { io } from "socket.io-client";
 import "./App.css";
 import Call from "./components/Call/Call";
 import BlockedUser from "./components/DashBoardSettings/BlockedUser";
-import DashBoardHome from "./components/DashBoardSettings/DashBoardHome";
 import OnLineAndOffLineStatusBar from "./components/DashBoardSettings/OnLineAndOffLineStatusBar";
 import ReportUser from "./components/DashBoardSettings/ReportUser";
 import SettingAdmob from "./components/DashBoardSettings/SettingAdmob";
@@ -19,6 +18,7 @@ import Group from "./components/Group/Group";
 import GroupInviteAccept from "./components/GroupInviteAccept";
 import Settings from "./components/Settings/Settings/Settings";
 import Status from "./components/Status/Status/Status";
+import UserDashboard from "./components/UserDashboard/UserDashboard";
 import { ThemeSwitch } from "./hooks/useThemes";
 import ChangePassword from "./pages/Auth/ChangePassword";
 import Chat from "./pages/Auth/Chat/Chat";
@@ -79,7 +79,7 @@ export default function ToggleColorMode() {
     }
   }, [auth?.user?.user?.email])
   const socket = React.useRef();
-  const ENDPOINT = "https://collaballsystem.herokuapp.com";
+  const ENDPOINT = "https://collaballapp.herokuapp.com";
   const dispatch = useDispatch()
   React.useEffect(() => {
     socket.current = io(ENDPOINT, {
@@ -157,6 +157,18 @@ export default function ToggleColorMode() {
                 }
               ></Route>
               <Route
+                path="/dashboard"
+                element={
+                  <UserDashboard mode={mode}>
+                    <ThemeSwitch
+                      onClick={colorMode.toggleColorMode}
+                      style={{ fontSize: "20px" }}
+                      checked={!(theme.palette.mode === "light")}
+                    />
+                  </UserDashboard>
+                }
+              ></Route>
+              <Route
                 path="/settings"
                 element={
                   <Settings mode={mode}>
@@ -186,7 +198,7 @@ export default function ToggleColorMode() {
               <Route path="/admob-setting" element={< SettingAdmob />}> </Route>
               <Route path="/snich-setting" element={< SettingSinch />}> </Route>
               <Route path="/firebase-setting" element={< SettingsFirebase />}> </Route>
-              <Route path="/dashboard" element={< DashBoardHome />}> </Route>
+              {/* <Route path="/dashboard" element={< DashBoardHome />}> </Route> */}
               <Route path="/online" element={< OnLineAndOffLineStatusBar />}> </Route>
               <Route path="/users" element={< Users />}> </Route>
               <Route path="/blockusers" element={< BlockedUser />}> </Route>

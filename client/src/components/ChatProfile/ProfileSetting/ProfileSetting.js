@@ -1,13 +1,19 @@
 import { Box, Typography } from '@mui/material';
-import React from 'react';
-import { FaFacebookF } from "react-icons/fa";
-import { FaInstagram } from "react-icons/fa";
-import { FaLinkedinIn } from "react-icons/fa";
-import { FaTwitter } from "react-icons/fa";
-import { FaYoutube } from "react-icons/fa";
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { getMyProfile } from '../../../store/actions/profileAction';
 // import "./general.css"
 
 const ProfileSetting = ({ mode }) => {
+
+    const dispatch = useDispatch();
+    const { auth } = useSelector(state => state);
+    const { pic, email, firstName, lastName, username, userInfo } = auth?.user?.user
+    useEffect(() => {
+        dispatch(getMyProfile(auth.user?.token))
+    }, [auth.user?.token, dispatch])
+    console.log(auth);
+
     return (
         <Box sx={{
             display: 'block',
@@ -27,16 +33,13 @@ const ProfileSetting = ({ mode }) => {
                 border={mode !== 'dark' ? '1px solid #F3F3F3' : '1px solid #1c1b1b'}
             >
                 <Box sx={{ mb: "15px" }}>
-                    <img style={{ width: "112px", height: "112px", borderRadius: "100px", marginBottom: "16px" }} src="https://dreamschat-reactjs.dreamguystech.com/template2/e6604b3279586ece5009bf5ceadcb602.jpg" alt="" />
+                    <img style={{ width: "112px", height: "112px", borderRadius: "100px", marginBottom: "16px" }} src={pic} alt="" />
 
                     <Typography variant="h5" component="h5" sx={{ font: "20px", fontFamily: "Poppins", fontWeight: "600", color: "#5A078B", marginBottom: "2px" }}>
-                        Michelle Green
+                        {`${firstName} ${lastName}`}
                     </Typography>
                     <Typography variant="body" component="body" style={{ fontSize: "13px", fontFamily: "Poppins", color: "#9B9B9B", marginBottom: "2px" }}>
-                        michelle.green@gmail.com
-                    </Typography>
-                    <Typography variant="body" component="body" style={{ fontSize: "16px", fontFamily: "Poppins", color: "#EE00AB", fontWeight: "600", marginBottom: "2px" }}>
-                        USA
+                        {email}
                     </Typography>
                 </Box>
 
@@ -47,7 +50,7 @@ const ProfileSetting = ({ mode }) => {
                     <Box>
                         <Box sx={{ mb: "20px" }}>
                             <Typography variant="body" component="body" style={{ fontSize: "14px", fontFamily: "Poppins", color: "#5A078B", fontWeight: "600", }}>
-                                Phone
+                                User Info
                             </Typography>
                             <Typography variant="body" component="body"
                                 style={{
@@ -58,7 +61,7 @@ const ProfileSetting = ({ mode }) => {
                                 }}
                             // color={mode !== 'dark' ? '#5A078B' : '#9b9b9b'}
                             >
-                                555-555-21541
+                                {userInfo}
                             </Typography>
                         </Box>
                         <Box sx={{ mb: "20px" }}>
@@ -74,7 +77,7 @@ const ProfileSetting = ({ mode }) => {
                                 }}
                             // color={mode !== 'dark' ? '#5A078B' : '#9b9b9b'}
                             >
-                                Alberywo
+                                {username}
                             </Typography>
                         </Box>
                         <Box sx={{ mb: "20px" }}>
@@ -90,15 +93,8 @@ const ProfileSetting = ({ mode }) => {
                                 }}
                             // color={mode !== 'dark' ? '#5A078B' : '#9b9b9b'}
                             >
-                                alberywo@gmail.com
+                                {email}
                             </Typography>
-                        </Box>
-                        <Box>
-                            <FaFacebookF style={{ fontSize: "16px", color: "#5A078B", marginRight: "13px" }}></FaFacebookF>
-                            <FaLinkedinIn style={{ fontSize: "16px", color: "#5A078B", marginRight: "13px" }}></FaLinkedinIn>
-                            <FaInstagram style={{ fontSize: "16px", color: "#5A078B", marginRight: "13px" }}></FaInstagram>
-                            <FaTwitter style={{ fontSize: "16px", color: "#5A078B", marginRight: "13px" }}></FaTwitter>
-                            <FaYoutube style={{ fontSize: "16px", color: "#5A078B" }}></FaYoutube>
                         </Box>
                     </Box>
                 </Box>

@@ -2,7 +2,7 @@ import { NOTIFICATION_GET } from "../type/messageNotificationTypes"
 export const getNotification = (token) => {
     return async (dispatch) => {
         try {
-            fetch(`https://collaballsystem.herokuapp.com/api/get/notification`, {
+            fetch(`https://collaballapp.herokuapp.com/api/get/notification`, {
                 method: 'GET',
                 headers: {
                     "Content-Type": "application/json",
@@ -30,7 +30,7 @@ export const removeNotificationDB = (chatId, messageId, token) => {
     return async (dispatch) => {
         // console.log(chatId, messageId)
         try {
-            fetch(`https://collaballsystem.herokuapp.com/api/already/notification`, {
+            fetch(`https://collaballapp.herokuapp.com/api/already/notification`, {
                 method: 'PUT',
                 headers: {
                     "Content-Type": "application/json",
@@ -49,7 +49,7 @@ export const removeNotificationDB = (chatId, messageId, token) => {
 export const getNotificationUnSeenList = (token) => {
     return async (dispatch) => {
         try {
-            fetch(`https://collaballsystem.herokuapp.com/api/get/notificationUnseen`, {
+            fetch(`https://collaballapp.herokuapp.com/api/get/notificationUnseen`, {
                 method: 'GET',
                 headers: {
                     "Content-Type": "application/json",
@@ -76,7 +76,7 @@ export const getNotificationUnSeenList = (token) => {
 export const getNotificationSeenList = (token) => {
     return async (dispatch) => {
         try {
-            fetch(`https://collaballsystem.herokuapp.com/api/get/notificationSeen`, {
+            fetch(`https://collaballapp.herokuapp.com/api/get/notificationSeen`, {
                 method: 'GET',
                 headers: {
                     "Content-Type": "application/json",
@@ -103,7 +103,7 @@ export const getNotificationSeenList = (token) => {
 export const getSingleNotification = (chatId, token) => {
     return async (dispatch) => {
         try {
-            fetch(`https://collaballsystem.herokuapp.com/api/get/notification/${chatId}`, {
+            fetch(`https://collaballapp.herokuapp.com/api/get/notification/${chatId}`, {
                 method: 'GET',
                 headers: {
                     "Content-Type": "application/json",
