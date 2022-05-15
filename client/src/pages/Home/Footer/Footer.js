@@ -2,12 +2,13 @@ import { Button, Container, Grid, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import React from 'react';
 import { NavLink } from 'react-router-dom';
+import footer_logo from '../../../assets/logo/footer-logo.png';
 
 const Footer = () => {
     return (
-        <Box sx={{ py: 12, background: '#23272a' }}>
+        <Box sx={{ pt: 12, pb: 5, background: '#23272a' }}>
             <Container>
-                <Grid container spacing={3} sx={{ borderBottom: '1px solid #5865f2', pb: 5 }}>
+                {/* <Grid container spacing={3} sx={{ borderBottom: '1px solid #5865f2', pb: 5 }}>
                     <Grid item xs={8} md={4}>
                         <Box>
                             <Typography sx={{ fontSize: '32px', color: '#5865f2', fontWeight: 800 }} variant="h4">Collaborate</Typography>
@@ -209,10 +210,18 @@ const Footer = () => {
                             }} variant='h6'>Moderators</Typography>
                         </Box>
                     </Grid>
-                </Grid>
+                </Grid> */}
 
                 <Box sx={{ display: 'flex', justifyContent: 'space-between', pt: 3 }}>
-                    <Typography sx={{ fontSize: '20px', color: 'white', }}> <i className="fa-brands fa-discord"></i> CollabAll</Typography>
+                    <Box>
+                        <Typography sx={{ height: '30px' }} component='img' src={footer_logo} />
+                        <Box sx={{ color: 'white', display: 'flex', pt: 2, pl: 4 }}>
+                            <Typography sx={{ mr: 2, fontSize: '20px', cursor: 'pointer' }}><i className="fa-brands fa-twitter"></i></Typography>
+                            <Typography sx={{ mr: 2, fontSize: '20px', cursor: 'pointer' }}><i className="fa-brands fa-linkedin-in"></i></Typography>
+                            <Typography sx={{ mr: 2, fontSize: '20px', cursor: 'pointer' }}><i className="fa-brands fa-instagram"></i></Typography>
+                            <Typography sx={{ mr: 2, fontSize: '20px', cursor: 'pointer' }}><i className="fa-brands fa-facebook"></i></Typography>
+                        </Box>
+                    </Box>
                     <NavLink to="/register" variant="inherit">
                         <Button variant="inherit" sx={{
                             fontSize: '14px',
@@ -227,7 +236,10 @@ const Footer = () => {
                                 boxShadow: '1px 1px 1px #7c86f7'
                             }
 
-                        }}>Sign up</Button></NavLink>
+                        }}>Register</Button></NavLink>
+                </Box>
+                <Box sx={{ mt: 4 }}>
+                    <Typography sx={{ textAlign: 'center', color: '#fff' }}>Copyright 2022 All Right Reserved</Typography>
                 </Box>
             </Container>
         </Box>
