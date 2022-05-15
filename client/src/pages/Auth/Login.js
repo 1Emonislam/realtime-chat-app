@@ -11,12 +11,12 @@ import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
-import logo from '../../assets/logo/logo.png';
+import logo from '../../assets/logo/logo_green.png';
 import Loading from '../../components/Spinner/Loading';
 import { userLogin } from '../../store/actions/authAction';
 import { AUTH_ERROR, AUTH_MESSAGE } from '../../store/type/authType';
 import './auth.css';
-function Login() {
+function Login({ mode }) {
     const { register, reset, handleSubmit } = useForm();
     const dispatch = useDispatch();
     const { auth, theme } = useSelector(state => state);
@@ -80,7 +80,7 @@ function Login() {
     };
     return (
         <>
-            <Container maxWidth="xs">
+            <Container sx={{ mt: 4, pt: 3, boxShadow: `${mode === 'dark' && '1px 1px 10px #0c1aa9'}` }} maxWidth="xs">
                 <div className="logo">
                     <Link to="/"><img width="80px" height="80px" src={logo} alt="logo" style={{ display: 'block', margin: 'auto', marginBottom: '20px' }} /></Link>
                 </div>
@@ -121,12 +121,12 @@ function Login() {
                         {loading ? <div style={{ margin: '20px 0' }}>
                             <Loading />
                         </div> :
-                            <Button type="submit" variant="contained" id="auth-btn" style={{ margin: '20px auto', fontSize: '15px', textTransform: 'capitalize', display: 'block', }}> Login</Button>}
+                            <Button type="submit" variant="contained" id="auth-btn" style={{ margin: '20px auto', fontSize: '15px', background: '#5865f2', color: '#fff', textTransform: 'capitalize', display: 'block', }}> Login</Button>}
                     </form>
-                    <div style={{ display: 'flex', alignItems: 'center',justifyContent:'center', }}>
-                        <ToggleButton style={{textTransform:'none',border:'none'}} value="two" className="text-center">New user?
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', }}>
+                        <ToggleButton style={{ textTransform: 'none', border: 'none' }} value="two" className="text-center">New user?
                         </ToggleButton>
-                        <ToggleButton style={{textTransform:'none',border:'none'}} value="two" className="text-center">
+                        <ToggleButton style={{ textTransform: 'none', border: 'none' }} value="two" className="text-center">
                             <Link to="/register" style={{ color: 'blueviolet' }} className="text text-links">Create an account</Link>
                         </ToggleButton>
                     </div>
