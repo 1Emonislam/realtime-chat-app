@@ -23,9 +23,9 @@ const EditProfile = ({ mode }) => {
     const handleClose = () => setOpen(false);
     return (
         <Box>
-            <Box sx={{ display: 'flex', justifyContent: 'space-between', pb: 1 }}>
+            <Box onClick={handleOpen} sx={{ cursor:'pointer', display: 'flex', justifyContent: 'space-between', pb: 1 }}>
                 <Typography sx={{ fontFamily: 'Poppins' }}>Edit Profile</Typography>
-                <FiEdit onClick={handleOpen} sx={{ fontSize: '20px' }} />
+                <FiEdit sx={{ fontSize: '20px' }} />
             </Box>
             <Modal
                 open={open}

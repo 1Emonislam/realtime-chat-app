@@ -1,4 +1,4 @@
-import { Avatar, AvatarGroup, Grid, Tooltip, Typography } from '@mui/material'
+import { Avatar, AvatarGroup, Chip, Divider, Grid, Tooltip, Typography } from '@mui/material'
 import moment from 'moment'
 import { useEffect, useRef } from 'react'
 import { useSelector } from 'react-redux'
@@ -11,6 +11,15 @@ import { chatExists, isLastMessage, isSameSender, isSameSenderMargin, isSameSend
 import resendImg from '../../../../Ashikur/chatRepliedImages/resend.png';
 import confusedImg from '../../../../Ashikur/chatRepliedImages/confused.png';
 import questionImg from '../../../../Ashikur/chatRepliedImages/question.png';
+import Forum from "@mui/icons-material/Forum";
+import CheckCircleOutline from "@mui/icons-material/CheckCircleOutline";
+import CheckBoxOutlineBlank from "@mui/icons-material/CheckBoxOutlineBlank";
+import QuestionMark from "@mui/icons-material/QuestionMark";
+import Replay from "@mui/icons-material/Replay";
+import PriorityHigh from "@mui/icons-material/PriorityHigh";
+import ThumbUpAlt from "@mui/icons-material/ThumbUpAlt";
+import ThumbDown from "@mui/icons-material/ThumbDown";
+import SentimentDissatisfied from "@mui/icons-material/SentimentDissatisfied";
 
 function ScrollChat({ messages, user, handleTyping, isTyping }) {
     const { selectedChat, groupMessage } = useSelector(state => state);
@@ -85,44 +94,158 @@ function ScrollChat({ messages, user, handleTyping, isTyping }) {
                                                     xs: 200
                                                 },
                                             }}>
-                                                {moment(m?.updatedAt).fromNow()}
+                                                {
+                                                    !moment(m?.updatedAt).fromNow().includes("few seconds")
+                                                    ?
+                                                    moment(m?.updatedAt).fromNow()
+                                                    :
+                                                    "just now"
+                                                    
+                                                }
+                                                
                                             </Typography>
                                         </div>
-                                        <Grid sx={{display:'flex', alignItems: 'center', justifyContent:'space-between'}}>
-                                            {/* <EditorLogicMessage data={m?.content?.text} /> */}
-
-                                            {/* {m?.content?.text&&<span>{m?.content?.text} </span>} */}
-                                            {/* {m?.content?.audio?.length&& <span> {m?.content?.audio?.map((el, index) => (
-                                                <span key={index}>
-                                                    <audio src={el} controls />
-                                                </span>
-                                            ))}</span>} */}
                                             
+                                        <Grid sx={{display:'flex', alignItems: 'center', justifyContent:'space-between'}}>
+                                            
+                                            {
+                                            m?.content?.text.toLowerCase() === "question?" || 
+                                            m?.content?.text.toLowerCase() === "don't understand!" ||
+                                            m?.content?.text.toLowerCase() === "repeat!" ||
+                                            m?.content?.text.toLowerCase() === "forumicon" ||
+                                            m?.content?.text.toLowerCase() === "blankboxicon" ||
+                                            m?.content?.text.toLowerCase() === "checkedicon" ||
+                                            m?.content?.text.toLowerCase() === "questionicon" ||
+                                            m?.content?.text.toLowerCase() === "replyicon" ||
+                                            m?.content?.text.toLowerCase() === "priorityicon" ||
+                                            m?.content?.text.toLowerCase() === "thumbupicon" ||
+                                            m?.content?.text.toLowerCase() === "thumbdownicon" ||
+                                            m?.content?.text.toLowerCase() === "sentimenticon"  
+                                            ?
+                                            <>
+                                            {
+                                                m?.content?.text.toLowerCase() === "question?" ||
+                                                m?.content?.text.toLowerCase() === "don't understand!" ||
+                                                m?.content?.text.toLowerCase() === "repeat!" 
+
+                                                ?
+
+                                                <img 
+                                                         style={{height:'25px', marginLeft:'7px'}}
+                                                         src={m?.content?.text.toLowerCase() === "question?" ? questionImg
+                                                         :
+                                                          m?.content?.text.toLowerCase() === "don't understand!" ? confusedImg 
+                                                         : 
+                                                         m?.content?.text.toLowerCase() === "repeat!" ? resendImg : ""
+                                                        } 
+                                                        alt=''
+                                                />
+                                                :
+                                                
+                                                <>
+                                                    {
+                                                        m?.content?.text.toLowerCase() === "forumicon" ? <Forum sx={{color:'black'}}/> 
+                                                        :
+                                                        m?.content?.text.toLowerCase() === "blankboxicon" ? <CheckBoxOutlineBlank sx={{color:'black'}}/> 
+                                                        :
+                                                        m?.content?.text.toLowerCase() === "checkedicon" ? <CheckCircleOutline sx={{color:'black'}}/>
+                                                        : 
+                                                        m?.content?.text.toLowerCase() === "questionicon" ? <QuestionMark sx={{color:'black'}}/> 
+                                                        :
+                                                        m?.content?.text.toLowerCase() === "replyicon" ? <Replay sx={{color:'black'}}/> 
+                                                        :
+                                                        m?.content?.text.toLowerCase() === "priorityicon" ? <PriorityHigh sx={{color:'black'}}/> 
+                                                        :
+                                                        m?.content?.text.toLowerCase() === "thumbupicon" ? <ThumbUpAlt sx={{color:'black'}}/> 
+                                                        :
+                                                        m?.content?.text.toLowerCase() === "thumbdownicon" ? <ThumbDown sx={{color:'black'}}/> 
+                                                        :
+                                                        m?.content?.text.toLowerCase() === "sentimenticon" ? <SentimentDissatisfied sx={{color:'black'}}/>
+                                                        :
+                                                        ""
+                                                    }
+                                                </>
+                                            }
+                                            </>
+                                            :
                                             <Typography sx={{display:'inline-block'}} fontSize={14} fontWeight={600}>
                                             {m?.content?.text} 
                                             </Typography>
-                                            
-
-                                            {/* conditional image of message */}
-                                            {
-                                            m?.content?.text.toLowerCase() === "question?" || "don't understand!" || "repeat!" ?
-                                            <img 
-                                                 style={{height:'25px', marginLeft:'7px'}}
-                                                 src={m?.content?.text.toLowerCase() === "question?" ? questionImg
-                                                 :
-                                                  m?.content?.text.toLowerCase() === "don't understand!" ? confusedImg 
-                                                 : 
-                                                 m?.content?.text.toLowerCase() === "repeat!" ? resendImg : ""
-                                                } 
-                                                alt=''
-                                            /> 
-                                            :
-                                            ""
                                             }
                                         </Grid>
                                     </>}
                                 </span>
                             </div>
+                            {
+                                !moment(m?.updatedAt).fromNow().includes('hours')
+                                &&
+                                <>
+                                    {
+                                        !moment(m?.updatedAt).fromNow().includes('hour')
+                                        &&
+                                        <>
+                                            {
+                                                !moment(m?.updatedAt).fromNow().includes('minutes')
+                                                &&
+                                                <>
+                                                    {
+                                                        !moment(m?.updatedAt).fromNow().includes('seconds')
+                                                        &&
+                                                        <Divider>
+                                                            <Chip 
+                                                            variant='outlined'
+                                                            size='small'
+                                                            label={`
+                                                                ${
+                                                                    (new Date(m?.updatedAt)).toLocaleDateString('en-us', {weekday:"long"})
+                                                                },
+                                                                
+                                                                ${
+                                                                    (new Date(m?.updatedAt)).toLocaleDateString('en-us', {month:"long"})
+                                                                }
+                                                                ${
+                                                                    (new Date(m?.updatedAt)).toLocaleDateString('en-us', {day:"numeric"})
+                                                                }${
+                                                                    (parseInt((new Date(m?.updatedAt)).toLocaleDateString('en-us', {day:"numeric"}))) === 31
+                                                                    || 
+                                                                    (parseInt((new Date(m?.updatedAt)).toLocaleDateString('en-us', {day:"numeric"}))) === 21
+                                                                    ||
+                                                                    (parseInt((new Date(m?.updatedAt)).toLocaleDateString('en-us', {day:"numeric"}))) === 1
+                                                                    ?
+                                                                    "st"
+                                                                    :
+                                                                    (parseInt((new Date(m?.updatedAt)).toLocaleDateString('en-us', {day:"numeric"}))) === 22 
+                                                                    ||
+                                                                    (parseInt((new Date(m?.updatedAt)).toLocaleDateString('en-us', {day:"numeric"}))) === 2
+                                                                    ?
+                                                                    "nd"
+                                                                    :
+                                                                    (parseInt((new Date(m?.updatedAt)).toLocaleDateString('en-us', {day:"numeric"}))) === 23 
+                                                                    ||
+                                                                    (parseInt((new Date(m?.updatedAt)).toLocaleDateString('en-us', {day:"numeric"}))) === 3
+                                                                    ?
+                                                                    "rd"
+                                                                    :
+                                                                    "th"
+                                                                    
+                                                                    // condition style-1
+                                                                    // (31==d||21==d||1==d?"st":22==d||2==d?"nd":23==d||3==d?"rd":"th")
+
+                                                                    // condition style-2
+                                                                    // n>3&&n<21?"th":n%10==2?"nd":n%10==2?"nd":n%10==3?"rd":"th"
+                                                                }
+
+                                                                `
+                                                            }
+                                                            />
+                                                        </Divider>
+                                                    }
+                                                </>
+                                            }
+                                        </>
+                                    }
+                                </>
+                            }
                         </span>
                     ))}
                     {selectedChat?.chat?.seen?.length &&
