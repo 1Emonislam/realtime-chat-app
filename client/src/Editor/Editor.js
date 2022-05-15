@@ -1,4 +1,4 @@
-import { Grid, Input, InputAdornment, ToggleButton, Tooltip } from '@mui/material';
+import { Grid, ToggleButton, Tooltip } from '@mui/material';
 import React from 'react';
 import { MdSend, MdSettingsVoice } from 'react-icons/md';
 import { useDispatch, useSelector } from 'react-redux';
