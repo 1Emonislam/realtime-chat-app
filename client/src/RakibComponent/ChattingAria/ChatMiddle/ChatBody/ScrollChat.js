@@ -1,8 +1,9 @@
 /* eslint-disable no-mixed-operators */
 /* eslint-disable eqeqeq */
-import { Avatar, AvatarGroup, CircularProgress, Grid, Tooltip, Typography } from '@mui/material'
+import { Avatar, AvatarGroup, Grid, Tooltip, Typography } from '@mui/material'
 import moment from 'moment'
 import { useEffect, useRef } from 'react'
+import DocViewer from "react-doc-viewer"
 import { useSelector } from 'react-redux'
 import ScrollableFeed from 'react-scrollable-feed'
 import confusedImg from '../../../../Ashikur/chatRepliedImages/confused.png'
@@ -12,7 +13,6 @@ import Loading from '../../../../components/Spinner/Loading'
 import TypingIndicator from '../../../../components/Typing/TypingIndicatior'
 import Editor from '../../../../Editor/Editor'
 import MessageFunc from '../ChatBody/MessageFunc'
-import DocViewer from "react-doc-viewer";
 import { chatExists, isLastMessage, isSameSender, isSameSenderMargin, isSameSenderPermission, isSameUser } from './chatLogic'
 function ScrollChat({ messages, user, handleTyping, isTyping }) {
 
