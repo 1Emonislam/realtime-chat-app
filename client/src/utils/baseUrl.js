@@ -1,2 +1,2 @@
-export const  baseUrl = 'http://localhost:5000'
-export const baseUrlLive = 'http://localhost:5000'
+export const  baseUrl = 'https://collaballsystem.herokuapp.com'
+export const baseUrlLive = 'https://collaballsystem.herokuapp.com'

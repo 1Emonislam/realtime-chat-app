@@ -9,7 +9,7 @@ export const allUserSearch = (search, page, setCount, limit, token) => {
                     loading: true,
                 }
             })
-            fetch(`http://localhost:5000/api/auth/all/users/search?search=${search || ''}&page=${page}&limit=${limit}`, {
+            fetch(`https://collaballsystem.herokuapp.com/api/auth/all/users/search?search=${search || ''}&page=${page}&limit=${limit}`, {
                 method: "GET",
                 headers: {
                     'Content-Type': 'application/json',

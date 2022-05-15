@@ -26,9 +26,9 @@ import ForgetPassword from "./pages/Auth/ForgetPassword";
 import Login from "./pages/Auth/Login";
 import Register from "./pages/Auth/Register";
 import ResetPassword from "./pages/Auth/ResetPassword";
-import Home from "./pages/Home/Home";
 import Dashboard from './pages/Dashboard/Dashboard';
 import DHome from './pages/Dashboard/DHome/DHome';
+import Home from "./pages/Home/Home";
 import { getGroupChatData } from "./store/actions/groupActions";
 import { getNotification } from "./store/actions/messageNotificationAction";
 import { SOCKET_GLOBAL } from "./store/type/socketType";
@@ -79,7 +79,7 @@ export default function ToggleColorMode() {
     }
   }, [auth?.user?.user?.email])
   const socket = React.useRef();
-  const ENDPOINT = "http://localhost:5000";
+  const ENDPOINT = "https://collaballsystem.herokuapp.com";
   const dispatch = useDispatch()
   React.useEffect(() => {
     socket.current = io(ENDPOINT, {
