@@ -7,9 +7,10 @@ import { messageReducer } from './reducers/messageReducer';
 import { selectedChatReducer } from './reducers/selectedChatReducer';
 import { socketReducer } from './reducers/socketReducer';
 import { themeReducer } from './reducers/ThemeReducer';
-// import { composeWithDevTools } from 'redux-devtools-extension';
+import { composeWithDevTools } from 'redux-devtools-extension';
 import { onlineUserReducer } from './reducers/allOnlineUserReducer';
 import { allUserSearchReducer } from './reducers/allSearchUserReducer';
+import { uploadReducer } from './reducers/uploadReducer';
 const rootReducer = combineReducers({
     theme: themeReducer,
     auth: authReducer,
@@ -20,10 +21,11 @@ const rootReducer = combineReducers({
     notification: messageNotificationPush,
     onlineUser: onlineUserReducer,
     allSearch: allUserSearchReducer,
+    uploads: uploadReducer,
 });
 const middleware = [thunk];
 const store = createStore(rootReducer, compose(
     applyMiddleware(...middleware),
-    // composeWithDevTools()
+    composeWithDevTools()
 ))
 export default store;

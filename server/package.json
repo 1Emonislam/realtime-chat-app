@@ -19,6 +19,7 @@
     "express": "^4.17.3",
     "express-error-handle": "^1.0.6",
     "filereader": "^0.10.3",
+    "form-data": "^4.0.0",
     "formidable": "^2.0.1",
     "fs": "^0.0.1-security",
     "googleapis": "^100.0.0",

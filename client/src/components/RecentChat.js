@@ -17,7 +17,7 @@ import { FaVideo } from 'react-icons/fa'
 import { SiAudiomack } from 'react-icons/si'
 import { IoIosImages } from 'react-icons/io'
 
-import {FiEdit} from 'react-icons/fi'
+import { FiEdit } from 'react-icons/fi'
 
 
 function RecentChat({ isTyping, chatActive, handleTyping, groupMessage, handleSingleChat }) {
@@ -98,44 +98,44 @@ function RecentChat({ isTyping, chatActive, handleTyping, groupMessage, handleSi
 
                 </Grid>
                 <Grid item xs={4} className="headIcon" sx={{ display: 'flex', justifyContent: 'end', color: 'rgba(0, 0, 0, 0.54)' }}>
-                <Tooltip title="Edit" arrow>
-                    <ToggleButton value="check"
-                        selected={selected}
-                        onChange={() => {
-                            setSelected(false);
+                    <Tooltip title="Edit" arrow>
+                        <ToggleButton value="check"
+                            selected={selected}
+                            onChange={() => {
+                                setSelected(false);
 
-                        }} onClick={handleSortClick}>
+                            }} onClick={handleSortClick}>
 
-                        {/* <EditRoadIcon sx={{}} onClick={handleSortClick}> */}
-                         
-                        <FiEdit sx={{
+                            {/* <EditRoadIcon sx={{}} onClick={handleSortClick}> */}
 
-                            textTransform: 'capitalize',
-                            fontSize: {
-                                lg: 20,
-                                md: 20,
-                                sm: 15,
-                                xs: 15
-                            },
-                            fontWeight: {
-                                lg: 700,
-                                md: 600,
-                                sm: 500,
-                                xs: 400
-                            },
-                            borderRadius: {
-                                lg: '5px',
-                                md: '4px',
-                                sm: '3px',
-                                xs: '2px'
-                            }
-                        }} />
-                    </ToggleButton>
-                </Tooltip>
+                            <FiEdit sx={{
+
+                                textTransform: 'capitalize',
+                                fontSize: {
+                                    lg: 20,
+                                    md: 20,
+                                    sm: 15,
+                                    xs: 15
+                                },
+                                fontWeight: {
+                                    lg: 700,
+                                    md: 600,
+                                    sm: 500,
+                                    xs: 400
+                                },
+                                borderRadius: {
+                                    lg: '5px',
+                                    md: '4px',
+                                    sm: '3px',
+                                    xs: '2px'
+                                }
+                            }} />
+                        </ToggleButton>
+                    </Tooltip>
 
                     {/* <GroupSort setSortAncorEl={setSortAncorEl} sortAncorEl={sortAncorEl} handleSortClick/> */}
 
-                    <GroupSort setSortAncorEl={setSortAncorEl} sortAncorEl={sortAncorEl} handleSortClick/>
+                    <GroupSort setSortAncorEl={setSortAncorEl} sortAncorEl={sortAncorEl} handleSortClick />
 
                 </Grid>
             </Grid>
@@ -196,11 +196,14 @@ function RecentChat({ isTyping, chatActive, handleTyping, groupMessage, handleSi
                                                         }}>
                                                             {chat?.chatName}
                                                         </Typography>
+                                                        <span style={{fontSize:'bold'}}>
+                                                            {chat?.latestMessage?.sender?.firstName} sent
+                                                        </span>
                                                         <span style={{ fontSize: '16px' }}>{chat?.latestMessage?.content?.text?.slice(0, 10)}..</span>
                                                         {!chat?.latestMessage?.content?.audio?.length ? '' : <SiAudiomack style={{ fontSize: '16px', marginRight: '5px' }}></SiAudiomack>}
                                                         {!chat?.latestMessage?.content?.video?.length ? '' : <FaVideo style={{ fontSize: '16px', marginRight: '5px' }}></FaVideo>}
-                                                        {!chat?.latestMessage?.content?.images?.length  ? '' : <IoIosImages style={{ fontSize: '16px', marginRight: '5px' }}></IoIosImages>}
-                                                        {!chat?.latestMessage?.content?.others?.length  ? '' :<BsFillFileEarmarkFill style={{ fontSize: '16px', marginRight: '5px' }}></BsFillFileEarmarkFill>}
+                                                        {!chat?.latestMessage?.content?.images?.length ? '' : <IoIosImages style={{ fontSize: '16px', marginRight: '5px' }}></IoIosImages>}
+                                                        {!chat?.latestMessage?.content?.others?.length ? '' : <BsFillFileEarmarkFill style={{ fontSize: '16px', marginRight: '5px' }}></BsFillFileEarmarkFill>}
                                                     </Grid>
                                                     {/* {console.log(groupData)} */}
 

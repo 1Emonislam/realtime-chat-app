@@ -25,12 +25,8 @@ app.use(cors({
     origin: "*",
     credentials: true
 }));
-app.use(express.json({ limit: '50mb' }));
-app.use(bodyParser.urlencoded({
-    extended: false, limit: '50mb', parameterLimit: 100000,
-    extended: true
-}))
-app.use(bodyParser.json({ limit: '1024mb' }))
+app.use(bodyParser.json({ limit: "50mb" }));
+app.use(bodyParser.urlencoded({ limit: "50mb", extended: true, parameterLimit: 50000 }));
 app.use(cors())
 app.use(cookieParser());
 // app.use(function (req, res, next) {

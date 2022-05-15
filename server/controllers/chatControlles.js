@@ -8,6 +8,7 @@ const { mailSending } = require("../utils/func");
 const { genToken, genInviteGroup } = require("../utils/genToken");
 const GroupNotification = require("../models/groupNotificationModel");
 const Message = require("../models/messageModel");
+const UploadFiles = require("../models/uploadFilesModel");
 
 module.exports.acessChat = async (req, res, next) => {
   if (!req?.user?._id) {
@@ -43,9 +44,13 @@ module.exports.acessChat = async (req, res, next) => {
         };
         try {
           const createdChat = await Chat.create(chatData);
-          const fullChat = await Chat.findOne({
+          let fullChat = await Chat.findOne({
             _id: createdChat._id,
           }).populate("members", "_id pic firstName lastName email online lastOnline createdAt").populate("groupAdmin", "_id pic firstName lastName email online lastOnline createdAt").populate("sender", "_id pic firstName lastName email online lastOnline createdAt").populate("latestMessage")
+          fullChat = await UploadFiles.populate(fullChat, {
+            path: 'content.files',
+            select: '_id duration author filename sizeOfBytes type format duration url createdAt'
+          })
           await ViewsChat.create({
             viewsChatId: createdChat?._id,
           })
@@ -64,6 +69,10 @@ module.exports.getSingleChatMembers = async (req, res, next) => {
   try {
     const { chatId } = req.params;
     let getChatMember = await Chat.findOne({ _id: chatId }).select("members groupAdmin _id seen img chatName latestMessage topic status description").populate("members", "_id pic firstName lastName email online lastOnline createdAt").populate("groupAdmin", "_id pic firstName lastName email online lastOnline createdAt").populate("seen", "_id pic firstName lastName email online lastOnline createdAt");
+    getChatMember = await UploadFiles.populate(getChatMember, {
+      path: 'content.files',
+      select: '_id duration author filename sizeOfBytes type format duration url createdAt'
+    })
     // console.log(getChatMember?.seen)
     await Chat.findOneAndUpdate({ _id: chatId }, {
       lastActive: new Date(),
@@ -91,36 +100,73 @@ module.exports.getChat = async (req, res, next) => {
   try {
     const { status, page = 1, limit = 10 } = req.query;
     if (status == 'recent') {
-      const latest = await Chat.find({ members: { $elemMatch: { $eq: req.user._id } } }).limit(limit * 1)
-        .skip((page - 1) * limit).sort("-updatedAt").populate("seen", "_id pic firstName lastName email online lastOnline createdAt").populate("members", "_id pic firstName lastName email online lastOnline createdAt").populate("latestMessage").populate("groupAdmin", "_id pic firstName lastName email online lastOnline createdAt").populate({
-          path: "latestMessage.sender",
-          select: "_id pic firstName lastName email online lastOnline createdAt"
-        })
-      return res.status(200).json({ data: latest })
+      let result = await Chat.find({ members: { $elemMatch: { $eq: req.user._id } } }).limit(limit * 1)
+        .skip((page - 1) * limit).sort("-updatedAt").populate("seen", "_id pic firstName lastName email online lastOnline createdAt").populate("members", "_id pic firstName lastName email online lastOnline createdAt").populate({
+          path: 'latestMessage',
+          populate: [
+            {
+              path: 'sender',
+              select: '_id pic firstName lastName email online lastOnline createdAt',
+            },
+          ],
+        }).populate("groupAdmin", "_id pic firstName lastName email online lastOnline createdAt")
+      result = await UploadFiles.populate(result, {
+        path: 'content.files',
+        select: '_id duration author filename sizeOfBytes type format duration url createdAt'
+      })
+      // console.log(result)
+      return res.status(200).json({ data: result })
     }
     if (status == 'latest') {
-      const latest = await Chat.find({ members: { $elemMatch: { $eq: req.user._id } } }).limit(limit * 1)
-        .skip((page - 1) * limit).sort("-createdAt").populate("seen", "_id pic firstName lastName email online lastOnline createdAt").populate("members", "_id pic firstName lastName email online lastOnline createdAt").populate("latestMessage").populate("groupAdmin", "_id pic firstName lastName email online lastOnline createdAt").populate({
-          path: "latestMessage.sender",
-          select: "_id pic firstName lastName email online lastOnline createdAt"
-        })
-      return res.status(200).json({ data: latest })
+      let result = await Chat.find({ members: { $elemMatch: { $eq: req.user._id } } }).limit(limit * 1)
+        .skip((page - 1) * limit).sort("-createdAt").populate("seen", "_id pic firstName lastName email online lastOnline createdAt").populate("members", "_id pic firstName lastName email online lastOnline createdAt").populate({
+          path: 'latestMessage',
+          populate: [
+            {
+              path: 'sender',
+              select: '_id pic firstName lastName email online lastOnline createdAt',
+            },
+          ],
+        }).populate("groupAdmin", "_id pic firstName lastName email online lastOnline createdAt")
+      result = await UploadFiles.populate(result, {
+        path: 'content.files',
+        select: '_id duration author filename sizeOfBytes type format duration url createdAt'
+      })
+      return res.status(200).json({ data: result })
     }
     if (status == 'popular' || 'acc') {
-      const latest = await Chat.find({ members: { $elemMatch: { $eq: req.user._id } } }).limit(limit * 1)
-        .skip((page - 1) * limit).sort("-members").populate("seen", "_id pic firstName lastName email online lastOnline createdAt").populate("members", "_id pic firstName lastName email online lastOnline createdAt").populate("latestMessage").populate("groupAdmin", "_id pic firstName lastName email online lastOnline createdAt").populate({
-          path: "latestMessage.sender",
-          select: "_id pic firstName lastName email online lastOnline createdAt"
-        })
-      return res.status(200).json({ data: latest })
+      let result = await Chat.find({ members: { $elemMatch: { $eq: req.user._id } } }).limit(limit * 1)
+        .skip((page - 1) * limit).sort("-members").populate("seen", "_id pic firstName lastName email online lastOnline createdAt").populate("members", "_id pic firstName lastName email online lastOnline createdAt").populate({
+          path: 'latestMessage',
+          populate: [
+            {
+              path: 'sender',
+              select: '_id pic firstName lastName email online lastOnline createdAt',
+            },
+          ],
+        }).populate("groupAdmin", "_id pic firstName lastName email online lastOnline createdAt")
+      result = await UploadFiles.populate(result, {
+        path: 'content.files',
+        select: '_id duration author filename sizeOfBytes type format duration url createdAt'
+      })
+      return res.status(200).json({ data: result })
     }
     if (status == 'oldChat' || 'dec') {
-      const latest = await Chat.find({ members: { $elemMatch: { $eq: req.user._id } } }).limit(limit * 1)
-        .skip((page - 1) * limit).sort("createdAt").populate("seen", "_id pic firstName lastName email online lastOnline createdAt").populate("members", "_id pic firstName lastName email online lastOnline createdAt").populate("latestMessage").populate("groupAdmin", "_id pic firstName lastName email online lastOnline createdAt").populate({
-          path: "latestMessage.sender",
-          select: "_id pic firstName lastName email online lastOnline createdAt"
-        })
-      return res.status(200).json({ data: latest })
+      let result = await Chat.find({ members: { $elemMatch: { $eq: req.user._id } } }).limit(limit * 1)
+        .skip((page - 1) * limit).sort("createdAt").populate("seen", "_id pic firstName lastName email online lastOnline createdAt").populate("members", "_id pic firstName lastName email online lastOnline createdAt").populate({
+          path: 'latestMessage',
+          populate: [
+            {
+              path: 'sender',
+              select: '_id pic firstName lastName email online lastOnline createdAt',
+            },
+          ],
+        }).populate("groupAdmin", "_id pic firstName lastName email online lastOnline createdAt")
+        result = await UploadFiles.populate(result, {
+          path: 'content.files',
+          select: '_id duration author filename sizeOfBytes type format duration url createdAt'
+      })
+      return res.status(200).json({ data: result })
     }
   } catch (error) {
     next(error)
@@ -149,6 +195,7 @@ module.exports.groupCreate = async (req, res, next) => {
     });
     const fullGroupChat = await Chat.find({ members: req.user?._id }).populate("members", "_id pic firstName lastName email online lastOnline createdAt").populate("groupAdmin", "_id pic firstName lastName email online lastOnline createdAt");
     return res.status(200).json({ message: `Create New Group ${groupChat?.chatName} ${groupChat?.status} Group Join Member ${groupChat?.members?.length}`, data: fullGroupChat })
+
   } catch (error) {
     error.status = 400;
     next(error);
@@ -160,9 +207,13 @@ module.exports.groupRename = async (req, res, next) => {
   }
   const { chatId, chatName, topic, status, description, img } = req.body;
   try {
-    const updatedChat = await Chat.findOneAndUpdate({ _id: chatId, groupAdmin: req?.user?._id }, {
+    let updatedChat = await Chat.findOneAndUpdate({ _id: chatId, groupAdmin: req?.user?._id }, {
       chatName, topic, status, description, img
     }, { new: true }).populate("members", "_id pic firstName lastName email online lastOnline createdAt").populate("groupAdmin", "_id pic firstName lastName email online lastOnline createdAt");
+    updatedChat = await UploadFiles.populate(updatedChat, {
+      path: 'content.files',
+      select: '_id duration author filename sizeOfBytes type format duration url createdAt'
+  })
     if (!updatedChat) {
       return res.status(400).json({ error: { token: "you can perform only Admin Group Rename!" } });
     } if (updatedChat) {
@@ -199,6 +250,10 @@ module.exports.groupAddTo = async (req, res, next) => {
       return res.status(404).json({ error: { "notfound": "chat not exists!" } });
     }
     let getChatMember = await Chat.findOne({ _id: added?._id }).select("members groupAdmin _id seen img chatName latestMessage topic status description").populate("members", "_id pic firstName lastName email online lastOnline createdAt").populate("groupAdmin", "_id pic firstName lastName email online lastOnline createdAt").populate("seen", "_id pic firstName lastName email online lastOnline createdAt");
+    getChatMember = await UploadFiles.populate(getChatMember, {
+      path: 'content.files',
+      select: '_id duration author filename sizeOfBytes type format duration url createdAt'
+  })
     const data = {
       data: getChatMember,
       amIJoined: getChatMember?.members?.some(am => am?._id?.toString() === req.user?._id?.toString()),
@@ -374,7 +429,7 @@ module.exports.groupAddToInviteSent = async (req, res, next) => {
                     <tr>
                       <td style="text-align: center">
                         <a
-                          href="https://collaballapp.herokuapp.com/"
+                          href="http://localhost:5000/"
                           title="logo"
                           target="_blank"
                         >
@@ -531,7 +586,11 @@ module.exports.singleGroupDelete = async (req, res, next) => {
         await GroupNotification.deleteMany({
           chat: chatId,
         });
-        const data = await Chat.find({ members: req.user?._id }).select("members groupAdmin _id seen img chatName latestMessage topic status description").populate("members", "_id pic firstName lastName email online lastOnline createdAt").populate("groupAdmin", "_id pic firstName lastName email online lastOnline createdAt").populate("seen", "_id pic firstName lastName email online lastOnline createdAt");
+        let data = await Chat.find({ members: req.user?._id }).select("members groupAdmin _id seen img chatName latestMessage topic status description").populate("members", "_id pic firstName lastName email online lastOnline createdAt").populate("groupAdmin", "_id pic firstName lastName email online lastOnline createdAt").populate("seen", "_id pic firstName lastName email online lastOnline createdAt");
+        data = await UploadFiles.populate(data, {
+          path: 'content.files',
+          select: '_id duration author filename sizeOfBytes type format duration url createdAt'
+      })
         return res.status(200).json({ message: 'group removed Successfully', data })
       }
     }

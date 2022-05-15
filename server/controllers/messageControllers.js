@@ -1,8 +1,10 @@
 const Chat = require("../models/chatModel");
 const GroupNotification = require("../models/groupNotificationModel");
 const Message = require("../models/messageModel");
+const UploadFiles = require("../models/uploadFilesModel");
 const User = require("../models/userModel");
-const { upload } = require("../utils/file");
+const { upload, fileUpload } = require("../utils/file");
+
 module.exports.sendMessage = async (req, res, next) => {
     if (!req?.user?._id) {
         return res.status(400).json({ error: { email: 'User Credentials expired! Please login' } })
@@ -13,18 +15,10 @@ module.exports.sendMessage = async (req, res, next) => {
         return res.status(400);
     }
     const text = req.body?.content?.text;
-    let audio = req.body?.content?.audio;
-    const video = req.body?.content?.video;
-    let images = req.body?.content?.images;
-    const others = req.body?.content?.others;
     let newMessage = {
         sender: req.user._id,
         content: {
             text,
-            audio,
-            video,
-            images,
-            others
         },
         chat: chatId,
     }
@@ -37,6 +31,22 @@ module.exports.sendMessage = async (req, res, next) => {
         }).populate({
             path: 'groupAdmin',
             select: '_id pic firstName lastName email online lastOnline'
+        })
+        message = await UploadFiles.populate(message, {
+            path: 'content.audio',
+            select: '_id duration author filename sizeOfBytes type format duration url createdAt'
+        })
+        message = await UploadFiles.populate(message, {
+            path: 'content.video',
+            select: '_id duration author filename sizeOfBytes type format duration url createdAt'
+        })
+        message = await UploadFiles.populate(message, {
+            path: 'content.others',
+            select: '_id duration author filename sizeOfBytes type format duration url createdAt'
+        })
+        message = await UploadFiles.populate(message, {
+            path: 'content.images',
+            select: '_id duration author filename sizeOfBytes type format duration url createdAt'
         })
         message = await User.populate(message, {
             path: 'sender',
@@ -86,6 +96,125 @@ module.exports.sendMessage = async (req, res, next) => {
         next(error)
     }
 }
+module.exports.sendFilesUploadMessage = async (req, res, next) => {
+    if (!req?.user?._id) {
+        return res.status(400).json({ error: { email: 'User Credentials expired! Please login' } })
+    }
+    if (!req.params?.id) {
+        console.log("invalid data passed into request");
+        return res.status(400);
+    }
+
+    let { secure_url, write, bytes, original_filename, format, duration, resource_type, audioFile, videoFile, othersFile, imagesFile } = req.body;
+    try {
+        const uploadFile = await UploadFiles.create({
+            author: req.user?._id,
+            chat: req.params?.id,
+            filename: original_filename,
+            sizeOfBytes: bytes,
+            format,
+            duration: duration || '',
+            url: secure_url,
+        })
+        // console.log(uploadFile)
+        if (audioFile) {
+            audioFile = uploadFile?._id
+        }
+        if (videoFile) {
+            videoFile = uploadFile?._id
+        }
+        if (othersFile) {
+            othersFile = uploadFile?._id
+        }
+        if (imagesFile) {
+            imagesFile = uploadFile?._id
+        }
+        let newMessage = {
+            sender: req.user?._id,
+            content: {
+                text: write || '',
+                audio: audioFile,
+                video: videoFile,
+                images: imagesFile,
+                others: othersFile,
+            },
+            chat: req.params?.id,
+        }
+        let message = await Message.create(newMessage);
+        // console.log(message)
+        await Chat.findByIdAndUpdate(req.params?.id, {
+            latestMessage: message?._id,
+            seen: [req.user?._id],
+            isGroupChat: true
+        }).populate({
+            path: 'groupAdmin',
+            select: '_id pic firstName lastName email online lastOnline'
+        })
+        message = await UploadFiles.populate(message, {
+            path: 'content.audio',
+            select: '_id duration author filename sizeOfBytes type format duration url createdAt'
+        })
+        message = await UploadFiles.populate(message, {
+            path: 'content.video',
+            select: '_id duration author filename sizeOfBytes type format duration url createdAt'
+        })
+        message = await UploadFiles.populate(message, {
+            path: 'content.others',
+            select: '_id duration author filename sizeOfBytes type format duration url createdAt'
+        })
+        message = await UploadFiles.populate(message, {
+            path: 'content.images',
+            select: '_id duration author filename sizeOfBytes type format duration url createdAt'
+        })
+        message = await User.populate(message, {
+            path: 'sender',
+            select: '_id pic firstName lastName email online lastOnline'
+        })
+        message = await User.populate(message, {
+            path: 'chat.members',
+            select: '_id pic firstName lastName email online lastOnline'
+        })
+        message = await Chat.populate(message, {
+            path: 'chat',
+            select: '_id  chatName img seen groupAdmin members',
+        })
+        message = await Chat.populate(message, {
+            path: 'chat.members',
+            select: '_id pic firstName lastName email online lastOnline',
+        })
+        message = await User.populate(message, {
+            path: 'chat.groupAdmin',
+            select: '_id pic firstName lastName email online lastOnline'
+        })
+        message = await Chat.populate(message, {
+            path: 'chat.seen',
+            select: '_id pic firstName lastName email online lastOnline',
+        })
+        // console.log(message)
+        if (message) {
+            const sendUser = await message?.chat?.members?.filter(member => {
+                return (member?._id?.toString() !== req?.user?._id?.toString());
+            });
+            // console.log(message.chat)
+            if (sendUser?.length) {
+                for (const member of sendUser) {
+                    await GroupNotification.create({
+                        receiver: member?._id,
+                        type: 'groupchat',
+                        seen: false,
+                        subject: `New Message from ${message?.sender?.firstName + ' ' + message?.sender?.lastName}`,
+                        sender: message?.sender?._id,
+                        message: message?._id,
+                        chat: message?.chat?._id,
+                    })
+                }
+            }
+        }
+        return res.status(200).json({ data: message })
+    } catch (error) {
+        next(error)
+    }
+}
 module.exports.allMessage = async (req, res, next) => {
     if (!req?.user?._id) {
         return res.status(400).json({ error: { email: 'User Credentials expired! Please login' } })
@@ -104,6 +233,22 @@ module.exports.allMessage = async (req, res, next) => {
         } else {
             message = await Message.find({ chat: req.params.chatId })
         }
+        message = await UploadFiles.populate(message, {
+            path: 'content.audio',
+            select: '_id duration author filename sizeOfBytes type format duration url createdAt'
+        })
+        message = await UploadFiles.populate(message, {
+            path: 'content.video',
+            select: '_id duration author filename sizeOfBytes type format duration url createdAt'
+        })
+        message = await UploadFiles.populate(message, {
+            path: 'content.others',
+            select: '_id duration author filename sizeOfBytes type format duration url createdAt'
+        })
+        message = await UploadFiles.populate(message, {
+            path: 'content.images',
+            select: '_id duration author filename sizeOfBytes type format duration url createdAt'
+        })
         message = await User.populate(message, {
             path: 'sender',
             select: '_id pic firstName lastName email online lastOnline'
@@ -157,6 +302,22 @@ module.exports.messageRemove = async (req, res, next) => {
         const delete2 = await Message.deleteOne({ _id: messageId, chat: chatId, sender: req.user?._id })
         // console.log(delete1, delete2)
         let message = await Message.find({ chat: chatId })
+        message = await UploadFiles.populate(message, {
+            path: 'content.audio',
+            select: '_id duration author filename sizeOfBytes type format duration url createdAt'
+        })
+        message = await UploadFiles.populate(message, {
+            path: 'content.video',
+            select: '_id duration author filename sizeOfBytes type format duration url createdAt'
+        })
+        message = await UploadFiles.populate(message, {
+            path: 'content.others',
+            select: '_id duration author filename sizeOfBytes type format duration url createdAt'
+        })
+        message = await UploadFiles.populate(message, {
+            path: 'content.images',
+            select: '_id duration author filename sizeOfBytes type format duration url createdAt'
+        })
         message = await User.populate(message, {
             path: 'sender',
             select: '_id pic firstName lastName email online lastOnline'
@@ -211,9 +372,6 @@ module.exports.messageEdit = async (req, res, next) => {
     }
     const { chatId, messageId } = req.body;
     const text = req.body?.content?.text;
-    const audio = req.body?.content?.audio;
-    const video = req.body?.content?.video;
-    const others = req.body?.content?.others;
     if (!chatId || !messageId) {
         return res.status(400).json({ error: { token: "please provide valid credentials!" } })
     }
@@ -221,16 +379,10 @@ module.exports.messageEdit = async (req, res, next) => {
         let message = await Message.findOneAndUpdate({ _id: messageId, chat: chatId, sender: req.user?._id }, {
             content: {
                 text,
-                audio,
-                video,
-                others
             },
         }, { new: true }) || await Message.findOneAndUpdate({ _id: messageId, chat: chatId, groupAdmin: req.user?._id }, {
             content: {
                 text,
-                audio,
-                video,
-                others
             },
         }, { new: true });
         await Chat.findOneAndUpdate({ _id: req.body.chatId }, {
@@ -247,6 +399,10 @@ module.exports.messageEdit = async (req, res, next) => {
         // console.log(message)
         if (message) {
             message = await Message.find({ chat: chatId })
+            message = await UploadFiles.populate(message, {
+                path: 'content.files',
+                select: '_id duration author filename sizeOfBytes type format duration url createdAt'
+            })
             message = await User.populate(message, {
                 path: 'sender',
                 select: '_id pic firstName lastName email online lastOnline'
@@ -300,6 +456,22 @@ module.exports.allMessageRemove = async (req, res, next) => {
         }
         const deleted = await Message.deleteMany({ chat: req.params?.chatId });
         let message = await Message.find({ chat: req.params?.chatId })
+        message = await UploadFiles.populate(message, {
+            path: 'content.audio',
+            select: '_id duration author filename sizeOfBytes type format duration url createdAt'
+        })
+        message = await UploadFiles.populate(message, {
+            path: 'content.video',
+            select: '_id duration author filename sizeOfBytes type format duration url createdAt'
+        })
+        message = await UploadFiles.populate(message, {
+            path: 'content.others',
+            select: '_id duration author filename sizeOfBytes type format duration url createdAt'
+        })
+        message = await UploadFiles.populate(message, {
+            path: 'content.images',
+            select: '_id duration author filename sizeOfBytes type format duration url createdAt'
+        })
         message = await User.populate(message, {
             path: 'sender',
             select: '_id pic firstName lastName email online lastOnline'

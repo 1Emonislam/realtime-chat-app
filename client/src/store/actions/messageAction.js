@@ -1,3 +1,4 @@
+import { UPLOAD_FAILED, UPLOAD_SUCCESS } from "../reducers/uploadReducer";
 import { FAILED_MESSAGE, GET_MESSAGE, LOADING_MESSAGE, NOTE_CREATE, REMOVE_MESSAGE, SEND_MESSAGE, UPDATE_MESSAGE, UPDATE_MESSAGE_FAILED, UPDATE_MESSAGE_STORE } from "../type/messageTypes";
 export const getMessage = (chatId, token, search) => {
     return async (dispatch) => {
@@ -8,7 +9,7 @@ export const getMessage = (chatId, token, search) => {
             },
         })
         try {
-            fetch(`https://collaballapp.herokuapp.com/api/message/${chatId}?search=${search || ''}`, {
+            fetch(`http://localhost:5000/api/message/${chatId}?search=${search || ''}`, {
                 method: 'GET',
                 headers: {
                     "Content-Type": "application/json",
@@ -48,18 +49,17 @@ export const getMessage = (chatId, token, search) => {
     }
 }
 
-
-export const sendMessage = (data, chatId, token,audio) => {
+export const sendMessage = (data, chatId, token, audio) => {
     return async (dispatch) => {
         dispatch({
             type: LOADING_MESSAGE,
             payload: {
-                loading: true,
+                loading: false,
             },
         })
         try {
             //make sure all data array passing
-            fetch(`https://collaballapp.herokuapp.com/api/message`, {
+            fetch(`http://localhost:5000/api/message`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -68,55 +68,6 @@ export const sendMessage = (data, chatId, token,audio) => {
                 body: JSON.stringify({
                     content: {
                         text: data,
-                        audio:audio,
-                    },
-                    chatId: chatId,
-                })
-            })
-                .then(res => res.json())
-                .then(data => {
-                    //console.log(data)
-                    if (data) {
-                        dispatch({
-                            type: SEND_MESSAGE,
-                            payload: {
-                                message: data?.message,
-                                data: data,
-                            }
-                        })
-                    }
-                    if (data.error) {
-                        dispatch({
-                            type: FAILED_MESSAGE,
-                            payload: {
-                                error: data?.error,
-                            }
-                        })
-                    }
-                })
-        }
-        catch (error) {
-        }
-    }
-}
-export const sendMessageAudio = (audio, chatId, token) => {
-    return async (dispatch) => {
-        dispatch({
-            type: LOADING_MESSAGE,
-            payload: {
-                loading: true,
-            },
-        })
-        try {
-            //make sure all data array passing
-            fetch(`http://localhost:5000/api/message`, {
-                method: 'POST',
-                headers: {
-                    'content-type': 'multipart/form-data',
-                    "authorization": `Bearer ${token}`
-                },
-                body: JSON.stringify({
-                    content: {
                         audio: audio,
                     },
                     chatId: chatId,
@@ -148,6 +99,68 @@ export const sendMessageAudio = (audio, chatId, token) => {
         }
     }
 }
+export const sendAllUploadMessage = (data, chatId, token) => {
+    return async (dispatch) => {
+        dispatch({
+            type: LOADING_MESSAGE,
+            payload: {
+                loading: false,
+            },
+        })
+        try {
+            //make sure all data array passing
+            fetch(`http://localhost:5000/api/message/all/upload/${chatId}`, {
+                method: 'POST',
+                headers: {
+                    "Content-Type": "application/json",
+                    // "Content-Type": "multipart/form-data",
+                    "authorization": `Bearer ${token}`
+                },
+                body: JSON.stringify(data)
+            })
+                .then(res => res.json())
+                .then(data => {
+                    //console.log(data)
+                    if (data) {
+                        dispatch({
+                            type: UPLOAD_SUCCESS,
+                            payload: {
+                                success: true,
+                                error: false,
+                                loading: false,
+                            }
+                        })
+                        dispatch({
+                            type: SEND_MESSAGE,
+                            payload: {
+                                message: data?.message,
+                                data: data,
+                            }
+                        })
+                    }
+                    if (data.error) {
+                        dispatch({
+                            type: UPLOAD_FAILED,
+                            payload: {
+                                success: false,
+                                error: true,
+                                loading: false,
+                            }
+                        })
+                        dispatch({
+                            type: FAILED_MESSAGE,
+                            payload: {
+                                error: data?.error,
+                            }
+                        })
+                    }
+                })
+        }
+        catch (error) {
+        }
+    }
+}
+
 export const editMessage = (data, chatId, messageId, token, messageEditHandle) => {
     // console.log(data, chatId, messageId, token)
     return async (dispatch) => {
@@ -158,7 +171,7 @@ export const editMessage = (data, chatId, messageId, token, messageEditHandle) =
             },
         })
         try {
-            fetch(`https://collaballapp.herokuapp.com/api/message`, {
+            fetch(`http://localhost:5000/api/message`, {
                 method: 'PUT',
                 headers: {
                     "Content-Type": "application/json",
@@ -223,7 +236,7 @@ export const deleteMessage = (chatId, messageId, token) => {
             },
         })
         try {
-            fetch(`https://collaballapp.herokuapp.com/api/message`, {
+            fetch(`http://localhost:5000/api/message`, {
                 method: 'DELETE',
                 headers: {
                     "Content-Type": "application/json",
@@ -276,7 +289,7 @@ export const deleteAllMessage = (chatId, token) => {
             },
         })
         try {
-            fetch(`https://collaballapp.herokuapp.com/api/message/${chatId}`, {
+            fetch(`http://localhost:5000/api/message/${chatId}`, {
                 method: 'DELETE',
                 headers: {
                     "Content-Type": "application/json",
@@ -340,7 +353,7 @@ export const updateMessageStore = (data) => {
 export const noteCreate = (chatId, messageId, token) => {
     return async (dispatch) => {
         try {
-            fetch(`https://collaballapp.herokuapp.com/api/note`, {
+            fetch(`http://localhost:5000/api/note`, {
                 method: 'POST',
                 headers: {
                     "Content-Type": "application/json",

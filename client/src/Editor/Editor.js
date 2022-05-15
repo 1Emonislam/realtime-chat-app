@@ -5,14 +5,15 @@ import { ReactMic } from 'react-mic';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast, ToastContainer } from 'react-toastify';
 //import VoiceMessage from '../components/VoiceMessage.js/VoiceMessage';
-import { editMessage, sendMessage } from '../store/actions/messageAction';
+import { editMessage, sendAllUploadMessage, sendMessage } from '../store/actions/messageAction';
 import { SUCCESS_MESSAGE_CLEAR, UPDATE_MESSAGE_FAILED, WRITE_MESSAGE_UPDATE } from '../store/type/messageTypes';
 import './Editor.css';
 import FileUploadPopup from './FileUploadPopup';
 import IconPopup from './IconPopup';
 import './VoiceRecoder.css';
+
 function Editor({ handleTyping, messageEditHandle, editMsg, isTyping, size = 25 }) {
-    
+
     const { groupMessage, theme, selectedChat, socketFunc, auth } = useSelector(state => state);
     const dispatch = useDispatch();
     const [record, setRecord] = useState(false)
@@ -103,8 +104,13 @@ function Editor({ handleTyping, messageEditHandle, editMsg, isTyping, size = 25 
             });
         }
         if (recordedBlob?.blobURL) {
-            const base64String = await convertBlobToBase64(recordedBlob?.blob);
-            dispatch(sendMessage(groupMessage?.write || '', selectedChat?.chat?._id, auth?.user?.token,base64String))
+            if (selectedChat?.chat?._id && auth?.user?.token) {
+                const voiceUrl = await convertBlobToBase64(recordedBlob?.blob)
+                const voiceData = {
+                    secure_url: voiceUrl, write: groupMessage?.write || '', audioFile: 'audio', bytes: '', original_filename: 'voice over audio', format: 'wav', duration: ''
+                }
+                dispatch(sendAllUploadMessage(voiceData, selectedChat?.chat?._id, auth?.user?.token))
+            }
         }
     }
     return (
@@ -120,7 +126,7 @@ function Editor({ handleTyping, messageEditHandle, editMsg, isTyping, size = 25 
                     <IconPopup />
                 </Grid>
                 <Grid item xs={1}>
-                    <FileUploadPopup />
+                    <FileUploadPopup groupMessage={groupMessage} auth={auth} selectedChat={selectedChat} />
                 </Grid>
                 {editMsg ? <Grid item xs={6}>
                     <textarea className='text-msg' sx={{

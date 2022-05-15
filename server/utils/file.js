@@ -1,4 +1,4 @@
-const {cloudinary} = require('../config/cloudinary');
+const { cloudinary } = require('../config/cloudinary');
 
 /**
  * Check file is an image or not
@@ -29,5 +29,10 @@ const imageCheck = (images) => {
 const upload = async (filePath) => {
 	return await cloudinary.uploader.upload(filePath);
 };
+const fileUpload = async (filePath) => {
+	return await cloudinary.uploader.upload(filePath, {
+		resource_type: 'auto'
+	});
+};
 
-module.exports = { imageCheck, upload };
+module.exports = { imageCheck, upload,fileUpload };
