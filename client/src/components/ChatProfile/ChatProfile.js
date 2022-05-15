@@ -32,7 +32,6 @@ const ChatProfile = ({ mode }) => {
 
   const dispatch = useDispatch();
   const { auth } = useSelector(state => state);
-  const { pic } = auth?.user?.user
   useEffect(() => {
     dispatch(getMyProfile(auth.user?.token))
   }, [auth.user?.token, dispatch])
@@ -45,7 +44,7 @@ const ChatProfile = ({ mode }) => {
             alt=""
             style={{ display: "block", margin: "0 auto" }}
             // src="https://mui.com/static/images/avatar/3.jpg"
-            src={pic}
+            src={auth.user?.user?.pic}
           />
         </Button>
       </Tooltip>

@@ -1,4 +1,4 @@
-import { PROFILE_REQUEST, PROFILE_SUCCESS, PROFILE_FAILED } from "../type/profileType";
+import { PROFILE_FAILED, PROFILE_REQUEST, PROFILE_SUCCESS } from "../type/profileType";
 
 export const getMyProfile = (token) => {
     return async (dispatch) => {
@@ -9,7 +9,7 @@ export const getMyProfile = (token) => {
             }
         })
         try {
-            fetch('https://collaballapp.herokuapp.com/api/auth/my-profile', {
+            fetch('http://localhost:5000/api/auth/my-profile', {
                 method: 'GET',
                 headers: {
                     'Content-Type': "application/json",

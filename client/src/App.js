@@ -79,7 +79,7 @@ export default function ToggleColorMode() {
     }
   }, [auth?.user?.user?.email])
   const socket = React.useRef();
-  const ENDPOINT = "https://collaballapp.herokuapp.com";
+  const ENDPOINT = "http://localhost:5000";
   const dispatch = useDispatch()
   React.useEffect(() => {
     socket.current = io(ENDPOINT, {
@@ -93,7 +93,7 @@ export default function ToggleColorMode() {
       payload: { socket },
     })
     return () => { socket.current?.disconnect() };
-  }, [auth?.user?.token, dispatch])
+  }, [auth?.user?.user?.email, dispatch])
   React.useMemo(() => {
     dispatch(getGroupChatData(auth?.user?.token, 'recent'));
     dispatch(getNotification(auth.user?.token))
