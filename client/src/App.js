@@ -93,7 +93,7 @@ export default function ToggleColorMode() {
       payload: { socket },
     })
     return () => { socket.current?.disconnect() };
-  }, [auth?.user, dispatch])
+  }, [auth?.user?.token, dispatch])
   React.useMemo(() => {
     dispatch(getGroupChatData(auth?.user?.token, 'recent'));
     dispatch(getNotification(auth.user?.token))
