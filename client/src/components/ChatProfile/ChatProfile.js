@@ -67,21 +67,21 @@ const ChatProfile = ({ mode }) => {
           <EditProfile mode={mode} />
           <Profile mode={mode} />
 
-          <Box sx={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            pb: 1,
-          }}
-            color={mode !== 'dark' ? '#000' : '#fff'}
-          >
-            <Typography sx={{ fontFamily: 'Poppins' }}>Settings</Typography>
-            <Link to='/settings'>
-              <SettingsIcon sx={{ fontSize: '20px', color: `${mode !== 'dark' ? '#000' : '#fff'}` }} />
-            </Link>
-          </Box>
-          <Box sx={{ display: 'flex', justifyContent: 'space-between', pb: 1 }}>
+          <Link to='/settings'>
+            <Box sx={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              pb: 1,
+            }}
+              color={mode !== 'dark' ? '#000' : '#fff'}
+            >
+              <Typography sx={{ fontFamily: 'Poppins' }}>Settings</Typography>
+                <SettingsIcon sx={{ fontSize: '20px', color: `${mode !== 'dark' ? '#000' : '#fff'}` }} />
+            </Box>
+          </Link>
+          <Box onClick={handleLogOut} sx={{cursor:'pointer', display: 'flex', justifyContent: 'space-between', pb: 1 }}>
             <Typography sx={{ fontFamily: 'Poppins' }}>Log Out</Typography>
-            <LogoutIcon onClick={handleLogOut} sx={{ fontSize: '20px' }} />
+            <LogoutIcon sx={{ fontSize: '20px' }} />
           </Box>
         </Box>
       </Popover >
