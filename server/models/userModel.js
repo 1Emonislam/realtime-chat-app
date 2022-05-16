@@ -98,6 +98,10 @@ const userSchema = new mongoose.Schema({
     birthDate: {
         type: String
     },
+    nickName: {
+        type: String,
+        default: 'N/A'
+    },
     pic: {
         type: String,
         default: "https://i.ibb.co/BGbPkX9/dummy-avatar-300x300-1.jpg",
@@ -105,7 +109,7 @@ const userSchema = new mongoose.Schema({
     userInfo: {
         type: String,
         trim: true,
-        default:'N/A'
+        default: 'N/A'
     },
     status: {
         type: String,

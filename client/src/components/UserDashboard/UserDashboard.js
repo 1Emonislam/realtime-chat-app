@@ -1,7 +1,6 @@
 import { Box, Grid } from '@mui/material';
 import React from 'react';
 import Nav from '../../Ashikur/Nav/Nav';
-import ProfileSetting from '../ChatProfile/ProfileSetting/ProfileSetting';
 import DashBoardHome from '../DashBoardSettings/DashBoardHome';
 
 const UserDashboard = ({ children, mode }) => {

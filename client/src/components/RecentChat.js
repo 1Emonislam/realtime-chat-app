@@ -17,7 +17,7 @@ import { FaVideo } from 'react-icons/fa'
 import { SiAudiomack } from 'react-icons/si'
 import { IoIosImages } from 'react-icons/io'
 
-import {FiEdit} from 'react-icons/fi'
+import { FiEdit } from 'react-icons/fi'
 
 
 function RecentChat({ isTyping, chatActive, handleTyping, groupMessage, handleSingleChat }) {
@@ -98,44 +98,44 @@ function RecentChat({ isTyping, chatActive, handleTyping, groupMessage, handleSi
 
                 </Grid>
                 <Grid item xs={4} className="headIcon" sx={{ display: 'flex', justifyContent: 'end', color: 'rgba(0, 0, 0, 0.54)' }}>
-                <Tooltip title="Edit" arrow>
-                    <ToggleButton value="check"
-                        selected={selected}
-                        onChange={() => {
-                            setSelected(false);
+                    <Tooltip title="Edit" arrow>
+                        <ToggleButton value="check"
+                            selected={selected}
+                            onChange={() => {
+                                setSelected(false);
 
-                        }} onClick={handleSortClick}>
+                            }} onClick={handleSortClick}>
 
-                        {/* <EditRoadIcon sx={{}} onClick={handleSortClick}> */}
-                         
-                        <FiEdit sx={{
+                            {/* <EditRoadIcon sx={{}} onClick={handleSortClick}> */}
 
-                            textTransform: 'capitalize',
-                            fontSize: {
-                                lg: 20,
-                                md: 20,
-                                sm: 15,
-                                xs: 15
-                            },
-                            fontWeight: {
-                                lg: 700,
-                                md: 600,
-                                sm: 500,
-                                xs: 400
-                            },
-                            borderRadius: {
-                                lg: '5px',
-                                md: '4px',
-                                sm: '3px',
-                                xs: '2px'
-                            }
-                        }} />
-                    </ToggleButton>
-                </Tooltip>
+                            <FiEdit sx={{
+
+                                textTransform: 'capitalize',
+                                fontSize: {
+                                    lg: 20,
+                                    md: 20,
+                                    sm: 15,
+                                    xs: 15
+                                },
+                                fontWeight: {
+                                    lg: 700,
+                                    md: 600,
+                                    sm: 500,
+                                    xs: 400
+                                },
+                                borderRadius: {
+                                    lg: '5px',
+                                    md: '4px',
+                                    sm: '3px',
+                                    xs: '2px'
+                                }
+                            }} />
+                        </ToggleButton>
+                    </Tooltip>
 
                     {/* <GroupSort setSortAncorEl={setSortAncorEl} sortAncorEl={sortAncorEl} handleSortClick/> */}
 
-                    <GroupSort setSortAncorEl={setSortAncorEl} sortAncorEl={sortAncorEl} handleSortClick/>
+                    <GroupSort setSortAncorEl={setSortAncorEl} sortAncorEl={sortAncorEl} handleSortClick />
 
                 </Grid>
             </Grid>
@@ -165,22 +165,18 @@ function RecentChat({ isTyping, chatActive, handleTyping, groupMessage, handleSi
                                             },
                                         }}>
                                             <Grid item xs={2}>
-                                                <AvatarGroup total={chat?.members?.length}>
-                                                    {chat?.members?.slice(0, 2)?.map((user, index) => (
-                                                        <Grid item xs={4} key={index} sx={{ flex: 'start' }}>
-                                                            <Tooltip style={{ cursor: "pointer" }} title={user.firstName + ' ' + user?.lastName} key={index}>
-                                                                <Avatar key={index} alt={user.username} src={user?.pic} />
-                                                            </Tooltip>
-                                                        </Grid>
-                                                    ))}
-                                                </AvatarGroup>
+
+                                                <Tooltip style={{ cursor: "pointer" }} title={chat?.chatName} key={index}>
+                                                    <Avatar key={index} alt={chat?.chatName} src={chat?.img} />
+                                                </Tooltip>
+
                                             </Grid>
-                                            <Grid item xs={9} sm={10.6} md={9} lg={9}>
-                                                <Grid container spacing={0} alignItems="center" justifyContent="center">
-                                                    <Grid item xs={6}>
+                                            <Grid item xs={10}>
+                                                <Grid container spacing={0} alignItems="center" style={{ textAlign: 'left' }} justifyContent="center">
+                                                    <Grid item xs={8}>
                                                         <Typography sx={{
                                                             color: "inherit",
-                                                            textAlign: 'center',
+                                                            textAlign: 'left',
                                                             marginLeft: '0px',
                                                             fontSize: {
                                                                 md: 14,
@@ -196,30 +192,33 @@ function RecentChat({ isTyping, chatActive, handleTyping, groupMessage, handleSi
                                                         }}>
                                                             {chat?.chatName}
                                                         </Typography>
-                                                        <span style={{ fontSize: '16px' }}>{chat?.latestMessage?.content?.text?.slice(0, 10)}..</span>
+                                                        <span style={{ fontSize: 'bold', fontWeight: '900', marginRight: '5px' }}>
+                                                            {chat?.latestMessage?.sender?.firstName}
+                                                        </span>
+                                                        <span style={{ fontSize: '10px', }}>sent {chat?.latestMessage?.content?.text?.slice(0, 10)}..</span>
                                                         {!chat?.latestMessage?.content?.audio?.length ? '' : <SiAudiomack style={{ fontSize: '16px', marginRight: '5px' }}></SiAudiomack>}
                                                         {!chat?.latestMessage?.content?.video?.length ? '' : <FaVideo style={{ fontSize: '16px', marginRight: '5px' }}></FaVideo>}
-                                                        {!chat?.latestMessage?.content?.images?.length  ? '' : <IoIosImages style={{ fontSize: '16px', marginRight: '5px' }}></IoIosImages>}
-                                                        {!chat?.latestMessage?.content?.others?.length  ? '' :<BsFillFileEarmarkFill style={{ fontSize: '16px', marginRight: '5px' }}></BsFillFileEarmarkFill>}
+                                                        {!chat?.latestMessage?.content?.images?.length ? '' : <IoIosImages style={{ fontSize: '16px', marginRight: '5px' }}></IoIosImages>}
+                                                        {!chat?.latestMessage?.content?.others?.length ? '' : <BsFillFileEarmarkFill style={{ fontSize: '16px', marginRight: '5px' }}></BsFillFileEarmarkFill>}
                                                     </Grid>
                                                     {/* {console.log(groupData)} */}
 
-                                                    <Grid item xs={5}>
+                                                    <Grid item xs={4}>
                                                         <Grid item textAlign="right">
                                                             {/*  xs={2}  */}
                                                             <Typography sx={{
                                                                 color: "inherit",
                                                                 fontSize: {
-                                                                    lg: 12,
+                                                                    lg: 10,
                                                                     md: 10,
                                                                     sm: 10,
                                                                     xs: 10
                                                                 },
                                                                 fontWeight: {
-                                                                    lg: 200,
-                                                                    md: 200,
-                                                                    sm: 200,
-                                                                    xs: 200
+                                                                    lg: 400,
+                                                                    md: 400,
+                                                                    sm: 400,
+                                                                    xs: 400
                                                                 },
                                                             }}>
 
@@ -257,7 +256,8 @@ function RecentChat({ isTyping, chatActive, handleTyping, groupMessage, handleSi
                                                                 </div>
                                                                 {chat?.seen?.length && <AvatarGroup max={3}>
                                                                     {chat?.seen?.slice(0, 3)?.map((user, i) => (
-                                                                        <Tooltip style={{ cursor: "pointer" }} title='seen' key={i}>
+                                                                        <Tooltip style={{ cursor: "pointer" }}
+                                                                        arrow title={user?.firstName + ' ' + user?.lastName} key={i}>
                                                                             <Avatar sx={{ height: '12px', width: '12px', marginTop: '3px' }} alt={user.username} src={user?.pic} />
                                                                         </Tooltip>
                                                                     ))}

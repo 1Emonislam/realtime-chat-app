@@ -1,10 +1,13 @@
 import { Paper, Typography } from "@mui/material";
+import moment from 'moment';
 import React, { useState } from "react";
+import { useSelector } from "react-redux";
 import General from "./General/General";
-
-const GeneralSettings = ({ mode }) => {
-  const [toggleButton] = useState("settings");
-
+const GeneralSettings = ({ mode ,handleCloseBox}) => {
+  const { profile } = useSelector(state => state)
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true)
+  // console.log(open)
   return (
     <>
       <Paper sx={{ p: 2, mb: 3 }}>
@@ -23,10 +26,10 @@ const GeneralSettings = ({ mode }) => {
           gutterBottom
           component="div"
         >
-          Last Update your profile: 29 Aug 2020
+          Last Update your profile: {moment(profile?.profile?.user?.updatedAt).format('MMMM Do YYYY')}
         </Typography>
       </Paper>
-      {toggleButton === "settings" && <General mode={mode} />}
+      <General open={open} handleCloseBox={handleCloseBox} handleOpen={handleOpen} mode={mode} />
     </>
   );
 };

@@ -7,7 +7,6 @@ import { io } from "socket.io-client";
 import "./App.css";
 import Call from "./components/Call/Call";
 import BlockedUser from "./components/DashBoardSettings/BlockedUser";
-import DashBoardHome from "./components/DashBoardSettings/DashBoardHome";
 import OnLineAndOffLineStatusBar from "./components/DashBoardSettings/OnLineAndOffLineStatusBar";
 import ReportUser from "./components/DashBoardSettings/ReportUser";
 import SettingAdmob from "./components/DashBoardSettings/SettingAdmob";
@@ -19,6 +18,7 @@ import Group from "./components/Group/Group";
 import GroupInviteAccept from "./components/GroupInviteAccept";
 import Settings from "./components/Settings/Settings/Settings";
 import Status from "./components/Status/Status/Status";
+import UserDashboard from "./components/UserDashboard/UserDashboard";
 import { ThemeSwitch } from "./hooks/useThemes";
 import ChangePassword from "./pages/Auth/ChangePassword";
 import Chat from "./pages/Auth/Chat/Chat";
@@ -26,14 +26,12 @@ import ForgetPassword from "./pages/Auth/ForgetPassword";
 import Login from "./pages/Auth/Login";
 import Register from "./pages/Auth/Register";
 import ResetPassword from "./pages/Auth/ResetPassword";
-import Home from "./pages/Home/Home";
 import Dashboard from './pages/Dashboard/Dashboard';
 import DHome from './pages/Dashboard/DHome/DHome';
+import Home from "./pages/Home/Home";
 import { getGroupChatData } from "./store/actions/groupActions";
 import { getNotification } from "./store/actions/messageNotificationAction";
 import { SOCKET_GLOBAL } from "./store/type/socketType";
-import Nav from "./Ashikur/Nav/Nav";
-import UserDashboard from "./components/UserDashboard/UserDashboard";
 export const ThemeSelectContext = React.createContext();
 const ColorModeContext = React.createContext({ toggleColorMode: () => { } });
 export default function ToggleColorMode() {
@@ -81,7 +79,7 @@ export default function ToggleColorMode() {
     }
   }, [auth?.user?.user?.email])
   const socket = React.useRef();
-  const ENDPOINT = "https://collaballapp.herokuapp.com";
+  const ENDPOINT = "https://collaballapp.herokuapp.com/";
   const dispatch = useDispatch()
   React.useEffect(() => {
     socket.current = io(ENDPOINT, {
@@ -95,7 +93,7 @@ export default function ToggleColorMode() {
       payload: { socket },
     })
     return () => { socket.current?.disconnect() };
-  }, [auth?.user, dispatch])
+  }, [auth?.user?.user?.email, dispatch])
   React.useMemo(() => {
     dispatch(getGroupChatData(auth?.user?.token, 'recent'));
     dispatch(getNotification(auth.user?.token))

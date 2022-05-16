@@ -1,7 +1,7 @@
 import { Modal, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import React from 'react';
-import {FiEdit} from 'react-icons/fi';
+import { FiEdit } from 'react-icons/fi';
 import GeneralSettings from '../GeneralSettings/GeneralSettings';
 
 const style = {
@@ -12,7 +12,7 @@ const style = {
     width: 'auto',
     height: 'auto',
     bgcolor: 'background.paper',
-    border: '2px solid #000',
+    
     boxShadow: 24,
     p: 4,
 };
@@ -20,7 +20,7 @@ const style = {
 const EditProfile = ({ mode }) => {
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
+    const handleCloseBox = () => setOpen(false);
     return (
         <Box>
             <Box onClick={handleOpen} sx={{ cursor:'pointer', display: 'flex', justifyContent: 'space-between', pb: 1 }}>
@@ -29,12 +29,12 @@ const EditProfile = ({ mode }) => {
             </Box>
             <Modal
                 open={open}
-                onClose={handleClose}
+                onClose={handleCloseBox}
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
             >
                 <Box sx={style}>
-                    <GeneralSettings mode={mode} />
+                    <GeneralSettings handleCloseBox={handleCloseBox} mode={mode} />
                 </Box>
             </Modal>
         </Box>

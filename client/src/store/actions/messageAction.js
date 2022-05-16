@@ -1,3 +1,4 @@
+import { UPLOAD_FAILED, UPLOAD_SUCCESS } from "../reducers/uploadReducer";
 import { FAILED_MESSAGE, GET_MESSAGE, LOADING_MESSAGE, NOTE_CREATE, REMOVE_MESSAGE, SEND_MESSAGE, UPDATE_MESSAGE, UPDATE_MESSAGE_FAILED, UPDATE_MESSAGE_STORE } from "../type/messageTypes";
 export const getMessage = (chatId, token, search) => {
     return async (dispatch) => {
@@ -48,12 +49,12 @@ export const getMessage = (chatId, token, search) => {
     }
 }
 
-export const sendMessage = (data, chatId, token, audio, video, others) => {
+export const sendMessage = (data, chatId, token, audio) => {
     return async (dispatch) => {
         dispatch({
             type: LOADING_MESSAGE,
             payload: {
-                loading: true,
+                loading: false,
             },
         })
         try {
@@ -61,15 +62,13 @@ export const sendMessage = (data, chatId, token, audio, video, others) => {
             fetch(`https://collaballapp.herokuapp.com/api/message`, {
                 method: 'POST',
                 headers: {
-                    "Content-Type": "application/json",
+                    'Content-Type': 'application/json',
                     "authorization": `Bearer ${token}`
                 },
                 body: JSON.stringify({
                     content: {
                         text: data,
                         audio: audio,
-                        video: video,
-                        others: others
                     },
                     chatId: chatId,
                 })
@@ -100,6 +99,68 @@ export const sendMessage = (data, chatId, token, audio, video, others) => {
         }
     }
 }
+export const sendAllUploadMessage = (data, chatId, token) => {
+    return async (dispatch) => {
+        dispatch({
+            type: LOADING_MESSAGE,
+            payload: {
+                loading: false,
+            },
+        })
+        try {
+            //make sure all data array passing
+            fetch(`https://collaballapp.herokuapp.com/api/message/all/upload/${chatId}`, {
+                method: 'POST',
+                headers: {
+                    "Content-Type": "application/json",
+                    // "Content-Type": "multipart/form-data",
+                    "authorization": `Bearer ${token}`
+                },
+                body: JSON.stringify(data)
+            })
+                .then(res => res.json())
+                .then(data => {
+                    //console.log(data)
+                    if (data) {
+                        dispatch({
+                            type: UPLOAD_SUCCESS,
+                            payload: {
+                                success: true,
+                                error: false,
+                                loading: false,
+                            }
+                        })
+                        dispatch({
+                            type: SEND_MESSAGE,
+                            payload: {
+                                message: data?.message,
+                                data: data,
+                            }
+                        })
+                    }
+                    if (data.error) {
+                        dispatch({
+                            type: UPLOAD_FAILED,
+                            payload: {
+                                success: false,
+                                error: true,
+                                loading: false,
+                            }
+                        })
+                        dispatch({
+                            type: FAILED_MESSAGE,
+                            payload: {
+                                error: data?.error,
+                            }
+                        })
+                    }
+                })
+        }
+        catch (error) {
+        }
+    }
+}
+
 export const editMessage = (data, chatId, messageId, token, messageEditHandle) => {
     // console.log(data, chatId, messageId, token)
     return async (dispatch) => {

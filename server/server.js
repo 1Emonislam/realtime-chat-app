@@ -25,23 +25,14 @@ app.use(cors({
     origin: "*",
     credentials: true
 }));
-app.use(express.json({ limit: '50mb' }));
-app.use(bodyParser.urlencoded({
-    extended: false, limit: '50mb', parameterLimit: 100000,
-    extended: true
-}))
-app.use(bodyParser.json({ limit: '50mb' }))
+app.use(bodyParser.json({ limit: "50mb" }));
+app.use(bodyParser.urlencoded({ limit: "2gb", extended: true, parameterLimit: 50000 }));
 app.use(cors())
 app.use(cookieParser());
-// app.use(function (req, res, next) {
-//     res.header("Access-Control-Allow-Headers", "Access-Control-Allow-Headers")
-// })
-// // Middleware
 const serverApp = http.createServer(app);
 serverApp.listen(PORT, () => {
     console.log('Sever Started on PORT', PORT)
 })
-
 const io = new Server(serverApp, {
     pingTimeout: 60000,
     cors: {

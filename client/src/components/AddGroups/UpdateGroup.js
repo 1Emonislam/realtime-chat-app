@@ -33,7 +33,7 @@ const UpdateGroup = ({ handleGroupClose, groupOpen, groupInfo }) => {
         if (previewSource) data.img = previewSource;
         dispatch(groupUpdate(data, auth?.user?.token, reset))
     };
-    //   console.log(groupData.error)
+    //  console.log(groupInfo)
     const fileReader = (file) => {
         const reader = new FileReader();
         reader.readAsDataURL(file);
@@ -117,7 +117,7 @@ const UpdateGroup = ({ handleGroupClose, groupOpen, groupInfo }) => {
                                         sx={{ fontWeight: "bold" }}
                                         style={{ fontFamily: `"Poppins", sans-serif` }}
                                     >
-                                        Create a New Group
+                                      Update Group
                                     </Typography>
                                 </ToggleButton>
                             </Box>
@@ -144,7 +144,7 @@ const UpdateGroup = ({ handleGroupClose, groupOpen, groupInfo }) => {
                                         Group Name
                                     </Typography>
                                 </ToggleButton>
-                                <TextField fullWidth size="small" placeholder={groupInfo?.chat?.chatName}    {...register("chatName", { min: 0 })} required />
+                                <TextField fullWidth placeholder={groupInfo?.chat?.chatName}size="small" defaultValue={groupInfo?.chat?.chatName}{...register("chatName", { min: 0 })} required />
                             </Box>
 
                             <Box >
@@ -191,7 +191,7 @@ const UpdateGroup = ({ handleGroupClose, groupOpen, groupInfo }) => {
                                                 Topic (Optional)
                                             </Typography>
                                         </ToggleButton>
-                                        <TextField fullWidth placeholder={groupInfo?.chat?.topic} size="small"{...register("topic", { min: 0 })} />
+                                        <TextField fullWidth placeholder={groupInfo?.chat?.topic} defaultValue={groupInfo?.chat?.topic} size="small"{...register("topic", { min: 0 })} />
                                     </>
                                 </Box>
                                 <Box >
@@ -208,7 +208,7 @@ const UpdateGroup = ({ handleGroupClose, groupOpen, groupInfo }) => {
                                             Description
                                         </Typography>
                                     </ToggleButton>
-                                    <TextField placeholder={groupInfo?.chat?.description} fullWidth size="large"{...register("description", { min: 0 })} required />
+                                    <TextField placeholder={groupInfo?.chat?.description} defaultValue={groupInfo?.chat?.description} fullWidth size="large"{...register("description", { min: 0 })} required />
                                     <Button
                                         variant="inherit" // <-- Just add me!
                                         label="My Label">
@@ -221,6 +221,7 @@ const UpdateGroup = ({ handleGroupClose, groupOpen, groupInfo }) => {
                                     aria-labelledby="demo-row-radio-buttons-group-label"
                                     name="row-radio-buttons-group"
                                     placeholder={groupInfo?.chat?.status}
+                                    defaultValue={groupInfo?.chat?.status}
                                 >
 
                                     <ToggleButton value="seven" style={{ border: 'none' }}>

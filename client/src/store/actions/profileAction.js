@@ -1,4 +1,5 @@
-import { PROFILE_REQUEST, PROFILE_SUCCESS, PROFILE_FAILED } from "../type/profileType";
+import { AUTH_SUCCESS } from "../type/authType";
+import { PROFILE_FAILED, PROFILE_REQUEST, PROFILE_SUCCESS } from "../type/profileType";
 
 export const getMyProfile = (token) => {
     return async (dispatch) => {
@@ -9,7 +10,7 @@ export const getMyProfile = (token) => {
             }
         })
         try {
-            fetch('https://collaballapp.herokuapp.com/api/auth/my-profile', {
+            fetch('https://collaballapp.herokuapp.com/api/auth/my/profile', {
                 method: 'GET',
                 headers: {
                     'Content-Type': "application/json",
@@ -25,6 +26,7 @@ export const getMyProfile = (token) => {
                         }
                     })
                     if (data) {
+                        // console.log(data)
                         dispatch({
                             type: PROFILE_SUCCESS,
                             payload: {
@@ -56,5 +58,88 @@ export const getMyProfile = (token) => {
                 }
             })
         }
+    }
+}
+export const singleProfileGet = (auth, id) => {
+    return (dispatch) => {
+        fetch(`https://collaballapp.herokuapp.com/api/auth/single/profile/get/${id}`, {
+            method: 'get',
+            headers: {
+                'Content-Type': "application/json",
+                "authorization": `Bearer ${auth?.user?.token}`
+            },
+        })
+            .then(res => res.json())
+            .then(data => {
+                console.log(data)
+                dispatch({
+                    type: PROFILE_REQUEST,
+                    payload: {
+                        loading: false,
+                    }
+                })
+                if (data) {
+
+                    dispatch({
+                        type: PROFILE_SUCCESS,
+                        payload: {
+                            data: data
+                        }
+                    })
+                }
+                if (data?.error) {
+                    dispatch({
+                        type: PROFILE_FAILED,
+                        payload: {
+                            error: data.error,
+                        }
+                    })
+                }
+            })
+    }
+}
+export const updateProfile = (auth, data) => {
+    return (dispatch) => {
+        fetch(`https://collaballapp.herokuapp.com/api/auth/update`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': "application/json",
+                "authorization": `Bearer ${auth?.user?.token}`
+            },
+            body: JSON.stringify(data)
+        })
+            .then(res => res.json())
+            .then(data => {
+                // console.log(data)
+                dispatch({
+                    type: PROFILE_REQUEST,
+                    payload: {
+                        loading: false,
+                    }
+                })
+               
+                if (data?.data) {
+                    dispatch({
+                        type: AUTH_SUCCESS,
+                        payload: {
+                            data: data?.data
+                        }
+                    })
+                    dispatch({
+                        type: PROFILE_SUCCESS,
+                        payload: {
+                            data: data
+                        }
+                    })
+                }
+                if (data?.error) {
+                    dispatch({
+                        type: PROFILE_FAILED,
+                        payload: {
+                            error: data.error,
+                        }
+                    })
+                }
+            })
     }
 }

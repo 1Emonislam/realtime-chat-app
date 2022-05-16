@@ -9,22 +9,22 @@ const messageSchema = mongoose.Schema({
         text: {
             type: String,
         },
-        audio: {
-            type: Array,
-            default: [],
-        },
-        video: {
-            type: Array,
-            default: []
-        },
-        images: {
-            type: Array,
-            default: []
-        },
-        others: {
-            type: Array,
-            default: []
-        },
+        audio: [{
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "UploadFiles"
+        }],
+        video: [{
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "UploadFiles"
+        }],
+        others: [{
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "UploadFiles"
+        }],
+        images: [{
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "UploadFiles"
+        }],
     },
     lastActive: {
         type: Date,
