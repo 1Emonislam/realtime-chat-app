@@ -11,7 +11,7 @@ import { getSingleNotification } from '../../store/actions/messageNotificationAc
 import './MsgNotification.css';
 export default function MsgNotify({ handleSingleChat, auth, notify }) {
     const dispatch = useDispatch()
-    // console.log(notify?.seen)
+    //console.log(notify?.seen)
     return (
         <ul style={{ margin: '0px !important', paddingLeft: '0px !important', cursor: 'pointer' }} onClick={() => {
             handleSingleChat(notify?.chat?._id, auth.user?.token)

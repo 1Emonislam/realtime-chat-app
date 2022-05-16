@@ -3,7 +3,7 @@ import { Box, Typography } from '@mui/material';
 import React from 'react';
 // import "./general.css"
 
-const SingleProfileInfo = ({ mode, handleClose,profileInfo }) => {
+const SingleProfileInfo = ({ mode, handleClose, caneclBtn, profileInfo }) => {
     return (
         <Box sx={{
             display: 'block',
@@ -24,7 +24,7 @@ const SingleProfileInfo = ({ mode, handleClose,profileInfo }) => {
             >
                 <Box sx={{ mb: "15px" }}>
                     <img style={{ width: "112px", height: "112px", borderRadius: "100px", marginBottom: "16px" }} src={profileInfo?.pic} alt="" />
-                    <Cancel style={{ position: 'relative', top: '-60px', left: '80px', color: "#ee00ab" }} onClick={handleClose} />
+                    {caneclBtn && <Cancel style={{ position: 'relative', top: '-60px', left: '80px', color: "#ee00ab" }} onClick={handleClose} />}
                     <Typography variant="h5" component="h5" sx={{ font: "20px", fontFamily: "Poppins", fontWeight: "600", color: "#5A078B", marginBottom: "2px" }}>
                         {/* {console.log(profileInfo)} */}
                         {`${profileInfo?.firstName} ${profileInfo?.lastName}`}
@@ -33,7 +33,6 @@ const SingleProfileInfo = ({ mode, handleClose,profileInfo }) => {
                         {profileInfo?.email}
                     </Typography>
                 </Box>
-
                 <Box
                     sx={{ py: 4, }}
                     backgroundColor={mode !== 'dark' ? '#fcfcfc' : '#0d0d0d'}
@@ -68,7 +67,7 @@ const SingleProfileInfo = ({ mode, handleClose,profileInfo }) => {
                                 }}
                             // color={mode !== 'dark' ? '#5A078B' : '#9b9b9b'}
                             >
-                                {profileInfo?.nickName || 'N/A'} 
+                                {profileInfo?.nickName || 'N/A'}
                             </Typography>
                         </Box>
                         <Box sx={{ mb: "20px" }}>

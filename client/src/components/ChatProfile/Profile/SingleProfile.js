@@ -2,7 +2,6 @@ import { Modal } from '@mui/material';
 import { Box } from '@mui/system';
 import React from 'react';
 import { useSelector } from 'react-redux';
-import ProfileSetting from "../ProfileSetting/ProfileSetting";
 import SingleProfileInfo from '../ProfileSetting/SingleProfileInfo';
 
 const style = {
@@ -22,7 +21,7 @@ const style = {
     p: 4,
 };
 
-const SingleProfile = ({ mode, handleClose, handleOpen, open }) => {
+const SingleProfile = ({ mode, handleClose,caneclBtn, handleOpen, open }) => {
     const { profile } = useSelector(state => state)
     return (
         <Box>
@@ -33,7 +32,7 @@ const SingleProfile = ({ mode, handleClose, handleOpen, open }) => {
                 aria-describedby="modal-modal-description"
             >
                 <Box sx={style}>
-                    <SingleProfileInfo handleClose={handleClose} profileInfo={profile?.singleProfile?.data} mode={mode} />
+                    <SingleProfileInfo caneclBtn="caneclBtn" handleClose={handleClose} profileInfo={profile?.singleProfile?.data} mode={mode} />
                 </Box>
             </Modal>
         </Box>

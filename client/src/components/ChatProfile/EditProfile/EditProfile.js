@@ -20,7 +20,7 @@ const style = {
 const EditProfile = ({ mode }) => {
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
+    const handleCloseBox = () => setOpen(false);
     return (
         <Box>
             <Box onClick={handleOpen} sx={{ cursor:'pointer', display: 'flex', justifyContent: 'space-between', pb: 1 }}>
@@ -29,12 +29,12 @@ const EditProfile = ({ mode }) => {
             </Box>
             <Modal
                 open={open}
-                onClose={handleClose}
+                onClose={handleCloseBox}
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
             >
                 <Box sx={style}>
-                    <GeneralSettings mode={mode} />
+                    <GeneralSettings handleCloseBox={handleCloseBox} mode={mode} />
                 </Box>
             </Modal>
         </Box>

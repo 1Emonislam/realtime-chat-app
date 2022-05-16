@@ -256,7 +256,8 @@ function RecentChat({ isTyping, chatActive, handleTyping, groupMessage, handleSi
                                                                 </div>
                                                                 {chat?.seen?.length && <AvatarGroup max={3}>
                                                                     {chat?.seen?.slice(0, 3)?.map((user, i) => (
-                                                                        <Tooltip style={{ cursor: "pointer" }} title='seen' key={i}>
+                                                                        <Tooltip style={{ cursor: "pointer" }}
+                                                                        arrow title={user?.firstName + ' ' + user?.lastName} key={i}>
                                                                             <Avatar sx={{ height: '12px', width: '12px', marginTop: '3px' }} alt={user.username} src={user?.pic} />
                                                                         </Tooltip>
                                                                     ))}

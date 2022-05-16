@@ -47,7 +47,7 @@ const HeaderContainer = ({ mode }) => {
             color={mode !== 'dark' ? 'inherit' : '#fff'}
             component="div"
           >
-            Chats
+          Profile Info
           </Typography>
         </Grid>
         <Grid

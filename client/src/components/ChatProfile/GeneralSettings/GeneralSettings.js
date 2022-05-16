@@ -3,12 +3,12 @@ import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import General from "./General/General";
 import moment from 'moment'
-const GeneralSettings = ({ mode }) => {
-  const [toggleButton] = useState("settings");
+const GeneralSettings = ({ mode ,handleCloseBox}) => {
   const { profile } = useSelector(state => state)
   const [open, setOpen] = useState(false);
   const handleClose = () => setOpen(false)
   const handleOpen = () => setOpen(true)
+  // console.log(open)
   return (
     <>
       <Paper sx={{ p: 2, mb: 3 }}>
@@ -30,7 +30,7 @@ const GeneralSettings = ({ mode }) => {
           Last Update your profile: {moment(profile?.profile?.user?.updatedAt).format('MMMM Do YYYY')}
         </Typography>
       </Paper>
-      {toggleButton === "settings" && <General open={open} handleClose={handleClose} handleOpen={handleOpen} mode={mode} />}
+      <General open={open} handleCloseBox={handleCloseBox} handleOpen={handleOpen} mode={mode} />
     </>
   );
 };

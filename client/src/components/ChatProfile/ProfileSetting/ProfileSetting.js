@@ -4,7 +4,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 // import "./general.css"
 
-const ProfileSetting = ({ mode, handleClose }) => {
+const ProfileSetting = ({ mode, handleClose ,caneclBtn}) => {
     const { auth } = useSelector(state => state)
     return (
         <Box sx={{
@@ -26,7 +26,7 @@ const ProfileSetting = ({ mode, handleClose }) => {
             >
                 <Box sx={{ mb: "15px" }}>
                     <img style={{ width: "112px", height: "112px", borderRadius: "100px", marginBottom: "16px" }} src={auth?.user?.user?.pic} alt="" />
-                    <Cancel style={{ position: 'relative', top: '-60px', left: '80px', color: "#ee00ab" }} onClick={handleClose} />
+                    {caneclBtn&&<Cancel style={{ position: 'relative', top: '-60px', left: '80px', color: "#ee00ab" }} onClick={handleClose} />}
                     <Typography variant="h5" component="h5" sx={{ font: "20px", fontFamily: "Poppins", fontWeight: "600", color: "#5A078B", marginBottom: "2px" }}>
                         {`${auth?.user?.user?.firstName} ${auth?.user?.user?.lastName}`}
                     </Typography>

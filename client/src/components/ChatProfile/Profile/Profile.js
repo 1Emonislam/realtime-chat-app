@@ -18,7 +18,7 @@ const style = {
     height: 'auto',
     bgcolor: 'background.paper',
     boxShadow: 24,
-    borderRadius:'10px',
+    borderRadius: '10px',
     p: 4,
 };
 
@@ -40,7 +40,7 @@ const Profile = ({ mode }) => {
                 aria-describedby="modal-modal-description"
             >
                 <Box sx={style}>
-                    <ProfileSetting handleClose={handleClose} profileInfo={auth?.user?.user} mode={mode} />
+                    <ProfileSetting caneclBtn="caneclBtn" handleClose={handleClose} profileInfo={auth?.user?.user} mode={mode} />
                 </Box>
             </Modal>
         </Box>

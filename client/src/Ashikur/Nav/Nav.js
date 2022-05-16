@@ -35,8 +35,9 @@ const Nav = ({ handleSingleChat, children }) => {
       return "mobile-menu dark ";
     }
   };
+ 
   return (
-    <div id="nav-dash" style={{display:'flex', alignContent:'space-between'}}>
+    <div id="nav-dash" style={{ display: 'flex', alignContent: 'space-between' }}>
       <>
         <Grid
           container
@@ -45,9 +46,9 @@ const Nav = ({ handleSingleChat, children }) => {
           justifyContent="center"
           alignItems="center"
           textAlign="center"
-          // sx={{alignContent:'space-around'}}
+        // sx={{alignContent:'space-around'}}
         >
-        <Tooltip followCursor title='home' arrow>
+          <Tooltip followCursor title='home' arrow>
             <Grid
               item
               sx={{
@@ -92,7 +93,7 @@ const Nav = ({ handleSingleChat, children }) => {
                   sm: "0px",
                   xs: "0px",
                 },
-                mt:{md:-4}
+                mt: { md: -4 }
               }}
               xs={1}
               md={12}
@@ -118,81 +119,29 @@ const Nav = ({ handleSingleChat, children }) => {
               </Link>
             </Grid>
           </Tooltip>
-            <Grid
-              item
-              sx={{
-                padding: {
-                  lg: "6px",
-                  md: "0px",
-                  sm: "0px",
-                  xs: "0px",
-                },
-                my:{md:-5}
-              }}
-              xs={1}
-              md={12}
-            >
-              <Tooltip followCursor title='Chat' arrow>
-                <Link to="/chat">
-                  <ToggleButton
-                    value="two"
-                    onChange={() => {
-                      setSelected(selected === "two" ? "" : "two");
-                    }}
-                  >
-                    <MessageIcon
-                      sx={{
-                        fontSize: {
-                          lg: "25px",
-                          md: "15px",
-                          sm: "10px",
-                          xs: "10px",
-                        },
-                      }}
-                    />
-                  </ToggleButton>
-                </Link>
-              </Tooltip>
-            </Grid>
-            <Grid
-              item
-              sx={{
-                padding: {
-                  lg: "6px",
-                  md: "0px",
-                  sm: "0px",
-                  xs: "0px",
-                },
-                mt:{md:-4}
-              }}
-              xs={1}
-              md={12}
-            >
-            </Grid>
-            <Grid
-              item
-              sx={{
-                padding: {
-                  lg: "6px",
-                  md: "0px",
-                  sm: "0px",
-                  xs: "0px",
-                },
-                mt:{md:-3.5}
-              }}
-              xs={1}
-              md={12}
-            >
-              <AddGroups
-                handleGroupOpen={handleGroupOpen}
-                handleGroupClose={handleGroupClose}
-                groupOpen={groupOpen}
-              ></AddGroups>
-              {/* <FontAwesomeSvgIcon icon={faEllipsisV} /> */}
-              <Tooltip followCursor title='Create Group' arrow>
-                <ToggleButton value="seven">
-                  <GroupAddIcon
-                    onClick={handleGroupOpen}
+          <Grid
+            item
+            sx={{
+              padding: {
+                lg: "6px",
+                md: "0px",
+                sm: "0px",
+                xs: "0px",
+              },
+              my: { md: -5 }
+            }}
+            xs={1}
+            md={12}
+          >
+            <Tooltip followCursor title='Chat' arrow>
+              <Link to="/chat">
+                <ToggleButton
+                  value="two"
+                  onChange={() => {
+                    setSelected(selected === "two" ? "" : "two");
+                  }}
+                >
+                  <MessageIcon
                     sx={{
                       fontSize: {
                         lg: "25px",
@@ -203,109 +152,161 @@ const Nav = ({ handleSingleChat, children }) => {
                     }}
                   />
                 </ToggleButton>
-              </Tooltip>
-            </Grid>
-            <Grid
-              item
-              sx={{
-                padding: {
-                  lg: "6px",
-                  md: "0px",
-                  sm: "0px",
-                  xs: "0px",
-                },
-                mt:{md:-4}
-              }}
-              xs={1}
-              md={12}
-            >
-              <AddGroups
-                handleGroupOpen={handleGroupOpen}
-                handleGroupClose={handleGroupClose}
-                groupOpen={groupOpen}
-              ></AddGroups>
-              {/* <FontAwesomeSvgIcon icon={faEllipsisV} /> */}
-              <Tooltip followCursor title='Notes' arrow>
-                <ToggleButton value="seven">
-                  <LibraryAddIcon
-                    onClick={handleGroupOpen}
-                    sx={{
-                      fontSize: {
-                        lg: "25px",
-                        md: "15px",
-                        sm: "10px",
-                        xs: "10px",
-                      },
-                    }}
-                  />
-                </ToggleButton>
-              </Tooltip>
-            </Grid>
-            <Grid
-              item
-              sx={{
-                padding: {
-                  lg: "6px",
-                  md: "0px",
-                  sm: "0px",
-                  xs: "0px",
-                },
-                mb:{md:15}
-              }}
-              xs={1}
-              md={12}
-            >
-            </Grid>
-          <Tooltip followCursor title='notifications' arrow>
-            <Grid
-              item
-              sx={{
-                padding: {
-                  lg: "6px",
-                  md: "0px",
-                  sm: "0px",
-                  xs: "0px",
-                },
-              }}
-              xs={1}
-              md={12}
-            >
-              <MessageNotificationBadge handleSingleChat={handleSingleChat} />
-            </Grid>
-          </Tooltip>
-            <Grid
-              item
-              sx={{
-                padding: {
-                  lg: "6px",
-                  md: "0px",
-                  sm: "0px",
-                  xs: "0px",
-                },
-              }}
-              xs={1}
-              md={12}
-            >
-              {children}
-            </Grid>
-            <Grid
-              item
-              sx={{
-                padding: {
-                  lg: "8px",
-                  md: "0px",
-                  sm: "0px",
-                  xs: "0px",
-                },
-              }}
-              xs={1}
-              md={12}
-            >
-              <ChatProfile mode={theme} />
-            </Grid>
+              </Link>
+            </Tooltip>
+          </Grid>
+          <Grid
+            item
+            sx={{
+              padding: {
+                lg: "6px",
+                md: "0px",
+                sm: "0px",
+                xs: "0px",
+              },
+              mt: { md: -4 }
+            }}
+            xs={1}
+            md={12}
+          >
+          </Grid>
+          <Grid
+            item
+            sx={{
+              padding: {
+                lg: "6px",
+                md: "0px",
+                sm: "0px",
+                xs: "0px",
+              },
+              mt: { md: -3.5 }
+            }}
+            xs={1}
+            md={12}
+          >
+            <AddGroups
+              handleGroupOpen={handleGroupOpen}
+              handleGroupClose={handleGroupClose}
+              groupOpen={groupOpen}
+            ></AddGroups>
+            {/* <FontAwesomeSvgIcon icon={faEllipsisV} /> */}
+            <Tooltip followCursor title='Create Group' arrow>
+              <ToggleButton value="seven">
+                <GroupAddIcon
+                
+                  onClick={handleGroupOpen}
+                  sx={{
+                    fontSize: {
+                      lg: "25px",
+                      md: "15px",
+                      sm: "10px",
+                      xs: "10px",
+                    },
+                  }}
+                />
+              </ToggleButton>
+            </Tooltip>
+          </Grid>
+          <Grid
+            item
+            sx={{
+              padding: {
+                lg: "6px",
+                md: "0px",
+                sm: "0px",
+                xs: "0px",
+              },
+              mt: { md: -4 }
+            }}
+            xs={1}
+            md={12}
+          >
+            <AddGroups
+             handleSingleChat={handleSingleChat}
+              handleGroupOpen={handleGroupOpen}
+              handleGroupClose={handleGroupClose}
+              groupOpen={groupOpen}
+            ></AddGroups>
+            {/* <FontAwesomeSvgIcon icon={faEllipsisV} /> */}
+            <Tooltip followCursor title='Notes' arrow>
+              <ToggleButton value="seven">
+                <LibraryAddIcon
+                  onClick={handleGroupOpen}
+                  sx={{
+                    fontSize: {
+                      lg: "25px",
+                      md: "15px",
+                      sm: "10px",
+                      xs: "10px",
+                    },
+                  }}
+                />
+              </ToggleButton>
+            </Tooltip>
+          </Grid>
+          <Grid
+            item
+            sx={{
+              padding: {
+                lg: "6px",
+                md: "0px",
+                sm: "0px",
+                xs: "0px",
+              },
+              mb: { md: 15 }
+            }}
+            xs={1}
+            md={12}
+          >
+          </Grid>
+          <Grid
+            item
+            sx={{
+              padding: {
+                lg: "6px",
+                md: "0px",
+                sm: "0px",
+                xs: "0px",
+              },
+            }}
+            xs={1}
+            md={12}
+          >
+            <Link to="/chat"> <MessageNotificationBadge handleSingleChat={handleSingleChat} /></Link>
+          </Grid>
+          <Grid
+            item
+            sx={{
+              padding: {
+                lg: "6px",
+                md: "0px",
+                sm: "0px",
+                xs: "0px",
+              },
+            }}
+            xs={1}
+            md={12}
+          >
+            {children}
+          </Grid>
+          <Grid
+            item
+            sx={{
+              padding: {
+                lg: "8px",
+                md: "0px",
+                sm: "0px",
+                xs: "0px",
+              },
+            }}
+            xs={1}
+            md={12}
+          >
+            <ChatProfile  handleSingleChat={handleSingleChat}mode={theme} />
+          </Grid>
         </Grid>
       </>
-    </div>
+    </div >
   );
 };
 

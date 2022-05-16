@@ -294,7 +294,7 @@ function ScrollChat({ messages, user, handleTyping, isTyping }) {
                         {selectedChat?.chat?.seen?.length &&
                             <AvatarGroup style={{ cursor: 'pointer' }} total={selectedChat?.chat?.seen?.length}>
                                 {selectedChat?.chat?.seen?.map((user, i) => (
-                                    <Avatar title="seen" key={i} sx={{ height: '15px', width: '15px', marginTop: '7px' }} alt={user.username} src={user?.pic} />
+                                    <Avatar title={user?.firstName + ' ' + user?.lastName} key={i} sx={{ height: '15px', width: '15px', marginTop: '7px' }} alt={user.username} src={user?.pic} />
                                 ))}
                             </AvatarGroup>
                         }

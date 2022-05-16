@@ -62,9 +62,7 @@ module.exports.updateProfile = async (req, res, next) => {
   const information = req?.body?.location?.information;
   try {
     const profileUpdate = await User.findOneAndUpdate({ _id: req.user?._id }, {
-      "$set": {
         firstName, lastName, email, phone, gender, birthDate, nickName, userInfo, phone, pic, location: { latitude, longitude, address, information }, geometry: { type: "Point", "coordinates": [Number(longitude), Number(latitude)] }
-      }
     }, { new: true }).select("-password");
     const userData = {};
     userData.user = profileUpdate;

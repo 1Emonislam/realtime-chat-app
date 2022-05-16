@@ -172,7 +172,7 @@ function ProfileGroupList({ memberInfo }) {
                     </Grid>
                 </Grid>
             ))}
-            <SingleProfile handleClose={handleClose} handleOpen={handleOpen} open={open} />
+            <SingleProfile caneclBtn="caneclBtn"handleClose={handleClose} handleOpen={handleOpen} open={open} />
         </>
     )
 }

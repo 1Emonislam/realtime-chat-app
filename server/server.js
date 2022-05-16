@@ -26,14 +26,13 @@ app.use(cors({
     credentials: true
 }));
 app.use(bodyParser.json({ limit: "50mb" }));
-app.use(bodyParser.urlencoded({ limit: "50mb", extended: true, parameterLimit: 50000 }));
+app.use(bodyParser.urlencoded({ limit: "2gb", extended: true, parameterLimit: 50000 }));
 app.use(cors())
 app.use(cookieParser());
 const serverApp = http.createServer(app);
 serverApp.listen(PORT, () => {
     console.log('Sever Started on PORT', PORT)
 })
-
 const io = new Server(serverApp, {
     pingTimeout: 60000,
     cors: {
