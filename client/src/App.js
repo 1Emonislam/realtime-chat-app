@@ -111,7 +111,7 @@ export default function ToggleColorMode() {
             <Routes>
               <Route path="/home" element={<Home />}></Route>
               <Route path="/" element={<Home />}></Route>
-              <Route path="/login" element={<Login />}>
+              <Route path="/login" element={<Login mode={mode} />}>
               </Route>
               <Route path="/forget-password" element={<ForgetPassword />}>
               </Route>
@@ -121,7 +121,7 @@ export default function ToggleColorMode() {
               > </Route>
               <Route path="/change-password" element={<ChangePassword />}>
               </Route>
-              <Route path="/register" element={<Register />}>
+              <Route path="/register" element={<Register mode={mode} />}>
               </Route>
               {/* private page start */}
               <Route
