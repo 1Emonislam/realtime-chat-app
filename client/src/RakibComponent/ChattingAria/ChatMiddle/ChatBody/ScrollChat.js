@@ -23,7 +23,7 @@ import DocViewer from 'react-doc-viewer'
 import { chatExists, isLastMessage, isSameSender, isSameSenderMargin, isSameSenderPermission, isSameUser } from './chatLogic'
 
 function ScrollChat({ messages, user, handleTyping, isTyping }) {
-    const { selectedChat, groupMessage } = useSelector(state => state);
+    const { selectedChat, groupMessage, uploads } = useSelector(state => state);
     const messagesEndRef = useRef(null)
     const scrollToBottom = () => {
         messagesEndRef.current?.scrollIntoView({ behavior: "auto" })
@@ -72,7 +72,7 @@ function ScrollChat({ messages, user, handleTyping, isTyping }) {
                                             position: 'relative',
                                             borderRadius: " 20px 20px 20px 0",
                                             padding: "8px 14px",
-                                            fontWeight: "500"
+                                            fontWeight: "500",
                                         }}
                                     >
                                         <span style={{ position: 'absolute', left: '-20px', top: '18px', color: 'blue', fontWeight: '900' }}>
@@ -288,6 +288,9 @@ function ScrollChat({ messages, user, handleTyping, isTyping }) {
 
                             </span>
                         ))}
+                        {uploads?.loading && <>
+                            <Loading />
+                        </>}
                         {selectedChat?.chat?.seen?.length &&
                             <AvatarGroup style={{ cursor: 'pointer' }} total={selectedChat?.chat?.seen?.length}>
                                 {selectedChat?.chat?.seen?.map((user, i) => (

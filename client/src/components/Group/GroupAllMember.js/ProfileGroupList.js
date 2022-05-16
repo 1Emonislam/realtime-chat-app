@@ -5,6 +5,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import { groupMemberRemove } from '../../../store/actions/groupActions';
 import { AUTH_ERROR, AUTH_MESSAGE } from '../../../store/type/authType';
+import { SINGLE_PROFILE_FAILED, SINGLE_PROFILE_SUCCESS } from '../../../store/type/profileType';
+import SingleProfile from '../../ChatProfile/Profile/SingleProfile';
 const StyledBadge = styled(Badge)(({ theme }) => ({
     '& .MuiBadge-badge': {
         backgroundColor: '#44b700',
@@ -52,6 +54,9 @@ const StyledBadgeOffline = styled(Badge)(({ theme }) => ({
 
 function ProfileGroupList({ memberInfo }) {
     const [selected, setSelected] = React.useState(false);
+    const [open, setOpen] = React.useState(false);
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
     const dispatch = useDispatch();
     const { selectedChat, auth, theme } = useSelector(state => state)
     const handleRemoveMember = (member) => {
@@ -89,16 +94,47 @@ function ProfileGroupList({ memberInfo }) {
             })
         })
     }
+    const handleCurrentProfile = (id) => {
+        if (id) {
+            fetch(`http://localhost:5000/api/auth/single/profile/get/${id}`, {
+                method: 'get',
+                headers: {
+                    'Content-Type': "application/json",
+                    "authorization": `Bearer ${auth?.user?.token}`
+                },
+            })
+                .then(res => res.json())
+                .then(data => {
+                    if (data) {
+                        dispatch({
+                            type: SINGLE_PROFILE_SUCCESS,
+                            payload: {
+                                data: data
+                            }
+                        })
+                        handleOpen()
+                    }
+                    if (data?.error) {
+                        dispatch({
+                            type: SINGLE_PROFILE_FAILED,
+                            payload: {
+                                error: data.error,
+                            }
+                        })
+                    }
+                })
+        }
+    }
     return (
         <>
             {memberInfo?.length !== 0 && memberInfo?.map((member, index) => (
-                <Grid container spacing={2} key={index} alignItems="center" sx={{ padding: '10px 0', cursor: 'pointer', borderBottom: '1px solid #dddddd59' }}>
+                <Grid container spacing={2} key={index} alignItems="center" sx={{ padding: '10px 0', cursor: 'pointer', borderBottom: '1px solid #dddddd59' }} onClick={() => handleCurrentProfile(member?._id)}>
                     <Grid item xs={2}>
                         <Tooltip style={{ cursor: "pointer", display: 'flex', alignItems: 'center' }} component="span" title={member?.firstName + ' ' + member?.lastName}>
                             {member?.online ?
                                 <>
                                     <StyledBadge
-                                         overlap="circular"
+                                        overlap="circular"
                                         anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
                                         variant="dot"
                                     >
@@ -126,7 +162,7 @@ function ProfileGroupList({ memberInfo }) {
                             }} style={{ border: 'none', textTransform: 'capitalize', marginBottom: '0px!important' }}>
                             {member.firstName + ' ' + member?.lastName}
                         </ToggleButton>
-                        <ToggleButton value="check" onClick={() => handleRemoveMember(member)} style={{ marginLeft: '10px', marginBottom: '0px!important',textTransform:'capitalize', padding: '0px' }}
+                        <ToggleButton value="check" onClick={() => handleRemoveMember(member)} style={{ marginLeft: '10px', marginBottom: '0px!important', textTransform: 'capitalize', padding: '0px' }}
                             selected={selected}
                             onChange={() => {
                                 setSelected(false);
@@ -136,6 +172,7 @@ function ProfileGroupList({ memberInfo }) {
                     </Grid>
                 </Grid>
             ))}
+            <SingleProfile handleClose={handleClose} handleOpen={handleOpen} open={open} />
         </>
     )
 }

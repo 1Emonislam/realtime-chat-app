@@ -1,4 +1,5 @@
 const User = require("../models/userModel");
+const { upload } = require("../utils/file");
 const { mailSending } = require("../utils/func");
 const { genToken_fourHours, genToken } = require("../utils/genToken");
 module.exports.userLogin = async (req, res, next) => {
@@ -50,15 +51,21 @@ module.exports.updateProfile = async (req, res, next) => {
   if (!req?.user?._id) {
     return res.status(400).json({ error: { email: "User Credentials expired! Please login" } });
   }
-  let { email, firstName, lastName, phone, birthDate, pic, userInfo, gender } = req.body;
+  let { email, firstName, lastName, phone, nickName, birthDate, pic, userInfo, gender } = req.body;
+  if (pic) {
+    const { secure_url } = await upload(pic)
+    pic = secure_url;
+  }
   const latitude = req?.body?.location?.latitude || 0;
   const longitude = req?.body?.location?.longitude || 0;
   const address = req?.body?.location?.address;
   const information = req?.body?.location?.information;
   try {
     const profileUpdate = await User.findOneAndUpdate({ _id: req.user?._id }, {
-      firstName, lastName, email, phone, gender, birthDate, userInfo, phone, pic, location: { latitude, longitude, address, information }, geometry: { type: "Point", "coordinates": [Number(longitude), Number(latitude)] }
-    }).select("-password");
+      "$set": {
+        firstName, lastName, email, phone, gender, birthDate, nickName, userInfo, phone, pic, location: { latitude, longitude, address, information }, geometry: { type: "Point", "coordinates": [Number(longitude), Number(latitude)] }
+      }
+    }, { new: true }).select("-password");
     const userData = {};
     userData.user = profileUpdate;
     userData.token = genToken(profileUpdate?._id);
@@ -107,9 +114,24 @@ module.exports.currentProfileGet = async (req, res, next) => {
     next(error)
   }
 }
+module.exports.singleProfileGet = async (req, res, next) => {
+  if (!req?.user?._id) {
+    return res.status(400).json({ error: { email: "User Credentials expired! Please login" } });
+  }
+  try {
+    const profile = await User.findOne({ _id: req.params?.id })
+    return res.status(200).json({
+      message: 'Selected Profile',
+      data: { data: profile }
+    });
+  }
+  catch (error) {
+    next(error)
+  }
+}
 module.exports.userRegister = async (req, res, next) => {
   try {
-    let { email, firstName, lastName, phone, birthDate, pic, userInfo, gender, password } = req.body;
+    let { email, firstName, lastName, phone, birthDate, nickName, pic, userInfo, gender, password } = req.body;
     const latitude = req?.body?.location?.latitude || 0;
     const longitude = req?.body?.location?.longitude || 0;
     const address = req?.body?.location?.address;
@@ -161,7 +183,7 @@ module.exports.userRegister = async (req, res, next) => {
       const user = await User.create({
         username: userName,
         password,
-        firstName, lastName, email, phone, gender, birthDate, userInfo, phone, pic, location: { latitude, longitude, address, information }, geometry: { type: "Point", "coordinates": [Number(longitude), Number(latitude)] }
+        firstName, lastName, email, phone, nickName, gender, birthDate, userInfo, phone, pic, location: { latitude, longitude, address, information }, geometry: { type: "Point", "coordinates": [Number(longitude), Number(latitude)] }
       });
       const resData = await User.findOne({ _id: user._id }).select("-password");
       const userData = {};

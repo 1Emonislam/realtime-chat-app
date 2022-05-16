@@ -1,7 +1,7 @@
 import { Modal, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import React from 'react';
-import {FiEdit} from 'react-icons/fi';
+import { FiEdit } from 'react-icons/fi';
 import GeneralSettings from '../GeneralSettings/GeneralSettings';
 
 const style = {
@@ -12,7 +12,7 @@ const style = {
     width: 'auto',
     height: 'auto',
     bgcolor: 'background.paper',
-    border: '2px solid #000',
+    
     boxShadow: 24,
     p: 4,
 };

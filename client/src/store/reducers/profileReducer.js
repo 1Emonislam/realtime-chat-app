@@ -1,7 +1,8 @@
-import { PROFILE_REQUEST, PROFILE_SUCCESS, PROFILE_FAILED } from "../type/profileType";
+import { PROFILE_REQUEST, PROFILE_SUCCESS, PROFILE_FAILED, SINGLE_PROFILE_SUCCESS, SINGLE_PROFILE_FAILED } from "../type/profileType";
 
 const initState = {
     profile: {},
+    singleProfile: {},
     error: '',
     loading: false,
 }
@@ -11,6 +12,21 @@ export const myProfileReducer = (state = initState, action) => {
         return {
             ...state,
             profile: payload?.data?.data,
+            loading: false
+        }
+    }
+    if (type === SINGLE_PROFILE_SUCCESS) {
+        return {
+            ...state,
+            singleProfile: payload?.data?.data,
+            loading: false
+        }
+    }
+    if (type === SINGLE_PROFILE_FAILED) {
+        return {
+            ...state,
+            singleProfile: {},
+            error: payload.error,
             loading: false
         }
     }

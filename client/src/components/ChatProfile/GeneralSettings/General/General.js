@@ -1,22 +1,36 @@
 import { Box, Button, Grid, Paper, TextField, Typography } from '@mui/material';
 import { deepPurple, grey } from '@mui/material/colors';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
-import { getMyProfile } from '../../../../store/actions/profileAction';
+import { getMyProfile, updateProfile } from '../../../../store/actions/profileAction';
 
 
 const General = ({ mode }) => {
     const { register, handleSubmit, reset, } = useForm();
-    const onSubmit = data => console.log(data);
-
+    const [selected, setSelected] = useState("")
+    const [previewSource, setPreviewSource] = useState("")
     const dispatch = useDispatch();
     const { auth } = useSelector(state => state);
-    const { firstName, lastName, nickname, bio } = auth?.user?.user;
+    const { firstName, lastName, nickname,pic, bio } = auth?.user?.user;
     useEffect(() => {
         dispatch(getMyProfile(auth?.user?.token))
     }, [auth?.user?.token, dispatch])
-
+    const fileReader = (file) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onloadend = () => {
+            setPreviewSource(reader?.result)
+        }
+    }
+    if (selected) {
+        const file = selected.target?.files[0];
+        fileReader(file)
+    }
+    const onSubmit = data => {
+        if(previewSource)data.pic = previewSource;
+        updateProfile(auth?.user?.token,data)
+    };
     return (
         <>
             <Box>
@@ -68,13 +82,17 @@ const General = ({ mode }) => {
                                             color: `${mode !== 'dark' ? 'black' : '#726f6f'}`
                                         }}
                                     >
-                                        Upload File
-                                        <input
-                                            {...register("pic")}
-                                            type="file"
-                                            hidden
-                                        // defaultValue={pic}
-                                        />
+                                        {previewSource ? <>
+                                            <img style={{ width: '90px', height: '90px', position: 'absolute', zIndex: '-1', borderRadius: '100%' }} src={previewSource} alt="chosen" />
+                                            <label className="browseFile" style={{ opacity: 'none', background: 'transparent', padding: '40px', border: 'none' }}>
+                                                <input sx={{ opacity: '0', color: 'white', height: '100px', padding: '30px 30px!important' }} onChange={(e) => setSelected(e)} type="file" />
+                                            </label>
+                                        </> :
+                                            <>
+                                               <img style={{ width: '90px', height: '90px', position: 'absolute', zIndex: '-1', borderRadius: '100%' }} src={pic} alt="chosen" />
+                                                <label className="browseFile">
+                                                    <input sx={{ opacity: '0', padding: '5px 30px!important' }} onChange={(e) => setSelected(e)} type="file" />
+                                                </label></>}
                                     </Button>
                                 </Typography>
                             </Grid>

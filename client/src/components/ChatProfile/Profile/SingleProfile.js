@@ -1,7 +1,6 @@
-import { Modal, Typography } from '@mui/material';
+import { Modal } from '@mui/material';
 import { Box } from '@mui/system';
 import React from 'react';
-import { FiUser } from 'react-icons/fi';
 import { useSelector } from 'react-redux';
 import ProfileSetting from "../ProfileSetting/ProfileSetting";
 
@@ -17,22 +16,15 @@ const style = {
     },
     height: 'auto',
     bgcolor: 'background.paper',
+    borderRadius: '10px',
     boxShadow: 24,
-    borderRadius:'10px',
     p: 4,
 };
 
-const Profile = ({ mode }) => {
-    const [open, setOpen] = React.useState(false);
-    const { auth } = useSelector(state => state)
-    const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
+const SingleProfile = ({ mode, handleClose, handleOpen, open }) => {
+    const { profile } = useSelector(state => state)
     return (
         <Box>
-            <Box onClick={handleOpen} sx={{ cursor: 'pointer', display: 'flex', justifyContent: 'space-between', pb: 1 }}>
-                <Typography sx={{ fontFamily: 'Poppins' }}>Profile</Typography>
-                <FiUser sx={{ fontSize: '20px' }} />
-            </Box>
             <Modal
                 open={open}
                 onClose={handleClose}
@@ -40,11 +32,11 @@ const Profile = ({ mode }) => {
                 aria-describedby="modal-modal-description"
             >
                 <Box sx={style}>
-                    <ProfileSetting handleClose={handleClose} profileInfo={auth?.user?.user} mode={mode} />
+                    <ProfileSetting handleClose={handleClose} profileInfo={profile?.singleProfile?.data} mode={mode} />
                 </Box>
             </Modal>
         </Box>
     );
 };
 
-export default Profile;
+export default SingleProfile;
