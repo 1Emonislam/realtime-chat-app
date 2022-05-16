@@ -3,6 +3,7 @@ import { Box } from '@mui/system';
 import React from 'react';
 import { useSelector } from 'react-redux';
 import ProfileSetting from "../ProfileSetting/ProfileSetting";
+import SingleProfileInfo from '../ProfileSetting/SingleProfileInfo';
 
 const style = {
     position: 'absolute',
@@ -32,7 +33,7 @@ const SingleProfile = ({ mode, handleClose, handleOpen, open }) => {
                 aria-describedby="modal-modal-description"
             >
                 <Box sx={style}>
-                    <ProfileSetting handleClose={handleClose} profileInfo={profile?.singleProfile?.data} mode={mode} />
+                    <SingleProfileInfo handleClose={handleClose} profileInfo={profile?.singleProfile?.data} mode={mode} />
                 </Box>
             </Modal>
         </Box>

@@ -97,7 +97,7 @@ export const userLogin = (data, reset) => {
                             window.localStorage?.removeItem('inviteToken');
                             window.location?.replace(`/group/invite/${token}`);
                         } else {
-                            window.location?.replace('/chat');
+                        window.location?.replace('/chat');
                         }
                     }
                     if (data?.error) {
