@@ -70,6 +70,7 @@ function Editor({ handleTyping, messageEditHandle, editMsg, isTyping, size = 25 
         if (!(socketFunc?.socket?.current)) return
         if (selectedChat?.chat?._id) {
             socketFunc?.socket?.current?.emit('stop typing', selectedChat?.chat?._id);
+            if (!groupMessage?.write) return
             dispatch(sendMessage(groupMessage?.write, selectedChat?.chat?._id, auth?.user?.token))
         }
     }
@@ -186,12 +187,12 @@ function Editor({ handleTyping, messageEditHandle, editMsg, isTyping, size = 25 
                 </Grid>
                 <>
                     {editMsg ? <Grid item xs={2}>
-                        <ToggleButton  onClick={() => dispatch(editMessage(groupMessage?.messageInfoStore?.content?.text, groupMessage?.messageInfoStore?.chat?._id, groupMessage?.messageInfoStore?._id, auth?.user?.token, messageEditHandle))} className='send-btn' value="four" sx={{ marginBottom: '0px!important', border: 'none' }}>
-                            {auth?.user?.token && selectedChat?.chat?._id ? <MdSend size={size}/> : <Tooltip style={{ cursor: "pointer" }} title="Permission Denied" arrow> <MdSend /></Tooltip>}
+                        <ToggleButton onClick={() => dispatch(editMessage(groupMessage?.messageInfoStore?.content?.text, groupMessage?.messageInfoStore?.chat?._id, groupMessage?.messageInfoStore?._id, auth?.user?.token, messageEditHandle))} className='send-btn' value="four" sx={{ marginBottom: '0px!important', border: 'none' }}>
+                            {auth?.user?.token && selectedChat?.chat?._id ? <MdSend size={size} /> : <Tooltip style={{ cursor: "pointer" }} title="Permission Denied" arrow> <MdSend /></Tooltip>}
                         </ToggleButton>
                     </Grid> : <Grid item xs={1}>
                         <ToggleButton onClick={handleSendMessage} className='send-btn' value="four" sx={{ marginBottom: '0px!important', border: 'none' }}>
-                            {auth?.user?.token && selectedChat?.chat?._id ? <MdSend size={size}/> : <Tooltip style={{ cursor: "pointer" }} title="Permission Denied" arrow> <MdSend /></Tooltip>}
+                            {auth?.user?.token && selectedChat?.chat?._id ? <MdSend size={size} /> : <Tooltip style={{ cursor: "pointer" }} title="Permission Denied" arrow> <MdSend /></Tooltip>}
                         </ToggleButton>
                     </Grid>}
                 </>
