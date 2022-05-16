@@ -1,12 +1,11 @@
 import { Paper, Typography } from "@mui/material";
+import moment from 'moment';
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import General from "./General/General";
-import moment from 'moment'
 const GeneralSettings = ({ mode ,handleCloseBox}) => {
   const { profile } = useSelector(state => state)
   const [open, setOpen] = useState(false);
-  const handleClose = () => setOpen(false)
   const handleOpen = () => setOpen(true)
   // console.log(open)
   return (
