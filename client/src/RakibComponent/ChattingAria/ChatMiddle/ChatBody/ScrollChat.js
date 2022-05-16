@@ -73,6 +73,7 @@ function ScrollChat({ messages, user, handleTyping, isTyping }) {
                                             borderRadius: " 20px 20px 20px 0",
                                             padding: "8px 14px",
                                             fontWeight: "500",
+                                            margin: '30px'
                                         }}
                                     >
                                         <span style={{ position: 'absolute', left: '-20px', top: '18px', color: 'blue', fontWeight: '900' }}>
