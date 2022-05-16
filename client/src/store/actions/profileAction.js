@@ -10,7 +10,7 @@ export const getMyProfile = (token) => {
             }
         })
         try {
-            fetch('http://localhost:5000/api/auth/my/profile', {
+            fetch('https://collaballapp.herokuapp.com/api/auth/my/profile', {
                 method: 'GET',
                 headers: {
                     'Content-Type': "application/json",
@@ -62,7 +62,7 @@ export const getMyProfile = (token) => {
 }
 export const singleProfileGet = (auth, id) => {
     return (dispatch) => {
-        fetch(`http://localhost:5000/api/auth/single/profile/get/${id}`, {
+        fetch(`https://collaballapp.herokuapp.com/api/auth/single/profile/get/${id}`, {
             method: 'get',
             headers: {
                 'Content-Type': "application/json",
@@ -100,7 +100,7 @@ export const singleProfileGet = (auth, id) => {
 }
 export const updateProfile = (auth, data) => {
     return (dispatch) => {
-        fetch(`http://localhost:5000/api/auth/update`, {
+        fetch(`https://collaballapp.herokuapp.com/api/auth/update`, {
             method: 'PUT',
             headers: {
                 'Content-Type': "application/json",
