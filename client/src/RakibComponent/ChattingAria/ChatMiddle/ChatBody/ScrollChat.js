@@ -41,7 +41,7 @@ function ScrollChat({ messages, user, handleTyping, isTyping }) {
                     <div style={{ marginTop: "50px" }}>
                         {messages?.length !== 0 && messages?.length && messages?.map((m, i) => (
                             <span key={i}>
-                                <div style={{ display: "flex", alignItems: 'center', marginBottom: '10px' }} ref={messagesEndRef}>
+                                <div style={{ display: "flex", alignItems: 'center', marginBottom: '20px' }} ref={messagesEndRef}>
                                     <div>
 
                                         {(isSameSender(messages, m, i, user._id) ||
@@ -73,7 +73,6 @@ function ScrollChat({ messages, user, handleTyping, isTyping }) {
                                             borderRadius: " 20px 20px 20px 0",
                                             padding: "8px 14px",
                                             fontWeight: "500",
-                                            margin: '30px'
                                         }}
                                     >
                                         <span style={{ position: 'absolute', left: '-20px', top: '18px', color: 'blue', fontWeight: '900' }}>
