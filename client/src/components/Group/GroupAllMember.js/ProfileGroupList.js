@@ -96,7 +96,7 @@ function ProfileGroupList({ memberInfo }) {
     }
     const handleCurrentProfile = (id) => {
         if (id) {
-            fetch(`https://collaballapp.herokuapp.com/api/auth/single/profile/get/${id}`, {
+            fetch(`http://localhost:5000/api/auth/single/profile/get/${id}`, {
                 method: 'get',
                 headers: {
                     'Content-Type': "application/json",

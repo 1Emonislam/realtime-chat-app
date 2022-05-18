@@ -19,7 +19,7 @@ const ChatBodyPage = ({ handleSingleChat, chatActive }) => {
         if (!auth?.user?.token) {
             window.location.replace('/login')
         }
-        if (!socket?.current) return;
+       if(!socket?.current)return;
         if (!auth?.user?.token) return;
         if (selectedChat?.chat?._id) {
             socket?.current?.emit("setup", auth?.user?.user);
@@ -31,8 +31,19 @@ const ChatBodyPage = ({ handleSingleChat, chatActive }) => {
         })
         socket?.current?.on('stop typing', () => setIsTyping({ typing: false, user: null }))
     }, [auth?.user?.user, dispatch, selectedChat?.chat?._id]);
+    useEffect(() => {
+       if(!socket?.current)return;
+        socket?.current?.off('online user').on('online user', (data) => {
+            dispatch({
+                type: ONLINE_USER,
+                payload: {
+                    data: data
+                }
+            })
+        })
+    })
     const handleTyping = (e) => {
-        if (!socket?.current) return;
+       if(!socket?.current)return;
         dispatch({
             type: MESSAGE_WRITE,
             payload: {
@@ -59,24 +70,17 @@ const ChatBodyPage = ({ handleSingleChat, chatActive }) => {
         }
     }
     useEffect(() => {
-        if (!socket?.current) return;
+       if(!socket?.current)return;
         if (groupMessage?.sendMsg?._id) {
             socket?.current?.emit("new message", groupMessage?.sendMsg);
         }
     }, [groupMessage.messageInfoStore?._id, groupMessage?.sendMsg, groupMessage?.sendMsg?._id]);
     // console.log(socket?.current)
+    // console.log(socket?.current)
     useEffect(() => {
-        if (!socket?.current) return
-        socket?.current?.off('online user').on('online user', (data) => {
-            dispatch({
-                type: ONLINE_USER,
-                payload: {
-                    data: data
-                }
-            })
-        })
-
+       if(!socket?.current)return
         socket?.current?.off("message recieved").on("message recieved", (data) => {
+            // console.log(data)
             if (data?.newMessageRecieved) {
                 dispatch(getGroupChatData(auth?.user?.token))
             }

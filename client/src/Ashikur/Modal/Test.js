@@ -63,7 +63,7 @@ export default function NestedModal() {
     <div>
       <Button onClick={handleOpen}>Open modal</Button>
        <Modal
-                style={{ overflowY: 'scroll' }}
+        style={{ overflowY: 'scroll' }}
         open={open}
         onClose={handleClose}
         aria-labelledby="parent-modal-title"

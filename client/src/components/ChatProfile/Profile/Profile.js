@@ -34,6 +34,7 @@ const Profile = ({ mode }) => {
                 <FiUser sx={{ fontSize: '20px' }} />
             </Box>
             <Modal
+                style={{ overflowY: 'scroll' }}
                 open={open}
                 onClose={handleClose}
                 aria-labelledby="modal-modal-title"

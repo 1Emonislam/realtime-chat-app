@@ -21,11 +21,13 @@ const style = {
     p: 4,
 };
 
-const SingleProfile = ({ mode, handleClose,caneclBtn, handleOpen, open }) => {
+const SingleProfile = ({ mode, handleClose, caneclBtn, handleOpen, open }) => {
     const { profile } = useSelector(state => state)
+    // console.log(profile?.singleProfile?.data)
     return (
         <Box>
             <Modal
+                style={{ overflowY: 'scroll' }}
                 open={open}
                 onClose={handleClose}
                 aria-labelledby="modal-modal-title"

@@ -19,7 +19,7 @@ router.put('/already/notification', protect, async (req, res, next) => {
 })
 router.get('/get/notification', protect, async (req, res, next) => {
     try {
-        const myNotification = await GroupNotification.find({ receiver: req.user?._id }).populate("chat", "_id chatName img").populate("message", "_id content").populate("sender", "_id firstName lastName").sort("-createdAt").limit(50);
+        const myNotification = await GroupNotification.find({ receiver: req.user?._id }).sort("-createdAt").limit(200).populate("chat", "_id chatName img").populate("message", "_id content").populate("sender", "_id firstName lastName")
         const myunread = await GroupNotification.find({ receiver: req.user?._id, seen: false }).count();
         return res.status(200).json({ data: myNotification, myunread })
     }

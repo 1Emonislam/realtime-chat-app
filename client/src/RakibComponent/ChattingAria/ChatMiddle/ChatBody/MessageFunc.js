@@ -117,12 +117,12 @@ export default function MessageFunc({ isSameSenderPermission, handleTyping, isTy
                         messageEditHandle(true)
                         dispatch(updateMessageStore(messageInfo))
                     }} sx={{ cursor: 'pointer', '&:hover': { bgcolor: 'rgb(234, 234, 234, 0.5)' }, fontSize: 14, py: 1, px: 2, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }} >
-                        Edit <EditMessage handleTyping={handleTyping} isTyping={isTyping} messageInfo={messageInfo} messageText={message} messageEditHandle={messageEditHandle} editMessageOpen={editMessageOpen} />
+                        Edit
                         <span>
                             <img style={{ height: '20px', marginLeft: '10px' }} src={editImg} alt='' />
                         </span>
                     </Typography>
-
+                    <EditMessage handleTyping={handleTyping} isTyping={isTyping} messageInfo={messageInfo} messageText={message} messageEditHandle={messageEditHandle} setEditMessageOpen={setEditMessageOpen} editMessageOpen={editMessageOpen} />
                     {/* Delete message */}
                     <Typography onClick={() => {
                         dispatch(deleteMessage(messageInfo?.chat?._id, messageInfo?._id, auth?.user?.token))

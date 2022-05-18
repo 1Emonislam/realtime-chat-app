@@ -9,7 +9,7 @@ export const getMessage = (chatId, token, search) => {
             },
         })
         try {
-            fetch(`https://collaballapp.herokuapp.com/api/message/${chatId}?search=${search || ''}`, {
+            fetch(`http://localhost:5000/api/message/${chatId}?search=${search || ''}`, {
                 method: 'GET',
                 headers: {
                     "Content-Type": "application/json",
@@ -59,7 +59,7 @@ export const sendMessage = (data, chatId, token, audio) => {
         })
         try {
             //make sure all data array passing
-            fetch(`https://collaballapp.herokuapp.com/api/message`, {
+            fetch(`http://localhost:5000/api/message`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -109,7 +109,7 @@ export const sendAllUploadMessage = (data, chatId, token) => {
         })
         try {
             //make sure all data array passing
-            fetch(`https://collaballapp.herokuapp.com/api/message/all/upload/${chatId}`, {
+            fetch(`http://localhost:5000/api/message/all/upload/${chatId}`, {
                 method: 'POST',
                 headers: {
                     "Content-Type": "application/json",
@@ -123,6 +123,13 @@ export const sendAllUploadMessage = (data, chatId, token) => {
                     //console.log(data)
                     if (data) {
                         dispatch({
+                            type: SEND_MESSAGE,
+                            payload: {
+                                message: data?.message,
+                                data: data,
+                            }
+                        })
+                        dispatch({
                             type: UPLOAD_SUCCESS,
                             payload: {
                                 success: true,
@@ -130,27 +137,21 @@ export const sendAllUploadMessage = (data, chatId, token) => {
                                 loading: false,
                             }
                         })
-                        dispatch({
-                            type: SEND_MESSAGE,
-                            payload: {
-                                message: data?.message,
-                                data: data,
-                            }
-                        })
+
                     }
                     if (data.error) {
+                        dispatch({
+                            type: FAILED_MESSAGE,
+                            payload: {
+                                error: data?.error,
+                            }
+                        })
                         dispatch({
                             type: UPLOAD_FAILED,
                             payload: {
                                 success: false,
                                 error: true,
                                 loading: false,
-                            }
-                        })
-                        dispatch({
-                            type: FAILED_MESSAGE,
-                            payload: {
-                                error: data?.error,
                             }
                         })
                     }
@@ -171,7 +172,7 @@ export const editMessage = (data, chatId, messageId, token, messageEditHandle) =
             },
         })
         try {
-            fetch(`https://collaballapp.herokuapp.com/api/message`, {
+            fetch(`http://localhost:5000/api/message`, {
                 method: 'PUT',
                 headers: {
                     "Content-Type": "application/json",
@@ -236,7 +237,7 @@ export const deleteMessage = (chatId, messageId, token) => {
             },
         })
         try {
-            fetch(`https://collaballapp.herokuapp.com/api/message`, {
+            fetch(`http://localhost:5000/api/message`, {
                 method: 'DELETE',
                 headers: {
                     "Content-Type": "application/json",
@@ -289,7 +290,7 @@ export const deleteAllMessage = (chatId, token) => {
             },
         })
         try {
-            fetch(`https://collaballapp.herokuapp.com/api/message/${chatId}`, {
+            fetch(`http://localhost:5000/api/message/${chatId}`, {
                 method: 'DELETE',
                 headers: {
                     "Content-Type": "application/json",
@@ -353,7 +354,7 @@ export const updateMessageStore = (data) => {
 export const noteCreate = (chatId, messageId, token) => {
     return async (dispatch) => {
         try {
-            fetch(`https://collaballapp.herokuapp.com/api/note`, {
+            fetch(`http://localhost:5000/api/note`, {
                 method: 'POST',
                 headers: {
                     "Content-Type": "application/json",

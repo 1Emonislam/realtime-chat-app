@@ -161,6 +161,7 @@ textarea.text-msg {
   position: relative;
   width: 100%;
   top: 10px;
+  font-size: 16px;
 }
 textarea.text-msg:focus {
   outline: none;

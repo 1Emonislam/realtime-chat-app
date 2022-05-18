@@ -5,7 +5,11 @@ import Badge from '@mui/material/Badge';
 // import TypingIndicatior from './Typing/TypingIndicatior';
 import moment from 'moment';
 import React from 'react';
-import { BsFillCheckCircleFill, BsFillFileEarmarkFill, BsThreeDots } from 'react-icons/bs';
+import { BsFillCheckCircleFill, BsFillFileEarmarkFill } from 'react-icons/bs';
+import { FaVideo } from 'react-icons/fa';
+import { FiEdit } from 'react-icons/fi';
+import { IoIosImages } from 'react-icons/io';
+import { SiAudiomack } from 'react-icons/si';
 import { useSelector } from 'react-redux';
 import SkeletonRecentGroup from '../Editor/SkeletonRecentGroup';
 import { chatExists } from '../RakibComponent/ChattingAria/ChatMiddle/ChatBody/chatLogic';
@@ -13,11 +17,7 @@ import './Chat.css';
 import GroupSort from './GroupSort';
 import TypingIndicatior from './Typing/TypingIndicatior';
 
-import { FaVideo } from 'react-icons/fa'
-import { SiAudiomack } from 'react-icons/si'
-import { IoIosImages } from 'react-icons/io'
 
-import { FiEdit } from 'react-icons/fi'
 
 
 function RecentChat({ isTyping, chatActive, handleTyping, groupMessage, handleSingleChat }) {
@@ -146,7 +146,7 @@ function RecentChat({ isTyping, chatActive, handleTyping, groupMessage, handleSi
                         <Grid key={index} item xs={12} className={toggleActiveStyle(index)} alignItems="center" justifyContent="center">
                             {/* { toggleActiveStyle(index) } */}
                             <Grid container spacing={0} alignItems="center" >
-                                <Grid item xs={10.9}>
+                                <Grid item xs={11}>
                                     <ToggleButton value="check"
                                         selected={selected}
                                         onChange={() => {
@@ -195,7 +195,7 @@ function RecentChat({ isTyping, chatActive, handleTyping, groupMessage, handleSi
                                                         <span style={{ fontSize: 'bold', fontWeight: '900', marginRight: '5px' }}>
                                                             {chat?.latestMessage?.sender?.firstName}
                                                         </span>
-                                                        <span style={{ fontSize: '10px', }}>sent {chat?.latestMessage?.content?.text?.slice(0, 10)}..</span>
+                                                        <span style={{ fontSize: '10px', }}>sent {chat?.latestMessage?.content?.text?.slice(0, 10)}{chat?.latestMessage?.content?.text ? '...' : ''}</span>
                                                         {!chat?.latestMessage?.content?.audio?.length ? '' : <SiAudiomack style={{ fontSize: '16px', marginRight: '5px' }}></SiAudiomack>}
                                                         {!chat?.latestMessage?.content?.video?.length ? '' : <FaVideo style={{ fontSize: '16px', marginRight: '5px' }}></FaVideo>}
                                                         {!chat?.latestMessage?.content?.images?.length ? '' : <IoIosImages style={{ fontSize: '16px', marginRight: '5px' }}></IoIosImages>}
@@ -222,7 +222,7 @@ function RecentChat({ isTyping, chatActive, handleTyping, groupMessage, handleSi
                                                                 },
                                                             }}>
 
-                                                                {moment(chat?.latestMessage?.updatedAt).fromNow()}
+                                                                {moment(chat?.latestMessage?.updatedAt).fromNow() === 'a few sencond ago'}
                                                             </Typography>
                                                             {/* {console.log(chat)} */}
                                                             {/* {console.log(chat?.seen)} */}
@@ -257,7 +257,7 @@ function RecentChat({ isTyping, chatActive, handleTyping, groupMessage, handleSi
                                                                 {chat?.seen?.length && <AvatarGroup max={3}>
                                                                     {chat?.seen?.slice(0, 3)?.map((user, i) => (
                                                                         <Tooltip style={{ cursor: "pointer" }}
-                                                                        arrow title={user?.firstName + ' ' + user?.lastName} key={i}>
+                                                                            arrow title={user?.firstName + ' ' + user?.lastName} key={i}>
                                                                             <Avatar sx={{ height: '12px', width: '12px', marginTop: '3px' }} alt={user.username} src={user?.pic} />
                                                                         </Tooltip>
                                                                     ))}
@@ -266,19 +266,14 @@ function RecentChat({ isTyping, chatActive, handleTyping, groupMessage, handleSi
 
                                                         </Grid>
                                                     </Grid>
-                                                    <Grid item xs={1}>
-                                                        {(notification?.msgNotification?.filter(push => push?.chat?._id === chat?._id && push?.seen === false)?.length) !== 0 && <Badge badgeContent={(notification?.msgNotification?.filter(push => push?.chat?._id === chat?._id && push?.seen === false)?.length)} color="primary">
-                                                        </Badge>}
-                                                    </Grid>
                                                 </Grid>
                                             </Grid>
                                         </Grid>
                                     </ToggleButton>
                                 </Grid>
-                                <Grid item xs={0.5}>
-                                    <ToggleButton value="two" style={{ border: 'none' }} >
-                                        <BsThreeDots style={{ fontSize: '14px' }} />
-                                    </ToggleButton>
+                                <Grid item xs={1}>
+                                    {(notification?.msgNotification?.filter(push => push?.chat?._id === chat?._id && push?.seen === false)?.length) !== 0 && <Badge badgeContent={(notification?.msgNotification?.filter(push => push?.chat?._id === chat?._id && push?.seen === false)?.length)} color="primary">
+                                    </Badge>}
                                     {/* {<GroupInfo anchorEl={anchorEl} setAnchorEl={setAnchorEl} handleClick={handleClick} />} */}
                                 </Grid>
                             </Grid>
