@@ -12,14 +12,26 @@ import deleteImg from '../../../../Ashikur/chatRepliedImages/delete.png';
 import editImg from '../../../../Ashikur/chatRepliedImages/edit.png';
 import questionImg from '../../../../Ashikur/chatRepliedImages/question.png';
 import resendImg from '../../../../Ashikur/chatRepliedImages/resend.png';
+import readTextImg from '../../../../Ashikur/chatRepliedImages/readtext.png';
 import EditMessage from '../../../../Editor/EditMessage';
 import { deleteMessage, noteCreate, sendMessage, updateMessageStore } from '../../../../store/actions/messageAction';
 import { FAILED_MESSAGE, SUCCESS_MESSAGE_CLEAR } from '../../../../store/type/messageTypes';
+import { useSpeechSynthesis } from 'react-speech-kit';
 
 export default function MessageFunc({ isSameSenderPermission, handleTyping, isTyping, message, messageInfo }) {
     const { theme, auth, groupMessage } = useSelector(state => state);
     const dispatch = useDispatch()
     const [anchorEl, setAnchorEl] = React.useState(null);
+
+    // text to read
+    const [value, setValue] = React.useState('');
+    const { speak } = useSpeechSynthesis();
+
+    const handleSpeechToRead = () =>{
+        setValue(message)
+        speak({text:value})
+    }
+
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
     };
@@ -91,6 +103,8 @@ export default function MessageFunc({ isSameSenderPermission, handleTyping, isTy
             })
         })
     }
+
+    
     return (
         <div className='ancor'>
             <BsThreeDotsVertical id={id} onClick={handleClick} />
@@ -180,6 +194,16 @@ export default function MessageFunc({ isSameSenderPermission, handleTyping, isTy
                     <span>
                         {/* <RiQuestionnaireFill style={{ position: 'relative', top: '3px', paddingLeft: '5px' }} /> */}
                         <img style={{ height: '20px', marginLeft: '10px' }} src={confusedImg} alt='' />
+                    </span>
+                </Typography>
+
+                {/* Text to speak */}
+                <Typography onClick={handleSpeechToRead} sx={{ cursor: 'pointer', '&:hover': { bgcolor: 'rgb(234, 234, 234, 0.5)' }, py: 1, px: 2, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                    <span style={{ fontSize: 14 }}> Read Message
+                    </span>
+                    <span>
+                        {/* <RiQuestionnaireFill style={{ position: 'relative', top: '3px', paddingLeft: '5px' }} /> */}
+                        <img style={{ height: '20px', marginLeft: '10px' }} src={readTextImg} alt='' />
                     </span>
                 </Typography>
             </Popover>
