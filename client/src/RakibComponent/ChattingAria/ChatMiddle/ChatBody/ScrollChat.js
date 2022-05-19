@@ -74,7 +74,7 @@ function ScrollChat({ messages, user, handleTyping, isTyping }) {
     }
     const handleCurrentProfile = (id) => {
         if (id) {
-            fetch(`http://localhost:5000/api/auth/single/profile/get/${id}`, {
+            fetch(`https://collaballapp.herokuapp.com/api/auth/single/profile/get/${id}`, {
                 method: 'get',
                 headers: {
                     'Content-Type': "application/json",

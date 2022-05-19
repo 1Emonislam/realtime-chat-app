@@ -39,7 +39,7 @@ const General = ({ mode, handleCloseBox }) => {
                 loading: true,
             }
         })
-        fetch(`http://localhost:5000/api/auth/update`, {
+        fetch(`https://collaballapp.herokuapp.com/api/auth/update`, {
             method: 'PUT',
             headers: {
                 'Content-Type': "application/json",

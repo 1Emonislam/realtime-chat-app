@@ -4,8 +4,6 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import { groupMemberRemove } from '../../../store/actions/groupActions';
-import { getSelectedChat } from '../../../store/actions/selectedChatAction';
-import { AUTH_ERROR, AUTH_MESSAGE } from '../../../store/type/authType';
 import { SINGLE_PROFILE_FAILED, SINGLE_PROFILE_SUCCESS } from '../../../store/type/profileType';
 import SingleProfile from '../../ChatProfile/Profile/SingleProfile';
 const StyledBadge = styled(Badge)(({ theme }) => ({
@@ -113,7 +111,7 @@ function ProfileGroupList({ memberInfo }) {
     }
     const handleCurrentProfile = (id) => {
         if (id) {
-            fetch(`http://localhost:5000/api/auth/single/profile/get/${id}`, {
+            fetch(`https://collaballapp.herokuapp.com/api/auth/single/profile/get/${id}`, {
                 method: 'get',
                 headers: {
                     'Content-Type': "application/json",
@@ -144,7 +142,7 @@ function ProfileGroupList({ memberInfo }) {
     }
     const handleMakeAdminProfile = (chatId, member) => {
         if (chatId && member) {
-            fetch(`http://localhost:5000/api/chat/make-admin/${chatId}`, {
+            fetch(`https://collaballapp.herokuapp.com/api/chat/make-admin/${chatId}`, {
                 method: 'put',
                 headers: {
                     'Content-Type': "application/json",
@@ -180,7 +178,7 @@ function ProfileGroupList({ memberInfo }) {
     }
     const handleRemoveAdminProfile = (chatId, member) => {
         if (chatId && member) {
-            fetch(`http://localhost:5000/api/chat/remove-admin/${chatId}`, {
+            fetch(`https://collaballapp.herokuapp.com/api/chat/remove-admin/${chatId}`, {
                 method: 'put',
                 headers: {
                     'Content-Type': "application/json",
