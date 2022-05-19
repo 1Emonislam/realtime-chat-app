@@ -254,8 +254,8 @@ function RecentChat({ isTyping, chatActive, handleTyping, groupMessage, handleSi
                                                                     </> : <> </>}
                                                                     {groupMessage?.latestMessage?.sent && <BsFillCheckCircleFill />}
                                                                 </div>
-                                                                {chat?.seen?.length && <AvatarGroup max={3}>
-                                                                    {chat?.seen?.slice(0, 3)?.map((user, i) => (
+                                                                {chat?.seen?.length !== 0 && <AvatarGroup max={3}>
+                                                                    {chat?.seen?.slice(0, 4)?.map((user, i) => (
                                                                         <Tooltip style={{ cursor: "pointer" }}
                                                                             arrow title={user?.firstName + ' ' + user?.lastName} key={i}>
                                                                             <Avatar sx={{ height: '12px', width: '12px', marginTop: '3px' }} alt={user.username} src={user?.pic} />

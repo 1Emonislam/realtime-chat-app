@@ -17,8 +17,9 @@ function EditorLatestMessage({ data }) {
     }, [data])
     const para = document.createElement("p");
     para.innerHTML = output;
+    console.log(para?.innerText)
     return (
-        <span>{para.innerText?.slice(0, 12)}...</span>
+        <span>{para?.innerText}</span>
     )
 }
 

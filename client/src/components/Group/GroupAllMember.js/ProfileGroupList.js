@@ -4,6 +4,7 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import { groupMemberRemove } from '../../../store/actions/groupActions';
+import { getSelectedChat } from '../../../store/actions/selectedChatAction';
 import { AUTH_ERROR, AUTH_MESSAGE } from '../../../store/type/authType';
 import { SINGLE_PROFILE_FAILED, SINGLE_PROFILE_SUCCESS } from '../../../store/type/profileType';
 import SingleProfile from '../../ChatProfile/Profile/SingleProfile';
@@ -58,12 +59,12 @@ function ProfileGroupList({ memberInfo }) {
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
     const dispatch = useDispatch();
-    const { selectedChat, auth, theme } = useSelector(state => state)
-    const handleRemoveMember = (member) => {
-        dispatch(groupMemberRemove(selectedChat?.chat?._id, member?._id, auth?.user?.token))
+    const { selectedChat, auth, theme, profile } = useSelector(state => state)
+    const handleRemoveMember = (member, meLeave) => {
+        dispatch(groupMemberRemove(selectedChat?.chat?._id, member?._id, auth?.user?.token, meLeave || ''))
     }
-    if (auth?.message) {
-        toast.success(`${auth?.message}`, {
+    if (profile?.message) {
+        toast.success(`${profile?.message}`, {
             position: "bottom-right",
             theme: theme?.theme,
             autoClose: 5000,
@@ -74,11 +75,14 @@ function ProfileGroupList({ memberInfo }) {
             progress: undefined,
         });
         dispatch({
-            type: AUTH_MESSAGE
+            type: SINGLE_PROFILE_SUCCESS,
+            payload: {
+                message: ''
+            }
         })
     }
-    if (auth?.error) {
-        Object.values(auth?.error)?.forEach((err) => {
+    if (profile?.error) {
+        if (Object.values(profile?.error)?.length) Object.values(profile?.error)?.forEach((err) => {
             toast.error(`${err}`, {
                 position: "bottom-right",
                 theme: theme?.theme,
@@ -89,9 +93,22 @@ function ProfileGroupList({ memberInfo }) {
                 draggable: true,
                 progress: undefined,
             });
-            dispatch({
-                type: AUTH_ERROR
-            })
+        })
+        toast.error(`${profile?.error}`, {
+            position: "bottom-right",
+            theme: theme?.theme,
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+        });
+        dispatch({
+            type: SINGLE_PROFILE_FAILED,
+            payload: {
+                error: ''
+            }
         })
     }
     const handleCurrentProfile = (id) => {
@@ -109,7 +126,7 @@ function ProfileGroupList({ memberInfo }) {
                         dispatch({
                             type: SINGLE_PROFILE_SUCCESS,
                             payload: {
-                                data: data
+                                data: data,
                             }
                         })
                         handleOpen()
@@ -125,11 +142,82 @@ function ProfileGroupList({ memberInfo }) {
                 })
         }
     }
+    const handleMakeAdminProfile = (chatId, member) => {
+        if (chatId && member) {
+            fetch(`http://localhost:5000/api/chat/make-admin/${chatId}`, {
+                method: 'put',
+                headers: {
+                    'Content-Type': "application/json",
+                    "authorization": `Bearer ${auth?.user?.token}`
+                },
+                body: JSON.stringify({ member: member })
+            })
+                .then(res => res.json())
+                .then(data => {
+
+                    if (data?.message) {
+                        dispatch({
+                            type: SINGLE_PROFILE_SUCCESS,
+                            payload: {
+                                data: data,
+                                message: data?.message,
+                            }
+                        })
+                        setTimeout(() => {
+                            window.location.reload()
+                        }, 2000)
+                    }
+                    if (data?.error) {
+                        dispatch({
+                            type: SINGLE_PROFILE_FAILED,
+                            payload: {
+                                error: data.error,
+                            }
+                        })
+                    }
+                })
+        }
+    }
+    const handleRemoveAdminProfile = (chatId, member) => {
+        if (chatId && member) {
+            fetch(`http://localhost:5000/api/chat/remove-admin/${chatId}`, {
+                method: 'put',
+                headers: {
+                    'Content-Type': "application/json",
+                    "authorization": `Bearer ${auth?.user?.token}`
+                },
+                body: JSON.stringify({ member: member })
+            })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.message) {
+                        dispatch({
+                            type: SINGLE_PROFILE_SUCCESS,
+                            payload: {
+                                data: data,
+                                message: data.message
+                            }
+                        })
+                        setTimeout(() => {
+                            window.location.reload()
+                        }, 2000)
+                    }
+                    if (data?.error) {
+                        dispatch({
+                            type: SINGLE_PROFILE_FAILED,
+                            payload: {
+                                error: data.error,
+                            }
+                        })
+                    }
+                })
+        }
+    }
     return (
         <>
             {memberInfo?.length !== 0 && memberInfo?.map((member, index) => (
-                <Grid container spacing={2} key={index} alignItems="center" sx={{ padding: '10px 0', cursor: 'pointer', borderBottom: '1px solid #dddddd59' }} onClick={() => handleCurrentProfile(member?._id)}>
-                    <Grid item xs={2}>
+                <Grid container spacing={2} key={index} alignItems="center" sx={{ padding: '10px 0', cursor: 'pointer', borderBottom: '1px solid #dddddd59' }}>
+                    <Grid item xs={2} onClick={() => handleCurrentProfile(member?._id)}>
                         <Tooltip style={{ cursor: "pointer", display: 'flex', alignItems: 'center' }} component="span" title={member?.firstName + ' ' + member?.lastName}>
                             {member?.online ?
                                 <>
@@ -159,20 +247,51 @@ function ProfileGroupList({ memberInfo }) {
                             selected={selected}
                             onChange={() => {
                                 setSelected(false);
-                            }} style={{ border: 'none', textTransform: 'capitalize', marginBottom: '0px!important' }}>
+                            }} style={{ border: 'none', textTransform: 'capitalize', marginBottom: '0px!important' }} onClick={() => handleCurrentProfile(member?._id)}>
                             {member.firstName + ' ' + member?.lastName}
                         </ToggleButton>
-                        <ToggleButton value="check" onClick={() => handleRemoveMember(member)} style={{ marginLeft: '10px', marginBottom: '0px!important', textTransform: 'capitalize', padding: '0px' }}
-                            selected={selected}
-                            onChange={() => {
-                                setSelected(false);
-                            }}>
-                            <span style={{ fontSize: '10px', }}>Member Leave</span>
-                        </ToggleButton>
+                        {
+                            selectedChat?.amIJoined === (auth?.user?.user?._id === member?._id) ? <ToggleButton value="check" onClick={() => handleRemoveMember(member,'meLeave')} style={{ marginLeft: '10px', marginBottom: '0px!important', textTransform: 'capitalize', padding: '0px' }}
+                                selected={selected}
+                                onChange={() => {
+                                    setSelected(false);
+                                }}>
+                                <span style={{ fontSize: '10px', }}>Leave Me</span>
+                            </ToggleButton> : <>
+                                {selectedChat?.amIAdmin && <ToggleButton value="check" onClick={() => handleRemoveMember(member)} style={{ marginLeft: '10px', marginBottom: '0px!important', textTransform: 'capitalize', padding: '0px' }}
+                                    selected={selected}
+                                    onChange={() => {
+                                        setSelected(false);
+                                    }}>
+                                    <span style={{ fontSize: '10px', }}>Leave</span>
+                                </ToggleButton>}
+                            </>
+                        }
+
+                        {selectedChat?.amIAdmin && <>
+                            {selectedChat?.chat?.groupAdmin?.some(amIAdmin => amIAdmin?._id === member?._id) ?
+                                <ToggleButton value="check" onClick={() => handleRemoveAdminProfile(selectedChat?.chat?._id, member?._id)} style={{ marginLeft: '10px', marginBottom: '0px!important', textTransform: 'capitalize', padding: '0px' }}
+                                    selected={selected}
+                                    onChange={() => {
+                                        setSelected(false);
+                                    }}>
+                                    <span style={{ fontSize: '10px', }}>Remove Admin</span>
+                                </ToggleButton> :
+                                <ToggleButton value="check" onClick={() => handleMakeAdminProfile(selectedChat?.chat?._id, member?._id)} style={{ marginLeft: '10px', marginBottom: '0px!important', textTransform: 'capitalize', padding: '0px' }}
+                                    selected={selected}
+                                    onChange={() => {
+                                        setSelected(false);
+                                    }}>
+                                    <span style={{ fontSize: '10px', }}>Make Admin</span>
+                                </ToggleButton>
+
+
+                            }
+                        </>}
                     </Grid>
                 </Grid>
             ))}
-            <SingleProfile caneclBtn="caneclBtn"handleClose={handleClose} handleOpen={handleOpen} open={open} />
+            <SingleProfile caneclBtn="caneclBtn" handleClose={handleClose} handleOpen={handleOpen} open={open} />
         </>
     )
 }

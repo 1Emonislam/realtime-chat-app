@@ -19,6 +19,7 @@ import '../ChatMiddle.css';
 import AlertShow from './AlertShow';
 import GroupAllMemberSearch from './AllMembersSearch';
 import GroupAlertShow from './GroupAlertShow';
+import GroupInfo from './GroupInfo';
 import GroupInvite from './GroupInvite';
 import GroupPeople from './GroupPeople';
 import HeaderSkeletonMember from './HeaderSkeleton';
@@ -54,8 +55,11 @@ const Header = () => {
     const handleAddMemberClose = () => setAddMemberOpen(false);
     //group update 
     const [groupOpen, setGroupOpen] = React.useState(false);
-    const handleGroupOpen = () => setGroupOpen(true) ;
+    const handleGroupOpen = () => setGroupOpen(true);
     const handleGroupClose = () => setGroupOpen(false);
+    const [groupInfoOpen, setGroupInfoOpen] = React.useState(false);
+    const handleGroupInfoOpen = () => setGroupInfoOpen(true);
+    const handleGroupInfoClose = () => setGroupInfoOpen(false);
     useEffect(() => {
         const delayDebounceFn = setTimeout(() => {
             if (selectedChat?.chat?._id && selectedChat?.search && auth?.user?.token) {
@@ -136,11 +140,12 @@ const Header = () => {
                                 </Box>
                             </Grid>
                             <Grid item xs={6}>
-                                <Tooltip title={'#' + selectedChat?.chat?.chatName} arrow>
-                                    <ToggleButton value="two" style={{ border: 'none' }}>
+                                <Tooltip title={'#' + selectedChat?.chat?.chatName} arrow  >
+                                    <ToggleButton value="two" style={{ border: 'none' }} onClick={handleGroupInfoOpen}>
                                         {selectedChat?.chat?.chatName}
                                     </ToggleButton>
                                 </Tooltip>
+                                <GroupInfo groupInfo={selectedChat} groupInfoOpen={groupInfoOpen} setGroupInfoOpen={setGroupInfoOpen} chatId={selectedChat?.chat?._id} token={auth?.user?.token} handleGroupInfoClose={handleGroupInfoClose} handleGroupInfoOpen={handleGroupInfoOpen} />
                             </Grid>
                         </Grid>
                     </Grid>
@@ -186,9 +191,8 @@ const Header = () => {
                                     <Divider />
                                     <Typography sx={{ pb: 1, pt: 1, px: 2, display: 'flex', alignItems: 'center', justifyContent: 'space-around' }}>
                                         <span style={{ paddingRight: '8px' }}>Group Update</span>
-                                   
-                                        <UpdateGroup groupInfo={selectedChat} groupOpen={groupOpen}handleGroupClose={handleGroupClose} />
-                                        <FcDataBackup onClick={handleGroupOpen } style={{ color: '#d1c4e6' }} />
+                                        <UpdateGroup groupInfo={selectedChat} groupOpen={groupOpen} handleGroupClose={handleGroupClose} />
+                                        <FcDataBackup onClick={handleGroupOpen} style={{ color: '#d1c4e6' }} />
                                     </Typography>
                                     <Divider />
                                     <Typography sx={{ pb: 1, pt: 1, px: 2, display: 'flex', alignItems: 'center', justifyContent: 'space-around' }}>

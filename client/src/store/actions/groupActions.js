@@ -266,7 +266,7 @@ export const groupMemberAdd = (chatId, userCollection, token, handleCopy) => {
         }
     }
 }
-export const groupMemberRemove = (chatId, userId, token) => {
+export const groupMemberRemove = (chatId, userId, token, meLeave) => {
     return async (dispatch) => {
         dispatch({
             type: SELECTED_CHAT_LOADING,
@@ -281,7 +281,7 @@ export const groupMemberRemove = (chatId, userId, token) => {
                     'Content-Type': "application/json",
                     "authorization": `Bearer ${token}`
                 },
-                body: JSON.stringify({ chatId, userId })
+                body: JSON.stringify({ chatId, userId, meLeave: meLeave || '' })
             })
                 .then(res => res.json())
                 .then(data => {
@@ -383,7 +383,7 @@ export const groupDelete = (chatId, token) => {
 export const groupUpdate = (data, token, reset) => {
     return async (dispatch) => {
         try {
-            fetch(`http://localhost:5000/api/chat/group/rename`, {
+            fetch(`http://localhost:5000/api/chat/`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': "application/json",
