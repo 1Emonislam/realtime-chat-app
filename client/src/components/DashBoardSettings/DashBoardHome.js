@@ -5,9 +5,11 @@ import { AiOutlineArrowDown } from "react-icons/ai";
 import { BsFillPeopleFill } from "react-icons/bs";
 import { HiUserGroup } from "react-icons/hi";
 import { MdGroupAdd } from "react-icons/md";
-import { IoIosChatboxes } from "react-icons/io";
+import SettingsIcon from '@mui/icons-material/Settings';
 import { IoIosNotifications } from "react-icons/io";
 import { BsFillChatLeftFill } from "react-icons/bs";
+import { BsFillChatDotsFill } from "react-icons/bs";
+import GroupsIcon from '@mui/icons-material/Groups';
 import { MdGroup } from "react-icons/md";
 import pic from "../../images/increase.png"
 import React from 'react';
@@ -123,7 +125,7 @@ const DashBoardHome = ({ mode }) => {
                                     <Box sx={{ fontSize: '24px', color: '#5ab267' }}>
                                         <MdGroupAdd ></MdGroupAdd>
                                     </Box>
-                                    <Typography variant="subtitle2" component="div" sx={{ display: "inline-block", ml: "5px", fontWeight: "bold", fontSize: '16px' }}>Create Group</Typography>
+                                    <Typography variant="subtitle2" component="div" sx={{ display: "inline-block", ml: "5px", fontWeight: "bold", fontSize: '16px' }}>Created Group</Typography>
                                 </Box>
                                 <Box sx={{ display: "flex", alignItems: "center", my: "30px" }}>
                                     <Box sx={{ mr: "30px" }}>
@@ -162,8 +164,8 @@ const DashBoardHome = ({ mode }) => {
                             color={mode !== 'dark' ? '#141414' : 'white'}
                             sx={{ p: "10px", backgroundColor: `${mode === 'dark' ? '#141414' : 'white'}` }}>
                             <Box sx={{ textAlign: "center", mb: "4px", fontSize: '20px' }}>
-                                <IoIosChatboxes></IoIosChatboxes>
-                                <Typography sx={{ textAlign: "center", fontSize: '14px' }} variant="h6" gutterBottom component="div">Chat</Typography>
+                                <SettingsIcon/>
+                                <Typography sx={{ textAlign: "center", fontSize: '14px' }} variant="h6" gutterBottom component="div">Settings</Typography>
                             </Box>
                             <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between", px: "30px" }}>
                                 <Box sx={{ textAlign: "center", mb: "4px", fontSize: '20px' }}>
@@ -171,19 +173,19 @@ const DashBoardHome = ({ mode }) => {
                                     <Typography sx={{ textAlign: "center", fontSize: '14px' }} variant="h6" gutterBottom component="div">Chat</Typography>
                                 </Box>
                                 <Box sx={{ textAlign: "center", mb: "4px", fontSize: '20px' }}>
-                                    <IoIosNotifications></IoIosNotifications>
+                                    <IoIosNotifications  style={{fontSize:'28px'}}></IoIosNotifications>
                                     <Typography sx={{ textAlign: "center", fontSize: '14px' }} variant="h6" gutterBottom component="div">Notification</Typography>
                                 </Box>
 
                             </Box>
                             <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between", px: "30px" }}>
                                 <Box sx={{ textAlign: "center", mb: "4px", fontSize: '20px' }}>
-                                    <MdGroup></MdGroup>
-                                    <Typography sx={{ textAlign: "center", fontSize: '14px' }} variant="h6" gutterBottom component="div">messages</Typography>
+                                    <BsFillChatDotsFill style={{transform:'scaleX(-1)'}} />
+                                    <Typography sx={{ textAlign: "center", fontSize: '14px' }} variant="h6" gutterBottom component="div">Chale</Typography>
                                 </Box>
                                 <Box sx={{ textAlign: "center", mb: "4px", fontSize: '20px' }}>
-                                    <IoIosNotifications></IoIosNotifications>
-                                    <Typography sx={{ textAlign: "center", fontSize: '14px' }} variant="h6" gutterBottom component="div">Notification</Typography>
+                                    <GroupsIcon style={{fontSize:'30px'}}/>
+                                    <Typography sx={{ textAlign: "center", fontSize: '14px' }} variant="h6" gutterBottom component="div">Groups</Typography>
                                 </Box>
 
                             </Box>
