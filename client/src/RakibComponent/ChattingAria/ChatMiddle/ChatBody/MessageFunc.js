@@ -16,11 +16,22 @@ import readTextImg from '../../../../Ashikur/chatRepliedImages/readtext.png';
 import EditMessage from '../../../../Editor/EditMessage';
 import { deleteMessage, noteCreate, sendMessage, updateMessageStore } from '../../../../store/actions/messageAction';
 import { FAILED_MESSAGE, SUCCESS_MESSAGE_CLEAR } from '../../../../store/type/messageTypes';
+import { useSpeechSynthesis } from 'react-speech-kit';
 
 export default function MessageFunc({ isSameSenderPermission, handleTyping, isTyping, message, messageInfo }) {
     const { theme, auth, groupMessage } = useSelector(state => state);
     const dispatch = useDispatch()
     const [anchorEl, setAnchorEl] = React.useState(null);
+
+    // text to read
+    const [value, setValue] = React.useState('');
+    const { speak } = useSpeechSynthesis();
+
+    const handleSpeechToRead = () =>{
+        setValue(message)
+        speak({text:value})
+    }
+
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
     };
@@ -92,6 +103,8 @@ export default function MessageFunc({ isSameSenderPermission, handleTyping, isTy
             })
         })
     }
+
+    
     return (
         <div className='ancor'>
             <BsThreeDotsVertical id={id} onClick={handleClick} />
@@ -185,9 +198,7 @@ export default function MessageFunc({ isSameSenderPermission, handleTyping, isTy
                 </Typography>
 
                 {/* Text to speak */}
-                <Typography onClick={() => {
-                    dispatch(sendMessage("Don't Understand!", messageInfo?.chat?._id, auth.user?.token))
-                }} sx={{ cursor: 'pointer', '&:hover': { bgcolor: 'rgb(234, 234, 234, 0.5)' }, py: 1, px: 2, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                <Typography onClick={handleSpeechToRead} sx={{ cursor: 'pointer', '&:hover': { bgcolor: 'rgb(234, 234, 234, 0.5)' }, py: 1, px: 2, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                     <span style={{ fontSize: 14 }}> Read Message
                     </span>
                     <span>
