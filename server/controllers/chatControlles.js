@@ -131,7 +131,7 @@ module.exports.makeAdminChatMembers = async (req, res, next) => {
             receiver: member?._id,
             type: 'group',
             seen: false,
-            subject: `${req?.user?.firstName}  ${req.user?.lastName} from ${getChatMember?.chatName} Group added New Admin ${addedUser?.firstName || ' '} ${addedUser?.lastName || ' '} `,
+            subject: `${req?.user?.firstName}  ${req.user?.lastName} from ${getChatMember?.chatName} Group Added New Admin ${addedUser?.firstName || ' '} ${addedUser?.lastName || ' '} `,
             sender: req.user?._id,
             chat: getChatMember?._id,
           })
@@ -183,7 +183,7 @@ module.exports.removeAdminChatMembers = async (req, res, next) => {
             receiver: member?._id,
             type: 'group',
             seen: false,
-            subject: `${req?.user?.firstName}  ${req.user?.lastName} from ${getChatMember?.chatName} group remove admin ${addedUser?.firstName || ' '} ${addedUser?.lastName || ' '} `,
+            subject: `${req?.user?.firstName}  ${req.user?.lastName} from ${getChatMember?.chatName} Group Remove Admin ${addedUser?.firstName || ' '} ${addedUser?.lastName || ' '} `,
             sender: req.user?._id,
             chat: getChatMember?._id,
           })
@@ -210,6 +210,7 @@ module.exports.getChat = async (req, res, next) => {
   try {
     const { status, page = 1, limit = 10 } = req.query;
     if (status == 'recent') {
+      const count = await Chat.find({ members: { $elemMatch: { $eq: req.user._id } } }).count()
       let result = await Chat.find({ members: { $elemMatch: { $eq: req.user._id } } }).limit(limit * 1)
         .skip((page - 1) * limit).select("-members").select("-groupAdmin").sort("-updatedAt").populate("seen", "_id pic firstName lastName email online lastOnline createdAt").populate({
           path: 'latestMessage',
@@ -225,9 +226,10 @@ module.exports.getChat = async (req, res, next) => {
         select: '_id duration author filename sizeOfBytes type format duration url createdAt'
       })
       // console.log(result)
-      return res.status(200).json({ data: result })
+      return res.status(200).json({count, data: result })
     }
     if (status == 'latest') {
+      const count = await Chat.find({ members: { $elemMatch: { $eq: req.user._id } } }).count()
       let result = await Chat.find({ members: { $elemMatch: { $eq: req.user._id } } }).select("-members").select("-groupAdmin").limit(limit * 1)
         .skip((page - 1) * limit).sort("-createdAt").populate("seen", "_id pic firstName lastName email online lastOnline createdAt").populate({
           path: 'latestMessage',
@@ -242,9 +244,10 @@ module.exports.getChat = async (req, res, next) => {
         path: 'content.files',
         select: '_id duration author filename sizeOfBytes type format duration url createdAt'
       })
-      return res.status(200).json({ data: result })
+      return res.status(200).json({ count,data: result })
     }
     if (status == 'popular' || 'acc') {
+      const count = await Chat.find({ members: { $elemMatch: { $eq: req.user._id } } }).count()
       let result = await Chat.find({ members: { $elemMatch: { $eq: req.user._id } } }).select("-members").select("-groupAdmin").limit(limit * 1)
         .skip((page - 1) * limit).sort("-members").populate("seen", "_id pic firstName lastName email online lastOnline createdAt").populate({
           path: 'latestMessage',
@@ -276,7 +279,7 @@ module.exports.getChat = async (req, res, next) => {
         path: 'content.files',
         select: '_id duration author filename sizeOfBytes type format duration url createdAt'
       })
-      return res.status(200).json({ data: result })
+      return res.status(200).json({count, data: result })
     }
   } catch (error) {
     next(error)
@@ -381,7 +384,7 @@ module.exports.groupAddTo = async (req, res, next) => {
             receiver: member?._id,
             type: 'group',
             chat: added?._id,
-            subject: ` ${req?.user?.firstName}  ${req.user?.lastName} from group ${getChatMember?.chatName} added new member ${addedUser?.firstName || ' '} ${addedUser?.lastName || ' '} `,
+            subject: ` ${req?.user?.firstName}  ${req.user?.lastName} from ${getChatMember?.chatName} Group  Added New Member ${addedUser?.firstName || ' '} ${addedUser?.lastName || ' '} `,
             text: ` ${added?.chatName} Member added ${addedUser?.firstName || ' '} ${addedUser?.lastName || ' '}`,
           })
           await JoinGroup.create({

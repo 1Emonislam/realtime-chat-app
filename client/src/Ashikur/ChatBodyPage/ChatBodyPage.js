@@ -1,7 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Box, Grid } from '@mui/material';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState,useContext } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { PaginationContext } from '../../App';
 import ChatHome from '../../components/ChatHome';
 import { getGroupChatData } from '../../store/actions/groupActions';
 import { removeNotificationDB } from '../../store/actions/messageNotificationAction';
@@ -11,6 +12,8 @@ import { MESSAGE_WRITE, SEND_MESSAGE } from '../../store/type/messageTypes';
 import BodyChat from './BodyChat';
 const ChatBodyPage = ({ handleSingleChat, chatActive }) => {
     const dispatch = useDispatch();
+    const paginationContext =  useContext(PaginationContext)
+    const {page,setPage,setCount,limit}=paginationContext;
     const { auth, groupData, socketFunc, notification, groupMessage, selectedChat } = useSelector(state => state);
     const [typing, setTyping] = useState(false);
     const [isTyping, setIsTyping] = useState({ typing: false, user: null });
@@ -77,12 +80,13 @@ const ChatBodyPage = ({ handleSingleChat, chatActive }) => {
     }, [groupMessage.messageInfoStore?._id, groupMessage?.sendMsg, groupMessage?.sendMsg?._id]);
     // console.log(socket?.current)
     // console.log(socket?.current)
+
     useEffect(() => {
        if(!socket?.current)return
         socket?.current?.off("message recieved").on("message recieved", (data) => {
             // console.log(data)
             if (data?.newMessageRecieved) {
-                dispatch(getGroupChatData(auth?.user?.token))
+                dispatch(getGroupChatData(auth?.user?.token, 'recent', page, limit, setPage, setCount))
             }
             const { newMessageRecieved, notificationObj } = data;
             if (selectedChat?.chat?._id === newMessageRecieved?.chat?._id) {

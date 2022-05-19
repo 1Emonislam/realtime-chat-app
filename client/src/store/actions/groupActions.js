@@ -1,6 +1,6 @@
 import { GROUP_FAILED_DATA, GROUP_GET_DATA, GROUP_INVITE_GEN_FAILED, GROUP_INVITE_GEN_SUCCESS, GROUP_LOADING_DATA, GROUP_PROGRESS_ACCEPTED, GROUP_PROGRESS_DECLINED, GROUP_SUCCESS_DATA } from "../type/groupType"
 import { GROUP_ADD_MEMBER_FAILED, GROUP_ADD_MEMBER_SUCCESS, SELECTED_CHAT_LOADING } from "../type/selectedChatTypes"
-export const getGroupChatData = (token, status, page, limit) => {
+export const getGroupChatData = (token, status, page, limit, setPage, setCount) => {
     return (dispatch) => {
         dispatch({
             type: GROUP_LOADING_DATA,
@@ -18,6 +18,9 @@ export const getGroupChatData = (token, status, page, limit) => {
             .then(res => res.json())
             .then(data => {
                 if (data) {
+                    if (data.count) {
+                        setCount(data.count)
+                    }
                     dispatch({
                         type: GROUP_LOADING_DATA,
                         payload: {
