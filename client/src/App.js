@@ -7,6 +7,7 @@ import { io } from "socket.io-client";
 import "./App.css";
 import Call from "./components/Call/Call";
 import BlockedUser from "./components/DashBoardSettings/BlockedUser";
+import Media from "./components/DashBoardSettings/Media";
 import OnLineAndOffLineStatusBar from "./components/DashBoardSettings/OnLineAndOffLineStatusBar";
 import ReportUser from "./components/DashBoardSettings/ReportUser";
 import SettingAdmob from "./components/DashBoardSettings/SettingAdmob";
@@ -215,8 +216,10 @@ export default function ToggleColorMode() {
                 <Route path="/users" element={< Users />}> </Route>
                 <Route path="/blockusers" element={< BlockedUser />}> </Route>
                 <Route path="/report" element={< ReportUser />}> </Route>
+                <Route path="/media" element={< Media />}> </Route>
                 {/* Admin Dashboard */}
                 <Route path="admin-dashboard" element={<Dashboard />}>
+                
                   <Route path="" element={<DHome />} />
                 </Route>
                 <Route
