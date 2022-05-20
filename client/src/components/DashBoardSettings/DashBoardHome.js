@@ -1,18 +1,14 @@
-import { Container, Grid, Box, Paper, Typography } from '@mui/material';
-import { FcDoughnutChart } from "react-icons/fc";
-import { AiOutlineArrowUp } from "react-icons/ai";
-import { AiOutlineArrowDown } from "react-icons/ai";
-import { BsFillPeopleFill } from "react-icons/bs";
-import { HiUserGroup } from "react-icons/hi";
-import { MdGroupAdd } from "react-icons/md";
-import SettingsIcon from '@mui/icons-material/Settings';
-import { IoIosNotifications } from "react-icons/io";
-import { BsFillChatLeftFill } from "react-icons/bs";
-import { BsFillChatDotsFill } from "react-icons/bs";
 import GroupsIcon from '@mui/icons-material/Groups';
-import { MdGroup } from "react-icons/md";
-import pic from "../../images/increase.png"
+import SettingsIcon from '@mui/icons-material/Settings';
+import { Box, Container, Grid, Paper, Typography } from '@mui/material';
 import React from 'react';
+import { AiOutlineArrowDown, AiOutlineArrowUp } from "react-icons/ai";
+import { BsFillChatDotsFill, BsFillChatLeftFill, BsFillPeopleFill } from "react-icons/bs";
+import { FcDoughnutChart } from "react-icons/fc";
+import { HiUserGroup } from "react-icons/hi";
+import { IoIosNotifications } from "react-icons/io";
+import { MdGroupAdd } from "react-icons/md";
+import pic from "../../images/increase.png";
 
 const DashBoardHome = ({ mode }) => {
     return (
