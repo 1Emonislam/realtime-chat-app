@@ -16,6 +16,10 @@ import SettingSinch from "./components/DashBoardSettings/SettingSinch";
 import Users from "./components/DashBoardSettings/Users";
 import Group from "./components/Group/Group";
 import GroupInviteAccept from "./components/GroupInviteAccept";
+import DashboardLayout from "./components/KeeperDashboard/DashboardLayout/DashboardLayout";
+import Notes from "./components/KeeperDashboard/Notes/Notes";
+import Archive from "./components/KeeperDashboard/Archive/Archive";
+import Trash from "./components/KeeperDashboard/Trash/Trash";
 import Settings from "./components/Settings/Settings/Settings";
 import Status from "./components/Status/Status/Status";
 import UserDashboard from "./components/UserDashboard/UserDashboard";
@@ -219,6 +223,13 @@ export default function ToggleColorMode() {
                 <Route path="admin-dashboard" element={<Dashboard />}>
                   <Route path="" element={<DHome />} />
                 </Route>
+                {/* Keeper Dashboard Start */}
+                <Route path="keeper" element={<DashboardLayout />}>
+                  <Route path="notes" element={<Notes />} />
+                  <Route path="archive" element={<Archive />} />
+                  <Route path="trash" element={<Trash />} />
+                </Route>
+                {/* Keeper Dashboard End */}
                 <Route
                   path="*"
                   element={

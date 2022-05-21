@@ -1,0 +1,12 @@
+.trash-empty-card {
+    width: 200px;
+    text-align: center;
+    margin: 50px 0 10px 30px;
+    padding: 6px 0;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.trash-empty-card:hover {
+    background-color: rgb(243, 243, 243);
+}

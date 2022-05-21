@@ -1,0 +1,55 @@
+.notes-color-box {
+    width: 100px;
+    padding: 3px;
+    display: grid;
+    grid-template-columns: 30px 30px 30px;
+}
+
+.notes-color {
+    cursor: pointer;
+    margin: 2px;
+    height: 30px;
+    width: 30px;
+    border-radius: 50%;
+    border: 1px solid pink;
+}
+
+.notes-color:hover {
+    border: 2px solid rgb(162, 162, 162);
+}
+
+.notes-color:nth-child(1) {
+    background: white;
+}
+
+.notes-color:nth-child(2) {
+    background: #ffe3be;
+}
+
+.notes-color:nth-child(3) {
+    background: #fffccb;
+}
+
+.notes-color:nth-child(4) {
+    background: #edffcd;
+}
+
+.notes-color:nth-child(5) {
+    background: #d3fff8;
+}
+
+.notes-color:nth-child(6) {
+    background: #d5f2ff;
+}
+
+.notes-color:nth-child(7) {
+    background: #d7ddfd;
+}
+
+.notes-color:nth-child(8) {
+    background: #e8dbff;
+}
+
+.notes-color:nth-child(9) {
+    background: #fdd8f4;
+}
