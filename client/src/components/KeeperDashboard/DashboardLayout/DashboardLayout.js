@@ -5,20 +5,21 @@ import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import Toolbar from "@mui/material/Toolbar";
-import { Outlet } from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
 import SearchIcon from "@mui/icons-material/Search";
 import CloseIcon from "@mui/icons-material/Close";
-import CloudDoneOutlinedIcon from "@mui/icons-material/CloudDoneOutlined";
 import DrawerContent from "../DrawerContent/DrawerContent";
 import useMediaQuery from "../useMediaQuery/useMediaQuery";
 import { Drawer, Typography } from "@mui/material";
 import ColorBox from "../ColorBox/ColorBox";
 import logo from '../../../assets/logo/white_large.png';
+import ChatProfile from "../../ChatProfile/ChatProfile";
 
 const drawerWidth = 220;
 function DashboardLayout() {
   const isDesktop = useMediaQuery("(min-width: 780px)");
   const [sideBarOpen, setSideBarOpen] = React.useState(false);
+  const mode = JSON.parse(localStorage.getItem('themeCurrent'));
 
   const handleDrawerOpen = () => {
     setSideBarOpen(true);
@@ -42,6 +43,7 @@ function DashboardLayout() {
         position="fixed"
         sx={{
           backgroundColor: "#79a3b1",
+          py: 1
         }}
       >
         <Toolbar sx={{ display: "flex", alignItems: "center" }}>
@@ -59,8 +61,9 @@ function DashboardLayout() {
 
           {isDesktop && (
             <Box sx={{ mr: 2 }}>
-              {/* <h2 className="keeperLogo">Keeper</h2> */}
-              <Typography sx={{ width: '100px' }} component='img' src={logo} />
+              <Link to='/'>
+                <Typography sx={{ width: '120px', height: '30px' }} component='img' src={logo} />
+              </Link>
             </Box>
           )}
           <div className="searchBg">
@@ -108,11 +111,8 @@ function DashboardLayout() {
               marginLeft: "auto",
             }}
           >
-            <CloudDoneOutlinedIcon
-              sx={{ color: "white", fontSize: "25px", mr: 2, mb: 1 }}
-            />
-            <button className="searchBarLogoutBtn">Logout</button>
           </div>
+          <ChatProfile mode={mode} />
         </Toolbar>
       </AppBar>
       <Drawer
@@ -124,7 +124,6 @@ function DashboardLayout() {
             height: "100vh",
             mt: 10,
             border: 0,
-            bgcolor: "white",
             boxShadow: "0px 5px 8px gray",
             boxSizing: "border-box",
           },
@@ -134,7 +133,7 @@ function DashboardLayout() {
         open={sideBarOpen}
       >
         <Box onClick={isDesktop ? "" : handleDrawerClose}>
-          <DrawerContent />
+          <DrawerContent mode={mode} />
         </Box>
       </Drawer>
 

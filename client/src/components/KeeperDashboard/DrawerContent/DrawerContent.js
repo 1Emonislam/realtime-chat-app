@@ -3,7 +3,7 @@ import "./DrawerContent.css";
 import NoteOutlinedIcon from "@mui/icons-material/NoteOutlined";
 import ModeEditOutlinedIcon from "@mui/icons-material/ModeEditOutlined";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
-import { Box } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { NavLink } from "react-router-dom";
 import Modal from "@mui/material/Modal";
 import AddIcon from "@mui/icons-material/Add";
@@ -23,10 +23,11 @@ const style = {
   pb: 4,
 };
 
-const DrawerContent = () => {
+const DrawerContent = ({ mode }) => {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  const textColor = `${mode === 'dark' ? 'white' : 'black'}`;
 
   return (
     <>
@@ -44,29 +45,28 @@ const DrawerContent = () => {
           <NavLink
             to="/keeper/notes"
             className="drawerLink"
-            activeClassName="active"
             style={{ display: "flex", padding: "4px", marginLeft: "6px" }}
           >
-            <div className="linkItem">
-              <h5 style={{ color: "#464646", marginLeft: "15px" }}>
+            <div style={{ color: textColor }} className="linkItem">
+              <h5 style={{ marginLeft: "15px" }}>
                 <NoteOutlinedIcon sx={{ mt: "5px", mr: 2 }} fontSize="medium" />
               </h5>
-              <h3 style={{ fontWeight: "400", color: "#595959" }}>Notes</h3>
+              <h3 style={{ fontWeight: "400", }}>Notes</h3>
             </div>
           </NavLink>
 
           <div
             className="drawerLink"
-            style={{ display: "flex", cursor: "pointer" }}
+            style={{ display: "flex", cursor: "pointer", color: textColor }}
           >
             <div className="linkItem" onClick={handleOpen}>
-              <h5 style={{ color: "#464646", marginLeft: "15px" }}>
+              <h5 style={{ marginLeft: "15px" }}>
                 <ModeEditOutlinedIcon
                   sx={{ mt: "5px", mr: 2 }}
                   fontSize="medium"
                 />
               </h5>
-              <h3 style={{ fontWeight: "400", color: "#595959" }}>
+              <h3 style={{ fontWeight: "400" }}>
                 Edit Labels
               </h3>
             </div>
@@ -75,34 +75,32 @@ const DrawerContent = () => {
           <NavLink
             to="/keeper/archive"
             className="drawerLink"
-            activeClassName="active"
             style={{ display: "flex" }}
           >
-            <div className="linkItem">
-              <h5 style={{ color: "#464646", marginLeft: "15px" }}>
+            <div style={{ color: textColor }} className="linkItem">
+              <h5 style={{ marginLeft: "15px" }}>
                 <ArchiveOutlinedIcon
                   sx={{ mt: "5px", mr: 2 }}
                   fontSize="medium"
                 />
               </h5>
-              <h3 style={{ fontWeight: "400", color: "#595959" }}>Archive</h3>
+              <h3 style={{ fontWeight: "400" }}>Archive</h3>
             </div>
           </NavLink>
 
           <NavLink
             to="/keeper/trash"
             className="drawerLink"
-            activeClassName="active"
             style={{ display: "flex" }}
           >
-            <div className="linkItem">
-              <h5 style={{ color: "#464646", marginLeft: "15px" }}>
+            <div style={{ color: textColor }} className="linkItem">
+              <h5 style={{ marginLeft: "15px" }}>
                 <DeleteOutlineIcon
                   sx={{ mt: "5px", mr: 2 }}
                   fontSize="medium"
                 />
               </h5>
-              <h3 style={{ fontWeight: "400", color: "#595959" }}>Trash</h3>
+              <h3 style={{ fontWeight: "400" }}>Trash</h3>
             </div>
           </NavLink>
         </Box>
@@ -113,11 +111,20 @@ const DrawerContent = () => {
       <Modal keepMounted open={open} onClose={handleClose}>
         <Box sx={style}>
           <div className="modalInputContainer">
-            <h2 style={{ margin: "0", padding: "0", fontSize: "15px" }}>
+            <h2 style={{
+              margin: "0",
+              padding: "0",
+              fontSize: "15px",
+              color: `${mode === 'dark' ? '#dcd1d1' : 'black'}`
+            }}>
               Edit Labels
             </h2>
 
-            <input type="text" placeholder="Add label..." />
+            <Typography
+              component='input'
+              color={mode === 'dark' ? 'white' : 'black'}
+              type="text"
+              placeholder="Add label..." />
             <AddIcon
               sx={{
                 cursor: "pointer",

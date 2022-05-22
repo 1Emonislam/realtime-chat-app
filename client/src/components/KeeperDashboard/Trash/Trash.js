@@ -10,9 +10,17 @@ const Trash = () => {
   const noCIcon = (
     <DeleteOutlineIcon sx={{ fontSize: "130px", color: "#ececec" }} />
   );
+  const mode = JSON.parse(localStorage.getItem('themeCurrent'));
   return (
     <>
-      <Card className="trash-empty-card">Click here empty trash </Card>
+      <Card
+        className="trash-empty-card"
+        sx={{
+          '&:hover': {
+            backgroundColor: `${mode === 'dark' ? 'rgb(47 44 44)' : 'rgb(243, 243, 243)'}`
+          }
+        }}
+      >Click here empty trash </Card>
 
       {/* --- No content icon --- */}
       {!fakeData?.length && (
@@ -21,7 +29,7 @@ const Trash = () => {
 
       <div style={{ display: "flex", flexWrap: "wrap" }}>
         {fakeData?.slice(0, 5)?.map((note, index) => (
-          <TrashInfo key={index} note={note}></TrashInfo>
+          <TrashInfo key={index} note={note} mode={mode}></TrashInfo>
         ))}
       </div>
     </>

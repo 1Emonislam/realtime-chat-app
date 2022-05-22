@@ -8,6 +8,7 @@ const Archive = () => {
   const noCIcon = (
     <ArchiveOutlinedIcon sx={{ fontSize: "130px", color: "#ececec" }} />
   );
+  const mode = JSON.parse(localStorage.getItem('themeCurrent'));
 
   return (
     <>
@@ -21,7 +22,7 @@ const Archive = () => {
 
       <div style={{ display: "flex", flexWrap: "wrap" }}>
         {fakeData?.slice(0, 8)?.map((note, index) => (
-          <ArchiveInfo key={index} note={note}></ArchiveInfo>
+          <ArchiveInfo key={index} note={note} mode={mode}></ArchiveInfo>
         ))}
       </div>
     </>

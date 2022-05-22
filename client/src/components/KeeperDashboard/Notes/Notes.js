@@ -1,4 +1,4 @@
-import { Box, IconButton, Paper } from "@mui/material";
+import { Box, IconButton, Paper, Typography } from "@mui/material";
 import * as React from "react";
 import "./Notes.css";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
@@ -17,6 +17,7 @@ const Notes = () => {
   const noCIcon = (
     <NoteOutlinedIcon sx={{ fontSize: "130px", color: "#ececec" }} />
   );
+  const mode = JSON.parse(localStorage.getItem('themeCurrent'));
 
   return (
     <>
@@ -26,14 +27,22 @@ const Notes = () => {
         sx={{ height: "100%", borderRadius: 2 }}
       >
         <div style={{ display: "flex" }}>
-          <input type="text" placeholder="Title" className="input1" />
+          <Typography
+            component='input'
+            color={mode === 'dark' ? '#dcd1d1' : 'black'}
+            type="text"
+            placeholder="Title"
+            className="input1" />
           <IconButton sx={{ width: "30px", height: "30px" }}>
             <PushPinIcon
               sx={{ color: "#bebebe", fontSize: "19px", marginTop: "10px" }}
             />
           </IconButton>
         </div>
-        <textarea
+        <Typography
+          color={mode === 'dark' ? '#dcd1d1' : 'black'}
+          sx={{ background: 'none', }}
+          component='textarea'
           rows="auto"
           type="text"
           placeholder="Take a note..."
@@ -71,7 +80,7 @@ const Notes = () => {
 
       <div style={{ display: "flex", flexWrap: "wrap" }}>
         {fakeData?.slice(0, 14)?.map((note, index) => (
-          <NotesInfo key={index} note={note}></NotesInfo>
+          <NotesInfo key={index} note={note} mode={mode}></NotesInfo>
         ))}
       </div>
     </>

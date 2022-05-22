@@ -225,6 +225,7 @@ export default function ToggleColorMode() {
                 </Route>
                 {/* Keeper Dashboard Start */}
                 <Route path="keeper" element={<DashboardLayout />}>
+                  <Route path="" element={<Notes />} />
                   <Route path="notes" element={<Notes />} />
                   <Route path="archive" element={<Archive />} />
                   <Route path="trash" element={<Trash />} />

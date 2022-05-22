@@ -4,11 +4,17 @@ import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import RestoreFromTrashIcon from "@mui/icons-material/RestoreFromTrash";
 
 const TrashInfo = ({ note }) => {
+  const mode = JSON.parse(localStorage.getItem('themeCurrent'));
   return (
     <Card className="notes-card-style">
       <div style={{ display: "inlineblock" }}>
-        <div style={{ textAlign: "start", fontSize: "1em", fontWeight: "500" }}>
-          <p style={{ color: "#2e2e2e", marginBottom: "6px" }}>{note?.title}</p>
+        <div style={{
+          textAlign: "start",
+          fontSize: "1em",
+          fontWeight: "500",
+          color: `${mode === 'dark' ? '#dcd1d1' : 'black'}`
+        }}>
+          <p style={{ marginBottom: "6px" }}>{note?.title}</p>
           <p
             style={{
               fontSize: "14px",

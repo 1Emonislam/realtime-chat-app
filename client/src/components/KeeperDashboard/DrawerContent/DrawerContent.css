@@ -1,16 +1,6 @@
-.active {
-    background-color: #eaeaea;
-    color: black;
-}
-
 .drawerLink {
     border-radius: 20px;
     padding: 5px 10px;
-}
-
-.drawerLink:hover {
-    background-color: #f3f1f1;
-    color: black;
 }
 
 .linkItem {

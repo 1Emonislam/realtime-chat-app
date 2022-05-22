@@ -8,16 +8,15 @@ import PushPinIcon from "@mui/icons-material/PushPin";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 
-const NotesInfo = ({ note }) => {
+const NotesInfo = ({ note, mode }) => {
   return (
     <div className="notes-card-style">
       <div style={{ display: "flex" }}>
-        <div style={{}}>
+        <div style={{ color: `${mode === 'dark' ? '#dcd1d1' : 'black'}` }}>
           <p
             style={{
               fontSize: "1em",
               fontWeight: "500",
-              color: "#2e2e2e",
               marginBottom: "6px",
             }}
           >
