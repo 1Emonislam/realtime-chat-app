@@ -220,6 +220,11 @@ module.exports.allMessage = async (req, res, next) => {
         return res.status(400).json({ error: { email: 'User Credentials expired! Please login' } })
     }
     try {
+        let { page=1, limit = 1 } = req.query;
+		limit = parseInt(limit);
+		const skip = parseInt(page - 1);
+		const size = limit;
+		const numPage = skip * size;
         const keyword = req.query.search ? {
             chat: req.params.chatId,
             $or: [
@@ -229,9 +234,9 @@ module.exports.allMessage = async (req, res, next) => {
 
         let message;
         if (req.query?.search) {
-            message = await Message.find(keyword).sort('-createdAt')
+            message = await Message.find(keyword, { members: { $slice: [numPage, size] } }, { groupAdmin: { $slice: [numPage, size] } }).sort('-createdAt').limit(100)
         } else {
-            message = await Message.find({ chat: req.params.chatId })
+            message = await Message.find({ chat: req.params.chatId }).limit(100)
         }
         message = await UploadFiles.populate(message, {
             path: 'content.audio',
@@ -301,7 +306,7 @@ module.exports.messageRemove = async (req, res, next) => {
         const delete1 = await Message.deleteOne({ _id: messageId, chat: chatId, groupAdmin: req.user?._id })
         const delete2 = await Message.deleteOne({ _id: messageId, chat: chatId, sender: req.user?._id })
         // console.log(delete1, delete2)
-        let message = await Message.find({ chat: chatId })
+        let message = await Message.find({ chat: chatId }).limit(100)
         message = await UploadFiles.populate(message, {
             path: 'content.audio',
             select: '_id duration author filename sizeOfBytes type format duration url createdAt'
@@ -398,7 +403,7 @@ module.exports.messageEdit = async (req, res, next) => {
         }
         // console.log(message)
         if (message) {
-            message = await Message.find({ chat: chatId })
+            message = await Message.find({ chat: chatId }).limit(100)
             message = await UploadFiles.populate(message, {
                 path: 'content.files',
                 select: '_id duration author filename sizeOfBytes type format duration url createdAt'
@@ -455,7 +460,7 @@ module.exports.allMessageRemove = async (req, res, next) => {
             })
         }
         const deleted = await Message.deleteMany({ chat: req.params?.chatId });
-        let message = await Message.find({ chat: req.params?.chatId })
+        let message = await Message.find({ chat: req.params?.chatId }).limit(100)
         message = await UploadFiles.populate(message, {
             path: 'content.audio',
             select: '_id duration author filename sizeOfBytes type format duration url createdAt'

@@ -1,7 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Box, Grid } from '@mui/material';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState,useContext } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { PaginationContext } from '../../App';
 import ChatHome from '../../components/ChatHome';
 import { getGroupChatData } from '../../store/actions/groupActions';
 import { removeNotificationDB } from '../../store/actions/messageNotificationAction';
@@ -11,6 +12,8 @@ import { MESSAGE_WRITE, SEND_MESSAGE } from '../../store/type/messageTypes';
 import BodyChat from './BodyChat';
 const ChatBodyPage = ({ handleSingleChat, chatActive }) => {
     const dispatch = useDispatch();
+    const paginationContext =  useContext(PaginationContext)
+    const {page,setPage,setCount,limit}=paginationContext;
     const { auth, groupData, socketFunc, notification, groupMessage, selectedChat } = useSelector(state => state);
     const [typing, setTyping] = useState(false);
     const [isTyping, setIsTyping] = useState({ typing: false, user: null });
@@ -19,7 +22,7 @@ const ChatBodyPage = ({ handleSingleChat, chatActive }) => {
         if (!auth?.user?.token) {
             window.location.replace('/login')
         }
-        if (!socket?.current) return;
+       if(!socket?.current)return;
         if (!auth?.user?.token) return;
         if (selectedChat?.chat?._id) {
             socket?.current?.emit("setup", auth?.user?.user);
@@ -31,8 +34,19 @@ const ChatBodyPage = ({ handleSingleChat, chatActive }) => {
         })
         socket?.current?.on('stop typing', () => setIsTyping({ typing: false, user: null }))
     }, [auth?.user?.user, dispatch, selectedChat?.chat?._id]);
+    useEffect(() => {
+       if(!socket?.current)return;
+        socket?.current?.off('online user').on('online user', (data) => {
+            dispatch({
+                type: ONLINE_USER,
+                payload: {
+                    data: data
+                }
+            })
+        })
+    })
     const handleTyping = (e) => {
-        if (!socket?.current) return;
+       if(!socket?.current)return;
         dispatch({
             type: MESSAGE_WRITE,
             payload: {
@@ -59,26 +73,20 @@ const ChatBodyPage = ({ handleSingleChat, chatActive }) => {
         }
     }
     useEffect(() => {
-        if (!socket?.current) return;
+       if(!socket?.current)return;
         if (groupMessage?.sendMsg?._id) {
             socket?.current?.emit("new message", groupMessage?.sendMsg);
         }
     }, [groupMessage.messageInfoStore?._id, groupMessage?.sendMsg, groupMessage?.sendMsg?._id]);
     // console.log(socket?.current)
-    useEffect(() => {
-        if (!socket?.current) return
-        socket?.current?.off('online user').on('online user', (data) => {
-            dispatch({
-                type: ONLINE_USER,
-                payload: {
-                    data: data
-                }
-            })
-        })
+    // console.log(socket?.current)
 
+    useEffect(() => {
+       if(!socket?.current)return
         socket?.current?.off("message recieved").on("message recieved", (data) => {
+            // console.log(data)
             if (data?.newMessageRecieved) {
-                dispatch(getGroupChatData(auth?.user?.token))
+                dispatch(getGroupChatData(auth?.user?.token, 'recent', page, limit, setPage, setCount))
             }
             const { newMessageRecieved, notificationObj } = data;
             if (selectedChat?.chat?._id === newMessageRecieved?.chat?._id) {

@@ -9,17 +9,21 @@ import ThumbDown from "@mui/icons-material/ThumbDown"
 import ThumbUpAlt from "@mui/icons-material/ThumbUpAlt"
 import { Avatar, AvatarGroup, Chip, Divider, Grid, Tooltip, Typography } from '@mui/material'
 import moment from 'moment'
-import { useEffect, useRef } from 'react'
-import { useSelector } from 'react-redux'
+import { useEffect, useRef, useState } from 'react'
+import DocViewer from 'react-doc-viewer'
+import { useDispatch, useSelector } from 'react-redux'
 import ScrollableFeed from 'react-scrollable-feed'
+import { toast } from "react-toastify"
 import confusedImg from '../../../../Ashikur/chatRepliedImages/confused.png'
 import questionImg from '../../../../Ashikur/chatRepliedImages/question.png'
 import resendImg from '../../../../Ashikur/chatRepliedImages/resend.png'
+import SingleProfile from "../../../../components/ChatProfile/Profile/SingleProfile"
 import Loading from '../../../../components/Spinner/Loading'
 import TypingIndicator from '../../../../components/Typing/TypingIndicatior'
 import Editor from '../../../../Editor/Editor'
+import { AUTH_ERROR, AUTH_MESSAGE } from "../../../../store/type/authType"
+import { SINGLE_PROFILE_FAILED, SINGLE_PROFILE_SUCCESS } from "../../../../store/type/profileType"
 import MessageFunc from '../ChatBody/MessageFunc'
-import DocViewer from 'react-doc-viewer'
 import { chatExists, isLastMessage, isSameSender, isSameSenderMargin, isSameSenderPermission, isSameUser } from './chatLogic'
 
 function ScrollChat({ messages, user, handleTyping, isTyping }) {
@@ -31,6 +35,74 @@ function ScrollChat({ messages, user, handleTyping, isTyping }) {
     useEffect(() => {
         scrollToBottom()
     }, [messages]);
+    const [open, setOpen] = useState(false);
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
+    const dispatch = useDispatch();
+    const { auth, theme } = useSelector(state => state)
+    if (auth?.message) {
+        toast.success(`${auth?.message}`, {
+            position: "bottom-right",
+            theme: theme?.theme,
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+        });
+        dispatch({
+            type: AUTH_MESSAGE
+        })
+    }
+    if (auth?.error) {
+        Object.values(auth?.error)?.forEach((err) => {
+            toast.error(`${err}`, {
+                position: "bottom-right",
+                theme: theme?.theme,
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            });
+            dispatch({
+                type: AUTH_ERROR
+            })
+        })
+    }
+    const handleCurrentProfile = (id) => {
+        if (id) {
+            fetch(`https://collaballapp.herokuapp.com/api/auth/single/profile/get/${id}`, {
+                method: 'get',
+                headers: {
+                    'Content-Type': "application/json",
+                    "authorization": `Bearer ${auth?.user?.token}`
+                },
+            })
+                .then(res => res.json())
+                .then(data => {
+                    if (data) {
+                        dispatch({
+                            type: SINGLE_PROFILE_SUCCESS,
+                            payload: {
+                                data: data
+                            }
+                        })
+                        handleOpen()
+                    }
+                    if (data?.error) {
+                        dispatch({
+                            type: SINGLE_PROFILE_FAILED,
+                            payload: {
+                                error: data.error,
+                            }
+                        })
+                    }
+                })
+        }
+    }
     return (
         <ScrollableFeed style={{ overflow: 'hidden' }}>
             {groupMessage?.loading
@@ -41,12 +113,12 @@ function ScrollChat({ messages, user, handleTyping, isTyping }) {
                     <div style={{ marginTop: "50px" }}>
                         {messages?.length !== 0 && messages?.length && messages?.map((m, i) => (
                             <span key={i}>
-                                <div style={{ display: "flex", alignItems: 'center', marginBottom: '10px',marginLeft:'20px' }} ref={messagesEndRef}>
+                                <div style={{ display: "flex", alignItems: 'center', marginBottom: '10px', marginLeft: '20px' }} ref={messagesEndRef}>
                                     <div>
 
                                         {(isSameSender(messages, m, i, user._id) ||
                                             isLastMessage(messages, i, user._id)) && (
-                                                <Tooltip style={{ cursor: "pointer" }} title={m?.sender?.firstName + ' ' + m?.sender?.lastName}
+                                                <Tooltip onClick={() => handleCurrentProfile(m.sender?._id)} style={{ cursor: "pointer" }} title={m?.sender?.firstName + ' ' + m?.sender?.lastName}
                                                     placement="bottom-start" aria-haspopup arrow>
                                                     <Avatar
                                                         sx={{ cursor: 'pointer', marginTop: '7px', marginRight: '25px' }}
@@ -291,7 +363,7 @@ function ScrollChat({ messages, user, handleTyping, isTyping }) {
                         {uploads?.loading && <>
                             <Loading />
                         </>}
-                        {selectedChat?.chat?.seen?.length &&
+                        {selectedChat?.chat?.seen?.length !== 0 &&
                             <AvatarGroup style={{ cursor: 'pointer' }} total={selectedChat?.chat?.seen?.length}>
                                 {selectedChat?.chat?.seen?.map((user, i) => (
                                     <Avatar title={user?.firstName + ' ' + user?.lastName} key={i} sx={{ height: '15px', width: '15px', marginTop: '7px' }} alt={user.username} src={user?.pic} />
@@ -307,8 +379,10 @@ function ScrollChat({ messages, user, handleTyping, isTyping }) {
                             </Tooltip>
                         </div>
                     </> : <> </>}
+
                     {selectedChat?.chat?._id && <Editor isTyping={isTyping} handleTyping={handleTyping} />}
                 </>}
+            <SingleProfile caneclBtn="caneclBtn" handleClose={handleClose} handleOpen={handleOpen} open={open} />
         </ScrollableFeed>
     )
 }

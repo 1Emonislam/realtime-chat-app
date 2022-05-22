@@ -30,7 +30,8 @@ export const getMyProfile = (token) => {
                         dispatch({
                             type: PROFILE_SUCCESS,
                             payload: {
-                                data: data
+                                data: data,
+                                message: data.message
                             }
                         })
                     }
@@ -117,7 +118,7 @@ export const updateProfile = (auth, data) => {
                         loading: false,
                     }
                 })
-               
+
                 if (data?.data) {
                     dispatch({
                         type: AUTH_SUCCESS,

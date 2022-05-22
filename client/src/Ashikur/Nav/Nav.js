@@ -48,7 +48,7 @@ const Nav = ({ handleSingleChat, children }) => {
           textAlign="center"
         // sx={{alignContent:'space-around'}}
         >
-          <Tooltip followCursor title='home' arrow>
+          <Tooltip followCursor title='Home' arrow>
             <Grid
               item
               sx={{
@@ -83,7 +83,7 @@ const Nav = ({ handleSingleChat, children }) => {
               </Link>
             </Grid>
           </Tooltip>
-          <Tooltip followCursor title='dashboard' arrow>
+          <Tooltip followCursor title='Dashboard' arrow>
             <Grid
               item
               sx={{

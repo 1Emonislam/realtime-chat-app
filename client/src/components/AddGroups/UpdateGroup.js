@@ -41,10 +41,10 @@ const UpdateGroup = ({ handleGroupClose, groupOpen, groupInfo }) => {
             setPreviewSource(reader?.result)
         }
     }
-    if (selected) {
+    if (selected.target?.files?.length) {
         const file = selected.target?.files[0];
         fileReader(file)
-    }
+      }    
     if (groupData?.message) {
         toast.success(`${groupData?.message}`, {
             position: "bottom-right",

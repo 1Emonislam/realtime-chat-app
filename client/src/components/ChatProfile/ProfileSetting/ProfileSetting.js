@@ -37,7 +37,7 @@ const ProfileSetting = ({ mode, handleClose ,caneclBtn}) => {
 
                 <Box
                     sx={{ py: 4, }}
-                    backgroundColor={mode !== 'dark' ? '#fcfcfc' : '#0d0d0d'}
+                    backgroundColor={mode !== 'dark' ? 'transparent' : '#0d0d0d'}
                 >
                     <Box>
                         <Box sx={{ mb: "20px" }}>

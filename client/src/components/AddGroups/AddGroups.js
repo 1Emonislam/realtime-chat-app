@@ -40,7 +40,7 @@ const AddGroups = ({ handleGroupClose, groupOpen }) => {
       setPreviewSource(reader?.result)
     }
   }
-  if (selected) {
+  if (selected.target?.files?.length) {
     const file = selected.target?.files[0];
     fileReader(file)
   }
@@ -170,12 +170,12 @@ const AddGroups = ({ handleGroupClose, groupOpen }) => {
                   </> :
                     <>
                       <TextField fullWidth size="small" style={{ width: 280 }} />
-                      <label style={{color:'white'}} className="browseFile">
+                      <label style={{ color: 'white' }} className="browseFile">
                         <input sx={{ bgcolor: "blue", color: 'white', padding: '5px 30px!important' }} onChange={(e) => setSelected(e)} type="file" />
                         Browse File
                       </label></>}
                 </Box>
-                
+
                 <Box >
                   <>
                     <ToggleButton value="five" style={{ border: 'none', textTransform: 'capitalize' }}>

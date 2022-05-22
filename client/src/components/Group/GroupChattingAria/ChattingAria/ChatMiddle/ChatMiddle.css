@@ -112,14 +112,16 @@ ul.dropdown-menu li:hover {
 /* header search function */
 .chat-search.visible-chat {
   width: 100%;
-  border: 1px solid #f3f3f3;
+  border: 1px solid #f3f3f36b;
   z-index: 0;
   position: absolute;
-  top: 100%;
+  top: 74px !important;
   background: transparent;
   transition: ease all 0.5s;
   -webkit-transition: ease all 0.5s;
   transform: translateY(-0%);
+  border-radius: 6px;
+  padding: 3px 0px 0px 0;
 }
 .transform {
   top: 101% !important;

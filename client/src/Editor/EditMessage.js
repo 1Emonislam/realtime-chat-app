@@ -12,17 +12,17 @@ import Editor from './Editor';
 const style = {
     position: 'absolute',
     top: '50%',
-    left: '50%',
+    left: '59%',
     transform: 'translate(-50%, -50%)',
     bgcolor: 'background.paper',
     border: 'none',
-    outline: 'none',
-    boxShadow: 24,
+    boxShadow: 'none',
     borderRadius: '10px',
-    p: 4,
+    width: '45%',
+    p: 2,
 };
 
-export default function EditMessage({ messageEditHandle, handleTyping, isTyping,messageText,editMessageOpen }) {
+export default function EditMessage({ messageEditHandle, setEditMessageOpen, handleTyping, isTyping, messageText, editMessageOpen }) {
     const { groupMessage, theme } = useSelector(state => state)
     const dispatch = useDispatch();
     if (groupMessage?.success) {
@@ -60,9 +60,10 @@ export default function EditMessage({ messageEditHandle, handleTyping, isTyping,
             })
         })
     }
+
     return (
-         <Modal
-                style={{ overflowY: 'scroll' }}
+        <Modal
+            style={{ overflowY: 'scroll' }}
             open={editMessageOpen}
             aria-labelledby="modal-modal-title"
             aria-describedby="modal-modal-description"
@@ -102,7 +103,7 @@ export default function EditMessage({ messageEditHandle, handleTyping, isTyping,
                             <CancelIcon style={{ cursor: "pointer" }} sx={{ color: "#ee00ab" }} onClick={() => messageEditHandle(false)} />
                         </Box>
                     </div>
-                    <Editor handleTyping={handleTyping} isTyping={isTyping} editMsg={messageText}messageEditHandle={messageEditHandle}></Editor>
+                    <Editor handleTyping={handleTyping} isTyping={isTyping} editMsg={messageText} messageEditHandle={messageEditHandle}></Editor>
                     <ToastContainer
                         position="bottom-right"
                         autoClose={5000}

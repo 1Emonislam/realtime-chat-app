@@ -33,6 +33,7 @@ import { getGroupChatData } from "./store/actions/groupActions";
 import { getNotification } from "./store/actions/messageNotificationAction";
 import { SOCKET_GLOBAL } from "./store/type/socketType";
 export const ThemeSelectContext = React.createContext();
+export const PaginationContext = React.createContext();
 const ColorModeContext = React.createContext({ toggleColorMode: () => { } });
 export default function ToggleColorMode() {
   const { auth, groupMessage } = useSelector(state => state);
@@ -68,11 +69,13 @@ export default function ToggleColorMode() {
       createTheme({
         palette: {
           mode,
-
         },
       }),
     [mode]
   );
+  const [count, setCount] = React.useState(0)
+  const [page, setPage] = React.useState(1)
+  const limit = 10;
   React.useEffect(() => {
     if (!auth?.user?.user?.email) {
       <Navigate to="/login" replace></Navigate>
@@ -94,10 +97,18 @@ export default function ToggleColorMode() {
     })
     return () => { socket.current?.disconnect() };
   }, [auth?.user?.user?.email, dispatch])
+  const contextObj = {
+    page,
+    setPage,
+    count,
+    setCount,
+    limit
+  }
   React.useMemo(() => {
-    dispatch(getGroupChatData(auth?.user?.token, 'recent'));
+    dispatch(getGroupChatData(auth?.user?.token, 'recent', page, limit, setPage, setCount));
     dispatch(getNotification(auth.user?.token))
-  }, [auth.user?.token, dispatch, groupMessage?.msg])
+  }, [auth.user?.token, page, dispatch, groupMessage?.msg])
+
   return (
     <ColorModeContext.Provider value={colorMode} sx={{
       bgcolor: "background.default",
@@ -106,116 +117,118 @@ export default function ToggleColorMode() {
       width: "100%",
     }}>
       <ThemeSelectContext.Provider value={theme}>
-        <ThemeProvider theme={theme}>
-          <BrowserRouter>
-            <Routes>
-              <Route path="/home" element={<Home />}></Route>
-              <Route path="/" element={<Home />}></Route>
-              <Route path="/login" element={<Login mode={mode} />}>
-              </Route>
-              <Route path="/forget-password" element={<ForgetPassword />}>
-              </Route>
-              <Route
-                path="/reset-password/:token"
-                element={<ResetPassword />}
-              > </Route>
-              <Route path="/change-password" element={<ChangePassword />}>
-              </Route>
-              <Route path="/register" element={<Register mode={mode} />}>
-              </Route>
-              {/* private page start */}
-              <Route
-                path="/chat"
-                element={
-                  <Chat>
-                    <ThemeSwitch
-                      onClick={colorMode.toggleColorMode}
-                      style={{ fontSize: "20px" }}
-                      checked={!(theme.palette.mode === "light")}
-                    />
-                  </Chat>
-                }
-              ></Route>
-              <Route
-                path="/group"
-                element={
-                  <Group>
+        <PaginationContext.Provider value={contextObj}>
+          <ThemeProvider theme={theme}>
+            <BrowserRouter>
+              <Routes>
+                <Route path="/home" element={<Home />}></Route>
+                <Route path="/" element={<Home />}></Route>
+                <Route path="/login" element={<Login mode={mode} />}>
+                </Route>
+                <Route path="/forget-password" element={<ForgetPassword />}>
+                </Route>
+                <Route
+                  path="/reset-password/:token"
+                  element={<ResetPassword />}
+                > </Route>
+                <Route path="/change-password" element={<ChangePassword />}>
+                </Route>
+                <Route path="/register" element={<Register mode={mode} />}>
+                </Route>
+                {/* private page start */}
+                <Route
+                  path="/chat"
+                  element={
+                    <Chat>
+                      <ThemeSwitch
+                        onClick={colorMode.toggleColorMode}
+                        style={{ fontSize: "20px" }}
+                        checked={!(theme.palette.mode === "light")}
+                      />
+                    </Chat>
+                  }
+                ></Route>
+                <Route
+                  path="/group"
+                  element={
+                    <Group>
 
-                  </Group>
-                }
-              ></Route>
-              <Route
-                path="/call"
-                element={
-                  <Call>
-                    <ThemeSwitch
-                      onClick={colorMode.toggleColorMode}
-                      style={{ fontSize: "20px" }}
-                      checked={!(theme.palette.mode === "light")}
-                    />
-                  </Call>
-                }
-              ></Route>
-              <Route
-                path="/dashboard"
-                element={
-                  <UserDashboard mode={mode}>
-                    <ThemeSwitch
-                      onClick={colorMode.toggleColorMode}
-                      style={{ fontSize: "20px" }}
-                      checked={!(theme.palette.mode === "light")}
-                    />
-                  </UserDashboard>
-                }
-              ></Route>
-              <Route
-                path="/settings"
-                element={
-                  <Settings mode={mode}>
-                    <ThemeSwitch
-                      onClick={colorMode.toggleColorMode}
-                      style={{ fontSize: "20px" }}
-                      checked={!(theme.palette.mode === "light")}
-                    />
-                  </Settings>
-                }
-              ></Route>
-              <Route
-                path="/status"
-                element={
-                  <Status>
-                    <ThemeSwitch
-                      onClick={colorMode.toggleColorMode}
-                      style={{ fontSize: "20px" }}
-                      checked={!(theme.palette.mode === "light")}
-                    />
-                  </Status>
-                }
-              ></Route>
-              {/* Dashboard  start*/}
-              <Route path="/group/invite/:token" element={<GroupInviteAccept />}> </Route>
-              <Route path="/general-setting" element={< SettingsGeneral />}> </Route>
-              <Route path="/admob-setting" element={< SettingAdmob />}> </Route>
-              <Route path="/snich-setting" element={< SettingSinch />}> </Route>
-              <Route path="/firebase-setting" element={< SettingsFirebase />}> </Route>
-              {/* <Route path="/dashboard" element={< DashBoardHome />}> </Route> */}
-              <Route path="/online" element={< OnLineAndOffLineStatusBar />}> </Route>
-              <Route path="/users" element={< Users />}> </Route>
-              <Route path="/blockusers" element={< BlockedUser />}> </Route>
-              <Route path="/report" element={< ReportUser />}> </Route>
-              {/* Admin Dashboard */}
-              <Route path="admin-dashboard" element={<Dashboard />}>
-                <Route path="" element={<DHome />} />
-              </Route>
-              <Route
-                path="*"
-                element={
-                  <> <h2> Not Found</h2></>
-                }>
-              </Route>
-            </Routes>
-          </BrowserRouter>
-        </ThemeProvider >
+                    </Group>
+                  }
+                ></Route>
+                <Route
+                  path="/call"
+                  element={
+                    <Call>
+                      <ThemeSwitch
+                        onClick={colorMode.toggleColorMode}
+                        style={{ fontSize: "20px" }}
+                        checked={!(theme.palette.mode === "light")}
+                      />
+                    </Call>
+                  }
+                ></Route>
+                <Route
+                  path="/dashboard"
+                  element={
+                    <UserDashboard mode={mode}>
+                      <ThemeSwitch
+                        onClick={colorMode.toggleColorMode}
+                        style={{ fontSize: "20px" }}
+                        checked={!(theme.palette.mode === "light")}
+                      />
+                    </UserDashboard>
+                  }
+                ></Route>
+                <Route
+                  path="/settings"
+                  element={
+                    <Settings mode={mode}>
+                      <ThemeSwitch
+                        onClick={colorMode.toggleColorMode}
+                        style={{ fontSize: "20px" }}
+                        checked={!(theme.palette.mode === "light")}
+                      />
+                    </Settings>
+                  }
+                ></Route>
+                <Route
+                  path="/status"
+                  element={
+                    <Status>
+                      <ThemeSwitch
+                        onClick={colorMode.toggleColorMode}
+                        style={{ fontSize: "20px" }}
+                        checked={!(theme.palette.mode === "light")}
+                      />
+                    </Status>
+                  }
+                ></Route>
+                {/* Dashboard  start*/}
+                <Route path="/group/invite/:token" element={<GroupInviteAccept />}> </Route>
+                <Route path="/general-setting" element={< SettingsGeneral />}> </Route>
+                <Route path="/admob-setting" element={< SettingAdmob />}> </Route>
+                <Route path="/snich-setting" element={< SettingSinch />}> </Route>
+                <Route path="/firebase-setting" element={< SettingsFirebase />}> </Route>
+                {/* <Route path="/dashboard" element={< DashBoardHome />}> </Route> */}
+                <Route path="/online" element={< OnLineAndOffLineStatusBar />}> </Route>
+                <Route path="/users" element={< Users />}> </Route>
+                <Route path="/blockusers" element={< BlockedUser />}> </Route>
+                <Route path="/report" element={< ReportUser />}> </Route>
+                {/* Admin Dashboard */}
+                <Route path="admin-dashboard" element={<Dashboard />}>
+                  <Route path="" element={<DHome />} />
+                </Route>
+                <Route
+                  path="*"
+                  element={
+                    <> <h2> Not Found</h2></>
+                  }>
+                </Route>
+              </Routes>
+            </BrowserRouter>
+          </ThemeProvider >
+        </PaginationContext.Provider>
       </ThemeSelectContext.Provider >
     </ColorModeContext.Provider >
   );

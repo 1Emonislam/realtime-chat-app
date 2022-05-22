@@ -123,6 +123,13 @@ export const sendAllUploadMessage = (data, chatId, token) => {
                     //console.log(data)
                     if (data) {
                         dispatch({
+                            type: SEND_MESSAGE,
+                            payload: {
+                                message: data?.message,
+                                data: data,
+                            }
+                        })
+                        dispatch({
                             type: UPLOAD_SUCCESS,
                             payload: {
                                 success: true,
@@ -130,27 +137,21 @@ export const sendAllUploadMessage = (data, chatId, token) => {
                                 loading: false,
                             }
                         })
-                        dispatch({
-                            type: SEND_MESSAGE,
-                            payload: {
-                                message: data?.message,
-                                data: data,
-                            }
-                        })
+
                     }
                     if (data.error) {
+                        dispatch({
+                            type: FAILED_MESSAGE,
+                            payload: {
+                                error: data?.error,
+                            }
+                        })
                         dispatch({
                             type: UPLOAD_FAILED,
                             payload: {
                                 success: false,
                                 error: true,
                                 loading: false,
-                            }
-                        })
-                        dispatch({
-                            type: FAILED_MESSAGE,
-                            payload: {
-                                error: data?.error,
                             }
                         })
                     }

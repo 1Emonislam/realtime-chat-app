@@ -29,7 +29,8 @@ export const getSelectedChat = (chatId, token) => {
                         dispatch({
                             type: SELECTED_CHAT_SUCCESS,
                             payload: {
-                                data: data
+                                data: data,
+                                message:data.message
                             }
                         })
                     }

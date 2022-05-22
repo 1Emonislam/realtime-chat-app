@@ -4,6 +4,7 @@ const initState = {
     profile: {},
     singleProfile: {},
     error: '',
+    message: '',
     loading: false,
 }
 export const myProfileReducer = (state = initState, action) => {
@@ -19,6 +20,7 @@ export const myProfileReducer = (state = initState, action) => {
         return {
             ...state,
             singleProfile: payload?.data?.data,
+            message: payload.message,
             loading: false
         }
     }

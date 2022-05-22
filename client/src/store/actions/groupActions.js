@@ -1,6 +1,6 @@
 import { GROUP_FAILED_DATA, GROUP_GET_DATA, GROUP_INVITE_GEN_FAILED, GROUP_INVITE_GEN_SUCCESS, GROUP_LOADING_DATA, GROUP_PROGRESS_ACCEPTED, GROUP_PROGRESS_DECLINED, GROUP_SUCCESS_DATA } from "../type/groupType"
 import { GROUP_ADD_MEMBER_FAILED, GROUP_ADD_MEMBER_SUCCESS, SELECTED_CHAT_LOADING } from "../type/selectedChatTypes"
-export const getGroupChatData = (token, status, page, limit) => {
+export const getGroupChatData = (token, status, page, limit, setPage, setCount) => {
     return (dispatch) => {
         dispatch({
             type: GROUP_LOADING_DATA,
@@ -18,6 +18,9 @@ export const getGroupChatData = (token, status, page, limit) => {
             .then(res => res.json())
             .then(data => {
                 if (data) {
+                    if (data.count) {
+                        setCount(data.count)
+                    }
                     dispatch({
                         type: GROUP_LOADING_DATA,
                         payload: {
@@ -266,7 +269,7 @@ export const groupMemberAdd = (chatId, userCollection, token, handleCopy) => {
         }
     }
 }
-export const groupMemberRemove = (chatId, userId, token) => {
+export const groupMemberRemove = (chatId, userId, token, meLeave) => {
     return async (dispatch) => {
         dispatch({
             type: SELECTED_CHAT_LOADING,
@@ -281,7 +284,7 @@ export const groupMemberRemove = (chatId, userId, token) => {
                     'Content-Type': "application/json",
                     "authorization": `Bearer ${token}`
                 },
-                body: JSON.stringify({ chatId, userId })
+                body: JSON.stringify({ chatId, userId, meLeave: meLeave || '' })
             })
                 .then(res => res.json())
                 .then(data => {
@@ -383,7 +386,7 @@ export const groupDelete = (chatId, token) => {
 export const groupUpdate = (data, token, reset) => {
     return async (dispatch) => {
         try {
-            fetch(`https://collaballapp.herokuapp.com/api/chat/group/rename`, {
+            fetch(`https://collaballapp.herokuapp.com/api/chat/`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': "application/json",
