@@ -1,0 +1,29 @@
+.mainAboutSection .subtitles {
+  font-size: 17px;
+  font-weight: 700;
+}
+
+.mainAboutSection .aboutSection {
+  margin-top: 30px;
+  text-align: center;
+}
+
+.mainAboutSection .aboutSection img {
+  width: 5.1rem;
+  height: 5.1rem;
+  border: 7px solid rgba(66, 11, 161, 0.1);
+  border-radius: 50%;
+}
+
+.mainAboutSection .aboutSection .titles {
+  font-size: 20px;
+  font-weight: 700;
+  margin-top: 5px;
+}
+
+.mainAboutSection .aboutText {
+  color: #999999;
+  font-size: 14px;
+  font-weight: 600;
+}
+/*# sourceMappingURL=AboutPage.module.css.map */
