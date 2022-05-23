@@ -7,6 +7,7 @@ import { io } from "socket.io-client";
 import "./App.css";
 import Call from "./components/Call/Call";
 import BlockedUser from "./components/DashBoardSettings/BlockedUser";
+import Media from "./components/DashBoardSettings/Media";
 import OnLineAndOffLineStatusBar from "./components/DashBoardSettings/OnLineAndOffLineStatusBar";
 import ReportUser from "./components/DashBoardSettings/ReportUser";
 import SettingAdmob from "./components/DashBoardSettings/SettingAdmob";
@@ -16,6 +17,10 @@ import SettingSinch from "./components/DashBoardSettings/SettingSinch";
 import Users from "./components/DashBoardSettings/Users";
 import Group from "./components/Group/Group";
 import GroupInviteAccept from "./components/GroupInviteAccept";
+import DashboardLayout from "./components/KeeperDashboard/DashboardLayout/DashboardLayout";
+import Notes from "./components/KeeperDashboard/Notes/Notes";
+import Archive from "./components/KeeperDashboard/Archive/Archive";
+import Trash from "./components/KeeperDashboard/Trash/Trash";
 import Settings from "./components/Settings/Settings/Settings";
 import Status from "./components/Status/Status/Status";
 import UserDashboard from "./components/UserDashboard/UserDashboard";
@@ -215,10 +220,20 @@ export default function ToggleColorMode() {
                 <Route path="/users" element={< Users />}> </Route>
                 <Route path="/blockusers" element={< BlockedUser />}> </Route>
                 <Route path="/report" element={< ReportUser />}> </Route>
+                <Route path="/media" element={< Media />}> </Route>
                 {/* Admin Dashboard */}
                 <Route path="admin-dashboard" element={<Dashboard />}>
+                
                   <Route path="" element={<DHome />} />
                 </Route>
+                {/* Keeper Dashboard Start */}
+                <Route path="keeper" element={<DashboardLayout />}>
+                  <Route path="" element={<Notes />} />
+                  <Route path="notes" element={<Notes />} />
+                  <Route path="archive" element={<Archive />} />
+                  <Route path="trash" element={<Trash />} />
+                </Route>
+                {/* Keeper Dashboard End */}
                 <Route
                   path="*"
                   element={

@@ -1,0 +1,28 @@
+.drawerLink {
+    border-radius: 20px;
+    padding: 5px 10px;
+}
+
+.linkItem {
+    display: flex;
+    align-items: center;
+}
+
+.modalInputContainer {
+    position: relative;
+
+}
+
+.modalInputContainer>input {
+    margin-top: 10px;
+    font-size: 18px;
+}
+
+.modalInputContainer>h5 {
+    margin-top: 5px;
+    position: absolute;
+    right: 0;
+    cursor: pointer;
+    font-weight: 500;
+    color: #838282;
+}

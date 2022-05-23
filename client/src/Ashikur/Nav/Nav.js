@@ -35,7 +35,7 @@ const Nav = ({ handleSingleChat, children }) => {
       return "mobile-menu dark ";
     }
   };
- 
+
   return (
     <div id="nav-dash" style={{ display: 'flex', alignContent: 'space-between' }}>
       <>
@@ -193,7 +193,7 @@ const Nav = ({ handleSingleChat, children }) => {
             <Tooltip followCursor title='Create Group' arrow>
               <ToggleButton value="seven">
                 <GroupAddIcon
-                
+
                   onClick={handleGroupOpen}
                   sx={{
                     fontSize: {
@@ -222,26 +222,27 @@ const Nav = ({ handleSingleChat, children }) => {
             md={12}
           >
             <AddGroups
-             handleSingleChat={handleSingleChat}
+              handleSingleChat={handleSingleChat}
               handleGroupOpen={handleGroupOpen}
               handleGroupClose={handleGroupClose}
               groupOpen={groupOpen}
             ></AddGroups>
             {/* <FontAwesomeSvgIcon icon={faEllipsisV} /> */}
             <Tooltip followCursor title='Notes' arrow>
-              <ToggleButton value="seven">
-                <LibraryAddIcon
-                  onClick={handleGroupOpen}
-                  sx={{
-                    fontSize: {
-                      lg: "25px",
-                      md: "15px",
-                      sm: "10px",
-                      xs: "10px",
-                    },
-                  }}
-                />
-              </ToggleButton>
+              <Link to='/keeper'>
+                <ToggleButton value="seven">
+                  <LibraryAddIcon
+                    sx={{
+                      fontSize: {
+                        lg: "25px",
+                        md: "15px",
+                        sm: "10px",
+                        xs: "10px",
+                      },
+                    }}
+                  />
+                </ToggleButton>
+              </Link>
             </Tooltip>
           </Grid>
           <Grid
@@ -302,7 +303,7 @@ const Nav = ({ handleSingleChat, children }) => {
             xs={1}
             md={12}
           >
-            <ChatProfile  handleSingleChat={handleSingleChat}mode={theme} />
+            <ChatProfile handleSingleChat={handleSingleChat} mode={theme} />
           </Grid>
         </Grid>
       </>
