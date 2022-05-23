@@ -82,7 +82,7 @@ const Notification = () => {
                         color: '#ffffff'
                     }
                 }} badgeContent={4} color="primary">
-                    <Typography sx={{ fontSize: '20px' }}><i class="fa-solid fa-bell"></i></Typography>
+                    <Typography sx={{ fontSize: '20px' }}><i className="fa-solid fa-bell"></i></Typography>
                 </Badge>
             </Box>
             <StyledMenu

@@ -4,6 +4,7 @@ import Typography from '@mui/material/Typography';
 import * as React from 'react';
 import { BsThreeDotsVertical } from 'react-icons/bs';
 import { useDispatch, useSelector } from 'react-redux';
+import { useSpeechSynthesis } from 'react-speech-kit';
 import { toast, ToastContainer } from 'react-toastify';
 import addNoteImg from '../../../../Ashikur/chatRepliedImages/add-note.png';
 import confusedImg from '../../../../Ashikur/chatRepliedImages/confused.png';
@@ -11,12 +12,10 @@ import copyImg from '../../../../Ashikur/chatRepliedImages/copy.png';
 import deleteImg from '../../../../Ashikur/chatRepliedImages/delete.png';
 import editImg from '../../../../Ashikur/chatRepliedImages/edit.png';
 import questionImg from '../../../../Ashikur/chatRepliedImages/question.png';
-import resendImg from '../../../../Ashikur/chatRepliedImages/resend.png';
 import readTextImg from '../../../../Ashikur/chatRepliedImages/readtext.png';
 import EditMessage from '../../../../Editor/EditMessage';
 import { deleteMessage, noteCreate, sendMessage, updateMessageStore } from '../../../../store/actions/messageAction';
 import { FAILED_MESSAGE, SUCCESS_MESSAGE_CLEAR } from '../../../../store/type/messageTypes';
-import { useSpeechSynthesis } from 'react-speech-kit';
 
 export default function MessageFunc({ isSameSenderPermission, handleTyping, isTyping, message, messageInfo }) {
     const { theme, auth, groupMessage } = useSelector(state => state);
