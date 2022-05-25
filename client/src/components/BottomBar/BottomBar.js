@@ -21,7 +21,7 @@ const BottomBar = ({
   );
 
   return (
-    <Bar>
+    <Bar style={{ display: 'flex', alignItems: 'center' }}>
       <Left>
         <CameraButton onClick={toggleCameraAudio} data-switch='video'>
           <div>
@@ -31,8 +31,10 @@ const BottomBar = ({
               <FaIcon className='fas fa-video-slash'></FaIcon>
             )}
           </div>
-          Camera
         </CameraButton>
+        <SwitchMenu onClick={handleToggle}>
+          <i className='fas fa-angle-up'></i>
+        </SwitchMenu>
         {showVideoDevices && (
           <SwitchList>
             {videoDevices.length > 0 &&
@@ -42,9 +44,6 @@ const BottomBar = ({
             <div>Switch Camera</div>
           </SwitchList>
         )}
-        <SwitchMenu onClick={handleToggle}>
-          <i className='fas fa-angle-up'></i>
-        </SwitchMenu>
         <CameraButton onClick={toggleCameraAudio} data-switch='audio'>
           <div>
             {userVideoAudio.audio ? (
@@ -53,7 +52,6 @@ const BottomBar = ({
               <FaIcon className='fas fa-microphone-slash'></FaIcon>
             )}
           </div>
-          Audio
         </CameraButton>
       </Left>
       <Center>
@@ -61,7 +59,6 @@ const BottomBar = ({
           <div>
             <FaIcon className='fas fa-comments'></FaIcon>
           </div>
-          Chat
         </ChatButton>
         <ScreenButton onClick={clickScreenSharing}>
           <div>
@@ -69,11 +66,10 @@ const BottomBar = ({
               className={`fas fa-desktop ${screenShare ? 'sharing' : ''}`}
             ></FaIcon>
           </div>
-          Share Screen
         </ScreenButton>
       </Center>
       <Right>
-        <StopButton onClick={goToBack}>Stop</StopButton>
+        <StopButton onClick={goToBack}>Leave</StopButton>
       </Right>
     </Bar>
   );
@@ -89,19 +85,19 @@ const Bar = styled.div`
   justify-content: center;
   align-items: center;
   font-weight: 500;
-  background-color: #4ea1d3;
+  color:gray;
 `;
 const Left = styled.div`
   display: flex;
   align-items: center;
-
-  margin-left: 15px;
+  margin-left: 28px;
 `;
 
 const Center = styled.div`
   flex: 1;
   display: flex;
   justify-content: center;
+  align-items:center;
 `;
 
 const Right = styled.div``;
@@ -113,7 +109,7 @@ const ChatButton = styled.div`
   padding: 5px;
 
   :hover {
-    background-color: #77b7dd;
+    background-color: transparent;
     cursor: pointer;
     border-radius: 15px;
   }
@@ -130,7 +126,7 @@ const ScreenButton = styled.div`
   padding: 5px;
 
   :hover {
-    background-color: #77b7dd;
+    background-color:transparent;
     cursor: pointer;
     border-radius: 15px;
   }
@@ -152,11 +148,11 @@ const StopButton = styled.div`
   font-size: 0.9375rem;
   line-height: 30px;
   margin-right: 15px;
-  background-color: #ee2560;
+  background-color: transparent;
   border-radius: 15px;
 
   :hover {
-    background-color: #f25483;
+    background-color: transparent;
     cursor: pointer;
   }
 `;
@@ -169,7 +165,7 @@ const CameraButton = styled.div`
   padding: 5px;
 
   :hover {
-    background-color: #77b7dd;
+    background-color: transparent;
     cursor: pointer;
     border-radius: 15px;
   }
@@ -196,7 +192,7 @@ const SwitchMenu = styled.div`
   z-index: 1;
 
   :hover {
-    background-color: #476d84;
+    background-color: transparent;
     cursor: pointer;
     border-radius: 15px;
   }
@@ -217,13 +213,14 @@ const SwitchList = styled.div`
   position: absolute;
   top: -65.95px;
   left: 80px;
-  background-color: #4ea1d3;
+  background-color: gray;
   color: white;
   padding-top: 5px;
   padding-right: 10px;
   padding-bottom: 5px;
   padding-left: 10px;
   text-align: left;
+  border-radius:5px;
 
   > div {
     font-size: 0.85rem;
@@ -231,7 +228,7 @@ const SwitchList = styled.div`
     margin-bottom: 5px;
 
     :not(:last-child):hover {
-      background-color: #77b7dd;
+      background-color:transparent;
       cursor: pointer;
     }
   }

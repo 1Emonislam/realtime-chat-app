@@ -1,4 +1,4 @@
-import React, {useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import socket from '../../socket';
@@ -13,7 +13,6 @@ const Main = (props) => {
     socket.on('FE-error-user-exist', ({ error }) => {
       if (!error) {
         sessionStorage.setItem('user', userName);
-        navigate(`/room/${roomName}`);
       } else {
         setErr(error);
         setErrMsg('User name already exist');
@@ -27,6 +26,7 @@ const Main = (props) => {
       setErrMsg('Enter Room Name or User Name');
     } else {
       socket.emit('BE-check-user', { roomId: roomName, userName });
+      navigate(`/videoCall/${roomName}`);
     }
   }
 

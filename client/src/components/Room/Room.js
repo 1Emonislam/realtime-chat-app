@@ -5,8 +5,10 @@ import socket from '../../socket';
 import VideoCard from '../Video/VideoCard';
 import BottomBar from '../BottomBar/BottomBar';
 import Chat from '../Chat/Chat';
+import { useParams } from 'react-router-dom';
 
 const Room = (props) => {
+  const { roomId } = useParams()
   const currentUser = sessionStorage.getItem('user');
   const [peers, setPeers] = useState([]);
   const [userVideoAudio, setUserVideoAudio] = useState({
@@ -20,8 +22,6 @@ const Room = (props) => {
   const userVideoRef = useRef();
   const screenTrackRef = useRef();
   const userStream = useRef();
-  const roomId = props.match.params.roomId;
-
   useEffect(() => {
     // Get Video Devices
     navigator.mediaDevices.enumerateDevices().then((devices) => {
@@ -109,7 +109,7 @@ const Room = (props) => {
             users = users.filter((user) => user.peerID !== peerIdx.peer.peerID);
             return [...users];
           });
-          peersRef.current = peersRef.current.filter(({ peerID }) => peerID !== userId );
+          peersRef.current = peersRef.current.filter(({ peerID }) => peerID !== userId);
         });
       });
 
