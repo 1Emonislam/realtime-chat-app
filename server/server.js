@@ -1,12 +1,10 @@
 require('dotenv').config();
 const express = require('express')
 const cookieParser = require('cookie-parser')
-const http = require('http');
 const cors = require('cors');
 const path = require('path');
 var moment = require('moment')
 var bodyParser = require('body-parser')
-const { Server } = require("socket.io");
 const connectedDb = require('./config/db');
 const { errorLog, errorHandlerNotify } = require('express-error-handle');
 const userRoutes = require('./routes/userRoutes');
@@ -18,6 +16,8 @@ const noteRoutes = require('./routes/noteRoutes')
 const notificationRoutes = require('./routes/notificationRoutes');
 const User = require('./models/userModel');
 const app = express();
+const http = require('http').createServer(app);
+const io = require('socket.io')(http);
 const PORT = process.env.PORT || 5000;
 //middlewares
 app.use(cors({
@@ -28,17 +28,9 @@ app.use(bodyParser.json({ limit: "50mb" }));
 app.use(bodyParser.urlencoded({ limit: "2gb", extended: true, parameterLimit: 50000 }));
 app.use(cors())
 app.use(cookieParser());
-const serverApp = http.createServer(app);
-serverApp.listen(PORT, () => {
+http.listen(PORT, () => {
     console.log('Sever Started on PORT', PORT)
 })
-const io = new Server(serverApp, {
-    pingTimeout: 60000,
-    cors: {
-        origin: "*",
-        methods: ["GET", "POST"],
-    },
-});
 //Database Connected
 connectedDb();
 //Use Routes
@@ -54,24 +46,23 @@ app.use('/api/message', messageRoutes);
 app.get('/', (req, res) => {
     res.send('server connected')
 })
-
 app.use(express.static(path.join(__dirname, 'public')));
 
 if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(path.join(__dirname, '../client/build')));
+    app.use(express.static(path.join(__dirname, '../client/build')));
 
-  app.get('/*', function (req, res) {
-    res.sendFile(path.join(__dirname, '../client/build/index.html'));
-  });
+    app.get('/*', function (req, res) {
+        res.sendFile(path.join(__dirname, '../client/build/index.html'));
+    });
 }
 
 // Route
 app.get('/ping', (req, res) => {
-  res
-    .send({
-      success: true,
-    })
-    .status(200);
+    res
+        .send({
+            success: true,
+        })
+        .status(200);
 });
 let users = {};
 let socketList = {};
@@ -128,10 +119,9 @@ io.on("connection", async (socket) => {
         socket.in(onlineMember?._id).emit("online member", onlineMember)
     })
     //webrtc group caling....
-
     socket.on('BE-check-user', ({ roomId, userName }) => {
         let error = false;
-
+        console.log(roomId)
         io.sockets.in(roomId).clients((err, clients) => {
             clients.forEach((client) => {
                 if (socketList[client] == userName) {

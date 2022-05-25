@@ -1,9 +1,10 @@
 import { Grid, Paper, ToggleButton, Tooltip } from '@mui/material';
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { MdSend, MdSettingsVoice } from 'react-icons/md';
 import { ReactMic } from 'react-mic';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast, ToastContainer } from 'react-toastify';
+import sockets from '../socket';
 //import VoiceMessage from '../components/VoiceMessage.js/VoiceMessage';
 import { editMessage, sendAllUploadMessage, sendMessage } from '../store/actions/messageAction';
 import { SUCCESS_MESSAGE_CLEAR, UPDATE_MESSAGE_FAILED, WRITE_MESSAGE_UPDATE } from '../store/type/messageTypes';
@@ -11,10 +12,9 @@ import './Editor.css';
 import FileUploadPopup from './FileUploadPopup';
 import IconPopup from './IconPopup';
 import './VoiceRecoder.css';
-
 function Editor({ handleTyping, messageEditHandle, editMsg, isTyping, size = 25 }) {
-
-    const { groupMessage, theme, selectedChat, socketFunc, auth } = useSelector(state => state);
+    const socket = useRef(sockets)
+    const { groupMessage, theme, selectedChat, auth } = useSelector(state => state);
     const dispatch = useDispatch();
     const [record, setRecord] = useState(false)
     const handleUpdate = (e) => {
@@ -67,9 +67,9 @@ function Editor({ handleTyping, messageEditHandle, editMsg, isTyping, size = 25 
         })
     }
     const handleSendMessage = () => {
-        if (!(socketFunc?.socket?.current)) return
+        if (!(socket?.current)) return
         if (selectedChat?.chat?._id) {
-            socketFunc?.socket?.current?.emit('stop typing', selectedChat?.chat?._id);
+            socket?.current?.emit('stop typing', selectedChat?.chat?._id);
             if (!groupMessage?.write) return
             dispatch(sendMessage(groupMessage?.write, selectedChat?.chat?._id, auth?.user?.token))
         }

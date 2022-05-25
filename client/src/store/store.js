@@ -5,7 +5,6 @@ import { groupReducer } from './reducers/groupReducer';
 import { messageNotificationPush } from './reducers/messageNotificationReducer';
 import { messageReducer } from './reducers/messageReducer';
 import { selectedChatReducer } from './reducers/selectedChatReducer';
-import { socketReducer } from './reducers/socketReducer';
 import { themeReducer } from './reducers/ThemeReducer';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import { onlineUserReducer } from './reducers/allOnlineUserReducer';
@@ -18,7 +17,6 @@ const rootReducer = combineReducers({
     selectedChat: selectedChatReducer,
     groupData: groupReducer,
     groupMessage: messageReducer,
-    socketFunc: socketReducer,
     notification: messageNotificationPush,
     onlineUser: onlineUserReducer,
     allSearch: allUserSearchReducer,

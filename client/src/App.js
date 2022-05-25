@@ -189,8 +189,8 @@ export default function ToggleColorMode() {
                   }
                 ></Route>
                 {/* Dashboard  start*/}
-                <Route path="/" element={Main} />
-                <Route path="/room/:roomId" element={Room} />
+                <Route path="/video/calling" element={<Main></Main>} />
+                <Route path="/videoCall/:roomId" element={<Room></Room>} />
                 <Route path="/group/invite/:token" element={<GroupInviteAccept />}> </Route>
                 <Route path="/general-setting" element={< SettingsGeneral />}> </Route>
                 <Route path="/admob-setting" element={< SettingAdmob />}> </Route>
