@@ -13,6 +13,7 @@ const friendRoutes = require('./routes/friendRoutes');
 const messageRoutes = require('./routes/messageRoutes');
 const chatRoutes = require('./routes/chatRoutes');
 const noteRoutes = require('./routes/noteRoutes')
+const videoCallRoomVerify = require('./routes/videoCallRoomVerify')
 const notificationRoutes = require('./routes/notificationRoutes');
 const User = require('./models/userModel');
 const app = express();
@@ -34,7 +35,7 @@ http.listen(PORT, () => {
 //Database Connected
 connectedDb();
 //Use Routes
-
+app.use('/', videoCallRoomVerify)
 app.use('/api', notificationRoutes)
 app.use('/api/auth', userRoutes);
 app.use('/api/chat', chatRoutes)
@@ -118,6 +119,13 @@ io.on("connection", async (socket) => {
     socket.on("online members", (onlineMember) => {
         socket.in(onlineMember?._id).emit("online member", onlineMember)
     })
+    socket.on('group calling', (chat) => {
+        if (!chat?.members?.length) return
+        chat?.members.forEach(user => {
+            if (user?._id?.toString() === loggedUser?._id?.toString()) return;
+            socket.in(user?._id).emit("group calling recieved", { chatName: chat.chatName, img: chat.img })
+        })
+    })
     //webrtc group caling....
     socket.on('BE-check-user', ({ roomId, userName }) => {
         let error = false;
@@ -131,15 +139,15 @@ io.on("connection", async (socket) => {
             socket.emit('FE-error-user-exist', { error });
         });
     });
-
     /**
      * Join Room
      */
-    socket.on('BE-join-room', ({ roomId, userName }) => {
+    socket.on('BE-join-room', ({ roomId, userName, profile }) => {
         // Socket Join RoomName
+        console.log(`group calling...${roomId} joined user ${userName}`)
         socket.join(roomId);
-        socketList[socket.id] = { userName, video: true, audio: true };
-        // Set User List
+        socketList[socket.id] = { userName, profile, video: true, audio: true };
+        //Set User List
         io.sockets.in(roomId).clients((err, clients) => {
             try {
                 const users = [];

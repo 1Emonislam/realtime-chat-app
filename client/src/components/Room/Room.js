@@ -1,14 +1,16 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
 import Peer from 'simple-peer';
 import styled from 'styled-components';
 import socket from '../../socket';
-import VideoCard from '../Video/VideoCard';
 import BottomBar from '../BottomBar/BottomBar';
 import Chat from '../Chat/Chat';
-import { useParams } from 'react-router-dom';
+import VideoCard from '../Video/VideoCard';
 
 const Room = (props) => {
-  const { roomId } = useParams()
+  const { roomId } = useParams();
+  const { auth } = useSelector(state => state);
   const currentUser = sessionStorage.getItem('user');
   const [peers, setPeers] = useState([]);
   const [userVideoAudio, setUserVideoAudio] = useState({
@@ -23,6 +25,19 @@ const Room = (props) => {
   const screenTrackRef = useRef();
   const userStream = useRef();
   useEffect(() => {
+    fetch(`http://localhost:5000/group-call-verify/${roomId}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${auth?.user?.token}`
+      },
+    })
+      .then(res => res.json())
+      .then(data => {
+        if (data?.permission !== true) {
+          window.location.replace('/chat')
+        }
+      })
     // Get Video Devices
     navigator.mediaDevices.enumerateDevices().then((devices) => {
       const filtered = devices.filter((device) => device.kind === 'videoinput');
@@ -208,15 +223,13 @@ const Room = (props) => {
     e.stopPropagation();
     setDisplayChat(!displayChat);
   };
-
   // BackButton
   const goToBack = (e) => {
     e.preventDefault();
     socket.emit('BE-leave-room', { roomId, leaver: currentUser });
     sessionStorage.removeItem('user');
-    window.location.href = '/';
+    window.location.href = '/chat';
   };
-
   const toggleCameraAudio = (e) => {
     const target = e.target.getAttribute('data-switch');
 

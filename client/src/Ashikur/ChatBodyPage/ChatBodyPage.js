@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Box, Grid } from '@mui/material';
-import React, { useEffect, useState, useContext, useRef } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { PaginationContext } from '../../App';
 import ChatHome from '../../components/ChatHome';
@@ -44,6 +44,9 @@ const ChatBodyPage = ({ handleSingleChat, chatActive }) => {
                     data: data
                 }
             })
+        })
+        socket?.current?.off('group calling recieved').on('group calling recieved',(singnal) =>{
+            console.log(singnal)
         })
     })
     const handleTyping = (e) => {

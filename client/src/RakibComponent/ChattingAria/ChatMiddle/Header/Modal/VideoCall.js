@@ -5,6 +5,7 @@ import Box from '@mui/material/Box';
 import Fade from '@mui/material/Fade';
 import Modal from '@mui/material/Modal';
 import * as React from 'react';
+
 import chatImg from '../../../../../assets/images/avatar-8.jpg';
 import './AllModal.css';
 
@@ -22,7 +23,7 @@ const style = {
     p: 4,
 };
 
-function VideoCall({ videoOpen, setVideoOpen }) {
+function VideoCall({ videoOpen, setVideoOpen,handleGroupVideoCall }) {
     return (
          <Modal
                 style={{ overflowY: 'scroll' }}
@@ -48,7 +49,7 @@ function VideoCall({ videoOpen, setVideoOpen }) {
                                     </div>
                                     <div className="call-items">
                                         <span onClick={() => setVideoOpen(false)}><CloseIcon /></span>
-                                        <span className='green_btn'><VideocamIcon /></span>
+                                        <span className='green_btn'onClick={() => handleGroupVideoCall()}><VideocamIcon /></span>
                                     </div>
                                 </div>
                             </div>

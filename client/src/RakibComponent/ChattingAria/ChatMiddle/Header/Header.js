@@ -10,9 +10,12 @@ import React, { useEffect, useState } from 'react';
 import { FcDataBackup, FcDeleteDatabase, FcInvite } from 'react-icons/fc';
 import { MdPersonAddAlt1 } from 'react-icons/md';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
 import UpdateGroup from '../../../../components/AddGroups/UpdateGroup';
+import socket from '../../../../socket';
 import { getMessage } from '../../../../store/actions/messageAction';
+import { VIDEO_CALL_MY_INFO } from '../../../../store/reducers/videoCallReducer';
 import { FAILED_MESSAGE, SUCCESS_MESSAGE_CLEAR } from '../../../../store/type/messageTypes';
 import { MESSAGE_SEARCH_SELECTED } from '../../../../store/type/selectedChatTypes';
 import '../ChatMiddle.css';
@@ -22,6 +25,7 @@ import GroupAlertShow from './GroupAlertShow';
 import GroupInfo from './GroupInfo';
 import GroupInvite from './GroupInvite';
 import GroupPeople from './GroupPeople';
+
 import HeaderSkeletonMember from './HeaderSkeleton';
 import AudioCall from './Modal/AudioCall';
 import VideoCall from './Modal/VideoCall';
@@ -39,6 +43,7 @@ const Header = () => {
     const handleClose = () => {
         setAnchorEl(null);
     };
+
     const open = Boolean(anchorEl);
     const id = open ? 'simple-popover' : undefined;
     const [alertOpen, setAlertOpen] = React.useState(false);
@@ -60,6 +65,7 @@ const Header = () => {
     const [groupInfoOpen, setGroupInfoOpen] = React.useState(false);
     const handleGroupInfoOpen = () => setGroupInfoOpen(true);
     const handleGroupInfoClose = () => setGroupInfoOpen(false);
+    const navigate =useNavigate()
     useEffect(() => {
         const delayDebounceFn = setTimeout(() => {
             if (selectedChat?.chat?._id && selectedChat?.search && auth?.user?.token) {
@@ -123,6 +129,30 @@ const Header = () => {
                 }
             })
         })
+    }
+    const handleGroupVideoCall = () => {
+        if (!selectedChat?.chat?._id) {
+            toast.error(`Invalid Group Call try again!`, {
+                position: "bottom-right",
+                theme: theme?.theme,
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            });
+        }
+        dispatch({
+            type: VIDEO_CALL_MY_INFO,
+            payload: {
+                userName: auth?.user?.user?.username,
+                roomName: selectedChat?.chat?._id,
+                profile: auth?.user?.user
+            }
+        })
+        socket.emit('group calling', selectedChat?.chat);
+        navigate('/video/calling')
     }
     return (
         <>
@@ -232,7 +262,7 @@ const Header = () => {
                         </div>
                     }
                     <AudioCall audioOpen={audioOpen} setAudioOpen={setAudioOpen} />
-                    <VideoCall videoOpen={videoOpen} setVideoOpen={setVideoOpen} />
+                    <VideoCall handleGroupVideoCall={handleGroupVideoCall} videoOpen={videoOpen} setVideoOpen={setVideoOpen} />
                 </Grid>
                 <ToastContainer
                     position="top-center"
