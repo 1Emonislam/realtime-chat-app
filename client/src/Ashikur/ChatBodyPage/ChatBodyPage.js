@@ -1,10 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Box, Grid } from '@mui/material';
-import React, {  useEffect, useRef, useState } from 'react';
+import React, {  useEffect,  useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 // import { PaginationContext } from '../../App';
 import ChatHome from '../../components/ChatHome';
-import sockets from '../../socket';
+import socket from '../../socket';
 // import { getGroupChatData } from '../../store/actions/groupActions';
 import { removeNotificationDB } from '../../store/actions/messageNotificationAction';
 import { ONLINE_USER } from '../../store/reducers/allOnlineUserReducer';
@@ -18,26 +18,24 @@ const ChatBodyPage = ({ handleSingleChat, chatActive }) => {
     const { auth, groupData, notification, groupMessage, selectedChat } = useSelector(state => state);
     const [typing, setTyping] = useState(false);
     const [isTyping, setIsTyping] = useState({ typing: false, user: null });
-    const socket = useRef()
     useEffect(() => {
-        socket.current = sockets;
         if (!auth?.user?.token) {
             window.location.replace('/login')
         }
-        if (!socket?.current) return;
+        if (!socket) return;
         if (!auth?.user?.token) return;
         if (selectedChat?.chat?._id) {
-            socket?.current?.emit("join chat", selectedChat?.chat?._id);
+            socket?.emit("join chat", selectedChat?.chat?._id);
         }
-        socket?.current?.on("typing", (data) => {
+        socket?.on("typing", (data) => {
             //console.log(data)
             setIsTyping({ typing: true, user: data })
         })
-        socket?.current?.on('stop typing', () => setIsTyping({ typing: false, user: null }))
+        socket?.on('stop typing', () => setIsTyping({ typing: false, user: null }))
     }, [auth?.user?.user, dispatch, selectedChat?.chat?._id]);
     useEffect(() => {
-        if (!socket?.current) return;
-        socket?.current?.off('online user').on('online user', (data) => {
+        if (!socket) return;
+        socket?.off('online user').on('online user', (data) => {
             dispatch({
                 type: ONLINE_USER,
                 payload: {
@@ -47,7 +45,7 @@ const ChatBodyPage = ({ handleSingleChat, chatActive }) => {
         })
     })
     const handleTyping = (e) => {
-        if (!socket?.current) return;
+        if (!socket) return;
         dispatch({
             type: MESSAGE_WRITE,
             payload: {
@@ -59,7 +57,7 @@ const ChatBodyPage = ({ handleSingleChat, chatActive }) => {
         }
         if (!typing) {
             setTyping(true)
-            socket?.current?.emit('typing', { chat: selectedChat?.chat?._id, user: auth?.user?.user });
+            socket?.emit('typing', { chat: selectedChat?.chat?._id, user: auth?.user?.user });
         } if (typing) {
             let lastTypingEpachType = new Date().getTime();
             let timerLength = 6000;
@@ -67,24 +65,24 @@ const ChatBodyPage = ({ handleSingleChat, chatActive }) => {
                 let timeNow = new Date().getTime();
                 let timediff = timeNow - lastTypingEpachType;
                 if (timediff >= timerLength && typing) {
-                    socket?.current?.emit('stop typing', selectedChat?.chat?._id);
+                    socket?.emit('stop typing', selectedChat?.chat?._id);
                     setTyping(false)
                 }
             }, timerLength);
         }
     }
     useEffect(() => {
-        if (!socket?.current) return;
+        if (!socket) return;
         if (groupMessage?.sendMsg?._id) {
-            socket?.current?.emit("new message", groupMessage?.sendMsg);
+            socket?.emit("new message", groupMessage?.sendMsg);
         }
     }, [groupMessage.messageInfoStore?._id, groupMessage?.sendMsg, groupMessage?.sendMsg?._id]);
-    // console.log(socket?.current)
-    // console.log(socket?.current)
+    // console.log(socket)
+    // console.log(socket)
 
     useEffect(() => {
-        if (!socket?.current) return
-        socket?.current?.off("message recieved").on("message recieved", (data) => {
+        if (!socket) return
+        socket?.off("message recieved").on("message recieved", (data) => {
             // // console.log(data)
             // if (data?.newMessageRecieved) {
             //     dispatch(getGroupChatData(auth?.user?.token, 'recent', page, limit, setPage, setCount))

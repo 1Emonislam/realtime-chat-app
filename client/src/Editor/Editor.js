@@ -1,10 +1,10 @@
 import { Grid, Paper, ToggleButton, Tooltip } from '@mui/material';
-import React, { useState, useRef } from 'react';
+import React, { useState, } from 'react';
 import { MdSend, MdSettingsVoice } from 'react-icons/md';
 import { ReactMic } from 'react-mic';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast, ToastContainer } from 'react-toastify';
-import sockets from '../socket';
+import socket from '../socket';
 //import VoiceMessage from '../components/VoiceMessage.js/VoiceMessage';
 import { editMessage, sendAllUploadMessage, sendMessage } from '../store/actions/messageAction';
 import { SUCCESS_MESSAGE_CLEAR, UPDATE_MESSAGE_FAILED, WRITE_MESSAGE_UPDATE } from '../store/type/messageTypes';
@@ -13,7 +13,6 @@ import FileUploadPopup from './FileUploadPopup';
 import IconPopup from './IconPopup';
 import './VoiceRecoder.css';
 function Editor({ handleTyping, messageEditHandle, editMsg, isTyping, size = 25 }) {
-    const socket = useRef(sockets)
     const { groupMessage, theme, selectedChat, auth } = useSelector(state => state);
     const dispatch = useDispatch();
     const [record, setRecord] = useState(false)
@@ -67,9 +66,9 @@ function Editor({ handleTyping, messageEditHandle, editMsg, isTyping, size = 25 
         })
     }
     const handleSendMessage = () => {
-        if (!(socket?.current)) return
+        if (!socket) return
         if (selectedChat?.chat?._id) {
-            socket?.current?.emit('stop typing', selectedChat?.chat?._id);
+            socket?.emit('stop typing', selectedChat?.chat?._id);
             if (!groupMessage?.write) return
             dispatch(sendMessage(groupMessage?.write, selectedChat?.chat?._id, auth?.user?.token))
         }
