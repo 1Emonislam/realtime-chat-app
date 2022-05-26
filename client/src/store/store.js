@@ -1,5 +1,5 @@
 import { applyMiddleware, combineReducers, compose, createStore } from 'redux';
-import { composeWithDevTools } from 'redux-devtools-extension';
+// import { composeWithDevTools } from 'redux-devtools-extension';
 import thunk from 'redux-thunk';
 import { onlineUserReducer } from './reducers/allOnlineUserReducer';
 import { allUserSearchReducer } from './reducers/allSearchUserReducer';
@@ -28,6 +28,6 @@ const rootReducer = combineReducers({
 const middleware = [thunk];
 const store = createStore(rootReducer, compose(
     applyMiddleware(...middleware),
-    composeWithDevTools()
+    // composeWithDevTools()
 ))
 export default store;
