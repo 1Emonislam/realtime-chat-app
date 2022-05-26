@@ -187,7 +187,6 @@ h4.hedding_4 {
   display: flex;
   display: -webkit-flex;
   align-items: flex-end;
-  -webkit-align-items: flex-end;
 }
 .dreams_chat {
   width: 40px;
