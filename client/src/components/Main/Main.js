@@ -8,14 +8,14 @@ const Main = (props) => {
   const [err, setErr] = useState(false);
   const [errMsg, setErrMsg] = useState('');
   const navigate = useNavigate();
-  const { roomName, userName, profile } = useSelector(state => state?.videoCall)
+  const { roomName, userName, profile,callType } = useSelector(state => state?.call)
   function clickJoin() {
     if (!roomName || !userName) {
       setErr(true);
       setErrMsg('Invalid Requests Code 400');
     } else {
       socket.emit('BE-check-user', { roomId: roomName, userName, profile });
-      navigate(`/videoCall/${roomName}`);
+      navigate(`/${callType}Call/${roomName}`);
     }
   }
   useEffect(() => {

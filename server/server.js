@@ -120,11 +120,11 @@ io.on("connection", async (socket) => {
     socket.on("online members", (onlineMember) => {
         socket.in(onlineMember?._id).emit("online member", onlineMember)
     })
-    socket.on('group calling', (chat) => {
+    socket.on('group calling', ({ chat, callType }) => {
         if (!chat?.members?.length) return
         chat?.members.forEach(user => {
             if (user?._id?.toString() === loggedUser?._id?.toString()) return;
-            socket.in(user?._id).emit("group calling recieved", { chatName: chat.chatName, img: chat.img, chat: chat?._id })
+            socket.in(user?._id).emit("group calling recieved", { chatName: chat.chatName, callType, img: chat.img, chat: chat?._id })
         })
     })
     //webrtc group caling....
@@ -145,16 +145,18 @@ io.on("connection", async (socket) => {
      */
     socket.on('BE-join-room', ({ roomId, userName, profile }) => {
         // Socket Join RoomName
+        let name = profile?.firstName + ' ' + profile?.lastName;
+        let pic = profile?.pic;
         console.log(`${roomId} group calling...joined user ${userName}`)
         socket.join(roomId);
-        socketList[socket.id] = { userName, profile, video: true, audio: true };
+        socketList[socket.id] = { userName, name, pic, video: true, audio: true };
         //Set User List
         io.sockets.in(roomId).clients((err, clients) => {
             try {
                 const users = [];
                 clients.forEach((client) => {
                     // Add User List
-                    users.push({ userId: client, info: socketList[client] });
+                    users.push({ userId: client, info: socketList[client],name,pic });
                 });
                 socket.broadcast.to(roomId).emit('FE-user-join', users);
                 // io.sockets.in(roomId).emit('FE-user-join', users);
@@ -190,7 +192,7 @@ io.on("connection", async (socket) => {
         io.sockets.sockets[socket.id].leave(roomId);
     });
     socket.on('BE-leave-room-end', ({ roomId, leaver }) => {
-        io.sockets.in(roomId).emit('callEndedRoom',{callEnd:true});
+        io.sockets.in(roomId).emit('callEndedRoom', { callEnd: true });
     });
 
     socket.on('BE-toggle-camera-audio', ({ roomId, switchTarget }) => {

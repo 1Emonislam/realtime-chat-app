@@ -4,9 +4,9 @@ import Backdrop from '@mui/material/Backdrop';
 import Box from '@mui/material/Box';
 import Fade from '@mui/material/Fade';
 import Modal from '@mui/material/Modal';
-import chatImg from '../../../../../assets/images/avatar-8.jpg';
 import SettingsVoiceIcon from '@mui/icons-material/SettingsVoice';
 import CloseIcon from '@mui/icons-material/Close';
+import { useSelector } from 'react-redux';
 
 const style = {
     position: 'absolute',
@@ -17,15 +17,16 @@ const style = {
     bgcolor: 'background.paper',
     border: 'none',
     boxShadow: 24,
-    outline:'none',
+    outline: 'none',
     borderRadius: '10px',
     p: 4,
 };
 
-const AudioCall = ({  setAudioOpen,audioOpen }) => {
+const AudioCall = ({ setAudioOpen, audioOpen, handleGroupAudioCall }) => {
+    const { selectedChat } = useSelector(state => state)
     return (
         <div>
-             <Modal
+            <Modal
                 style={{ overflowY: 'scroll' }}
                 aria-labelledby="transition-modal-title"
                 aria-describedby="transition-modal-description"
@@ -43,13 +44,14 @@ const AudioCall = ({  setAudioOpen,audioOpen }) => {
                                 <div className="call-wrapper">
                                     <div className="call-inner">
                                         <div className="call-user">
-                                            <img alt="User" src={chatImg} className="call-avatar" />
-                                            <h4>Emon Islam <span>voice calling</span>
+                                            <img alt={selectedChat?.chat?.chatName} src={selectedChat?.chat?.img} className="call-avatar" />
+                                            <h4>{selectedChat?.chat?.chatName}
                                             </h4>
+                                            <h4 style={{ padding: '0', margin: '0' }}>Audio calling</h4>
                                         </div>
                                         <div className="call-items">
-                                            <span onClick={() => setAudioOpen(false)}><CloseIcon/></span>
-                                            <span className='green_btn'><SettingsVoiceIcon /></span>
+                                            <span onClick={() => setAudioOpen(false)}><CloseIcon /></span>
+                                            <span className='green_btn' onClick={() => handleGroupAudioCall()}><SettingsVoiceIcon /></span>
                                         </div>
                                     </div>
                                 </div>

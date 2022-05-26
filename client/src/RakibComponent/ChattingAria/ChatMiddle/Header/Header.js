@@ -15,7 +15,7 @@ import { toast, ToastContainer } from 'react-toastify';
 import UpdateGroup from '../../../../components/AddGroups/UpdateGroup';
 import socket from '../../../../socket';
 import { getMessage } from '../../../../store/actions/messageAction';
-import { VIDEO_CALL_MY_INFO } from '../../../../store/reducers/videoCallReducer';
+import { VIDEO_CALL_MY_INFO } from '../../../../store/reducers/callReducer';
 import { FAILED_MESSAGE, SUCCESS_MESSAGE_CLEAR } from '../../../../store/type/messageTypes';
 import { MESSAGE_SEARCH_SELECTED } from '../../../../store/type/selectedChatTypes';
 import '../ChatMiddle.css';
@@ -25,10 +25,10 @@ import GroupAlertShow from './GroupAlertShow';
 import GroupInfo from './GroupInfo';
 import GroupInvite from './GroupInvite';
 import GroupPeople from './GroupPeople';
-
 import HeaderSkeletonMember from './HeaderSkeleton';
 import AudioCall from './Modal/AudioCall';
 import VideoCall from './Modal/VideoCall';
+
 const Header = () => {
     const dispatch = useDispatch()
     const { selectedChat, groupMessage, theme, auth } = useSelector(state => state)
@@ -65,7 +65,7 @@ const Header = () => {
     const [groupInfoOpen, setGroupInfoOpen] = React.useState(false);
     const handleGroupInfoOpen = () => setGroupInfoOpen(true);
     const handleGroupInfoClose = () => setGroupInfoOpen(false);
-    const navigate =useNavigate()
+    const navigate = useNavigate()
     useEffect(() => {
         const delayDebounceFn = setTimeout(() => {
             if (selectedChat?.chat?._id && selectedChat?.search && auth?.user?.token) {
@@ -132,7 +132,7 @@ const Header = () => {
     }
     const handleGroupVideoCall = () => {
         if (!selectedChat?.chat?._id) {
-            toast.error(`Invalid Group Call try again!`, {
+            toast.error(`Invalid Group Video Call try again!`, {
                 position: "bottom-right",
                 theme: theme?.theme,
                 autoClose: 5000,
@@ -148,11 +148,37 @@ const Header = () => {
             payload: {
                 userName: auth?.user?.user?.username,
                 roomName: selectedChat?.chat?._id,
-                profile: auth?.user?.user
+                profile: auth?.user?.user,
+                callType: 'video'
             }
         })
-        socket.emit('group calling', selectedChat?.chat);
-        navigate('/video/calling')
+        socket.emit('group calling',{ chat: selectedChat?.chat, callType: 'video' });
+        navigate('/group/calling')
+    }
+    const handleGroupAudioCall = () => {
+        if (!selectedChat?.chat?._id) {
+            toast.error(`Invalid Group Audio Call try again!`, {
+                position: "bottom-right",
+                theme: theme?.theme,
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            });
+        }
+        dispatch({
+            type: VIDEO_CALL_MY_INFO,
+            payload: {
+                userName: auth?.user?.user?.username,
+                roomName: selectedChat?.chat?._id,
+                profile: auth?.user?.user,
+                callType: 'audio'
+            }
+        })
+        socket.emit('group calling', { chat: selectedChat?.chat, callType: 'audio' });
+        navigate('/group/calling')
     }
     return (
         <>
@@ -261,8 +287,8 @@ const Header = () => {
                             </div>
                         </div>
                     }
-                    <AudioCall audioOpen={audioOpen} setAudioOpen={setAudioOpen} />
-                    <VideoCall chatName={selectedChat}handleGroupVideoCall={handleGroupVideoCall} videoOpen={videoOpen} setVideoOpen={setVideoOpen} />
+                    <AudioCall audioOpen={audioOpen} handleGroupAudioCall={handleGroupAudioCall} setAudioOpen={setAudioOpen} />
+                    <VideoCall chatName={selectedChat} handleGroupVideoCall={handleGroupVideoCall} videoOpen={videoOpen} setVideoOpen={setVideoOpen} />
                 </Grid>
                 <ToastContainer
                     position="top-center"

@@ -25,6 +25,7 @@ import Archive from "./components/KeeperDashboard/Archive/Archive";
 import DashboardLayout from "./components/KeeperDashboard/DashboardLayout/DashboardLayout";
 import Notes from "./components/KeeperDashboard/Notes/Notes";
 import Trash from "./components/KeeperDashboard/Trash/Trash";
+import AudioRoom from "./components/Room/AudioRoom";
 import Settings from "./components/Settings/Settings/Settings";
 import Status from "./components/Status/Status/Status";
 import UserDashboard from "./components/UserDashboard/UserDashboard";
@@ -40,7 +41,7 @@ import DHome from './pages/Dashboard/DHome/DHome';
 import Home from "./pages/Home/Home";
 import { getGroupChatData } from "./store/actions/groupActions";
 import { getNotification } from "./store/actions/messageNotificationAction";
-import { VIDEO_CALL_MY_INFO } from "./store/reducers/videoCallReducer";
+import { VIDEO_CALL_MY_INFO } from "./store/reducers/callReducer";
 export const ThemeSelectContext = React.createContext();
 export const PaginationContext = React.createContext();
 const ColorModeContext = React.createContext({ toggleColorMode: () => { } });
@@ -100,7 +101,7 @@ export default function ToggleColorMode() {
   }, [auth.user?.token, page, dispatch, groupMessage?.msg])
   useEffect(() => {
     if (!socket) return
-    if(auth?.user?.user?._id){
+    if (auth?.user?.user?._id) {
       socket?.emit("setup", auth?.user?.user);
     }
   }, [auth?.user?.user?._id])
@@ -114,14 +115,17 @@ export default function ToggleColorMode() {
         payload: {
           userName: auth?.user?.user?.username,
           roomName: singnal?.chat,
-          profile: auth?.user?.user
+          profile: auth?.user?.user,
+          callType: singnal.callType
         }
       })
       toast(<div style={{ padding: '40px 5px' }}>
         <img className="videoCall" style={{ width: '50px', height: '50px', borderRadius: '50px', margin: 'auto', display: 'block' }} src={singnal.img} alt={singnal.chatName} /> <br />
         <h4> {singnal?.chatName}</h4>
+        <span>{singnal.callType} Calling...</span>
         <br />
-        <Link to="/video/calling" style={{ padding: '7px', marginRight: '5px', borderRadius: '5px', background: 'green', color: 'white' }}> Answer </Link> <span onClick={handleClose} style={{ padding: '7px 10px',border:'none', borderRadius: '5px', background: 'red', color: 'white' }} > Declined</span>
+        <br />
+        <Link to="/group/calling" style={{ padding: '7px', marginRight: '5px', borderRadius: '5px', background: 'green', color: 'white' }}> Answer </Link> <span onClick={handleClose} style={{ padding: '7px 10px', border: 'none', borderRadius: '5px', background: 'red', color: 'white' }} > Declined</span>
       </div>, {
         position: "top-right",
         theme: theme?.theme,
@@ -230,8 +234,9 @@ export default function ToggleColorMode() {
                   }
                 ></Route>
                 {/* Dashboard  start*/}
-                <Route path="/video/calling" element={<Main></Main>} />
+                <Route path="/group/calling" element={<Main></Main>} />
                 <Route path="/videoCall/:roomId" element={<Room></Room>} />
+                <Route path="/audioCall/:roomId" element={<AudioRoom></AudioRoom>} />
                 <Route path="/group/invite/:token" element={<GroupInviteAccept />}> </Route>
                 <Route path="/general-setting" element={< SettingsGeneral />}> </Route>
                 <Route path="/admob-setting" element={< SettingAdmob />}> </Route>
