@@ -5,9 +5,8 @@ import Peer from 'simple-peer';
 import styled from 'styled-components';
 import socket from '../../socket';
 import AudioBar from '../BottomBar/AudioBar';
-import BottomBar from '../BottomBar/BottomBar';
 import Chat from '../Chat/Chat';
-import VideoCard from '../Video/VideoCard';
+import AudioCard from '../Video/AudioCard';
 
 const AudioRoom = (props) => {
     const { roomId } = useParams();
@@ -15,7 +14,7 @@ const AudioRoom = (props) => {
     const currentUser = auth?.user?.user?.username;
     const [peers, setPeers] = useState([]);
     const [userVideoAudio, setUserVideoAudio] = useState({
-        localUser: { video: true, audio: true },
+        localUser: { video: false, audio: true },
     });
     const [videoDevices, setVideoDevices] = useState([]);
     const [displayChat, setDisplayChat] = useState(false);
@@ -51,28 +50,31 @@ const AudioRoom = (props) => {
 
         // Connect Camera & Mic
         navigator.mediaDevices
-            .getUserMedia({ video: true, audio: true })
+            .getUserMedia({ video: false, audio: true })
             .then((stream) => {
                 userVideoRef.current.srcObject = stream;
                 userStream.current = stream;
-
-                socket.emit('BE-join-room', { roomId, userName: currentUser });
+                let name = auth?.user?.user?.firstName + ' ' + auth?.user?.user?.lastName;
+                let pic = auth?.user?.user?.pic;
+                socket.emit('BE-join-room', { roomId, userName: currentUser, name, pic });
                 socket.on('FE-user-join', (users) => {
                     // all users
                     const peers = [];
-                    users.forEach(({ userId, info }) => {
+                    users.forEach(({ userId, info, name, pic }) => {
                         let { userName, video, audio } = info;
 
                         if (userName !== currentUser) {
-                            const peer = createPeer(userId, socket.id, stream);
-
+                            const peer = createPeer(userId, socket.id, stream, name, pic);
                             peer.userName = userName;
                             peer.peerID = userId;
-
+                            peer.name = name;
+                            peer.pic = pic;
                             peersRef.current.push({
                                 peerID: userId,
                                 peer,
                                 userName,
+                                name,
+                                pic
                             });
                             peers.push(peer);
 
@@ -89,18 +91,20 @@ const AudioRoom = (props) => {
                 });
 
                 socket.on('FE-receive-call', ({ signal, from, info }) => {
-                    let { userName, video, audio } = info;
+                    let { userName, video, audio, name, pic } = info;
                     const peerIdx = findPeer(from);
 
                     if (!peerIdx) {
                         const peer = addPeer(signal, from, stream);
-
                         peer.userName = userName;
-
+                        peer.name = name;
+                        peer.pic = pic;
                         peersRef.current.push({
                             peerID: from,
                             peer,
                             userName: userName,
+                            name: name,
+                            pic: pic
                         });
                         setPeers((users) => {
                             return [...users, peer];
@@ -213,7 +217,7 @@ const AudioRoom = (props) => {
             >
                 {writeUserName(peer.userName)}
                 <FaIcon className='fas fa-expand' />
-                <VideoCard key={index} peer={peer} number={arr.length} />
+                <AudioCard key={index} peer={peer} number={arr.length} />
             </VideoBox>
         );
     }
@@ -376,17 +380,26 @@ const AudioRoom = (props) => {
                     <VideoBox
                         className={`width-peer${peers.length > 8 ? '' : peers.length}`}
                     >
-                        {userVideoAudio['localUser'].video ? null : (
-                            <UserName>{currentUser}</UserName>
-                        )}
+                        {/* {userVideoAudio['localUser'].video ? null : (
+                           
+                        )} */}
                         <FaIcon className='fas fa-expand' />
-                        <MyVideo
+                        {/* <MyVideo
                             onClick={expandScreen}
                             ref={userVideoRef}
                             muted
                             autoPlay
                             playInline
-                        ></MyVideo>
+                        ></MyVideo> */}
+                        <audio
+                            onClick={expandScreen}
+                            style={{ width: '0' }}
+                            muted
+                            autoPlay
+                            playinline="true"
+                            ref={userVideoRef}
+                        />
+                        {<><img title={auth?.user?.user?.firstName + ' ' + auth?.user?.user?.lastName} style={{ width: '80px', height: '80px', borderRadius: '80px' }} src={auth?.user?.user?.pic} alt={auth?.user?.user?.username} /></>}
                     </VideoBox>
                     {/* Joined User Vidoe */}
                     {peers &&
@@ -437,7 +450,7 @@ const VideoAndBarContainer = styled.div`
   height: 100vh;
 `;
 
-const MyVideo = styled.video``;
+// const MyVideo = styled.video``;
 
 const VideoBox = styled.div`
   position: relative;

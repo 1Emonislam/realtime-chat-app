@@ -143,10 +143,10 @@ io.on("connection", async (socket) => {
     /**
      * Join Room
      */
-    socket.on('BE-join-room', ({ roomId, userName, profile }) => {
+    socket.on('BE-join-room', ({ roomId, userName, name, pic }) => {
         // Socket Join RoomName
-        let name = profile?.firstName + ' ' + profile?.lastName;
-        let pic = profile?.pic;
+        console.log(name, pic)
+
         console.log(`${roomId} group calling...joined user ${userName}`)
         socket.join(roomId);
         socketList[socket.id] = { userName, name, pic, video: true, audio: true };
@@ -155,8 +155,10 @@ io.on("connection", async (socket) => {
             try {
                 const users = [];
                 clients.forEach((client) => {
+                    client.name = name;
+                    client.pic = pic;
                     // Add User List
-                    users.push({ userId: client, info: socketList[client],name,pic });
+                    users.push({ userId: client, info: socketList[client], name, pic });
                 });
                 socket.broadcast.to(roomId).emit('FE-user-join', users);
                 // io.sockets.in(roomId).emit('FE-user-join', users);

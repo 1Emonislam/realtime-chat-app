@@ -54,24 +54,28 @@ const Room = (props) => {
       .then((stream) => {
         userVideoRef.current.srcObject = stream;
         userStream.current = stream;
-
-        socket.emit('BE-join-room', { roomId, userName: currentUser });
+        let name = auth?.user?.user?.firstName + ' ' + auth?.user?.user?.lastName;
+        let pic = auth?.user?.user?.pic;
+        socket.emit('BE-join-room', { roomId, userName: currentUser, name, pic });
         socket.on('FE-user-join', (users) => {
           // all users
           const peers = [];
-          users.forEach(({ userId, info }) => {
+          users.forEach(({ userId, info, name, pic }) => {
             let { userName, video, audio } = info;
 
             if (userName !== currentUser) {
-              const peer = createPeer(userId, socket.id, stream);
+              const peer = createPeer(userId, socket.id, stream, name, pic);
 
               peer.userName = userName;
               peer.peerID = userId;
-
+              peer.name = name;
+              peer.pic = pic;
               peersRef.current.push({
                 peerID: userId,
                 peer,
                 userName,
+                name,
+                pic
               });
               peers.push(peer);
 
@@ -88,18 +92,20 @@ const Room = (props) => {
         });
 
         socket.on('FE-receive-call', ({ signal, from, info }) => {
-          let { userName, video, audio } = info;
+          let { userName, video, audio, name, pic } = info;
           const peerIdx = findPeer(from);
 
           if (!peerIdx) {
             const peer = addPeer(signal, from, stream);
-
             peer.userName = userName;
-
+            peer.name = name;
+            peer.pic = pic;
             peersRef.current.push({
               peerID: from,
               peer,
               userName: userName,
+              name: name,
+              pic: pic
             });
             setPeers((users) => {
               return [...users, peer];
@@ -204,6 +210,7 @@ const Room = (props) => {
   }
 
   function createUserVideo(peer, index, arr) {
+    // console.log(peer)
     return (
       <VideoBox
         className={`width-peer${peers.length > 8 ? '' : peers.length}`}
@@ -376,7 +383,7 @@ const Room = (props) => {
             className={`width-peer${peers.length > 8 ? '' : peers.length}`}
           >
             {userVideoAudio['localUser'].video ? null : (
-              <UserName>{currentUser}</UserName>
+              <><img title={auth?.user?.user?.firstName + ' ' + auth?.user?.user?.lastName} style={{ width: '80px', height: '80px', borderRadius: '80px', position: "absolute", left: '0', right: '0', margin: 'auto' }} src={auth?.user?.user?.pic} alt={auth?.user?.user?.username} /></>
             )}
             <FaIcon className='fas fa-expand' />
             <MyVideo
@@ -405,7 +412,7 @@ const Room = (props) => {
           setShowVideoDevices={setShowVideoDevices}
         />
       </VideoAndBarContainer>
-      <Chat  display={displayChat} roomId={roomId} />
+      <Chat display={displayChat} roomId={roomId} />
     </RoomContainer>
   );
 };
