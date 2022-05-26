@@ -5,7 +5,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { BrowserRouter, Link, Route, Routes } from "react-router-dom";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
 import socket from '././socket';
 import "./App.css";
 import Call from "./components/Call/Call";
@@ -43,11 +42,12 @@ import Home from "./pages/Home/Home";
 import { getGroupChatData } from "./store/actions/groupActions";
 import { getNotification } from "./store/actions/messageNotificationAction";
 import { VIDEO_CALL_MY_INFO } from "./store/reducers/callReducer";
+
 export const ThemeSelectContext = React.createContext();
 export const PaginationContext = React.createContext();
 const ColorModeContext = React.createContext({ toggleColorMode: () => { } });
 export default function ToggleColorMode() {
-  const { auth, groupMessage } = useSelector(state => state);
+  const { auth} = useSelector(state => state);
   const [mode, setMode] = React.useState(
     window.localStorage.getItem("themeCurrent") ? JSON.parse(window.localStorage.getItem("themeCurrent")) : 'light');
   if (!mode) {
@@ -99,7 +99,7 @@ export default function ToggleColorMode() {
   React.useMemo(() => {
     dispatch(getGroupChatData(auth?.user?.token, 'recent', page, limit, setPage, setCount));
     dispatch(getNotification(auth.user?.token))
-  }, [auth.user?.token, page, dispatch, groupMessage?.msg])
+  }, [auth.user?.token, page, dispatch])
   useEffect(() => {
     if (!socket) return
     if (auth?.user?.user?._id) {

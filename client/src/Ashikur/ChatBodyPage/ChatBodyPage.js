@@ -1,11 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Box, Grid } from '@mui/material';
-import React, { useContext, useEffect, useRef, useState } from 'react';
+import React, {  useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { PaginationContext } from '../../App';
+// import { PaginationContext } from '../../App';
 import ChatHome from '../../components/ChatHome';
 import sockets from '../../socket';
-import { getGroupChatData } from '../../store/actions/groupActions';
+// import { getGroupChatData } from '../../store/actions/groupActions';
 import { removeNotificationDB } from '../../store/actions/messageNotificationAction';
 import { ONLINE_USER } from '../../store/reducers/allOnlineUserReducer';
 import { NOTIFICATION_PUSH } from '../../store/type/messageNotificationTypes';
@@ -13,8 +13,8 @@ import { MESSAGE_WRITE, SEND_MESSAGE } from '../../store/type/messageTypes';
 import BodyChat from './BodyChat';
 const ChatBodyPage = ({ handleSingleChat, chatActive }) => {
     const dispatch = useDispatch();
-    const paginationContext = useContext(PaginationContext)
-    const { page, setPage, setCount, limit } = paginationContext;
+    // const paginationContext = useContext(PaginationContext)
+    // const { page, setPage, setCount, limit } = paginationContext;
     const { auth, groupData, notification, groupMessage, selectedChat } = useSelector(state => state);
     const [typing, setTyping] = useState(false);
     const [isTyping, setIsTyping] = useState({ typing: false, user: null });
@@ -85,10 +85,10 @@ const ChatBodyPage = ({ handleSingleChat, chatActive }) => {
     useEffect(() => {
         if (!socket?.current) return
         socket?.current?.off("message recieved").on("message recieved", (data) => {
-            // console.log(data)
-            if (data?.newMessageRecieved) {
-                dispatch(getGroupChatData(auth?.user?.token, 'recent', page, limit, setPage, setCount))
-            }
+            // // console.log(data)
+            // if (data?.newMessageRecieved) {
+            //     dispatch(getGroupChatData(auth?.user?.token, 'recent', page, limit, setPage, setCount))
+            // }
             const { newMessageRecieved, notificationObj } = data;
             if (selectedChat?.chat?._id === newMessageRecieved?.chat?._id) {
                 dispatch(removeNotificationDB(notificationObj?.chat?._id, notificationObj?.message?._id, auth?.user?.token))
