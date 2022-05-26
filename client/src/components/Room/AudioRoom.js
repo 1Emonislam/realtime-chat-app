@@ -26,7 +26,7 @@ const AudioRoom = (props) => {
     const userStream = useRef();
     useEffect(() => {
         if (!socket) return
-        fetch(`http://localhost:5000/group-call-verify/${roomId}`, {
+        fetch(`https://collaballapp.herokuapp.com/group-call-verify/${roomId}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

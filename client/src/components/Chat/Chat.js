@@ -12,7 +12,7 @@ const Chat = ({ display, roomId }) => {
   const messagesEndRef = useRef(null);
   const inputRef = useRef();
   useEffect(() => {
-    fetch(`http://localhost:5000/group-call-verify/${roomId}`, {
+    fetch(`https://collaballapp.herokuapp.com/group-call-verify/${roomId}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
