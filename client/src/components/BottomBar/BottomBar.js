@@ -1,4 +1,5 @@
 import React, { useCallback } from 'react';
+import { FaPhone } from 'react-icons/fa';
 import styled from 'styled-components';
 
 const BottomBar = ({
@@ -9,6 +10,7 @@ const BottomBar = ({
   userVideoAudio,
   clickScreenSharing,
   screenShare,
+  handleEndCall,
   videoDevices,
   showVideoDevices,
   setShowVideoDevices
@@ -19,7 +21,6 @@ const BottomBar = ({
     },
     [setShowVideoDevices]
   );
-
   return (
     <Bar style={{ display: 'flex', alignItems: 'center' }}>
       <Left>
@@ -67,9 +68,14 @@ const BottomBar = ({
             ></FaIcon>
           </div>
         </ScreenButton>
+        <EndCall onClick={handleEndCall}>
+          <div>
+            <FaPhone />
+          </div>
+        </EndCall>
       </Center>
       <Right>
-        <StopButton onClick={goToBack}>Leave</StopButton>
+        <StopButton onClick={goToBack}>Leave Me</StopButton>
       </Right>
     </Bar>
   );
@@ -103,7 +109,7 @@ const Center = styled.div`
 const Right = styled.div``;
 
 const ChatButton = styled.div`
-  width: 75px;
+  width: 45px;
   border: none;
   font-size: 0.9375rem;
   padding: 5px;
@@ -120,6 +126,22 @@ const ChatButton = styled.div`
 `;
 
 const ScreenButton = styled.div`
+  width: auto;
+  border: none;
+  font-size: 0.9375rem;
+  padding: 5px;
+
+  :hover {
+    background-color:transparent;
+    cursor: pointer;
+    border-radius: 15px;
+  }
+
+  .sharing {
+    color: #ee2560;
+  }
+`;
+const EndCall = styled.div`
   width: auto;
   border: none;
   font-size: 0.9375rem;

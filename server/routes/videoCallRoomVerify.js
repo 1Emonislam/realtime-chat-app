@@ -7,7 +7,7 @@ router.post('/group-call-verify/:id', protect, async (req, res, next) => {
         console.log(req.user)
         const exists = await Chat.findOne({ _id: id, members: req.user?._id });
         if (exists) {
-            res.status(200).json({ permission: true })
+            res.status(200).json({ permission: true, chatName: exists?.chatName, img: exists?.img, chat: exists?._id })
         } else {
             res.status(400).json({ permission: false })
         }

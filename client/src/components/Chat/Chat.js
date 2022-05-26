@@ -1,40 +1,53 @@
-import React, { useEffect, useState, useRef } from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect, useRef, useState } from 'react';
+import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import socket from '../../socket';
 
 const Chat = ({ display, roomId }) => {
+  const { auth } = useSelector(state => state)
   const currentUser = sessionStorage.getItem('user');
+  const [groupInfo, setGroupInfo] = useState({});
   const [msg, setMsg] = useState([]);
   const messagesEndRef = useRef(null);
   const inputRef = useRef();
-  
   useEffect(() => {
+    fetch(`http://localhost:5000/group-call-verify/${roomId}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${auth?.user?.token}`
+      },
+    })
+      .then(res => res.json())
+      .then(data => {
+        setGroupInfo(data)
+      })
     socket.on('FE-receive-message', ({ msg, sender }) => {
       setMsg((msgs) => [...msgs, { sender, msg }]);
     });
   }, []);
 
   // Scroll to Bottom of Message List
-  useEffect(() => {scrollToBottom()}, [msg])
+  useEffect(() => { scrollToBottom() }, [msg])
 
   const scrollToBottom = () => {
-    messagesEndRef.current.scrollIntoView({ behavior: 'smooth'});
+    messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
   }
 
   const sendMessage = (e) => {
     if (e.key === 'Enter') {
       const msg = e.target.value;
-
       if (msg) {
         socket.emit('BE-send-message', { roomId, msg, sender: currentUser });
         inputRef.current.value = '';
       }
     }
   };
-
   return (
     <ChatContainer className={display ? '' : 'width0'}>
-      <TopHeader>Group Chat Room</TopHeader>
+      <img style={{ width: '70px', height: '70px', margin: 'auto', marginTop: '20px', display: 'block' }} src={groupInfo?.img} alt={groupInfo?.chatName} />
+      <h4 style={{ textAlign: 'center', padding: '8px', margin: '0px' }}>{groupInfo?.chatName}</h4>
       <ChatArea>
         <MessageList>
           {msg &&
@@ -55,7 +68,7 @@ const Chat = ({ display, roomId }) => {
                 );
               }
             })}
-            <div style={{float:'left', clear: 'both'}} ref={messagesEndRef} />
+          <div style={{ float: 'left', clear: 'both' }} ref={messagesEndRef} />
         </MessageList>
       </ChatArea>
       <BottomInput
@@ -77,13 +90,6 @@ const ChatContainer = styled.div`
   overflow: hidden;
 `;
 
-const TopHeader = styled.div`
-  width: 100%;
-  margin-top: 15px;
-  font-weight: 600;
-  font-size: 20px;
-  color: black;
-`;
 
 const ChatArea = styled.div`
   width: 100%;

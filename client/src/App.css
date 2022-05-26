@@ -85,3 +85,6 @@ input[type="file"] {
   padding: 8px 10px !important;
   border-radius: 20px;
 }
+img {
+  border-radius: 5px;
+}

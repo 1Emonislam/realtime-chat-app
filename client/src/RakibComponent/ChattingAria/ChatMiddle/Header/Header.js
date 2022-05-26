@@ -262,7 +262,7 @@ const Header = () => {
                         </div>
                     }
                     <AudioCall audioOpen={audioOpen} setAudioOpen={setAudioOpen} />
-                    <VideoCall handleGroupVideoCall={handleGroupVideoCall} videoOpen={videoOpen} setVideoOpen={setVideoOpen} />
+                    <VideoCall chatName={selectedChat}handleGroupVideoCall={handleGroupVideoCall} videoOpen={videoOpen} setVideoOpen={setVideoOpen} />
                 </Grid>
                 <ToastContainer
                     position="top-center"

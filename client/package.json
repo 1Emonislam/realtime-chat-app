@@ -45,7 +45,7 @@
     "redux-thunk": "^2.4.1",
     "sass": "^1.49.9",
     "simple-peer": "^9.11.1",
-    "socket.io-client": "^4.4.1",
+    "socket.io-client": "2.3.0",
     "styled-components": "5.1.1",
     "web-vitals": "^2.1.4"
   },

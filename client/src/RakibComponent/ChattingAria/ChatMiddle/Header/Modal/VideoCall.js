@@ -4,11 +4,9 @@ import Backdrop from '@mui/material/Backdrop';
 import Box from '@mui/material/Box';
 import Fade from '@mui/material/Fade';
 import Modal from '@mui/material/Modal';
+import { useSelector } from 'react-redux';
 import * as React from 'react';
-
-import chatImg from '../../../../../assets/images/avatar-8.jpg';
 import './AllModal.css';
-
 const style = {
     position: 'absolute',
     top: '50%',
@@ -23,10 +21,11 @@ const style = {
     p: 4,
 };
 
-function VideoCall({ videoOpen, setVideoOpen,handleGroupVideoCall }) {
+function VideoCall({ videoOpen, setVideoOpen, handleGroupVideoCall }) {
+    const { selectedChat } = useSelector(state => state)
     return (
-         <Modal
-                style={{ overflowY: 'scroll' }}
+        <Modal
+            style={{ overflowY: 'scroll' }}
             aria-labelledby="transition-modal-title"
             aria-describedby="transition-modal-description"
             open={videoOpen}
@@ -43,13 +42,14 @@ function VideoCall({ videoOpen, setVideoOpen,handleGroupVideoCall }) {
                             <div className="call-wrapper">
                                 <div className="call-inner">
                                     <div className="call-user">
-                                        <img alt="User" src={chatImg} className="call-avatar" />
-                                        <h4>Sumon Khan <span>Video calling</span>
+                                        <img alt={selectedChat?.chat?.chatName} src={selectedChat?.chat?.img} className="call-avatar" />
+                                        <h4>{selectedChat?.chat?.chatName}
                                         </h4>
+                                        <h4 style={{ padding: '0', margin: '0' }}>Video calling</h4>
                                     </div>
                                     <div className="call-items">
                                         <span onClick={() => setVideoOpen(false)}><CloseIcon /></span>
-                                        <span className='green_btn'onClick={() => handleGroupVideoCall()}><VideocamIcon /></span>
+                                        <span className='green_btn' onClick={() => handleGroupVideoCall()}><VideocamIcon /></span>
                                     </div>
                                 </div>
                             </div>

@@ -18,15 +18,15 @@ const ChatBodyPage = ({ handleSingleChat, chatActive }) => {
     const { auth, groupData, notification, groupMessage, selectedChat } = useSelector(state => state);
     const [typing, setTyping] = useState(false);
     const [isTyping, setIsTyping] = useState({ typing: false, user: null });
-    const socket = useRef(sockets)
+    const socket = useRef()
     useEffect(() => {
+        socket.current = sockets;
         if (!auth?.user?.token) {
             window.location.replace('/login')
         }
         if (!socket?.current) return;
         if (!auth?.user?.token) return;
         if (selectedChat?.chat?._id) {
-            socket?.current?.emit("setup", auth?.user?.user);
             socket?.current?.emit("join chat", selectedChat?.chat?._id);
         }
         socket?.current?.on("typing", (data) => {
@@ -44,9 +44,6 @@ const ChatBodyPage = ({ handleSingleChat, chatActive }) => {
                     data: data
                 }
             })
-        })
-        socket?.current?.off('group calling recieved').on('group calling recieved',(singnal) =>{
-            console.log(singnal)
         })
     })
     const handleTyping = (e) => {

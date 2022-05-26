@@ -16,6 +16,7 @@ const noteRoutes = require('./routes/noteRoutes')
 const videoCallRoomVerify = require('./routes/videoCallRoomVerify')
 const notificationRoutes = require('./routes/notificationRoutes');
 const User = require('./models/userModel');
+const Chat = require('./models/chatModel');
 const app = express();
 const http = require('http').createServer(app);
 const io = require('socket.io')(http);
@@ -123,13 +124,13 @@ io.on("connection", async (socket) => {
         if (!chat?.members?.length) return
         chat?.members.forEach(user => {
             if (user?._id?.toString() === loggedUser?._id?.toString()) return;
-            socket.in(user?._id).emit("group calling recieved", { chatName: chat.chatName, img: chat.img })
+            socket.in(user?._id).emit("group calling recieved", { chatName: chat.chatName, img: chat.img, chat: chat?._id })
         })
     })
     //webrtc group caling....
     socket.on('BE-check-user', ({ roomId, userName }) => {
         let error = false;
-        console.log(roomId)
+        // console.log(roomId)
         io.sockets.in(roomId).clients((err, clients) => {
             clients.forEach((client) => {
                 if (socketList[client] == userName) {
@@ -144,7 +145,7 @@ io.on("connection", async (socket) => {
      */
     socket.on('BE-join-room', ({ roomId, userName, profile }) => {
         // Socket Join RoomName
-        console.log(`group calling...${roomId} joined user ${userName}`)
+        console.log(`${roomId} group calling...joined user ${userName}`)
         socket.join(roomId);
         socketList[socket.id] = { userName, profile, video: true, audio: true };
         //Set User List
@@ -187,6 +188,9 @@ io.on("connection", async (socket) => {
             .to(roomId)
             .emit('FE-user-leave', { userId: socket.id, userName: [socket.id] });
         io.sockets.sockets[socket.id].leave(roomId);
+    });
+    socket.on('BE-leave-room-end', ({ roomId, leaver }) => {
+        io.sockets.in(roomId).emit('callEndedRoom',{callEnd:true});
     });
 
     socket.on('BE-toggle-camera-audio', ({ roomId, switchTarget }) => {

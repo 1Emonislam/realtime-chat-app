@@ -11,7 +11,7 @@ import VideoCard from '../Video/VideoCard';
 const Room = (props) => {
   const { roomId } = useParams();
   const { auth } = useSelector(state => state);
-  const currentUser = sessionStorage.getItem('user');
+  const currentUser = auth?.user?.user?.username;
   const [peers, setPeers] = useState([]);
   const [userVideoAudio, setUserVideoAudio] = useState({
     localUser: { video: true, audio: true },
@@ -25,6 +25,7 @@ const Room = (props) => {
   const screenTrackRef = useRef();
   const userStream = useRef();
   useEffect(() => {
+    if (!socket) return
     fetch(`http://localhost:5000/group-call-verify/${roomId}`, {
       method: 'POST',
       headers: {
@@ -150,7 +151,13 @@ const Room = (props) => {
     };
     // eslint-disable-next-line
   }, []);
-
+  useEffect(() => {
+    socket.off('callEndedRoom').on('callEndedRoom', (data) => {
+      if (data.callEnd === true) {
+        window.location.replace('/chat')
+      }
+    })
+  })
   function createPeer(userId, caller, stream) {
     const peer = new Peer({
       initiator: true,
@@ -227,6 +234,12 @@ const Room = (props) => {
   const goToBack = (e) => {
     e.preventDefault();
     socket.emit('BE-leave-room', { roomId, leaver: currentUser });
+    sessionStorage.removeItem('user');
+    window.location.href = '/chat';
+  };
+  const handleEndCall = (e) => {
+    e.preventDefault();
+    socket.emit('BE-leave-room-end', { roomId, leaver: currentUser });
     sessionStorage.removeItem('user');
     window.location.href = '/chat';
   };
@@ -388,10 +401,11 @@ const Room = (props) => {
           screenShare={screenShare}
           videoDevices={videoDevices}
           showVideoDevices={showVideoDevices}
+          handleEndCall={handleEndCall}
           setShowVideoDevices={setShowVideoDevices}
         />
       </VideoAndBarContainer>
-      <Chat display={displayChat} roomId={roomId} />
+      <Chat  display={displayChat} roomId={roomId} />
     </RoomContainer>
   );
 };
@@ -445,6 +459,7 @@ const VideoBox = styled.div`
 
 const UserName = styled.div`
   position: absolute;
+  color:white;
   font-size: calc(20px + 5vmin);
   z-index: 1;
 `;

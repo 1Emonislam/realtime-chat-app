@@ -1,10 +1,13 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import React from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Link, Route, Routes } from "react-router-dom";
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import Main from "../../../chat-app-back-up-code/client/src/components/Main/Main";
 import Room from "../../../chat-app-back-up-code/client/src/components/Room/Room";
+import socket from '././socket';
 import "./App.css";
 import Call from "./components/Call/Call";
 import BlockedUser from "./components/DashBoardSettings/BlockedUser";
@@ -37,6 +40,7 @@ import DHome from './pages/Dashboard/DHome/DHome';
 import Home from "./pages/Home/Home";
 import { getGroupChatData } from "./store/actions/groupActions";
 import { getNotification } from "./store/actions/messageNotificationAction";
+import { VIDEO_CALL_MY_INFO } from "./store/reducers/videoCallReducer";
 export const ThemeSelectContext = React.createContext();
 export const PaginationContext = React.createContext();
 const ColorModeContext = React.createContext({ toggleColorMode: () => { } });
@@ -77,6 +81,7 @@ export default function ToggleColorMode() {
       }),
     [mode]
   );
+
   const [count, setCount] = React.useState(0)
   const [page, setPage] = React.useState(1)
   const limit = 10;
@@ -88,11 +93,47 @@ export default function ToggleColorMode() {
     setCount,
     limit
   }
+
   React.useMemo(() => {
     dispatch(getGroupChatData(auth?.user?.token, 'recent', page, limit, setPage, setCount));
     dispatch(getNotification(auth.user?.token))
   }, [auth.user?.token, page, dispatch, groupMessage?.msg])
-
+  useEffect(() => {
+    if (!socket) return
+    if(auth?.user?.user?._id){
+      socket?.emit("setup", auth?.user?.user);
+    }
+  }, [auth?.user?.user?._id])
+  useEffect(() => {
+    const handleClose = () => {
+      toast.dismiss()
+    }
+    socket?.off('group calling recieved').on('group calling recieved', (singnal) => {
+      dispatch({
+        type: VIDEO_CALL_MY_INFO,
+        payload: {
+          userName: auth?.user?.user?.username,
+          roomName: singnal?.chat,
+          profile: auth?.user?.user
+        }
+      })
+      toast(<div style={{ padding: '40px 5px' }}>
+        <img className="videoCall" style={{ width: '50px', height: '50px', borderRadius: '50px', margin: 'auto', display: 'block' }} src={singnal.img} alt={singnal.chatName} /> <br />
+        <h4> {singnal?.chatName}</h4>
+        <br />
+        <Link to="/video/calling" style={{ padding: '7px', marginRight: '5px', borderRadius: '5px', background: 'green', color: 'white' }}> Answer </Link> <span onClick={handleClose} style={{ padding: '7px 10px',border:'none', borderRadius: '5px', background: 'red', color: 'white' }} > Declined</span>
+      </div>, {
+        position: "top-right",
+        theme: theme?.theme,
+        autoClose: false,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+    })
+  })
   return (
     <ColorModeContext.Provider value={colorMode} sx={{
       bgcolor: "background.default",
@@ -204,7 +245,6 @@ export default function ToggleColorMode() {
                 <Route path="/media" element={< Media />}> </Route>
                 {/* Admin Dashboard */}
                 <Route path="admin-dashboard" element={<Dashboard />}>
-
                   <Route path="" element={<DHome />} />
                 </Route>
                 {/* Keeper Dashboard Start */}
