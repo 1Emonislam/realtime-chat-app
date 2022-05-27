@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Box, Grid } from '@mui/material';
-import React, {  useEffect,  useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 // import { PaginationContext } from '../../App';
 import ChatHome from '../../components/ChatHome';
@@ -76,7 +76,7 @@ const ChatBodyPage = ({ handleSingleChat, chatActive }) => {
         if (groupMessage?.sendMsg?._id) {
             socket?.emit("new message", groupMessage?.sendMsg);
         }
-    }, [groupMessage.messageInfoStore?._id, groupMessage?.sendMsg, groupMessage?.sendMsg?._id]);
+    }, [groupMessage.messageInfoStore?._id, groupMessage?.sendMsg?._id]);
     // console.log(socket)
     // console.log(socket)
 
