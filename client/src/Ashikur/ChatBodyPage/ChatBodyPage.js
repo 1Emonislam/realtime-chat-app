@@ -95,16 +95,18 @@ const ChatBodyPage = ({ handleSingleChat, chatActive }) => {
                 if (!notification?.msgNotification?.includes(newMessageRecieved)) {
                     const allMsg = [notificationObj, ...notification?.msgNotification]
                     const unsen = allMsg?.filter(msg => msg?.seen === false);
-                    dispatch({
-                        type: NOTIFICATION_PUSH,
-                        payload: {
-                            data: allMsg,
-                            myunread: unsen?.length
-                        }
-                    })
+                    if (data?.notificationObj?._id) {
+                        dispatch({
+                            type: NOTIFICATION_PUSH,
+                            payload: {
+                                data: allMsg,
+                                myunread: unsen?.length
+                            }
+                        })
+                    }
                 }
             } else {
-                if (newMessageRecieved) {
+                if (newMessageRecieved?._id) {
                     dispatch({
                         type: SEND_MESSAGE,
                         payload: {
