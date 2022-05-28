@@ -1,7 +1,7 @@
 import { toast } from "react-toastify";
 import { UPLOAD_FAILED, UPLOAD_SUCCESS } from "../reducers/uploadReducer";
 import { GROUP_LOADING_DATA } from "../type/groupType";
-import { FAILED_MESSAGE, GET_MESSAGE, LOADING_MESSAGE, NOTE_CREATE, REMOVE_MESSAGE,  UPDATE_MESSAGE, UPDATE_MESSAGE_FAILED, UPDATE_MESSAGE_STORE } from "../type/messageTypes";
+import { FAILED_MESSAGE, GET_MESSAGE, LOADING_MESSAGE, NOTE_CREATE, REMOVE_MESSAGE, SEND_MESSAGE, UPDATE_MESSAGE, UPDATE_MESSAGE_FAILED, UPDATE_MESSAGE_STORE } from "../type/messageTypes";
 import store from './../store'
 export const getMessage = (chatId, token, search) => {
 
@@ -102,6 +102,15 @@ export const sendMessage = (data, chatId, token, audio) => {
                         store.getState()?.socketFunc?.socket?.current.emit("new message", data?.data);
                     }
                     //console.log(data)
+                    if (data) {
+                        dispatch({
+                            type: SEND_MESSAGE,
+                            payload: {
+                                message: data?.message,
+                                data: data,
+                            }
+                        })
+                    }
                     if (data.error) {
                         dispatch({
                             type: FAILED_MESSAGE,
@@ -161,6 +170,13 @@ export const sendAllUploadMessage = (data, chatId, token) => {
                     }
                     //console.log(data)
                     if (data) {
+                        dispatch({
+                            type: SEND_MESSAGE,
+                            payload: {
+                                message: data?.message,
+                                data: data,
+                            }
+                        })
                         dispatch({
                             type: UPLOAD_SUCCESS,
                             payload: {
@@ -333,7 +349,7 @@ export const deleteAllMessage = (chatId, token) => {
         dispatch({
             type: LOADING_MESSAGE,
             payload: {
-                loading: true,
+                loading: false,
             },
         })
         try {
