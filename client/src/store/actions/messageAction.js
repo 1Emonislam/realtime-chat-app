@@ -1,3 +1,4 @@
+import { toast } from "react-toastify";
 import { UPLOAD_FAILED, UPLOAD_SUCCESS } from "../reducers/uploadReducer";
 import { GROUP_LOADING_DATA } from "../type/groupType";
 import { FAILED_MESSAGE, GET_MESSAGE, LOADING_MESSAGE, NOTE_CREATE, REMOVE_MESSAGE, SEND_MESSAGE, UPDATE_MESSAGE, UPDATE_MESSAGE_FAILED, UPDATE_MESSAGE_STORE } from "../type/messageTypes";
@@ -53,7 +54,19 @@ export const getMessage = (chatId, token, search) => {
 }
 
 export const sendMessage = (data, chatId, token, audio) => {
-    if (!store.getState()?.socketFunc?.socket?.current) return;
+    if (!store.getState()?.socketFunc?.socket?.current) {
+        toast.error('Message Sending failed! try again', {
+            position: "bottom-right",
+            theme: store.getState()?.theme?.theme,
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+        });
+        return
+    };
     return async (dispatch) => {
         dispatch({
             type: LOADING_MESSAGE,
@@ -113,7 +126,19 @@ export const sendMessage = (data, chatId, token, audio) => {
     }
 }
 export const sendAllUploadMessage = (data, chatId, token) => {
-    if (!store.getState()?.socketFunc?.socket?.current) return;
+    if (!store.getState()?.socketFunc?.socket?.current) {
+        toast.error('Message Sending failed! try again', {
+            position: "bottom-right",
+            theme: store.getState()?.theme?.theme,
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+        });
+        return
+    };
     return async (dispatch) => {
         dispatch({
             type: LOADING_MESSAGE,
@@ -184,9 +209,21 @@ export const sendAllUploadMessage = (data, chatId, token) => {
         }
     }
 }
-
 export const editMessage = (data, chatId, messageId, token, messageEditHandle) => {
     // console.log(data, chatId, messageId, token)
+    if (!store.getState()?.socketFunc?.socket?.current) {
+        toast.error('Message Update failed! try again', {
+            position: "bottom-right",
+            theme: store.getState()?.theme?.theme,
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+        });
+        return
+    };
     return async (dispatch) => {
         dispatch({
             type: LOADING_MESSAGE,
@@ -227,6 +264,9 @@ export const editMessage = (data, chatId, messageId, token, messageEditHandle) =
                         messageEditHandle(false)
                         if (data?.data) {
                             const findUpdateMsg = data?.data.find(msg => msg?._id?.toString() === messageId?.toString())
+                            if (store.getState()?.socketFunc?.socket?.current) {
+                                store.getState()?.socketFunc?.socket?.current.emit("new message", findUpdateMsg);
+                            }
                             dispatch({
                                 type: UPDATE_MESSAGE,
                                 payload: {
