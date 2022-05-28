@@ -142,7 +142,7 @@ function Editor({ handleTyping, messageEditHandle, editMsg, isTyping, size = 25 
                     }} value={groupMessage?.messageInfoStore?.content?.text} placeholder='Enter text here...'>
                     </textarea>
                 </Grid> : <Grid item xs={8}>
-                    <textarea className='text-msg' sx={{
+                    <textarea className='text-msg' id="write-enter" sx={{
                         fontSize: {
                             lg: '18px',
                             md: '16px',

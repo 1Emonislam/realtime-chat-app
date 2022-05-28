@@ -12,6 +12,12 @@ const noteSchema = mongoose.Schema({
     chat: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Chat",
+    },
+    title: {
+        type: String,
+    },
+    details: {
+        type: String,
     }
 }, {
     timestamps: true,

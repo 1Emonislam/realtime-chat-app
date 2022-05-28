@@ -2,7 +2,7 @@ const Note = require("../models/noteModels");
 module.exports.noteCreate = async (req, res, next) => {
     try {
         const issue = {}
-        const { messageId, chatId } = req.body;
+        const { messageId, chatId, title, details } = req.body;
         if (!req?.user?._id) {
             return res.status(400).json({ error: { token: 'User Credentials expired! Please login!' } })
         }
@@ -16,9 +16,25 @@ module.exports.noteCreate = async (req, res, next) => {
             return res.status(400).json({ error: issue })
         }
         const data = await Note.create({
-            message: messageId, chat: chatId, author: req?.user?._id
+            message: messageId, chat: chatId, title, details, author: req?.user?._id
         })
         return res.status(200).json({ message: 'My Note Collection Added New Note', data: data })
+    }
+    catch (error) {
+        next(error)
+    }
+}
+
+module.exports.updateNote = async (req, res, next) => {
+    if (!req?.user?._id) {
+        return res.status(400).json({ error: { token: 'User Credentials expired! Please login!' } })
+    }
+    try {
+        const { title, details } = req.body;
+        const updateNote = await Note.findOneAndUpdate({ _id: req.params.id }, {
+            title, details
+        }, { new: true });
+        return res.status(200).json({ data: updateNote })
     }
     catch (error) {
         next(error)
