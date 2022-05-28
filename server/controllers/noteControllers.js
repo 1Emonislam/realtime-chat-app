@@ -18,6 +18,9 @@ module.exports.noteCreate = async (req, res, next) => {
         const data = await Note.create({
             message: messageId, chat: chatId, title, details, author: req?.user?._id
         })
+        if (!data) {
+            return res.status(400).json({ error: { note: 'Note Creation failed!' } })
+        }
         return res.status(200).json({ message: 'My Note Collection Added New Note', data: data })
     }
     catch (error) {
@@ -46,7 +49,7 @@ module.exports.getNote = async (req, res, next) => {
         if (!req?.user?._id) {
             return res.status(400).json({ error: { token: 'User Credentials expired! Please login!' } })
         }
-        let { page=1, limit = 10 } = req.query;
+        let { page = 1, limit = 10 } = req.query;
         const keyword = req.query.search ? {
             author: req?.user?._id,
             $or: [

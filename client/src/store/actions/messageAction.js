@@ -228,7 +228,7 @@ export const editMessage = (data, chatId, messageId, token, messageEditHandle) =
         dispatch({
             type: LOADING_MESSAGE,
             payload: {
-                loading: true,
+                loading: false,
             },
         })
         try {

@@ -12,6 +12,7 @@ import { onlineUserReducer } from './reducers/allOnlineUserReducer';
 import { allUserSearchReducer } from './reducers/allSearchUserReducer';
 import { uploadReducer } from './reducers/uploadReducer';
 import { myProfileReducer } from './reducers/profileReducer';
+import { notesReducer } from './reducers/notesReducer';
 const rootReducer = combineReducers({
     theme: themeReducer,
     auth: authReducer,
@@ -24,6 +25,7 @@ const rootReducer = combineReducers({
     allSearch: allUserSearchReducer,
     uploads: uploadReducer,
     profile: myProfileReducer,
+    notes: notesReducer
 });
 const middleware = [thunk];
 const store = createStore(rootReducer, compose(
