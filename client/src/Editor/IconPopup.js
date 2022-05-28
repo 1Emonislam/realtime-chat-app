@@ -14,6 +14,7 @@ import SentimentDissatisfiedIcon from "@mui/icons-material/SentimentDissatisfied
 import { useDispatch, useSelector } from 'react-redux';
 // import {MESSAGE_WRITE} from './../store/type/messageTypes';
 import { sendMessage } from "../store/actions/messageAction";
+import Tooltip from '@mui/material/Tooltip';
 
 const IconPopup = () => {
     const dispatch = useDispatch();
@@ -27,7 +28,7 @@ const IconPopup = () => {
     };
     const open = Boolean(anchorEl);
     const id = open ? "simple-popover" : undefined;
-    
+
     // onClick={()=>dispatch({
     //     type:MESSAGE_WRITE,
     //     payload:{
@@ -57,112 +58,131 @@ const IconPopup = () => {
                 <List sx={{ pt: 1 }}>
                     <Grid container spacing={0}>
                         <Grid item xs={4}>
-                            <ListItem
-                                onClick={() => {
-                                dispatch(sendMessage('forumicon', selectedChat?.chat?._id , auth.user?.token))
-                                }}
-                                sx={{ px: 0, display: "flex", justifyContent: "center" }}
-                                autoFocus
-                                button
-                            >
-                                <ForumIcon />
-                            </ListItem>
+                            <Tooltip title='Forum' arrow placement="top">
+                                <ListItem
+                                    onClick={() => {
+                                        dispatch(sendMessage('forumicon', selectedChat?.chat?._id, auth.user?.token))
+                                    }}
+                                    sx={{ px: 0, display: "flex", justifyContent: "center" }}
+                                    autoFocus
+                                    button
+                                >
+                                    <ForumIcon />
+                                </ListItem>
+                            </Tooltip>
                         </Grid>
                         <Grid item xs={4}>
-                            <ListItem
-                                onClick={() => {
-                                dispatch(sendMessage('blankboxicon', selectedChat?.chat?._id , auth.user?.token))
-                                }}
-                                sx={{ px: 0, display: "flex", justifyContent: "center" }}
-                                autoFocus
-                                button
-                            >
-                                <CheckBoxOutlineBlankIcon />
-                            </ListItem>
+                            <Tooltip title='Blank' arrow placement="top">
+                                <ListItem
+                                    onClick={() => {
+                                        dispatch(sendMessage('blankboxicon', selectedChat?.chat?._id, auth.user?.token))
+                                    }}
+                                    sx={{ px: 0, display: "flex", justifyContent: "center" }}
+                                    autoFocus
+                                    button
+                                >
+                                    <CheckBoxOutlineBlankIcon />
+                                </ListItem>
+                            </Tooltip>
                         </Grid>
                         <Grid item xs={4}>
-                            <ListItem
-                                onClick={() => {
-                                dispatch(sendMessage('checkedicon', selectedChat?.chat?._id , auth.user?.token))
-                                }}
-                                sx={{ px: 0, display: "flex", justifyContent: "center" }}
-                                autoFocus
-                                button
-                            >
-                                <CheckCircleOutlineIcon />
-                            </ListItem>
+                            <Tooltip title='Checked' arrow placement="top">
+                                <ListItem
+                                    onClick={() => {
+                                        dispatch(sendMessage('checkedicon', selectedChat?.chat?._id, auth.user?.token))
+                                    }}
+                                    sx={{ px: 0, display: "flex", justifyContent: "center" }}
+                                    autoFocus
+                                    button
+                                >
+                                    <CheckCircleOutlineIcon />
+                                </ListItem>
+                            </Tooltip>
                         </Grid>
                         <Grid item xs={4}>
-                            <ListItem
-                                onClick={() => {
-                                dispatch(sendMessage('questionicon', selectedChat?.chat?._id , auth.user?.token))
-                                }}
-                                sx={{ px: 0, display: "flex", justifyContent: "center" }}
-                                autoFocus
-                                button
-                            >
-                                <QuestionMarkIcon />
-                            </ListItem>
+                            <Tooltip title='Question' arrow placement="top">
+                                <ListItem
+
+                                    onClick={() => {
+                                        dispatch(sendMessage('questionicon', selectedChat?.chat?._id, auth.user?.token))
+                                    }}
+                                    sx={{ px: 0, display: "flex", justifyContent: "center" }}
+                                    autoFocus
+                                    button
+                                >
+                                    <QuestionMarkIcon />
+                                </ListItem>
+                            </Tooltip>
                         </Grid>
                         <Grid item xs={4}>
-                            <ListItem
-                                onClick={() => {
-                                dispatch(sendMessage('replyicon', selectedChat?.chat?._id , auth.user?.token))
-                                }}
-                                sx={{ px: 0, display: "flex", justifyContent: "center" }}
-                                autoFocus
-                                button
-                            >
-                                <ReplayIcon />
-                            </ListItem>
+                            <Tooltip title='Reply' arrow placement="top">
+                                <ListItem
+                                    onClick={() => {
+                                        dispatch(sendMessage('replyicon', selectedChat?.chat?._id, auth.user?.token))
+                                    }}
+                                    sx={{ px: 0, display: "flex", justifyContent: "center" }}
+                                    autoFocus
+                                    button
+                                >
+                                    <ReplayIcon />
+                                </ListItem>
+                            </Tooltip>
                         </Grid>
                         <Grid item xs={4}>
-                            <ListItem
-                                onClick={() => {
-                                dispatch(sendMessage('priorityicon', selectedChat?.chat?._id , auth.user?.token))
-                                }}
-                                sx={{ px: 0, display: "flex", justifyContent: "center" }}
-                                autoFocus
-                                button
-                            >
-                                <PriorityHighIcon />
-                            </ListItem>
+                            <Tooltip title='Priority' arrow placement="top">
+                                <ListItem
+                                    onClick={() => {
+                                        dispatch(sendMessage('priorityicon', selectedChat?.chat?._id, auth.user?.token))
+                                    }}
+                                    sx={{ px: 0, display: "flex", justifyContent: "center" }}
+                                    autoFocus
+                                    button
+                                >
+                                    <PriorityHighIcon />
+                                </ListItem>
+                            </Tooltip>
                         </Grid>
                         <Grid item xs={4}>
-                            <ListItem
-                                onClick={() => {
-                                dispatch(sendMessage('thumbupicon', selectedChat?.chat?._id , auth.user?.token))
-                                }}
-                                sx={{ px: 0, display: "flex", justifyContent: "center" }}
-                                autoFocus
-                                button
-                            >
-                                <ThumbUpAltIcon />
-                            </ListItem>
+                            <Tooltip title='Thumb up' arrow placement="top">
+                                <ListItem
+                                    onClick={() => {
+                                        dispatch(sendMessage('thumbupicon', selectedChat?.chat?._id, auth.user?.token))
+                                    }}
+                                    sx={{ px: 0, display: "flex", justifyContent: "center" }}
+                                    autoFocus
+                                    button
+                                >
+                                    <ThumbUpAltIcon />
+                                </ListItem>
+                            </Tooltip>
                         </Grid>
                         <Grid item xs={4}>
-                            <ListItem
-                                onClick={() => {
-                                dispatch(sendMessage('thumbdownicon', selectedChat?.chat?._id , auth.user?.token))
-                                }}
-                                sx={{ px: 0, display: "flex", justifyContent: "center" }}
-                                autoFocus
-                                button
-                            >
-                                <ThumbDownIcon />
-                            </ListItem>
+                            <Tooltip title='Thumb down' arrow placement="top">
+                                <ListItem
+                                    onClick={() => {
+                                        dispatch(sendMessage('thumbdownicon', selectedChat?.chat?._id, auth.user?.token))
+                                    }}
+                                    sx={{ px: 0, display: "flex", justifyContent: "center" }}
+                                    autoFocus
+                                    button
+                                >
+                                    <ThumbDownIcon />
+                                </ListItem>
+                            </Tooltip>
                         </Grid>
                         <Grid item xs={4}>
-                            <ListItem
-                                onClick={() => {
-                                dispatch(sendMessage('sentimenticon', selectedChat?.chat?._id , auth.user?.token))
-                                }}
-                                sx={{ px: 0, display: "flex", justifyContent: "center" }}
-                                autoFocus
-                                button
-                            >
-                                <SentimentDissatisfiedIcon />
-                            </ListItem>
+                            <Tooltip title='Smile' arrow placement="top">
+                                <ListItem
+                                    onClick={() => {
+                                        dispatch(sendMessage('sentimenticon', selectedChat?.chat?._id, auth.user?.token))
+                                    }}
+                                    sx={{ px: 0, display: "flex", justifyContent: "center" }}
+                                    autoFocus
+                                    button
+                                >
+                                    <SentimentDissatisfiedIcon />
+                                </ListItem>
+                            </Tooltip>
                         </Grid>
                     </Grid>
                 </List>
