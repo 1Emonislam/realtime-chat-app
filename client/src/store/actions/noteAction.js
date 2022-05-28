@@ -1,14 +1,7 @@
-import { ERROR_NOTE, LOADING_NOTES, POST_NOTES } from "../reducers/notesReducer"
+import { ERROR_NOTE, POST_NOTES } from "../reducers/notesReducer"
 
 export const createNotes = (messageId, chatId, title, details, token, handleNoteClose) => {
-    return async (dispatch) => {
-        dispatch({
-            type: LOADING_NOTES,
-            payload: {
-                loading: true,
-            },
-        })
-        try {
+    return  (dispatch) => {
             fetch(`https://collaballapp.herokuapp.com/api/note/`, {
                 method: 'POST',
                 headers: {
@@ -21,10 +14,9 @@ export const createNotes = (messageId, chatId, title, details, token, handleNote
             })
                 .then(res => res.json())
                 .then(data => {
-                    if (data) {
-                        if (data.data) {
+                    console.log(data)
+                    if (data.data) {
                             handleNoteClose()
-                        }
                         // console.log(data)
                         dispatch({
                             type: POST_NOTES,
@@ -43,14 +35,5 @@ export const createNotes = (messageId, chatId, title, details, token, handleNote
                         })
                     }
                 })
-        }
-        catch (error) {
-            dispatch({
-                type: ERROR_NOTE,
-                payload: {
-                    error: error.message,
-                }
-            })
-        }
     }
 }

@@ -9,7 +9,7 @@ const initState = {
     error: '',
     success: '',
     sent: false,
-    messageInfoStore: [],
+    messageInfoStore: {},
     note: [],
 }
 export const messageReducer = (state = initState, action) => {

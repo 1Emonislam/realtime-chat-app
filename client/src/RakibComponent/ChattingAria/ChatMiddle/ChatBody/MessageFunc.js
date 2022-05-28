@@ -16,7 +16,6 @@ import questionImg from '../../../../Ashikur/chatRepliedImages/question.png';
 import readTextImg from '../../../../Ashikur/chatRepliedImages/readtext.png';
 import EditMessage from '../../../../Editor/EditMessage';
 import { deleteMessage, sendMessage, updateMessageStore } from '../../../../store/actions/messageAction';
-import { createNotes } from '../../../../store/actions/noteAction';
 import { FAILED_MESSAGE, SUCCESS_MESSAGE_CLEAR } from '../../../../store/type/messageTypes';
 import NoteAdd from './NoteAdd';
 
@@ -35,7 +34,6 @@ export default function MessageFunc({ isSameSenderPermission, handleTyping, isTy
         setValue(message)
         speak({ text: value })
     }
-
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
     };
@@ -108,22 +106,6 @@ export default function MessageFunc({ isSameSenderPermission, handleTyping, isTy
         })
     }
 
-    const handleNoteCreate = (messageId, chatId, title, details, token,handleNoteClose) => {
-        if (messageId && chatId && title && details && token) {
-            createNotes(messageId, chatId, title, details, token,handleNoteClose)
-        } else {
-            toast.error('Fill up all fields!', {
-                position: "top-right",
-                theme: theme?.theme,
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-            });
-        }
-    }
     return (
         <div className='ancor'>
             <BsThreeDotsVertical id={id} onClick={handleClick} />
@@ -182,7 +164,7 @@ export default function MessageFunc({ isSameSenderPermission, handleTyping, isTy
                         <img style={{ height: '20px', marginLeft: '10px' }} src={addNoteImg} alt='' />
                     </span>
                 </Typography>
-                <NoteAdd noteOpen={noteOpen} msg={messageInfo} handleNoteCreate={handleNoteCreate} handleNoteClose={handleNoteClose} handleNoteOpen={handleNoteOpen} />
+                <NoteAdd noteOpen={noteOpen} msg={messageInfo} handleNoteClose={handleNoteClose} handleNoteOpen={handleNoteOpen} />
 
                 {/* this is need to solve for question */}
                 <Typography onClick={() => {

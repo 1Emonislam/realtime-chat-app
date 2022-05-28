@@ -8,7 +8,9 @@ import CancelIcon from "@mui/icons-material/Cancel";
 // import LabelIcon from "@mui/icons-material/Label";
 // import CheckBoxIcon from "@mui/icons-material/CheckBox";
 import PushPinIcon from "@mui/icons-material/PushPin";
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { ERROR_NOTE, POST_NOTES } from '../../../../store/reducers/notesReducer';
+import { toast } from 'react-toastify';
 const style = {
     position: 'absolute',
     top: '50%',
@@ -22,12 +24,69 @@ const style = {
     padding: '10px 30px'
 };
 
-export default function NoteAdd({ noteOpen, handleNoteOpen, handleNoteCreate, msg, handleNoteClose }) {
-    const { theme, groupMessage, auth, } = useSelector(state => state);
+export default function NoteAdd({ noteOpen, handleNoteOpen, msg, handleNoteClose }) {
+    const { theme, auth, } = useSelector(state => state);
     const mode = theme?.theme;
-    const { messageInfoStore } = groupMessage;
     const [title, setTitle] = useState('')
     const [details, setDetails] = useState('')
+    const dispatch = useDispatch()
+    const handleNoteCreate = (messageId, chatId, title, details, token, handleNoteClose) => {
+        if (auth?.user?.token && messageId && chatId) {
+            fetch(`https://collaballapp.herokuapp.com/api/note/`, {
+                method: 'POST',
+                headers: {
+                    "Content-Type": "application/json",
+                    "authorization": `Bearer ${token}`
+                },
+                body: JSON.stringify({
+                    messageId, chatId, title, details
+                })
+            })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.data) {
+                        handleNoteClose()
+                        toast.success(data.message, {
+                            position: "top-right",
+                            theme: theme?.theme,
+                            autoClose: 5000,
+                            hideProgressBar: false,
+                            closeOnClick: true,
+                            pauseOnHover: true,
+                            draggable: true,
+                            progress: undefined,
+                        });
+                        console.log(data)
+                        dispatch({
+                            type: POST_NOTES,
+                            payload: {
+                                message: data?.message,
+                                data: data.data,
+                            }
+                        })
+                    }
+                    if (data.error) {
+                        dispatch({
+                            type: ERROR_NOTE,
+                            payload: {
+                                error: data?.error,
+                            }
+                        })
+                    }
+                })
+        } else {
+            toast.error('Fill up all fields!', {
+                position: "top-right",
+                theme: theme?.theme,
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            });
+        }
+    }
     return (
         <div>
             <Modal
@@ -85,7 +144,7 @@ export default function NoteAdd({ noteOpen, handleNoteOpen, handleNoteCreate, ms
                         <IconButton onClick={handleNoteClose}>
                             <CancelIcon className="notes-icons" />
                         </IconButton>
-                        <IconButton onClick={() => handleNoteCreate(messageInfoStore?._id, messageInfoStore?.chat?._id, title, details, auth?.user?.token,handleNoteClose)}>
+                        <IconButton onClick={() => handleNoteCreate(msg?._id, msg?.chat?._id, title, details, auth?.user?.token, handleNoteClose)}>
                             <AddCircleIcon className="notes-icons" />
                         </IconButton>
                     </Box>
