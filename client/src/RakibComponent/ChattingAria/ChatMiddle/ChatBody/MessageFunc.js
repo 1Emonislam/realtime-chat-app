@@ -11,7 +11,7 @@ import copyImg from '../../../../Ashikur/chatRepliedImages/copy.png';
 import deleteImg from '../../../../Ashikur/chatRepliedImages/delete.png';
 import editImg from '../../../../Ashikur/chatRepliedImages/edit.png';
 import questionImg from '../../../../Ashikur/chatRepliedImages/question.png';
-import resendImg from '../../../../Ashikur/chatRepliedImages/resend.png';
+// import resendImg from '../../../../Ashikur/chatRepliedImages/resend.png';
 import readTextImg from '../../../../Ashikur/chatRepliedImages/readtext.png';
 import EditMessage from '../../../../Editor/EditMessage';
 import { deleteMessage, sendMessage, updateMessageStore } from '../../../../store/actions/messageAction';
@@ -179,14 +179,14 @@ export default function MessageFunc({ isSameSenderPermission, handleTyping, isTy
                 </Typography>
 
                 {/* Repeat Message */}
-                <Typography onClick={() => {
+                {/* <Typography onClick={() => {
                     dispatch(sendMessage('Repeat!', messageInfo?.chat?._id, auth.user?.token))
                 }} sx={{ cursor: 'pointer', '&:hover': { bgcolor: 'rgb(234, 234, 234, 0.5)' }, py: 1, px: 2, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                     <span style={{ fontSize: 14 }}>Repeat </span>
                     <span>
                         <img style={{ height: '20px', marginLeft: '10px' }} src={resendImg} alt='' />
                     </span>
-                </Typography>
+                </Typography> */}
 
                 {/* Don't Understand Message */}
                 <Typography onClick={() => {

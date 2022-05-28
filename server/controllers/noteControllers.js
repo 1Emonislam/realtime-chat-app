@@ -46,7 +46,14 @@ module.exports.getNote = async (req, res, next) => {
         if (!req?.user?._id) {
             return res.status(400).json({ error: { token: 'User Credentials expired! Please login!' } })
         }
-        const data = await Note.find({ author: req?.user?._id }).populate("message").populate("chat");
+        let { page=1, limit = 10 } = req.query;
+        const keyword = req.query.search ? {
+            author: req?.user?._id,
+            $or: [
+                { "content.text": { $regex: req.query.search, $options: "i" } },
+            ],
+        } : { author: req?.user?._id };
+        const data = await Note.find(keyword).limit(limit * 1).skip((page - 1) * limit).populate("message").populate("chat");
         return res.status(200).json({ data: data })
     }
     catch (error) {

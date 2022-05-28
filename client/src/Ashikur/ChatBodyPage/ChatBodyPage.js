@@ -73,12 +73,12 @@ const ChatBodyPage = ({ handleSingleChat, chatActive }) => {
         }
     }
     // Get the input field
-    useEffect(() => {
-        if (!socket?.current) return;
-        if (groupMessage?.sendMsg?._id) {
-            socket?.current?.emit("new message", groupMessage?.sendMsg);
-        }
-    }, [groupMessage.messageInfoStore?._id, groupMessage?.sendMsg, groupMessage?.sendMsg?._id]);
+    // useEffect(() => {
+    //     if (!socket?.current) return;
+    //     if (groupMessage?.sendMsg?._id) {
+    //         socket?.current?.emit("new message", groupMessage?.sendMsg);
+    //     }
+    // }, [groupMessage.messageInfoStore?._id, groupMessage?.sendMsg, groupMessage?.sendMsg?._id]);
     // console.log(socket?.current)
     // console.log(socket?.current)
 
