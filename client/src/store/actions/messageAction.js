@@ -1,4 +1,5 @@
 import { toast } from "react-toastify";
+import { WRITE_MSG } from "../reducers/messageReducer";
 import { UPLOAD_FAILED, UPLOAD_SUCCESS } from "../reducers/uploadReducer";
 import { GROUP_LOADING_DATA } from "../type/groupType";
 import { FAILED_MESSAGE, GET_MESSAGE, LOADING_MESSAGE, NOTE_CREATE, REMOVE_MESSAGE, SEND_MESSAGE, UPDATE_MESSAGE, UPDATE_MESSAGE_FAILED, UPDATE_MESSAGE_STORE } from "../type/messageTypes";
@@ -98,8 +99,15 @@ export const sendMessage = (data, chatId, token, audio) => {
             })
                 .then(res => res.json())
                 .then(data => {
+                    dispatch({
+                        type: WRITE_MSG,
+                        payload: {
+                            write: ''
+                        }
+                    })
                     if (store.getState()?.socketFunc?.socket?.current) {
                         store.getState()?.socketFunc?.socket?.current.emit("new message", data?.data);
+
                     }
                     //console.log(data)
                     if (data) {
