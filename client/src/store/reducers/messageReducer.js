@@ -2,6 +2,7 @@ import { FAILED_MESSAGE, GET_MESSAGE, LOADING_MESSAGE, MESSAGE_WRITE, NOTE_CREAT
 
 const initState = {
     msg: [],
+    write: '',
     sendMsg: {},
     chat: '',
     loading: false,

@@ -149,7 +149,7 @@ function Editor({ handleTyping, messageEditHandle, editMsg, isTyping, size = 25 
                             sm: '15px',
                             xs: '10px'
                         }
-                    }} onChange={(e) => handleTyping(e)} value={groupMessage?.write} placeholder='Enter text here...'>
+                    }} onChange={(e) => handleTyping(e)} value={write?.write} placeholder='Enter text here...'>
                     </textarea>
                 </Grid>}
                 <Grid item xs={0.7}>
