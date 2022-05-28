@@ -56,7 +56,7 @@ export default function NoteAdd({ noteOpen, handleNoteOpen, msg, handleNoteClose
                             draggable: true,
                             progress: undefined,
                         });
-                        console.log(data)
+                        // console.log(data)
                         dispatch({
                             type: POST_NOTES,
                             payload: {

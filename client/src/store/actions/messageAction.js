@@ -296,7 +296,7 @@ export const deleteMessage = (chatId, messageId, token) => {
         dispatch({
             type: LOADING_MESSAGE,
             payload: {
-                loading: true,
+                loading: false,
             },
         })
         try {

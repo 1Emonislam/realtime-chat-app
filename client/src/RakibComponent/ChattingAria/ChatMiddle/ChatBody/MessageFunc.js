@@ -150,7 +150,7 @@ export default function MessageFunc({ isSameSenderPermission, handleTyping, isTy
                         }}><MdDelete style={{ position: 'relative', top: '3px', paddingLeft: '5px' }} />
                         </span>
                          :  */}
-                        <Tooltip style={{ cursor: "pointer" }} title="Permission Denied" arrow>
+                        <Tooltip style={{ cursor: "pointer" }} title="Delete" arrow>
                             <img style={{ height: '20px', marginLeft: '10px' }} src={deleteImg} alt='' />
                         </Tooltip>
                         {/* } */}
