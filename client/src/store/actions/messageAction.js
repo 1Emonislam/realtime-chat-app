@@ -173,6 +173,12 @@ export const sendAllUploadMessage = (data, chatId, token) => {
             })
                 .then(res => res.json())
                 .then(data => {
+                    dispatch({
+                        type: WRITE_MSG,
+                        payload: {
+                            write: ''
+                        }
+                    })
                     if (store.getState()?.socketFunc?.socket?.current) {
                         store.getState()?.socketFunc?.socket?.current.emit("new message", data?.data);
                     }
