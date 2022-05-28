@@ -1,5 +1,6 @@
 import { UPLOAD_FAILED, UPLOAD_SUCCESS } from "../reducers/uploadReducer";
 import { GROUP_LOADING_DATA } from "../type/groupType";
+import store from '../store'
 import { FAILED_MESSAGE, GET_MESSAGE, LOADING_MESSAGE, NOTE_CREATE, REMOVE_MESSAGE, SEND_MESSAGE, UPDATE_MESSAGE, UPDATE_MESSAGE_FAILED, UPDATE_MESSAGE_STORE } from "../type/messageTypes";
 export const getMessage = (chatId, token, search) => {
     return async (dispatch) => {
@@ -49,7 +50,6 @@ export const getMessage = (chatId, token, search) => {
         }
     }
 }
-
 export const sendMessage = (data, chatId, token, audio) => {
     return async (dispatch) => {
         dispatch({
@@ -84,6 +84,9 @@ export const sendMessage = (data, chatId, token, audio) => {
                 .then(data => {
                     //console.log(data)
                     if (data) {
+                        if (data.data) {
+                            store?.getState()?.socketFunc?.socket?.current?.emit("new message", data.data);
+                        }
                         dispatch({
                             type: SEND_MESSAGE,
                             payload: {
@@ -135,6 +138,9 @@ export const sendAllUploadMessage = (data, chatId, token) => {
                 .then(data => {
                     //console.log(data)
                     if (data) {
+                        if (data.data) {
+                            store?.getState()?.socketFunc?.socket?.current?.emit("new message", data.data);
+                        }
                         dispatch({
                             type: SEND_MESSAGE,
                             payload: {
