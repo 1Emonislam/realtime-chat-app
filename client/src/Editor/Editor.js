@@ -14,7 +14,7 @@ import './VoiceRecoder.css';
 
 function Editor({ handleTyping, messageEditHandle, editMsg, isTyping, size = 25 }) {
 
-    const { groupMessage, theme, selectedChat, socketFunc, auth } = useSelector(state => state);
+    const { groupMessage,write, theme, selectedChat, socketFunc, auth } = useSelector(state => state);
     const dispatch = useDispatch();
     const [record, setRecord] = useState(false)
     const handleUpdate = (e) => {
@@ -70,8 +70,8 @@ function Editor({ handleTyping, messageEditHandle, editMsg, isTyping, size = 25 
         if (!(socketFunc?.socket?.current)) return
         if (selectedChat?.chat?._id) {
             socketFunc?.socket?.current?.emit('stop typing', selectedChat?.chat?._id);
-            if (!groupMessage?.write) return
-            dispatch(sendMessage(groupMessage?.write, selectedChat?.chat?._id, auth?.user?.token))
+            if (!write?.write) return
+            dispatch(sendMessage(write?.write, selectedChat?.chat?._id, auth?.user?.token))
         }
     }
     const startRecording = () => {

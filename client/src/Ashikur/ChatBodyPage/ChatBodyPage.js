@@ -7,8 +7,9 @@ import ChatHome from '../../components/ChatHome';
 import { getGroupChatData } from '../../store/actions/groupActions';
 import { removeNotificationDB } from '../../store/actions/messageNotificationAction';
 import { ONLINE_USER } from '../../store/reducers/allOnlineUserReducer';
+import { WRITE_MSG } from '../../store/reducers/messageReducer';
 import { NOTIFICATION_PUSH } from '../../store/type/messageNotificationTypes';
-import { MESSAGE_WRITE, SEND_MESSAGE } from '../../store/type/messageTypes';
+import { SEND_MESSAGE } from '../../store/type/messageTypes';
 import BodyChat from './BodyChat';
 const ChatBodyPage = ({ handleSingleChat, chatActive }) => {
     const dispatch = useDispatch();
@@ -48,9 +49,9 @@ const ChatBodyPage = ({ handleSingleChat, chatActive }) => {
     const handleTyping = (e) => {
         if (!socket?.current) return;
         dispatch({
-            type: MESSAGE_WRITE,
+            type: WRITE_MSG,
             payload: {
-                data: e.target?.value,
+                write: e.target?.value,
             },
         })
         if (!auth?.user?.token) {

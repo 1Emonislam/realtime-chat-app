@@ -4,13 +4,24 @@ const initState = {
     msg: [],
     sendMsg: {},
     chat: '',
-    write: '',
     loading: false,
     error: '',
     success: '',
     sent: false,
     messageInfoStore: {},
     note: [],
+}
+export const WRITE_MSG = 'WRITE_MSG'
+export const writeReducer = (state = { write: '' }, action) => {
+    const { type, payload } = action;
+    if (type === WRITE_MSG) {
+        return {
+            ...state,
+            write: payload.write
+        }
+    }
+    return state
+
 }
 export const messageReducer = (state = initState, action) => {
     const { payload, type } = action;

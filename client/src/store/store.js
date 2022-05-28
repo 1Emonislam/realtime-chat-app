@@ -3,7 +3,7 @@ import thunk from 'redux-thunk';
 import { authReducer } from './reducers/authReducers';
 import { groupReducer } from './reducers/groupReducer';
 import { messageNotificationPush } from './reducers/messageNotificationReducer';
-import { messageReducer } from './reducers/messageReducer';
+import { messageReducer, writeReducer } from './reducers/messageReducer';
 import { selectedChatReducer } from './reducers/selectedChatReducer';
 import { socketReducer } from './reducers/socketReducer';
 import { themeReducer } from './reducers/ThemeReducer';
@@ -25,7 +25,8 @@ const rootReducer = combineReducers({
     allSearch: allUserSearchReducer,
     uploads: uploadReducer,
     profile: myProfileReducer,
-    notes: notesReducer
+    notes: notesReducer,
+    write: writeReducer,
 });
 const middleware = [thunk];
 const store = createStore(rootReducer, compose(
