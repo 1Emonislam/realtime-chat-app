@@ -274,6 +274,10 @@ module.exports.allMessage = async (req, res, next) => {
             path: 'chat.seen',
             select: '_id pic firstName lastName email online lastOnline',
         })
+        await GroupNotification.updateMany({ chat: req.params?.id, receiver: req.user?._id}, {
+            seen: true,
+            lastSeen: new Date(),
+        }, { new: true })
         const me = {
             msgLastSeen: new Date(),
             info: {
