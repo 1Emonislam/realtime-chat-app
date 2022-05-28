@@ -1,8 +1,9 @@
 import { UPLOAD_FAILED, UPLOAD_SUCCESS } from "../reducers/uploadReducer";
 import { GROUP_LOADING_DATA } from "../type/groupType";
-import store from '../store'
 import { FAILED_MESSAGE, GET_MESSAGE, LOADING_MESSAGE, NOTE_CREATE, REMOVE_MESSAGE, SEND_MESSAGE, UPDATE_MESSAGE, UPDATE_MESSAGE_FAILED, UPDATE_MESSAGE_STORE } from "../type/messageTypes";
+import store from './../store'
 export const getMessage = (chatId, token, search) => {
+
     return async (dispatch) => {
         dispatch({
             type: LOADING_MESSAGE,
@@ -50,7 +51,9 @@ export const getMessage = (chatId, token, search) => {
         }
     }
 }
+
 export const sendMessage = (data, chatId, token, audio) => {
+    if (!store.getState()?.socketFunc?.socket?.current) return;
     return async (dispatch) => {
         dispatch({
             type: LOADING_MESSAGE,
@@ -82,11 +85,11 @@ export const sendMessage = (data, chatId, token, audio) => {
             })
                 .then(res => res.json())
                 .then(data => {
+                    if (store.getState()?.socketFunc?.socket?.current) {
+                        store.getState()?.socketFunc?.socket?.current.emit("new message", data?.data);
+                    }
                     //console.log(data)
                     if (data) {
-                        if (data.data) {
-                            store?.getState()?.socketFunc?.socket?.current?.emit("new message", data.data);
-                        }
                         dispatch({
                             type: SEND_MESSAGE,
                             payload: {
@@ -110,6 +113,7 @@ export const sendMessage = (data, chatId, token, audio) => {
     }
 }
 export const sendAllUploadMessage = (data, chatId, token) => {
+    if (!store.getState()?.socketFunc?.socket?.current) return;
     return async (dispatch) => {
         dispatch({
             type: LOADING_MESSAGE,
@@ -136,11 +140,11 @@ export const sendAllUploadMessage = (data, chatId, token) => {
             })
                 .then(res => res.json())
                 .then(data => {
+                    if (store.getState()?.socketFunc?.socket?.current) {
+                        store.getState()?.socketFunc?.socket?.current.emit("new message", data?.data);
+                    }
                     //console.log(data)
                     if (data) {
-                        if (data.data) {
-                            store?.getState()?.socketFunc?.socket?.current?.emit("new message", data.data);
-                        }
                         dispatch({
                             type: SEND_MESSAGE,
                             payload: {

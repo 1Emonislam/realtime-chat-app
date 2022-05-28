@@ -25,6 +25,7 @@ const ChatBodyPage = ({ handleSingleChat, chatActive }) => {
         if (!socket?.current) return;
         if (!auth?.user?.token) return;
         if (selectedChat?.chat?._id) {
+            socket?.current?.emit("setup", auth?.user?.user);
             socket?.current?.emit("join chat", selectedChat?.chat?._id);
         }
         socket?.current?.on("typing", (data) => {
@@ -71,6 +72,16 @@ const ChatBodyPage = ({ handleSingleChat, chatActive }) => {
             }, timerLength);
         }
     }
+    // Get the input field
+    // useEffect(() => {
+    //     if (!socket?.current) return;
+    //     if (groupMessage?.sendMsg?._id) {
+    //         socket?.current?.emit("new message", groupMessage?.sendMsg);
+    //     }
+    // }, [groupMessage.messageInfoStore?._id, groupMessage?.sendMsg, groupMessage?.sendMsg?._id]);
+    // console.log(socket?.current)
+    // console.log(socket?.current)
+
     useEffect(() => {
         if (!socket?.current) return
         socket?.current?.off("message recieved").on("message recieved", (data) => {
