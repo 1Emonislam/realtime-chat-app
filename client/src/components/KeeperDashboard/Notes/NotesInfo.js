@@ -1,7 +1,6 @@
 import { Box, IconButton } from "@mui/material";
 import "./Notes.css";
 import React from "react";
-import ColorBox from "../ColorBox/ColorBox";
 import ArchiveIcon from "@mui/icons-material/Archive";
 import LabelIcon from "@mui/icons-material/Label";
 import PushPinIcon from "@mui/icons-material/PushPin";
@@ -40,7 +39,7 @@ const NotesInfo = ({ note, mode }) => {
 
       <Box sx={{ display: "flex", justifyContent: "end" }}>
         {/* -- Color box component -- */}
-        <ColorBox />
+
 
         <IconButton>
           <LabelIcon />

@@ -67,7 +67,7 @@ export default function ToggleColorMode() {
     }),
     [mode]
   );
-
+// console.log(groupMessage)
   const theme = React.useMemo(
     () =>
       createTheme({
@@ -111,7 +111,7 @@ export default function ToggleColorMode() {
   React.useMemo(() => {
     dispatch(getGroupChatData(auth?.user?.token, 'recent', page, limit, setPage, setCount));
     dispatch(getNotification(auth.user?.token))
-  }, [auth.user?.token, page, dispatch, groupMessage?.msg])
+  }, [auth.user?.token, page, dispatch, groupMessage?.sendMsg?._id])
 
   return (
     <ColorModeContext.Provider value={colorMode} sx={{

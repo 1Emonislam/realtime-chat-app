@@ -1,19 +1,18 @@
-import * as React from "react";
-import "./DashboardLayout.css";
+import CloseIcon from "@mui/icons-material/Close";
+import MenuIcon from "@mui/icons-material/Menu";
+import SearchIcon from "@mui/icons-material/Search";
+import { Drawer, Typography } from "@mui/material";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
-import MenuIcon from "@mui/icons-material/Menu";
 import Toolbar from "@mui/material/Toolbar";
+import * as React from "react";
 import { Link, Outlet } from "react-router-dom";
-import SearchIcon from "@mui/icons-material/Search";
-import CloseIcon from "@mui/icons-material/Close";
-import DrawerContent from "../DrawerContent/DrawerContent";
-import useMediaQuery from "../useMediaQuery/useMediaQuery";
-import { Drawer, Typography } from "@mui/material";
-import ColorBox from "../ColorBox/ColorBox";
 import logo from '../../../assets/logo/white_large.png';
 import ChatProfile from "../../ChatProfile/ChatProfile";
+import DrawerContent from "../DrawerContent/DrawerContent";
+import useMediaQuery from "../useMediaQuery/useMediaQuery";
+import "./DashboardLayout.css";
 
 const drawerWidth = 220;
 function DashboardLayout() {
@@ -92,7 +91,7 @@ function DashboardLayout() {
                   marginBottom: "-10px",
                 }}
               >
-                <ColorBox />
+      
               </div>
 
               <CloseIcon

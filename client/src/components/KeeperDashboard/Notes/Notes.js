@@ -7,17 +7,16 @@ import ArchiveIcon from "@mui/icons-material/Archive";
 import LabelIcon from "@mui/icons-material/Label";
 import CheckBoxIcon from "@mui/icons-material/CheckBox";
 import PushPinIcon from "@mui/icons-material/PushPin";
-import ColorBox from "../ColorBox/ColorBox";
 import NoContentIcon from "../NoContentIcon/NoContentIcon";
 import NoteOutlinedIcon from "@mui/icons-material/NoteOutlined";
 import fakeData from "../fakeData/fakeData";
 import NotesInfo from "./NotesInfo";
-
+import { useSelector } from 'react-redux'
 const Notes = () => {
   const noCIcon = (
     <NoteOutlinedIcon sx={{ fontSize: "130px", color: "#ececec" }} />
   );
-  const mode = JSON.parse(localStorage.getItem('themeCurrent'));
+  const mode = useSelector(state => state?.theme?.theme)
 
   return (
     <>
@@ -51,7 +50,6 @@ const Notes = () => {
 
         <Box className="notes-icon-container">
           {/* -- Color box component -- */}
-          <ColorBox />
           <IconButton>
             <CheckBoxIcon className="notes-icons" />
           </IconButton>

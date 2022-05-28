@@ -1,12 +1,11 @@
-import { Box, IconButton } from "@mui/material";
-import "../Notes/Notes.css";
-import React from "react";
-import ColorBox from "../ColorBox/ColorBox";
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
 import LabelIcon from "@mui/icons-material/Label";
 import PushPinIcon from "@mui/icons-material/PushPin";
-import EditIcon from "@mui/icons-material/Edit";
-import DeleteIcon from "@mui/icons-material/Delete";
 import UnarchiveIcon from "@mui/icons-material/Unarchive";
+import { Box, IconButton } from "@mui/material";
+import React from "react";
+import "../Notes/Notes.css";
 
 const ArchiveInfo = ({ note, mode }) => {
   return (
@@ -40,7 +39,6 @@ const ArchiveInfo = ({ note, mode }) => {
 
       <Box sx={{ display: "flex", justifyContent: "end" }}>
         {/* -- Color box component -- */}
-        <ColorBox />
         <IconButton>
           <LabelIcon />
         </IconButton>

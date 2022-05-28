@@ -14,22 +14,25 @@ import questionImg from '../../../../Ashikur/chatRepliedImages/question.png';
 import resendImg from '../../../../Ashikur/chatRepliedImages/resend.png';
 import readTextImg from '../../../../Ashikur/chatRepliedImages/readtext.png';
 import EditMessage from '../../../../Editor/EditMessage';
-import { deleteMessage, noteCreate, sendMessage, updateMessageStore } from '../../../../store/actions/messageAction';
+import { deleteMessage, sendMessage, updateMessageStore } from '../../../../store/actions/messageAction';
 import { FAILED_MESSAGE, SUCCESS_MESSAGE_CLEAR } from '../../../../store/type/messageTypes';
 import { useSpeechSynthesis } from 'react-speech-kit';
+import NoteAdd from './NoteAdd';
 
 export default function MessageFunc({ isSameSenderPermission, handleTyping, isTyping, message, messageInfo }) {
     const { theme, auth, groupMessage } = useSelector(state => state);
     const dispatch = useDispatch()
     const [anchorEl, setAnchorEl] = React.useState(null);
-
+    const [noteOpen, setNoteOpen] = React.useState(false);
+    const handleNoteOpen = () => setNoteOpen(true);
+    const handleNoteClose = () => setNoteOpen(false);
     // text to read
     const [value, setValue] = React.useState('');
     const { speak } = useSpeechSynthesis();
 
-    const handleSpeechToRead = () =>{
+    const handleSpeechToRead = () => {
         setValue(message)
-        speak({text:value})
+        speak({ text: value })
     }
 
     const handleClick = (event) => {
@@ -104,7 +107,7 @@ export default function MessageFunc({ isSameSenderPermission, handleTyping, isTy
         })
     }
 
-    
+
     return (
         <div className='ancor'>
             <BsThreeDotsVertical id={id} onClick={handleClick} />
@@ -155,15 +158,15 @@ export default function MessageFunc({ isSameSenderPermission, handleTyping, isTy
                         {/* } */}
                     </Typography>
                 </>}
-
+                {/* onClick={() => dispatch(noteCreate(messageInfo?._id, messageInfo?.chat?._id, auth.user?.token))} */}
                 {/* Add to Note Message */}
-                <Typography onClick={() => dispatch(noteCreate(messageInfo?._id, messageInfo?.chat?._id, auth.user?.token))} sx={{ cursor: 'pointer', '&:hover': { bgcolor: 'rgb(234, 234, 234, 0.5)' }, py: 1, px: 2, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                <Typography onClick={handleNoteOpen} sx={{ cursor: 'pointer', '&:hover': { bgcolor: 'rgb(234, 234, 234, 0.5)' }, py: 1, px: 2, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                     <span style={{ fontSize: 14 }}> add To Note </span>
                     <span>
                         <img style={{ height: '20px', marginLeft: '10px' }} src={addNoteImg} alt='' />
                     </span>
                 </Typography>
-
+                <NoteAdd noteOpen={noteOpen} msg={message} handleNoteClose={handleNoteClose} handleNoteOpen={handleNoteOpen} />
 
                 {/* this is need to solve for question */}
                 <Typography onClick={() => {
