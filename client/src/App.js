@@ -40,7 +40,7 @@ export const ThemeSelectContext = React.createContext();
 export const PaginationContext = React.createContext();
 const ColorModeContext = React.createContext({ toggleColorMode: () => { } });
 export default function ToggleColorMode() {
-  const { auth, groupMessage } = useSelector(state => state);
+  const { auth } = useSelector(state => state);
   const [mode, setMode] = React.useState(
     window.localStorage.getItem("themeCurrent") ? JSON.parse(window.localStorage.getItem("themeCurrent")) : 'light');
   if (!mode) {
@@ -111,7 +111,7 @@ export default function ToggleColorMode() {
   React.useMemo(() => {
     dispatch(getGroupChatData(auth?.user?.token, 'recent', page, limit, setPage, setCount));
     dispatch(getNotification(auth.user?.token))
-  }, [auth.user?.token, page, dispatch, groupMessage?.sendMsg?._id])
+  }, [auth.user?.token, page, dispatch])
 
   return (
     <ColorModeContext.Provider value={colorMode} sx={{
