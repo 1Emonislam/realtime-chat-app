@@ -1,4 +1,5 @@
 import { UPLOAD_FAILED, UPLOAD_SUCCESS } from "../reducers/uploadReducer";
+import { GROUP_LOADING_DATA } from "../type/groupType";
 import { FAILED_MESSAGE, GET_MESSAGE, LOADING_MESSAGE, NOTE_CREATE, REMOVE_MESSAGE, SEND_MESSAGE, UPDATE_MESSAGE, UPDATE_MESSAGE_FAILED, UPDATE_MESSAGE_STORE } from "../type/messageTypes";
 export const getMessage = (chatId, token, search) => {
     return async (dispatch) => {
@@ -57,6 +58,12 @@ export const sendMessage = (data, chatId, token, audio) => {
                 loading: false,
             },
         })
+        dispatch({
+            type: GROUP_LOADING_DATA,
+            payload: {
+                loading: false,
+            },
+        })
         try {
             //make sure all data array passing
             fetch(`https://collaballapp.herokuapp.com/api/message`, {
@@ -103,6 +110,12 @@ export const sendAllUploadMessage = (data, chatId, token) => {
     return async (dispatch) => {
         dispatch({
             type: LOADING_MESSAGE,
+            payload: {
+                loading: false,
+            },
+        })
+        dispatch({
+            type: GROUP_LOADING_DATA,
             payload: {
                 loading: false,
             },
