@@ -67,7 +67,7 @@ export default function ToggleColorMode() {
     }),
     [mode]
   );
-// console.log(groupMessage)
+  // console.log(groupMessage)
   const theme = React.useMemo(
     () =>
       createTheme({
@@ -99,6 +99,9 @@ export default function ToggleColorMode() {
       type: SOCKET_GLOBAL,
       payload: { socket },
     })
+    if (auth?.user?.user?._id) {
+      socket?.current?.emit("setup", auth?.user?.user);
+    }
     return () => { socket.current?.disconnect() };
   }, [auth?.user?.user?.email, dispatch])
   const contextObj = {

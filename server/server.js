@@ -106,10 +106,6 @@ io.on("connection", async (socket) => {
     socket.on("online members", (onlineMember) => {
         socket.in(onlineMember?._id).emit("online member", onlineMember)
     })
-    socket.off("setup", (userData) => {
-        console.log('User Disconnected');
-        socket.leave(userData?._id)
-    })
     const userSessionData = socket.handshake?.auth?.data?.user;
     let loggedUser;
     loggedUser = await User.findOneAndUpdate({ _id: userSessionData?._id }, {
@@ -126,6 +122,10 @@ io.on("connection", async (socket) => {
         }, { new: true })
     })
     socket.emit("online user", users)
+    socket.off("setup", (userData) => {
+        console.log('User Disconnected');
+        socket.leave(userData?._id)
+    })
 })
 
 //handel error

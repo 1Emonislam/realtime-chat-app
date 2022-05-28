@@ -25,7 +25,6 @@ const ChatBodyPage = ({ handleSingleChat, chatActive }) => {
         if (!socket?.current) return;
         if (!auth?.user?.token) return;
         if (selectedChat?.chat?._id) {
-            socket?.current?.emit("setup", auth?.user?.user);
             socket?.current?.emit("join chat", selectedChat?.chat?._id);
         }
         socket?.current?.on("typing", (data) => {
