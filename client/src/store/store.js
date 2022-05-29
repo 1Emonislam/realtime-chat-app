@@ -7,13 +7,14 @@ import { messageReducer, updateMessageStoreReducer, writeReducer } from './reduc
 import { selectedChatReducer } from './reducers/selectedChatReducer';
 import { socketReducer } from './reducers/socketReducer';
 import { themeReducer } from './reducers/ThemeReducer';
-import { composeWithDevTools } from 'redux-devtools-extension';
+// import { composeWithDevTools } from 'redux-devtools-extension';
 import { onlineUserReducer } from './reducers/allOnlineUserReducer';
 import { allUserSearchReducer } from './reducers/allSearchUserReducer';
 import { uploadReducer } from './reducers/uploadReducer';
 import { myProfileReducer } from './reducers/profileReducer';
 import { notesReducer } from './reducers/notesReducer';
 import { mediaFileSearchReducer } from './reducers/mediaFileSearchReducer';
+import { paginationMembersReducer } from './reducers/paginationMembersReducer';
 const rootReducer = combineReducers({
     theme: themeReducer,
     auth: authReducer,
@@ -26,6 +27,7 @@ const rootReducer = combineReducers({
     allSearch: allUserSearchReducer,
     uploads: uploadReducer,
     profile: myProfileReducer,
+    pageMembers: paginationMembersReducer,
     notes: notesReducer,
     write: writeReducer,
     updateMsg: updateMessageStoreReducer,
@@ -34,6 +36,6 @@ const rootReducer = combineReducers({
 const middleware = [thunk];
 const store = createStore(rootReducer, compose(
     applyMiddleware(...middleware),
-    composeWithDevTools()
+    // composeWithDevTools()
 ))
 export default store;

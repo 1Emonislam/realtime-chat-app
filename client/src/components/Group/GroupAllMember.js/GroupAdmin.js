@@ -4,6 +4,7 @@ import Tabs from '@mui/material/Tabs';
 import Typography from '@mui/material/Typography';
 import PropTypes from 'prop-types';
 import React, { useContext } from 'react';
+import { useSelector } from 'react-redux';
 import { PaginationContext } from '../../../App';
 import ProfileGroupList from './ProfileGroupList';
 function TabPanel(props) {
@@ -45,7 +46,9 @@ export default function GroupMemberShow({ memberInfo }) {
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
-    const paginationContext = useContext(PaginationContext)
+    const { pageMembers } = useSelector(state => state)
+    const paginationContext = useContext(PaginationContext);
+
     const {
         pageUser,
         setPageUser,
@@ -64,10 +67,10 @@ export default function GroupMemberShow({ memberInfo }) {
                 </Tabs>
             </Box>
             <TabPanel value={value} index={0}>
-                <ProfileGroupList memberInfo={memberInfo?.chat?.members} count={countMember} limit={limitUser} setPage={setPageUser} page={pageUser} />
+                <ProfileGroupList memberInfo={pageMembers?.members} count={countMember} limit={limitUser} setPage={setPageUser} page={pageUser} />
             </TabPanel>
             <TabPanel value={value} index={1}>
-                <ProfileGroupList memberInfo={memberInfo?.chat?.groupAdmin} count={countAdmin} limit={limitUser} setPage={setPageUser} page={pageUser} />
+                <ProfileGroupList memberInfo={pageMembers?.groupAdmin} count={countAdmin} limit={limitUser} setPage={setPageUser} page={pageUser} />
             </TabPanel>
         </Box>
     );

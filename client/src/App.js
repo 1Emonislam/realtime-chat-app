@@ -36,11 +36,12 @@ import Home from "./pages/Home/Home";
 import { getGroupChatData } from "./store/actions/groupActions";
 import { getNotification } from "./store/actions/messageNotificationAction";
 import { SOCKET_GLOBAL } from "./store/type/socketType";
+import { getMembersPagination } from "./store/actions/selectedChatAction";
 export const ThemeSelectContext = React.createContext();
 export const PaginationContext = React.createContext();
 const ColorModeContext = React.createContext({ toggleColorMode: () => { } });
 export default function ToggleColorMode() {
-  const { auth } = useSelector(state => state);
+  const { auth,selectedChat  } = useSelector(state => state);
   const [mode, setMode] = React.useState(
     window.localStorage.getItem("themeCurrent") ? JSON.parse(window.localStorage.getItem("themeCurrent")) : 'light');
   if (!mode) {
@@ -122,6 +123,12 @@ export default function ToggleColorMode() {
     setCountAdmin,
     limitUser
   }
+
+  React.useEffect(() => {
+    if (selectedChat?.chat?._id) {
+      dispatch(getMembersPagination(selectedChat?.chat?._id, auth?.user?.token, pageUser, limitUser, setCountMember, setCountAdmin, countMember, countAdmin, setPageUser))
+    }
+  }, [pageUser, dispatch])
   React.useMemo(() => {
     dispatch(getGroupChatData(auth?.user?.token, 'recent', page, limit, setPage, setCount));
     dispatch(getNotification(auth.user?.token))

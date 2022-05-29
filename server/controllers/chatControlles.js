@@ -857,7 +857,6 @@ module.exports.groupAddToInviteSent = async (req, res, next) => {
       select: '_id pic firstName lastName email online lastOnline createdAt',
       model: 'User',
       options: {
-       
         skip: skip,
         limit: size
       },
@@ -870,7 +869,6 @@ module.exports.groupAddToInviteSent = async (req, res, next) => {
       select: '_id pic firstName lastName email online lastOnline createdAt',
       model: 'User',
       options: {
-       
         skip: skip,
         limit: size
       },

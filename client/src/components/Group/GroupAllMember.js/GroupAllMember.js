@@ -21,7 +21,6 @@ function GroupAllMember({ memberInfo, handleMemberClose, memberOpen }) {
         <Modal
             style={{ overflowY: 'scroll' }}
             open={memberOpen}
-            onClose={handleMemberClose}
             aria-labelledby="modal-modal-title"
             aria-describedby="modal-modal-description"
         >
