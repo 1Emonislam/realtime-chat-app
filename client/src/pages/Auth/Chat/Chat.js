@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import ChatBodyPage from '../../../Ashikur/ChatBodyPage/ChatBodyPage';
 import Nav from '../../../Ashikur/Nav/Nav';
 import { getMessage } from '../../../store/actions/messageAction';
+import { getNotification } from '../../../store/actions/messageNotificationAction';
 import { getSelectedChat } from '../../../store/actions/selectedChatAction';
 function Chat({ children }) {
   const { auth, selectedChat } = useSelector(state => state)
@@ -18,6 +19,7 @@ function Chat({ children }) {
     if (id) {
       dispatch(getSelectedChat(id, auth?.user?.token,  pageUser, limitUser, setCountMember,setCountAdmin, countMember,countAdmin, setPageUser))
       dispatch(getMessage(id, auth?.user?.token))
+      dispatch(getNotification(auth.user?.token))
     }
     if (id === selectedChat?.chat?._id) {
       setChatActive(true)
