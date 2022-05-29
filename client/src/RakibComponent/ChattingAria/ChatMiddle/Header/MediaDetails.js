@@ -1,4 +1,4 @@
-import { Grid, Pagination, ToggleButton } from '@mui/material';
+import { Grid, Pagination } from '@mui/material';
 import Box from '@mui/material/Box';
 import Tab from '@mui/material/Tab';
 import Tabs from '@mui/material/Tabs';
@@ -49,7 +49,7 @@ export default function MediaDetails() {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-  console.log( audios, videos, others, voice, images )
+  console.log(audios, videos, others, voice, images)
   const dispatch = useDispatch()
   const [count, setCount] = useState(0);
   const [page, setPage] = useState(1)
@@ -76,7 +76,6 @@ export default function MediaDetails() {
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
-        <ToggleButton value={value} style={{ border: 'none', textTransform: 'capitalize' }} >
           <Grid container spacing={0}>
             {
               images?.length !== 0 && images?.map((pic, index) => (
@@ -85,7 +84,6 @@ export default function MediaDetails() {
                 </Grid>
               ))}
           </Grid>
-        </ToggleButton>
         <Pagination
           count={Math.ceil(count / limit)}
           color="secondary"
@@ -94,16 +92,14 @@ export default function MediaDetails() {
         />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <ToggleButton value={value} style={{ border: 'none', textTransform: 'capitalize' }}>
           <Grid container spacing={0}>
             {
               voice?.length !== 0 && voice?.map((voice, index) => (
-                <Grid item xs={3} key={index}>
-                  <audio width={'100%'} src={voice?.url} controls> </audio>
+                <Grid item xs={6} key={index}>
+                  <audio style={{ width: '100%' }} src={voice?.url} controls> </audio>
                 </Grid>
               ))}
           </Grid>
-        </ToggleButton>
         <Pagination
           count={Math.ceil(count / limit)}
           color="secondary"
@@ -112,16 +108,14 @@ export default function MediaDetails() {
         />
       </TabPanel>
       <TabPanel value={value} index={2}>
-        <ToggleButton value={value} style={{ border: 'none', textTransform: 'capitalize' }}>
-          <Grid container spacing={0}>
+          <Grid container spacing={0}justifyContent="space-between">
             {
               audios?.length !== 0 && audios?.map((audio, index) => (
-                <Grid item xs={3} key={index}>
-                  <audio width={'100%'} src={audio?.url} controls> </audio>
+                <Grid item xs={6} key={index}>
+                  <audio style={{ width: '100%' }} src={audio?.url} controls> </audio>
                 </Grid>
               ))}
           </Grid>
-        </ToggleButton>
         <Pagination
           count={Math.ceil(count / limit)}
           color="secondary"
@@ -130,14 +124,14 @@ export default function MediaDetails() {
         />
       </TabPanel>
       <TabPanel value={value} index={3}>
-        <ToggleButton value={value} style={{ border: 'none', textTransform: 'capitalize' }}>
-          {
-            videos?.length !== 0 && videos?.map((video, index) => (
-              <Grid item xs={3} key={index}>
-                <video width={'100%'} src={video?.url} controls> </video>
-              </Grid>
-            ))}
-        </ToggleButton>
+          <Grid container spacing={0}>
+            {
+              videos?.length !== 0 && videos?.map((video, index) => (
+                <Grid item xs={6} key={index}>
+                  <video style={{ width: '100%' }} src={video?.url} controls> </video>
+                </Grid>
+              ))}
+          </Grid>
         <Pagination
           count={Math.ceil(count / limit)}
           color="secondary"
@@ -146,18 +140,17 @@ export default function MediaDetails() {
         />
       </TabPanel>
       <TabPanel value={value} index={4}>
-        <ToggleButton value={value} style={{ border: 'none', textTransform: 'capitalize' }} >
-          {
-            others?.length !== 0 && others?.map((other, index) => (
-              <Grid item xs={3} key={index}>
-                <DocViewer documents={[{
-                  uri:
-                    other?.url
-                },]} />
-              </Grid>
-            ))}
-
-        </ToggleButton>
+          <Grid container spacing={0}>
+            {
+              others?.length !== 0 && others?.map((other, index) => (
+                <Grid item xs={3} key={index}>
+                  <DocViewer documents={[{
+                    uri:
+                      other?.url
+                  },]} />
+                </Grid>
+              ))}
+          </Grid>
         <Pagination
           count={Math.ceil(count / limit)}
           color="secondary"
