@@ -7,14 +7,11 @@ import PeopleOnline from './PeopleOnline';
 // switch Button
 const OnlineOfline = () => {
     const [selected, setSelected] = React.useState(false);
-    const { selectedChat } = useSelector(state => state);
-    const members = selectedChat?.chat?.members;
-    const online = members?.filter(online => online?.online === true);
-    const offline = members?.filter(offline => offline?.online === false);
+    const { onlineUser } = useSelector(state => state);
     return (
         <>
-            {members&& <div className='current-user-about'>
-                {members?.length !== 0 && <Grid container spacing={0}>
+            {(onlineUser?.online?.length || onlineUser?.offline?.length) !== 0 && <div className='current-user-about'>
+                { <Grid container spacing={0}>
                     <Grid item xs={12}>
                         <ToggleButton value="check"
                             selected={selected}
@@ -24,7 +21,7 @@ const OnlineOfline = () => {
                             }}>
                             <Typography style={{ margin: '10px 0' }}> Online </Typography>
                         </ToggleButton>
-                        {<PeopleOnline online={online} />}
+                        {<PeopleOnline online={onlineUser?.online} />}
 
                     </Grid>
                     <Grid item xs={12}>
@@ -36,7 +33,7 @@ const OnlineOfline = () => {
                             }}>
                             <Typography style={{ marginTop: '20px', marginBottom: '10px' }}> Offline </Typography>
                         </ToggleButton>
-                        {<PeopleOffline offline={offline} />}
+                        {<PeopleOffline offline={onlineUser?.offline} />}
                     </Grid>
                 </Grid>}
             </div>

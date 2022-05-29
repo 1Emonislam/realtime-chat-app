@@ -28,6 +28,7 @@ const ChatBodyPage = ({ handleSingleChat, chatActive }) => {
         if (selectedChat?.chat?._id) {
             socket?.current?.emit("setup", auth?.user?.user);
             socket?.current?.emit("join chat", selectedChat?.chat?._id);
+            socket?.current?.emit("online members", selectedChat?.chat?._id);
         }
         socket?.current?.on("typing", (data) => {
             //console.log(data)
@@ -41,7 +42,8 @@ const ChatBodyPage = ({ handleSingleChat, chatActive }) => {
             dispatch({
                 type: ONLINE_USER,
                 payload: {
-                    data: data
+                    online: data?.online,
+                    offline: data?.offline
                 }
             })
         })

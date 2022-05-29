@@ -103,9 +103,6 @@ io.on("connection", async (socket) => {
             socket.in(user?._id).emit("message recieved", { newMessageRecieved, notificationObj })
         })
     })
-    socket.on("online members", (onlineMember) => {
-        socket.in(onlineMember?._id).emit("online member", onlineMember)
-    })
     const userSessionData = socket.handshake?.auth?.data?.user;
     let loggedUser;
     loggedUser = await User.findOneAndUpdate({ _id: userSessionData?._id }, {
@@ -120,12 +117,19 @@ io.on("connection", async (socket) => {
             online: false,
             socketId: null,
         }, { new: true })
+        socket.off("setup", (userData) => {
+            console.log('User Disconnected');
+            socket.leave(userData?._id)
+        })
     })
     socket.emit("online user", users)
-    socket.off("setup", (userData) => {
-        console.log('User Disconnected');
-        socket.leave(userData?._id)
+    socket.on("online members", async (chat) => {
+        const onlineMember = await Chat.findOne({ _id: chat }).populate("members", "_id pic firstName lastName email online lastOnline createdAt")
+        const online = onlineMember?.members?.filter(online => online?.online === true);
+        const offline = onlineMember?.members?.filter(online => online?.online === false);
+        socket.in(chat).emit("online member", { online, offline })
     })
+
 })
 
 //handel error
