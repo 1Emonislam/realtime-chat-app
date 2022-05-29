@@ -36,7 +36,7 @@ module.exports.acessChat = async (req, res, next) => {
         select: '_id pic firstName lastName email online lastOnline createdAt',
         model: 'User',
         options: {
-          sort: { createdAt: -1 },
+          sort: {},
           skip: skip,
           limit: size
         },
@@ -48,8 +48,8 @@ module.exports.acessChat = async (req, res, next) => {
         path: 'groupAdmin',
         select: '_id pic firstName lastName email online lastOnline createdAt',
         model: 'User',
-        options: {
-          sort: { createdAt: -1 },
+         options: {
+          sort: {},
           skip: skip,
           limit: size
         },
@@ -61,8 +61,8 @@ module.exports.acessChat = async (req, res, next) => {
         path: 'seen',
         select: '_id pic firstName lastName email online lastOnline createdAt',
         model: 'User',
-        options: {
-          sort: { createdAt: -1 },
+         options: {
+          sort: {},
           skip: skip,
           limit: size
         },
@@ -1212,8 +1212,8 @@ module.exports.groupMemberRemoveTo = async (req, res, next) => {
         path: 'members',
         select: '_id pic firstName lastName email online lastOnline createdAt',
         model: 'User',
-        options: {
-          sort: { createdAt: -1 },
+         options: {
+          sort: {},
           skip: skip,
           limit: size
         },
@@ -1225,8 +1225,8 @@ module.exports.groupMemberRemoveTo = async (req, res, next) => {
         path: 'groupAdmin',
         select: '_id pic firstName lastName email online lastOnline createdAt',
         model: 'User',
-        options: {
-          sort: { createdAt: -1 },
+         options: {
+          sort: {},
           skip: skip,
           limit: size
         },
@@ -1238,8 +1238,8 @@ module.exports.groupMemberRemoveTo = async (req, res, next) => {
         path: 'seen',
         select: '_id pic firstName lastName email online lastOnline createdAt',
         model: 'User',
-        options: {
-          sort: { createdAt: -1 },
+         options: {
+          sort: {},
           skip: skip,
           limit: size
         },
