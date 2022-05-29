@@ -11,7 +11,7 @@ const ArchiveInfo = ({ note, mode }) => {
   return (
     <div className="notes-card-style" style={{ marginTop: "50px" }}>
       <div style={{ display: "flex" }}>
-        <div style={{ color: `${mode === 'dark' ? '#dcd1d1' : 'black'}` }}>
+        <div style={{ color: `${mode === 'dark' ? '#9d8585' : 'black'}` }}>
           <p
             style={{
               fontSize: "1em",

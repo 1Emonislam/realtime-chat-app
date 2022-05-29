@@ -1,16 +1,16 @@
-import Modal from '@mui/material/Modal';
-import React, { useState } from 'react';
-import { Box, IconButton, Paper, Typography } from "@mui/material";
-import "./../../../../components/KeeperDashboard/Notes/Notes.css";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import CancelIcon from "@mui/icons-material/Cancel";
 // import ArchiveIcon from "@mui/icons-material/Archive";
 // import LabelIcon from "@mui/icons-material/Label";
 // import CheckBoxIcon from "@mui/icons-material/CheckBox";
 import PushPinIcon from "@mui/icons-material/PushPin";
-import { useDispatch, useSelector } from 'react-redux'
-import { ERROR_NOTE, POST_NOTES } from '../../../../store/reducers/notesReducer';
+import { Box, IconButton, Paper, Typography } from "@mui/material";
+import Modal from '@mui/material/Modal';
+import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
+import { ERROR_NOTE, POST_NOTES } from '../../../../store/reducers/notesReducer';
+import "./../../../../components/KeeperDashboard/Notes/Notes.css";
 const style = {
     position: 'absolute',
     top: '50%',
@@ -105,7 +105,7 @@ export default function NoteAdd({ noteOpen, handleNoteOpen, msg, handleNoteClose
                     <div style={{ display: "flex" }}>
                         <Typography
                             component='input'
-                            color={mode === 'dark' ? '#dcd1d1' : 'black'}
+                            color={mode === 'dark' ? '#9d8585' : 'black'}
                             type="text"
                             onChange={(e) => setTitle(e.target.value)}
                             placeholder="Title"
@@ -117,7 +117,7 @@ export default function NoteAdd({ noteOpen, handleNoteOpen, msg, handleNoteClose
                         </IconButton>
                     </div>
                     {/* <Typography
-                        color={mode === 'dark' ? '#dcd1d1' : 'black'}
+                        color={mode === 'dark' ? '#9d8585' : 'black'}
                         sx={{ background: 'none', resize: 'none' }}
                         component='textarea'
                         onChange={(e) => setTitle(e.target.value)}
@@ -146,7 +146,7 @@ export default function NoteAdd({ noteOpen, handleNoteOpen, msg, handleNoteClose
                         </IconButton>
 
                     </Box>
-                    <p color={mode === 'dark' ? '#dcd1d1' : 'black'}>
+                    <p color={mode === 'dark' ? '#9d8585' : 'black'}>
                         {msg?.content?.text}
                     </p>
                 </Paper>
