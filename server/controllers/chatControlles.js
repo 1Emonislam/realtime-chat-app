@@ -73,10 +73,7 @@ module.exports.getSingleChatMembers = async (req, res, next) => {
     const skip = parseInt(page - 1);
     const size = limit;
     // const numPage = skip * size;
-    let getChatMember = await Chat.findOne({ _id: chatId }).select("members groupAdmin _id seen img chatName latestMessage topic status description").populate([
-      // here array is for our memory. 
-      // because may need to populate multiple things
-      {
+    let getChatMember = await Chat.findOne({ _id: chatId }).select("members groupAdmin _id seen img chatName latestMessage topic status description").populate( {
         path: 'members',
         select: '_id pic firstName lastName email online lastOnline createdAt',
         model: 'User',
@@ -89,11 +86,7 @@ module.exports.getSingleChatMembers = async (req, res, next) => {
           // filter result in case of multiple result in populate
           // may not useful in this case
         }
-      }
-    ]).populate([
-      // here array is for our memory. 
-      // because may need to populate multiple things
-      {
+      }).populate( {
         path: 'groupAdmin',
         select: '_id pic firstName lastName email online lastOnline createdAt',
         model: 'User',
@@ -106,11 +99,7 @@ module.exports.getSingleChatMembers = async (req, res, next) => {
           // filter result in case of multiple result in populate
           // may not useful in this case
         }
-      }
-    ]).populate([
-      // here array is for our memory. 
-      // because may need to populate multiple things
-      {
+      }).populate(  {
         path: 'seen',
         select: '_id pic firstName lastName email online lastOnline createdAt',
         model: 'User',
@@ -123,8 +112,7 @@ module.exports.getSingleChatMembers = async (req, res, next) => {
           // filter result in case of multiple result in populate
           // may not useful in this case
         }
-      }
-    ])
+      })
     getChatMember = await UploadFiles.populate(getChatMember, {
       path: 'content.files',
       select: '_id duration author filename sizeOfBytes type format duration url createdAt'
