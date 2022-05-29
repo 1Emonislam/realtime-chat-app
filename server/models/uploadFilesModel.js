@@ -18,6 +18,9 @@ const uploadFilesSchema = mongoose.Schema({
     filename: {
         type: String,
     },
+    type:{
+        type:String,
+    },
     sizeOfBytes: {
         type: String,
     },

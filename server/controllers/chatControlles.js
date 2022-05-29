@@ -226,7 +226,7 @@ module.exports.getChat = async (req, res, next) => {
         select: '_id duration author filename sizeOfBytes type format duration url createdAt'
       })
       // console.log(result)
-      return res.status(200).json({count, data: result })
+      return res.status(200).json({ count, data: result })
     }
     if (status == 'latest') {
       const count = await Chat.find({ members: { $elemMatch: { $eq: req.user._id } } }).count()
@@ -244,7 +244,7 @@ module.exports.getChat = async (req, res, next) => {
         path: 'content.files',
         select: '_id duration author filename sizeOfBytes type format duration url createdAt'
       })
-      return res.status(200).json({ count,data: result })
+      return res.status(200).json({ count, data: result })
     }
     if (status == 'popular' || 'acc') {
       const count = await Chat.find({ members: { $elemMatch: { $eq: req.user._id } } }).count()
@@ -279,7 +279,7 @@ module.exports.getChat = async (req, res, next) => {
         path: 'content.files',
         select: '_id duration author filename sizeOfBytes type format duration url createdAt'
       })
-      return res.status(200).json({count, data: result })
+      return res.status(200).json({ count, data: result })
     }
   } catch (error) {
     next(error)
@@ -772,6 +772,36 @@ module.exports.groupMemberRemoveTo = async (req, res, next) => {
       });
       return res.status(200).json({ message: "Group Member Leave Successfully!", data })
     }
+  }
+  catch (error) {
+    next(error)
+  }
+}
+
+
+//media files all 
+
+module.exports.mediaFilesSearch = async (req, res, next) => {
+  try {
+    const { chat,  page = 1, limit = 10 } = req.query;
+    const keyword = req.query.search ? {
+      chat: chat,
+      $or: [
+        { "filename": { $regex: req.query.search, $options: "i" } },
+        { "format": { $regex: req.query.status, $options: "i" } },
+        { "format": { $regex: req.query.status2 || '', $options: "i" } },
+      ],
+    } : {
+      $or: [
+        { "filename": { $regex: req.query.search || '', $options: "i" } },
+        { "format": { $regex: req.query.status, $options: "i" } },
+        { "format": { $regex: req.query.status2 || '', $options: "i" } },
+      ], chat: chat
+    };
+    const find = await UploadFiles.find(keyword).limit(limit * 1)
+      .skip((page - 1) * limit);
+    const count = await UploadFiles.find(keyword).count();
+    return res.status(200).json({ data: find, count })
   }
   catch (error) {
     next(error)

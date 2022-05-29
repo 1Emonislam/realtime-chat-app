@@ -3,6 +3,7 @@ import Cancel from '@mui/icons-material/Cancel';
 import { Avatar, Modal, ToggleButton } from '@mui/material';
 import { Box } from '@mui/system';
 import React from 'react';
+import MediaDetails from './MediaDetails';
 
 const style = {
     position: 'absolute',
@@ -54,6 +55,7 @@ const SingleProfile = ({ groupInfoOpen, setGroupInfoOpen, groupInfo, handleGroup
                         </div>}
 
                     </div>
+                    <MediaDetails />
                 </Box>
             </Modal>
         </Box>

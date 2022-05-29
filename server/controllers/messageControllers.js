@@ -105,7 +105,7 @@ module.exports.sendFilesUploadMessage = async (req, res, next) => {
         return res.status(400);
     }
 
-    let { secure_url, write, bytes, original_filename, format, duration, resource_type, audioFile, videoFile, othersFile, imagesFile } = req.body;
+    let { secure_url, write, bytes, original_filename, format, duration, resource_type, audioFile,voiceFile, videoFile, othersFile, imagesFile } = req.body;
     try {
         const uploadFile = await UploadFiles.create({
             author: req.user?._id,
@@ -113,6 +113,7 @@ module.exports.sendFilesUploadMessage = async (req, res, next) => {
             filename: original_filename,
             sizeOfBytes: bytes,
             format,
+            type: audioFile || videoFile || othersFile || voiceFile || imagesFile,
             duration: duration || '',
             url: secure_url,
         })
@@ -220,11 +221,11 @@ module.exports.allMessage = async (req, res, next) => {
         return res.status(400).json({ error: { email: 'User Credentials expired! Please login' } })
     }
     try {
-        let { page=1, limit = 1 } = req.query;
-		limit = parseInt(limit);
-		const skip = parseInt(page - 1);
-		const size = limit;
-		const numPage = skip * size;
+        let { page = 1, limit = 1 } = req.query;
+        limit = parseInt(limit);
+        const skip = parseInt(page - 1);
+        const size = limit;
+        const numPage = skip * size;
         const keyword = req.query.search ? {
             chat: req.params.chatId,
             $or: [
@@ -274,7 +275,7 @@ module.exports.allMessage = async (req, res, next) => {
             path: 'chat.seen',
             select: '_id pic firstName lastName email online lastOnline',
         })
-        await GroupNotification.updateMany({ chat: req.params?.chatId, receiver: req.user?._id}, {
+        await GroupNotification.updateMany({ chat: req.params?.chatId, receiver: req.user?._id }, {
             seen: true,
             lastSeen: new Date(),
         }, { new: true })
@@ -347,7 +348,7 @@ module.exports.messageRemove = async (req, res, next) => {
             path: 'chat.seen',
             select: '_id pic firstName lastName email online lastOnline',
         })
-        await GroupNotification.updateMany({ chat:chatId, receiver: req.user?._id}, {
+        await GroupNotification.updateMany({ chat: chatId, receiver: req.user?._id }, {
             seen: true,
             lastSeen: new Date(),
         }, { new: true })
@@ -436,7 +437,7 @@ module.exports.messageEdit = async (req, res, next) => {
                 path: 'chat.seen',
                 select: '_id pic firstName lastName email online lastOnline',
             })
-            await GroupNotification.updateMany({ chat:chatId, receiver: req.user?._id}, {
+            await GroupNotification.updateMany({ chat: chatId, receiver: req.user?._id }, {
                 seen: true,
                 lastSeen: new Date(),
             }, { new: true })

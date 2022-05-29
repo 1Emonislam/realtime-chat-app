@@ -13,6 +13,7 @@ import { allUserSearchReducer } from './reducers/allSearchUserReducer';
 import { uploadReducer } from './reducers/uploadReducer';
 import { myProfileReducer } from './reducers/profileReducer';
 import { notesReducer } from './reducers/notesReducer';
+import { mediaFileSearchReducer } from './reducers/mediaFileSearchReducer';
 const rootReducer = combineReducers({
     theme: themeReducer,
     auth: authReducer,
@@ -27,7 +28,8 @@ const rootReducer = combineReducers({
     profile: myProfileReducer,
     notes: notesReducer,
     write: writeReducer,
-    updateMsg:updateMessageStoreReducer
+    updateMsg: updateMessageStoreReducer,
+    media: mediaFileSearchReducer
 });
 const middleware = [thunk];
 const store = createStore(rootReducer, compose(
