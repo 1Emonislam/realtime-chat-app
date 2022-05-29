@@ -55,7 +55,7 @@ export default function MediaDetails() {
   const [count, setCount] = useState(0);
   const [selectedPage, setSelectedPage] = useState('')
   const [page, setPage] = useState(1)
-  const limit = 1;
+  const limit = 10;
   useEffect(() => {
     if (selectedPage === 'images') {
       dispatch(mediaFilesSearchImages('images', selectedChat?.chat?._id, page, limit, setCount))
