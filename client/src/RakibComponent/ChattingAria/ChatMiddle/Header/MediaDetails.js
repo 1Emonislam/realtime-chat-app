@@ -58,20 +58,20 @@ export default function MediaDetails() {
       <Box sx={{ borderBottom: 1, borderColor: 'divider', display: 'flex', textTransform: 'capitalize', alignItems: 'center', justifyContent: 'center' }}>
         <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
           <Tab label="Images" {...a11yProps(0)} onClick={() => {
-          dispatch(mediaFilesSearchImages('png', 'jpeg', selectedChat?.chat?._id, page, limit, setCount))
-        }}/>
+            dispatch(mediaFilesSearchImages('png', 'jpeg', selectedChat?.chat?._id, page, limit, setCount))
+          }} />
           <Tab label="Voice" {...a11yProps(0)} onClick={() => {
-          dispatch(mediaFilesSearchVoice('wav', selectedChat?.chat?._id, page, limit, setCount))
-        }}/>
-          <Tab label="Audios" {...a11yProps(1)}onClick={() => {
-          dispatch(mediaFilesSearchAudios('mp3', selectedChat?.chat?._id, page, limit, setCount))
-        }} />
-          <Tab label="Videos" {...a11yProps(2)}  onClick={() => {
-          dispatch(mediaFilesSearchVideos('mp4', selectedChat?.chat?._id, page, limit, setCount))
-        }}/>
+            dispatch(mediaFilesSearchVoice('wav', selectedChat?.chat?._id, page, limit, setCount))
+          }} />
+          <Tab label="Audios" {...a11yProps(1)} onClick={() => {
+            dispatch(mediaFilesSearchAudios('mp3', selectedChat?.chat?._id, page, limit, setCount))
+          }} />
+          <Tab label="Videos" {...a11yProps(2)} onClick={() => {
+            dispatch(mediaFilesSearchVideos('mp4', selectedChat?.chat?._id, page, limit, setCount))
+          }} />
           <Tab label="Others" {...a11yProps(3)} onClick={() => {
-          dispatch(mediaFilesSearchOthers('pdf', 'zip', selectedChat?.chat?._id, page, limit, setCount))
-        }}/>
+            dispatch(mediaFilesSearchOthers('pdf', 'zip', selectedChat?.chat?._id, page, limit, setCount))
+          }} />
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
