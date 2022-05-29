@@ -783,20 +783,16 @@ module.exports.groupMemberRemoveTo = async (req, res, next) => {
 
 module.exports.mediaFilesSearch = async (req, res, next) => {
   try {
-    const { chat,  page = 1, limit = 10 } = req.query;
+    const { chat, status, page = 1, limit = 10 } = req.query;
     const keyword = req.query.search ? {
       chat: chat,
-      $or: [
-        { "filename": { $regex: req.query.search, $options: "i" } },
-        { "format": { $regex: req.query.status, $options: "i" } },
-        { "format": { $regex: req.query.status2 || '', $options: "i" } },
-      ],
-    } : {
+      type: status,
       $or: [
         { "filename": { $regex: req.query.search || '', $options: "i" } },
-        { "format": { $regex: req.query.status, $options: "i" } },
-        { "format": { $regex: req.query.status2 || '', $options: "i" } },
-      ], chat: chat
+      ],
+    } : {
+      chat: chat,
+      type: status,
     };
     const find = await UploadFiles.find(keyword).limit(limit * 1)
       .skip((page - 1) * limit);

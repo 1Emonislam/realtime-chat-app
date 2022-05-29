@@ -108,7 +108,7 @@ export const mediaFilesSearchVideos = (status, chat, page, limit, setCount) => {
         })
     }
 }
-export const mediaFilesSearchOthers = (status, status2, chat, page, limit, setCount) => {
+export const mediaFilesSearchOthers = (status,chat, page, limit, setCount) => {
     return (dispatch) => {
         const config = {
             headers: {
@@ -122,7 +122,7 @@ export const mediaFilesSearchOthers = (status, status2, chat, page, limit, setCo
                 loading: true
             }
         })
-        axios.get(`https://collaballapp.herokuapp.com/api/chat/media/files/search?status=${status || ''}&status2=${status2 || ''}&chat=${chat || ''}&page=${page}&limit=${limit}`,config).then(({data}) => {
+        axios.get(`https://collaballapp.herokuapp.com/api/chat/media/files/search?status=${status || ''}&chat=${chat || ''}&page=${page}&limit=${limit}`,config).then(({data}) => {
             dispatch({
                 type: STORE_LOADING,
                 payload: {
@@ -143,7 +143,7 @@ export const mediaFilesSearchOthers = (status, status2, chat, page, limit, setCo
         })
     }
 }
-export const mediaFilesSearchImages = (status, status2, chat, page, limit, setCount) => {
+export const mediaFilesSearchImages = (status, chat, page, limit, setCount) => {
     return (dispatch) => {
         const config = {
             headers: {
@@ -157,7 +157,7 @@ export const mediaFilesSearchImages = (status, status2, chat, page, limit, setCo
                 loading: true
             }
         })
-        axios.get(`https://collaballapp.herokuapp.com/api/chat/media/files/search?status=${status || ''}&status2=${status2 || ''}&chat=${chat || ''}&page=${page}&limit=${limit}`,config).then(({data}) => {
+        axios.get(`https://collaballapp.herokuapp.com/api/chat/media/files/search?status=${status || ''}&chat=${chat || ''}&page=${page}&limit=${limit}`,config).then(({data}) => {
             dispatch({
                 type: STORE_LOADING,
                 payload: {
