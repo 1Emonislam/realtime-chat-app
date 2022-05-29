@@ -7,8 +7,8 @@ import { messageReducer, updateMessageStoreReducer, writeReducer } from './reduc
 import { selectedChatReducer } from './reducers/selectedChatReducer';
 import { socketReducer } from './reducers/socketReducer';
 import { themeReducer } from './reducers/ThemeReducer';
-import { composeWithDevTools } from 'redux-devtools-extension';
-// import { onlineUserReducer } from './reducers/allOnlineUserReducer';
+// import { composeWithDevTools } from 'redux-devtools-extension';
+import { onlineUserReducer } from './reducers/allOnlineUserReducer';
 import { allUserSearchReducer } from './reducers/allSearchUserReducer';
 import { uploadReducer } from './reducers/uploadReducer';
 import { myProfileReducer } from './reducers/profileReducer';
