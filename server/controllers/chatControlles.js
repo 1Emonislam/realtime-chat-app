@@ -68,7 +68,7 @@ module.exports.acessChat = async (req, res, next) => {
 module.exports.getSingleChatMembers = async (req, res, next) => {
   try {
     const { chatId } = req.params;
-    let { page = 1, limit = 10 } = req.query;
+    let { page = 1, limit = 3 } = req.query;
     limit = parseInt(limit);
     const skip = parseInt(page - 1);
     const size = limit;
