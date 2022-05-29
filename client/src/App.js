@@ -80,7 +80,7 @@ export default function ToggleColorMode() {
   const [pageUser, setPageUser] = React.useState(1)
   const [countMember, setCountMember] = React.useState(0)
   const [countAdmin, setCountAdmin] = React.useState(0)
-  const limitUser = 7;
+  const limitUser = 5;
   const [count, setCount] = React.useState(0)
   const [page, setPage] = React.useState(1)
   const limit = 10;

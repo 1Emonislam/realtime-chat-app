@@ -12,13 +12,7 @@ export default function GroupPeople({ memberInfo }) {
   const handleMemberClose = () => setMemberOpen(false);
   const paginationContext = useContext(PaginationContext)
   const {
-      pageUser,
-      setPageUser,
       countMember,
-      setCountMember,
-      countAdmin,
-      setCountAdmin,
-      limitUser
   } = paginationContext;
   return (
     <div>

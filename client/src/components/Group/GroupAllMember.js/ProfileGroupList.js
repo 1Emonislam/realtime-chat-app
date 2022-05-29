@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { Avatar, Badge, Grid, ToggleButton, Tooltip } from '@mui/material';
+import { Avatar, Badge, Grid, Pagination, ToggleButton, Tooltip } from '@mui/material';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
@@ -51,7 +51,7 @@ const StyledBadgeOffline = styled(Badge)(({ theme }) => ({
     },
 }));
 
-function ProfileGroupList({ memberInfo }) {
+function ProfileGroupList({ memberInfo, count, page,setPage,limit }) {
     const [selected, setSelected] = React.useState(false);
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
@@ -211,6 +211,7 @@ function ProfileGroupList({ memberInfo }) {
                 })
         }
     }
+
     return (
         <>
             {memberInfo?.length !== 0 && memberInfo?.map((member, index) => (
@@ -249,7 +250,7 @@ function ProfileGroupList({ memberInfo }) {
                             {member.firstName + ' ' + member?.lastName}
                         </ToggleButton>
                         {
-                            selectedChat?.amIJoined === (auth?.user?.user?._id === member?._id) ? <ToggleButton value="check" onClick={() => handleRemoveMember(member,'meLeave')} style={{ marginLeft: '10px', marginBottom: '0px!important', textTransform: 'capitalize', padding: '0px' }}
+                            selectedChat?.amIJoined === (auth?.user?.user?._id === member?._id) ? <ToggleButton value="check" onClick={() => handleRemoveMember(member, 'meLeave')} style={{ marginLeft: '10px', marginBottom: '0px!important', textTransform: 'capitalize', padding: '0px' }}
                                 selected={selected}
                                 onChange={() => {
                                     setSelected(false);
@@ -289,6 +290,12 @@ function ProfileGroupList({ memberInfo }) {
                     </Grid>
                 </Grid>
             ))}
+            <Pagination
+                count={Math.ceil(count / limit)}
+                color="secondary"
+                variant="outlined"
+                onChange={(e, value) => setPage(value)}
+            />
             <SingleProfile caneclBtn="caneclBtn" handleClose={handleClose} handleOpen={handleOpen} open={open} />
         </>
     )

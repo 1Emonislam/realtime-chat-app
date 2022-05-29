@@ -36,7 +36,7 @@ module.exports.acessChat = async (req, res, next) => {
         select: '_id pic firstName lastName email online lastOnline createdAt',
         model: 'User',
         options: {
-          sort: {},
+         
           skip: skip,
           limit: size
         },
@@ -49,7 +49,7 @@ module.exports.acessChat = async (req, res, next) => {
         select: '_id pic firstName lastName email online lastOnline createdAt',
         model: 'User',
         options: {
-          sort: {},
+         
           skip: skip,
           limit: size
         },
@@ -62,7 +62,7 @@ module.exports.acessChat = async (req, res, next) => {
         select: '_id pic firstName lastName email online lastOnline createdAt',
         model: 'User',
         options: {
-          sort: {},
+         
           skip: skip,
           limit: size
         },
@@ -92,7 +92,7 @@ module.exports.acessChat = async (req, res, next) => {
           select: '_id pic firstName lastName email online lastOnline createdAt',
           model: 'User',
           options: {
-            sort: {},
+           
             skip: skip,
             limit: size
           },
@@ -105,7 +105,7 @@ module.exports.acessChat = async (req, res, next) => {
           select: '_id pic firstName lastName email online lastOnline createdAt',
           model: 'User',
           options: {
-            sort: {},
+           
             skip: skip,
             limit: size
           },
@@ -118,7 +118,7 @@ module.exports.acessChat = async (req, res, next) => {
           select: '_id pic firstName lastName email online lastOnline createdAt',
           model: 'User',
           options: {
-            sort: {},
+           
             skip: skip,
             limit: size
           },
@@ -157,7 +157,7 @@ module.exports.getSingleChatMembers = async (req, res, next) => {
       select: '_id pic firstName lastName email online lastOnline createdAt',
       model: 'User',
       options: {
-        sort: {},
+       
         skip: skip,
         limit: size
       },
@@ -170,7 +170,7 @@ module.exports.getSingleChatMembers = async (req, res, next) => {
       select: '_id pic firstName lastName email online lastOnline createdAt',
       model: 'User',
       options: {
-        sort: {},
+       
         skip: skip,
         limit: size
       },
@@ -183,7 +183,7 @@ module.exports.getSingleChatMembers = async (req, res, next) => {
       select: '_id pic firstName lastName email online lastOnline createdAt',
       model: 'User',
       options: {
-        sort: {},
+       
         skip: skip,
         limit: size
       },
@@ -236,7 +236,7 @@ module.exports.makeAdminChatMembers = async (req, res, next) => {
       select: '_id pic firstName lastName email online lastOnline createdAt',
       model: 'User',
       options: {
-        sort: {},
+       
         skip: skip,
         limit: size
       },
@@ -249,7 +249,7 @@ module.exports.makeAdminChatMembers = async (req, res, next) => {
       select: '_id pic firstName lastName email online lastOnline createdAt',
       model: 'User',
       options: {
-        sort: {},
+       
         skip: skip,
         limit: size
       },
@@ -262,7 +262,7 @@ module.exports.makeAdminChatMembers = async (req, res, next) => {
       select: '_id pic firstName lastName email online lastOnline createdAt',
       model: 'User',
       options: {
-        sort: {},
+       
         skip: skip,
         limit: size
       },
@@ -329,7 +329,7 @@ module.exports.removeAdminChatMembers = async (req, res, next) => {
       select: '_id pic firstName lastName email online lastOnline createdAt',
       model: 'User',
       options: {
-        sort: {},
+       
         skip: skip,
         limit: size
       },
@@ -342,7 +342,7 @@ module.exports.removeAdminChatMembers = async (req, res, next) => {
       select: '_id pic firstName lastName email online lastOnline createdAt',
       model: 'User',
       options: {
-        sort: {},
+       
         skip: skip,
         limit: size
       },
@@ -355,7 +355,7 @@ module.exports.removeAdminChatMembers = async (req, res, next) => {
       select: '_id pic firstName lastName email online lastOnline createdAt',
       model: 'User',
       options: {
-        sort: {},
+       
         skip: skip,
         limit: size
       },
@@ -535,7 +535,7 @@ module.exports.groupRename = async (req, res, next) => {
       select: '_id pic firstName lastName email online lastOnline createdAt',
       model: 'User',
       options: {
-        sort: {},
+       
         skip: skip,
         limit: size
       },
@@ -548,7 +548,7 @@ module.exports.groupRename = async (req, res, next) => {
       select: '_id pic firstName lastName email online lastOnline createdAt',
       model: 'User',
       options: {
-        sort: {},
+       
         skip: skip,
         limit: size
       },
@@ -561,7 +561,7 @@ module.exports.groupRename = async (req, res, next) => {
       select: '_id pic firstName lastName email online lastOnline createdAt',
       model: 'User',
       options: {
-        sort: {},
+       
         skip: skip,
         limit: size
       },
@@ -614,7 +614,7 @@ module.exports.groupAddTo = async (req, res, next) => {
       select: '_id pic firstName lastName email online lastOnline createdAt',
       model: 'User',
       options: {
-        sort: {},
+       
         skip: skip,
         limit: size
       },
@@ -627,7 +627,7 @@ module.exports.groupAddTo = async (req, res, next) => {
       select: '_id pic firstName lastName email online lastOnline createdAt',
       model: 'User',
       options: {
-        sort: {},
+       
         skip: skip,
         limit: size
       },
@@ -640,7 +640,7 @@ module.exports.groupAddTo = async (req, res, next) => {
       select: '_id pic firstName lastName email online lastOnline createdAt',
       model: 'User',
       options: {
-        sort: {},
+       
         skip: skip,
         limit: size
       },
@@ -661,7 +661,7 @@ module.exports.groupAddTo = async (req, res, next) => {
       select: '_id pic firstName lastName email online lastOnline createdAt',
       model: 'User',
       options: {
-        sort: {},
+       
         skip: skip,
         limit: size
       },
@@ -674,7 +674,7 @@ module.exports.groupAddTo = async (req, res, next) => {
       select: '_id pic firstName lastName email online lastOnline createdAt',
       model: 'User',
       options: {
-        sort: {},
+       
         skip: skip,
         limit: size
       },
@@ -687,7 +687,7 @@ module.exports.groupAddTo = async (req, res, next) => {
       select: '_id pic firstName lastName email online lastOnline createdAt',
       model: 'User',
       options: {
-        sort: {},
+       
         skip: skip,
         limit: size
       },
@@ -776,7 +776,7 @@ module.exports.groupInviteAccept = async (req, res, next) => {
       select: '_id pic firstName lastName email online lastOnline createdAt',
       model: 'User',
       options: {
-        sort: {},
+       
         skip: skip,
         limit: size
       },
@@ -789,7 +789,7 @@ module.exports.groupInviteAccept = async (req, res, next) => {
       select: '_id pic firstName lastName email online lastOnline createdAt',
       model: 'User',
       options: {
-        sort: {},
+       
         skip: skip,
         limit: size
       },
@@ -802,7 +802,7 @@ module.exports.groupInviteAccept = async (req, res, next) => {
       select: '_id pic firstName lastName email online lastOnline createdAt',
       model: 'User',
       options: {
-        sort: {},
+       
         skip: skip,
         limit: size
       },
@@ -857,7 +857,7 @@ module.exports.groupAddToInviteSent = async (req, res, next) => {
       select: '_id pic firstName lastName email online lastOnline createdAt',
       model: 'User',
       options: {
-        sort: {},
+       
         skip: skip,
         limit: size
       },
@@ -870,7 +870,7 @@ module.exports.groupAddToInviteSent = async (req, res, next) => {
       select: '_id pic firstName lastName email online lastOnline createdAt',
       model: 'User',
       options: {
-        sort: {},
+       
         skip: skip,
         limit: size
       },
@@ -883,7 +883,7 @@ module.exports.groupAddToInviteSent = async (req, res, next) => {
       select: '_id pic firstName lastName email online lastOnline createdAt',
       model: 'User',
       options: {
-        sort: {},
+       
         skip: skip,
         limit: size
       },
@@ -1129,7 +1129,7 @@ module.exports.singleGroupDelete = async (req, res, next) => {
           select: '_id pic firstName lastName email online lastOnline createdAt',
           model: 'User',
           options: {
-            sort: {},
+           
             skip: skip,
             limit: size
           },
@@ -1142,7 +1142,7 @@ module.exports.singleGroupDelete = async (req, res, next) => {
           select: '_id pic firstName lastName email online lastOnline createdAt',
           model: 'User',
           options: {
-            sort: {},
+           
             skip: skip,
             limit: size
           },
@@ -1155,7 +1155,7 @@ module.exports.singleGroupDelete = async (req, res, next) => {
           select: '_id pic firstName lastName email online lastOnline createdAt',
           model: 'User',
           options: {
-            sort: {},
+           
             skip: skip,
             limit: size
           },
@@ -1215,7 +1215,7 @@ module.exports.groupMemberRemoveTo = async (req, res, next) => {
         select: '_id pic firstName lastName email online lastOnline createdAt',
         model: 'User',
         options: {
-          sort: {},
+         
           skip: skip,
           limit: size
         },
@@ -1228,7 +1228,7 @@ module.exports.groupMemberRemoveTo = async (req, res, next) => {
         select: '_id pic firstName lastName email online lastOnline createdAt',
         model: 'User',
         options: {
-          sort: {},
+         
           skip: skip,
           limit: size
         },
@@ -1241,7 +1241,7 @@ module.exports.groupMemberRemoveTo = async (req, res, next) => {
         select: '_id pic firstName lastName email online lastOnline createdAt',
         model: 'User',
         options: {
-          sort: {},
+         
           skip: skip,
           limit: size
         },
