@@ -48,7 +48,7 @@ module.exports.acessChat = async (req, res, next) => {
         path: 'groupAdmin',
         select: '_id pic firstName lastName email online lastOnline createdAt',
         model: 'User',
-         options: {
+        options: {
           sort: {},
           skip: skip,
           limit: size
@@ -61,7 +61,7 @@ module.exports.acessChat = async (req, res, next) => {
         path: 'seen',
         select: '_id pic firstName lastName email online lastOnline createdAt',
         model: 'User',
-         options: {
+        options: {
           sort: {},
           skip: skip,
           limit: size
@@ -156,8 +156,8 @@ module.exports.getSingleChatMembers = async (req, res, next) => {
       path: 'members',
       select: '_id pic firstName lastName email online lastOnline createdAt',
       model: 'User',
-      options: {
-        sort: { createdAt: -1 },
+       options: {
+        sort: { },
         skip: skip,
         limit: size
       },
@@ -169,8 +169,8 @@ module.exports.getSingleChatMembers = async (req, res, next) => {
       path: 'groupAdmin',
       select: '_id pic firstName lastName email online lastOnline createdAt',
       model: 'User',
-      options: {
-        sort: { createdAt: -1 },
+       options: {
+        sort: { },
         skip: skip,
         limit: size
       },
@@ -183,7 +183,7 @@ module.exports.getSingleChatMembers = async (req, res, next) => {
       select: '_id pic firstName lastName email online lastOnline createdAt',
       model: 'User',
       options: {
-        sort: { createdAt: -1 },
+        sort: { },
         skip: skip,
         limit: size
       },
@@ -208,6 +208,8 @@ module.exports.getSingleChatMembers = async (req, res, next) => {
     const chatCheck = await Chat.findOne({ _id: chatId }).populate("members", "_id").populate("groupAdmin", "_id");
     const data = {
       data: getChatMember,
+      memberCount: chatCheck?.members?.length,
+      adminCount: chatCheck?.groupAdmin?.length,
       amIJoined: chatCheck?.members?.some(am => am?._id?.toString() === req.user?._id?.toString()),
       amIAdmin: chatCheck?.groupAdmin?.some(am => am?._id?.toString() === req.user?._id?.toString()),
     }
@@ -233,8 +235,8 @@ module.exports.makeAdminChatMembers = async (req, res, next) => {
       path: 'members',
       select: '_id pic firstName lastName email online lastOnline createdAt',
       model: 'User',
-      options: {
-        sort: { createdAt: -1 },
+       options: {
+        sort: { },
         skip: skip,
         limit: size
       },
@@ -246,8 +248,8 @@ module.exports.makeAdminChatMembers = async (req, res, next) => {
       path: 'groupAdmin',
       select: '_id pic firstName lastName email online lastOnline createdAt',
       model: 'User',
-      options: {
-        sort: { createdAt: -1 },
+       options: {
+        sort: { },
         skip: skip,
         limit: size
       },
@@ -259,8 +261,8 @@ module.exports.makeAdminChatMembers = async (req, res, next) => {
       path: 'seen',
       select: '_id pic firstName lastName email online lastOnline createdAt',
       model: 'User',
-      options: {
-        sort: { createdAt: -1 },
+       options: {
+        sort: { },
         skip: skip,
         limit: size
       },
@@ -326,8 +328,8 @@ module.exports.removeAdminChatMembers = async (req, res, next) => {
       path: 'members',
       select: '_id pic firstName lastName email online lastOnline createdAt',
       model: 'User',
-      options: {
-        sort: { createdAt: -1 },
+       options: {
+        sort: { },
         skip: skip,
         limit: size
       },
@@ -339,8 +341,8 @@ module.exports.removeAdminChatMembers = async (req, res, next) => {
       path: 'groupAdmin',
       select: '_id pic firstName lastName email online lastOnline createdAt',
       model: 'User',
-      options: {
-        sort: { createdAt: -1 },
+       options: {
+        sort: { },
         skip: skip,
         limit: size
       },
@@ -352,8 +354,8 @@ module.exports.removeAdminChatMembers = async (req, res, next) => {
       path: 'seen',
       select: '_id pic firstName lastName email online lastOnline createdAt',
       model: 'User',
-      options: {
-        sort: { createdAt: -1 },
+       options: {
+        sort: { },
         skip: skip,
         limit: size
       },
@@ -525,15 +527,15 @@ module.exports.groupRename = async (req, res, next) => {
 
   const { chatId, chatName, topic, status, description, img } = req.body;
   try {
-    const pervious = await Chat.findOne({ _id: chatId }).populate("members","_id").populate("groupAdmin","_id")
+    const pervious = await Chat.findOne({ _id: chatId }).populate("members", "_id").populate("groupAdmin", "_id")
     let updatedChat = await Chat.findOneAndUpdate({ _id: chatId, groupAdmin: req?.user?._id }, {
       chatName, topic, status, description, img
     }, { new: true }).populate({
       path: 'members',
       select: '_id pic firstName lastName email online lastOnline createdAt',
       model: 'User',
-      options: {
-        sort: { createdAt: -1 },
+       options: {
+        sort: { },
         skip: skip,
         limit: size
       },
@@ -545,8 +547,8 @@ module.exports.groupRename = async (req, res, next) => {
       path: 'groupAdmin',
       select: '_id pic firstName lastName email online lastOnline createdAt',
       model: 'User',
-      options: {
-        sort: { createdAt: -1 },
+       options: {
+        sort: { },
         skip: skip,
         limit: size
       },
@@ -558,8 +560,8 @@ module.exports.groupRename = async (req, res, next) => {
       path: 'seen',
       select: '_id pic firstName lastName email online lastOnline createdAt',
       model: 'User',
-      options: {
-        sort: { createdAt: -1 },
+       options: {
+        sort: { },
         skip: skip,
         limit: size
       },
@@ -611,8 +613,8 @@ module.exports.groupAddTo = async (req, res, next) => {
       path: 'members',
       select: '_id pic firstName lastName email online lastOnline createdAt',
       model: 'User',
-      options: {
-        sort: { createdAt: -1 },
+       options: {
+        sort: { },
         skip: skip,
         limit: size
       },
@@ -624,8 +626,8 @@ module.exports.groupAddTo = async (req, res, next) => {
       path: 'groupAdmin',
       select: '_id pic firstName lastName email online lastOnline createdAt',
       model: 'User',
-      options: {
-        sort: { createdAt: -1 },
+       options: {
+        sort: { },
         skip: skip,
         limit: size
       },
@@ -637,8 +639,8 @@ module.exports.groupAddTo = async (req, res, next) => {
       path: 'seen',
       select: '_id pic firstName lastName email online lastOnline createdAt',
       model: 'User',
-      options: {
-        sort: { createdAt: -1 },
+       options: {
+        sort: { },
         skip: skip,
         limit: size
       },
@@ -652,14 +654,14 @@ module.exports.groupAddTo = async (req, res, next) => {
     if (!added) {
       return res.status(404).json({ error: { "notfound": "chat not exists!" } });
     }
-   const chatCheck =  await Chat.findOne({ _id: chatId }).populate("members","_id").populate("groupAdmin","_id")
+    const chatCheck = await Chat.findOne({ _id: chatId }).populate("members", "_id").populate("groupAdmin", "_id")
     const addedUser = await User.findOne({ _id: userId });
     let getChatMember = await Chat.findOne({ _id: added?._id }).select("members groupAdmin _id seen img chatName latestMessage topic status description").populate({
       path: 'members',
       select: '_id pic firstName lastName email online lastOnline createdAt',
       model: 'User',
-      options: {
-        sort: { createdAt: -1 },
+       options: {
+        sort: { },
         skip: skip,
         limit: size
       },
@@ -671,8 +673,8 @@ module.exports.groupAddTo = async (req, res, next) => {
       path: 'groupAdmin',
       select: '_id pic firstName lastName email online lastOnline createdAt',
       model: 'User',
-      options: {
-        sort: { createdAt: -1 },
+       options: {
+        sort: { },
         skip: skip,
         limit: size
       },
@@ -684,8 +686,8 @@ module.exports.groupAddTo = async (req, res, next) => {
       path: 'seen',
       select: '_id pic firstName lastName email online lastOnline createdAt',
       model: 'User',
-      options: {
-        sort: { createdAt: -1 },
+       options: {
+        sort: { },
         skip: skip,
         limit: size
       },
@@ -773,8 +775,8 @@ module.exports.groupInviteAccept = async (req, res, next) => {
       path: 'members',
       select: '_id pic firstName lastName email online lastOnline createdAt',
       model: 'User',
-      options: {
-        sort: { createdAt: -1 },
+       options: {
+        sort: { },
         skip: skip,
         limit: size
       },
@@ -786,8 +788,8 @@ module.exports.groupInviteAccept = async (req, res, next) => {
       path: 'groupAdmin',
       select: '_id pic firstName lastName email online lastOnline createdAt',
       model: 'User',
-      options: {
-        sort: { createdAt: -1 },
+       options: {
+        sort: { },
         skip: skip,
         limit: size
       },
@@ -799,8 +801,8 @@ module.exports.groupInviteAccept = async (req, res, next) => {
       path: 'seen',
       select: '_id pic firstName lastName email online lastOnline createdAt',
       model: 'User',
-      options: {
-        sort: { createdAt: -1 },
+       options: {
+        sort: { },
         skip: skip,
         limit: size
       },
@@ -828,7 +830,7 @@ module.exports.groupInviteAccept = async (req, res, next) => {
           userJoin: userId
         })
       }
-      const chatCheck =  await Chat.findOne({ _id: chatId }).populate("members","_id").populate("groupAdmin","_id")
+      const chatCheck = await Chat.findOne({ _id: chatId }).populate("members", "_id").populate("groupAdmin", "_id")
       const memberJoinedInfo = {
         joinMemberCount: chatCheck?.members?.length,
         showMemberFront: added?.members
@@ -854,8 +856,8 @@ module.exports.groupAddToInviteSent = async (req, res, next) => {
       path: 'members',
       select: '_id pic firstName lastName email online lastOnline createdAt',
       model: 'User',
-      options: {
-        sort: { createdAt: -1 },
+       options: {
+        sort: { },
         skip: skip,
         limit: size
       },
@@ -867,8 +869,8 @@ module.exports.groupAddToInviteSent = async (req, res, next) => {
       path: 'groupAdmin',
       select: '_id pic firstName lastName email online lastOnline createdAt',
       model: 'User',
-      options: {
-        sort: { createdAt: -1 },
+       options: {
+        sort: { },
         skip: skip,
         limit: size
       },
@@ -880,8 +882,8 @@ module.exports.groupAddToInviteSent = async (req, res, next) => {
       path: 'seen',
       select: '_id pic firstName lastName email online lastOnline createdAt',
       model: 'User',
-      options: {
-        sort: { createdAt: -1 },
+       options: {
+        sort: { },
         skip: skip,
         limit: size
       },
@@ -1207,12 +1209,12 @@ module.exports.groupMemberRemoveTo = async (req, res, next) => {
       return res.status(400).json({ error: { "isAdmin": "Permission Denied You can perform only admin" } });
     }
     if (remove) {
-      const chatCheck = await Chat.findOne({ _id: chatId }).populate("members","_id").populate("groupAdmin","_id")
+      const chatCheck = await Chat.findOne({ _id: chatId }).populate("members", "_id").populate("groupAdmin", "_id")
       let getChatMember = await Chat.findOne({ _id: chatId }).select("members groupAdmin _id seen img chatName latestMessage topic status description").populate({
         path: 'members',
         select: '_id pic firstName lastName email online lastOnline createdAt',
         model: 'User',
-         options: {
+        options: {
           sort: {},
           skip: skip,
           limit: size
@@ -1225,7 +1227,7 @@ module.exports.groupMemberRemoveTo = async (req, res, next) => {
         path: 'groupAdmin',
         select: '_id pic firstName lastName email online lastOnline createdAt',
         model: 'User',
-         options: {
+        options: {
           sort: {},
           skip: skip,
           limit: size
@@ -1238,7 +1240,7 @@ module.exports.groupMemberRemoveTo = async (req, res, next) => {
         path: 'seen',
         select: '_id pic firstName lastName email online lastOnline createdAt',
         model: 'User',
-         options: {
+        options: {
           sort: {},
           skip: skip,
           limit: size

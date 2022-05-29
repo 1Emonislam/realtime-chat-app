@@ -77,6 +77,10 @@ export default function ToggleColorMode() {
       }),
     [mode]
   );
+  const [pageUser, setPageUser] = React.useState(1)
+  const [countMember, setCountMember] = React.useState(0)
+  const [countAdmin, setCountAdmin] = React.useState(0)
+  const limitUser = 7;
   const [count, setCount] = React.useState(0)
   const [page, setPage] = React.useState(1)
   const limit = 10;
@@ -109,7 +113,14 @@ export default function ToggleColorMode() {
     setPage,
     count,
     setCount,
-    limit
+    limit,
+    pageUser,
+    setPageUser,
+    countMember,
+    setCountMember,
+    countAdmin,
+    setCountAdmin,
+    limitUser
   }
   React.useMemo(() => {
     dispatch(getGroupChatData(auth?.user?.token, 'recent', page, limit, setPage, setCount));

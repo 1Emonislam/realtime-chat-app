@@ -56,7 +56,19 @@ function RecentChat({ isTyping, chatActive, handleTyping, groupMessage, handleSi
         setSortAncorEl(event.currentTarget);
     };
     const paginationContext = useContext(PaginationContext)
-    const { setPage, limit, count } = paginationContext;
+    const {
+        setPage,
+        limit,
+        count,
+        pageUser,
+        setPageUser,
+        countMember,
+        setCountMember,
+        countAdmin,
+        setCountAdmin,
+        limitUser
+    } = paginationContext;
+
     return (
         <div>
             <Grid container spacing={0} sx={{
@@ -153,7 +165,7 @@ function RecentChat({ isTyping, chatActive, handleTyping, groupMessage, handleSi
                                             setSelected(false);
                                         }} className={() => toggleActiveStyle(index)} sx={{ padding: '14px!important', margin: '0 5px', border: 'none', width: '96%', textTransform: 'capitalize' }} onClick={() => {
                                             toggleActive(index)
-                                            handleSingleChat(chat._id)
+                                            handleSingleChat(chat._id, pageUser, limitUser, setCountMember, setCountAdmin, countMember, countAdmin, setPageUser)
                                         }
                                         } >
                                         <Grid container spacing={0} alignItems="center" sx={{

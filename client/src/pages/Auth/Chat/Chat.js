@@ -14,9 +14,9 @@ function Chat({ children }) {
       window.location.replace('/login')
     }
   }, [auth?.user?.token])
-  const handleSingleChat = (id) => {
+  const handleSingleChat = (id,pageUser, limitUser, setCountMember,setCountAdmin, countMember,countAdmin, setPageUser) => {
     if (id) {
-      dispatch(getSelectedChat(id, auth?.user?.token))
+      dispatch(getSelectedChat(id, auth?.user?.token,  pageUser, limitUser, setCountMember,setCountAdmin, countMember,countAdmin, setPageUser))
       dispatch(getMessage(id, auth?.user?.token))
     }
     if (id === selectedChat?.chat?._id) {

@@ -1,6 +1,6 @@
 import { SELECTED_CHAT_FAILED, SELECTED_CHAT_LOADING, SELECTED_CHAT_SUCCESS } from "../type/selectedChatTypes"
 
-export const getSelectedChat = (chatId, token) => {
+export const getSelectedChat = (chatId, token, pageUser, limitUser, setCountMember,setCountAdmin, countMember,countAdmin, setPageUser) => {
     // console.log(chatId, token)
     return async (dispatch) => {
         dispatch({
@@ -10,7 +10,7 @@ export const getSelectedChat = (chatId, token) => {
             }
         })
         try {
-            fetch(`https://collaballapp.herokuapp.com/api/chat/${chatId}`, {
+            fetch(`https://collaballapp.herokuapp.com/api/chat/${chatId}?page=${pageUser || 1}&limit=${limitUser || 10}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': "application/json",
@@ -19,6 +19,8 @@ export const getSelectedChat = (chatId, token) => {
             })
                 .then(res => res.json())
                 .then(data => {
+                    setCountMember(data.memberCount)
+                    setCountAdmin(data.setAdminCount)
                     dispatch({
                         type: SELECTED_CHAT_LOADING,
                         payload: {
@@ -30,7 +32,7 @@ export const getSelectedChat = (chatId, token) => {
                             type: SELECTED_CHAT_SUCCESS,
                             payload: {
                                 data: data,
-                                message:data.message
+                                message: data.message
                             }
                         })
                     }
