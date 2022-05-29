@@ -29,7 +29,7 @@ export const mediaFilesSearchVoice = (status, chat, page, limit, setCount) => {
                 dispatch({
                     type: STORE_VOICE,
                     payload: {
-                        images: data.data
+                        voice: data.data
                     }
                 })
             }
@@ -65,7 +65,7 @@ export const mediaFilesSearchAudios = (status, chat, page, limit, setCount) => {
                 dispatch({
                     type: STORE_AUDIOS,
                     payload: {
-                        images: data.data
+                        audios: data.data
                     }
                 })
             }
@@ -101,7 +101,7 @@ export const mediaFilesSearchVideos = (status, chat, page, limit, setCount) => {
                 dispatch({
                     type: STORE_VIDEOS,
                     payload: {
-                        images: data.data
+                        videos: data.data
                     }
                 })
             }
@@ -136,7 +136,7 @@ export const mediaFilesSearchOthers = (status,chat, page, limit, setCount) => {
                 dispatch({
                     type: STORE_OTHERS,
                     payload: {
-                        images: data.data
+                        others: data.data
                     }
                 })
             }
