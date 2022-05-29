@@ -49,7 +49,7 @@ export default function MediaDetails() {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-  console.log(audios, videos, others, voice, images)
+  // console.log(audios, videos, others, voice, images)
   const dispatch = useDispatch()
   const [count, setCount] = useState(0);
   const [page, setPage] = useState(1)
