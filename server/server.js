@@ -125,8 +125,9 @@ io.on("connection", async (socket) => {
     socket.emit("online user", users)
     socket.on("online members", async (chat) => {
         const onlineMember = await Chat.findOne({ _id: chat }).populate("members", "_id pic firstName lastName email online lastOnline createdAt")
-        const online = onlineMember?.members?.filter(online => online?.online === true);
-        const offline = onlineMember?.members?.filter(online => online?.online === false);
+        console.log(onlineMember)
+        const online = await onlineMember?.members?.filter(online => online?.online === true);
+        const offline = await onlineMember?.members?.filter(online => online?.online === false);
         socket.emit("online member", { online, offline })
     })
 
