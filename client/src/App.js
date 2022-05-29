@@ -133,7 +133,6 @@ export default function ToggleColorMode() {
     dispatch(getGroupChatData(auth?.user?.token, 'recent', page, limit, setPage, setCount));
     dispatch(getNotification(auth.user?.token))
   }, [auth.user?.token, page, dispatch])
-
   return (
     <ColorModeContext.Provider value={colorMode} sx={{
       bgcolor: "background.default",
