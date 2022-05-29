@@ -9,8 +9,35 @@ const initState = {
     error: '',
     success: '',
     sent: false,
-    messageInfoStore: {},
     note: [],
+}
+export const updateMessageStoreReducer = (state = { messageInfoStore: {}, error: '', success: '', loading: false }, action) => {
+    const { payload, type } = action;
+    if (type === UPDATE_MESSAGE_STORE) {
+        return {
+            ...state,
+            messageInfoStore: payload.data,
+            error: '',
+            loading: false
+        }
+    }
+    if (type === WRITE_MESSAGE_UPDATE) {
+        return {
+            ...state,
+            messageInfoStore: payload?.data,
+            loading: false
+        }
+    }
+    if (type === UPDATE_MESSAGE_FAILED) {
+        return {
+            ...state,
+            success: '',
+            error: payload.error,
+            loading:false
+        }
+    }
+    return state
+
 }
 export const WRITE_MSG = 'WRITE_MSG'
 export const writeReducer = (state = { write: '' }, action) => {
@@ -21,6 +48,7 @@ export const writeReducer = (state = { write: '' }, action) => {
             write: payload.write
         }
     }
+
     return state
 
 }
@@ -36,17 +64,8 @@ export const messageReducer = (state = initState, action) => {
         return {
             ...state,
             loading: false,
-            sendMsg: payload?.updateMsg,
             success: payload.message,
             msg: payload.data?.data,
-        }
-    }
-    if (type === UPDATE_MESSAGE_STORE) {
-        return {
-            ...state,
-            messageInfoStore: payload.data,
-            error: '',
-            loading: false
         }
     }
     if (type === UPDATE_MESSAGE_FAILED) {
@@ -77,13 +96,6 @@ export const messageReducer = (state = initState, action) => {
         }
     }
 
-    if (type === WRITE_MESSAGE_UPDATE) {
-        return {
-            ...state,
-            messageInfoStore: payload?.data,
-            loading: false
-        }
-    }
     if (type === FAILED_MESSAGE) {
         return {
             ...state,

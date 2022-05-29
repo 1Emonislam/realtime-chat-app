@@ -79,7 +79,7 @@ const ChatBodyPage = ({ handleSingleChat, chatActive }) => {
     //     if (groupMessage?.sendMsg?._id) {
     //         socket?.current?.emit("new message", groupMessage?.sendMsg);
     //     }
-    // }, [groupMessage.messageInfoStore?._id, groupMessage?.sendMsg, groupMessage?.sendMsg?._id]);
+    // }, [updateMsg.messageInfoStore?._id, groupMessage?.sendMsg, groupMessage?.sendMsg?._id]);
     // console.log(socket?.current)
     // console.log(socket?.current)
 

@@ -12,9 +12,9 @@ import FileUploadPopup from './FileUploadPopup';
 import IconPopup from './IconPopup';
 import './VoiceRecoder.css';
 
-function Editor({ handleTyping, messageEditHandle, editMsg, isTyping, size = 25 }) {
+function Editor({ handleTyping, groupMessage, messageEditHandle, editMsg, isTyping, size = 25 }) {
 
-    const { groupMessage,write, theme, selectedChat, socketFunc, auth } = useSelector(state => state);
+    const { updateMsg, write, theme, selectedChat, socketFunc, auth } = useSelector(state => state);
     const dispatch = useDispatch();
     const [record, setRecord] = useState(false)
     const handleUpdate = (e) => {
@@ -22,7 +22,7 @@ function Editor({ handleTyping, messageEditHandle, editMsg, isTyping, size = 25 
             type: WRITE_MESSAGE_UPDATE,
             payload: {
                 data: {
-                    ...groupMessage?.messageInfoStore,
+                    ...updateMsg?.messageInfoStore,
                     content: {
                         text: e.target.value,
                     }
@@ -30,9 +30,8 @@ function Editor({ handleTyping, messageEditHandle, editMsg, isTyping, size = 25 
             },
         })
     }
-
-    if (groupMessage?.success) {
-        toast.success(`${groupMessage?.success}`, {
+    if (updateMsg?.success) {
+        toast.success(`${updateMsg?.success}`, {
             position: "bottom-right",
             theme: theme?.theme,
             autoClose: 5000,
@@ -46,8 +45,8 @@ function Editor({ handleTyping, messageEditHandle, editMsg, isTyping, size = 25 
             type: SUCCESS_MESSAGE_CLEAR,
         })
     }
-    if (groupMessage?.error) {
-        Object.values(groupMessage?.error)?.forEach((err) => {
+    if (updateMsg?.error) {
+        Object.values(updateMsg?.error)?.forEach((err) => {
             toast.error(`${err}`, {
                 position: "bottom-right",
                 theme: theme?.theme,
@@ -114,6 +113,9 @@ function Editor({ handleTyping, messageEditHandle, editMsg, isTyping, size = 25 
             }
         }
     }
+    const handleEditMsg = () => {
+        dispatch(editMessage(updateMsg?.messageInfoStore?.content?.text, updateMsg?.messageInfoStore?.chat?._id, updateMsg?.messageInfoStore?._id, auth?.user?.token, messageEditHandle))
+    }
     return (
         <div style={{
             marginTop: '30px',
@@ -137,9 +139,7 @@ function Editor({ handleTyping, messageEditHandle, editMsg, isTyping, size = 25 
                             sm: '15px',
                             xs: '10px'
                         }
-                    }} onChange={(e) => {
-                        handleUpdate(e)
-                    }} value={groupMessage?.messageInfoStore?.content?.text} placeholder='Enter text here...'>
+                    }} onChange={handleUpdate} value={updateMsg?.messageInfoStore?.content?.text} placeholder='Enter text here...'>
                     </textarea>
                 </Grid> : <Grid item xs={8}>
                     <textarea className='text-msg' id="write-enter" sx={{
@@ -187,7 +187,7 @@ function Editor({ handleTyping, messageEditHandle, editMsg, isTyping, size = 25 
                 </Grid>
                 <>
                     {editMsg ? <Grid item xs={2}>
-                        <ToggleButton onClick={() => dispatch(editMessage(groupMessage?.messageInfoStore?.content?.text, groupMessage?.messageInfoStore?.chat?._id, groupMessage?.messageInfoStore?._id, auth?.user?.token, messageEditHandle))} className='send-btn' value="four" sx={{ marginBottom: '0px!important', border: 'none' }}>
+                        <ToggleButton onClick={handleEditMsg} className='send-btn' value="four" sx={{ marginBottom: '0px!important', border: 'none' }}>
                             {auth?.user?.token && selectedChat?.chat?._id ? <MdSend size={size} /> : <Tooltip style={{ cursor: "pointer" }} title="Permission Denied" arrow> <MdSend /></Tooltip>}
                         </ToggleButton>
                     </Grid> : <Grid item xs={1}>

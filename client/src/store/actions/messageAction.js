@@ -224,7 +224,13 @@ export const sendAllUploadMessage = (data, chatId, token) => {
     }
 }
 export const editMessage = (data, chatId, messageId, token, messageEditHandle) => {
-    // console.log(data, chatId, messageId, token)
+    let text;
+    if (data.startsWith('edited')) {
+        text = data;
+    } else {
+        text = `edited ` + data;
+    }
+
     if (!store.getState()?.socketFunc?.socket?.current) {
         toast.error('Message Update failed! try again', {
             position: "bottom-right",
@@ -254,7 +260,7 @@ export const editMessage = (data, chatId, messageId, token, messageEditHandle) =
                 },
                 body: JSON.stringify({
                     content: {
-                        text: data,
+                        text: text,
                         audio: [],
                         video: [],
                         images: [],
@@ -406,7 +412,6 @@ export const deleteAllMessage = (chatId, token) => {
     }
 }
 export const updateMessageStore = (data) => {
-    // console.log(data)
     return async (dispatch) => {
         try {
             dispatch({

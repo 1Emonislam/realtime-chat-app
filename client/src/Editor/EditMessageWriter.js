@@ -23,9 +23,9 @@ import { MESSAGE_WRITE } from '../store/type/messageTypes';
 import './Editor.css';
 const MenuBar = ({ editor, messageEditHandle }) => {
     const dispatch = useDispatch();
-    const { groupMessage, auth } = useSelector(state => state);
+    const { updateMsg, auth } = useSelector(state => state);
     // console.log(groupMessage)
-    const { messageInfoStore } = groupMessage;
+    const { messageInfoStore } = updateMsg;
     // console.log(messageInfoStore)
     const setLink = useCallback(() => {
         const previousUrl = editor.getAttributes('link').href
@@ -156,7 +156,7 @@ const MenuBar = ({ editor, messageEditHandle }) => {
                 </button>
                 {/*    dispatch(editMessage(groupMessage?.write, messageInfo?.chat?._id, messageInfo?._id, auth?.user?.token)); */}
                 {auth?.user?.token && messageInfoStore?.chat?._id && messageInfoStore?._id ? <button onClick={() => {
-                    dispatch(editMessage(groupMessage?.write, messageInfoStore?.chat?._id, messageInfoStore?._id, auth?.user?.token, editor,messageEditHandle))
+                    dispatch(editMessage(messageInfoStore?.write, messageInfoStore?.chat?._id, messageInfoStore?._id, auth?.user?.token, editor,messageEditHandle))
                 }
                 }>
                     <RiSendPlane2Fill />
