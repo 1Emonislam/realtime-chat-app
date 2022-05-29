@@ -68,12 +68,63 @@ module.exports.acessChat = async (req, res, next) => {
 module.exports.getSingleChatMembers = async (req, res, next) => {
   try {
     const { chatId } = req.params;
-    let { page = 2, limit = 10 } = req.query;
+    let { page = 1, limit = 10 } = req.query;
     limit = parseInt(limit);
     const skip = parseInt(page - 1);
     const size = limit;
-    const numPage = skip * size;
-    let getChatMember = await Chat.findOne({ _id: chatId }).select("members groupAdmin _id seen img chatName latestMessage topic status description").populate("members", "_id pic firstName lastName email online lastOnline createdAt").populate("groupAdmin", "_id pic firstName lastName email online lastOnline createdAt").populate("seen", "_id pic firstName lastName email online lastOnline createdAt");
+    // const numPage = skip * size;
+    let getChatMember = await Chat.findOne({ _id: chatId }).select("members groupAdmin _id seen img chatName latestMessage topic status description").populate([
+      // here array is for our memory. 
+      // because may need to populate multiple things
+      {
+        path: 'members',
+        select: '_id pic firstName lastName email online lastOnline createdAt',
+        model: 'User',
+        options: {
+          sort: { createdAt: -1 },
+          skip: skip,
+          limit: size
+        },
+        match: {
+          // filter result in case of multiple result in populate
+          // may not useful in this case
+        }
+      }
+    ]).populate([
+      // here array is for our memory. 
+      // because may need to populate multiple things
+      {
+        path: 'groupAdmin',
+        select: '_id pic firstName lastName email online lastOnline createdAt',
+        model: 'User',
+        options: {
+          sort: { createdAt: -1 },
+          skip: skip,
+          limit: size
+        },
+        match: {
+          // filter result in case of multiple result in populate
+          // may not useful in this case
+        }
+      }
+    ]).populate([
+      // here array is for our memory. 
+      // because may need to populate multiple things
+      {
+        path: 'seen',
+        select: '_id pic firstName lastName email online lastOnline createdAt',
+        model: 'User',
+        options: {
+          sort: { createdAt: -1 },
+          skip: skip,
+          limit: size
+        },
+        match: {
+          // filter result in case of multiple result in populate
+          // may not useful in this case
+        }
+      }
+    ])
     getChatMember = await UploadFiles.populate(getChatMember, {
       path: 'content.files',
       select: '_id duration author filename sizeOfBytes type format duration url createdAt'
