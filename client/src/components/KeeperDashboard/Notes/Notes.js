@@ -1,17 +1,17 @@
+import AddCircleIcon from "@mui/icons-material/AddCircle";
+import ArchiveIcon from "@mui/icons-material/Archive";
+import CancelIcon from "@mui/icons-material/Cancel";
+import CheckBoxIcon from "@mui/icons-material/CheckBox";
+import LabelIcon from "@mui/icons-material/Label";
+import NoteOutlinedIcon from "@mui/icons-material/NoteOutlined";
+import PushPinIcon from "@mui/icons-material/PushPin";
 import { Box, IconButton, Paper, Typography } from "@mui/material";
 import * as React from "react";
-import "./Notes.css";
-import AddCircleIcon from "@mui/icons-material/AddCircle";
-import CancelIcon from "@mui/icons-material/Cancel";
-import ArchiveIcon from "@mui/icons-material/Archive";
-import LabelIcon from "@mui/icons-material/Label";
-import CheckBoxIcon from "@mui/icons-material/CheckBox";
-import PushPinIcon from "@mui/icons-material/PushPin";
-import NoContentIcon from "../NoContentIcon/NoContentIcon";
-import NoteOutlinedIcon from "@mui/icons-material/NoteOutlined";
+import { useSelector } from 'react-redux';
 import fakeData from "../fakeData/fakeData";
+import NoContentIcon from "../NoContentIcon/NoContentIcon";
+import "./Notes.css";
 import NotesInfo from "./NotesInfo";
-import { useSelector } from 'react-redux'
 const Notes = () => {
   const noCIcon = (
     <NoteOutlinedIcon sx={{ fontSize: "130px", color: "#ececec" }} />
@@ -28,7 +28,7 @@ const Notes = () => {
         <div style={{ display: "flex" }}>
           <Typography
             component='input'
-            color={mode === 'dark' ? '#dcd1d1' : 'black'}
+            color={mode === 'dark' ? '#9d8585' : 'black'}
             type="text"
             placeholder="Title"
             className="input1" />
@@ -39,7 +39,7 @@ const Notes = () => {
           </IconButton>
         </div>
         <Typography
-          color={mode === 'dark' ? '#dcd1d1' : 'black'}
+          color={mode === 'dark' ? '#9d8585' : 'black'}
           sx={{ background: 'none', }}
           component='textarea'
           rows="auto"

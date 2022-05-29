@@ -1,17 +1,17 @@
-import { Box, IconButton } from "@mui/material";
-import "./Notes.css";
-import React from "react";
 import ArchiveIcon from "@mui/icons-material/Archive";
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
 import LabelIcon from "@mui/icons-material/Label";
 import PushPinIcon from "@mui/icons-material/PushPin";
-import EditIcon from "@mui/icons-material/Edit";
-import DeleteIcon from "@mui/icons-material/Delete";
+import { Box, IconButton } from "@mui/material";
+import React from "react";
+import "./Notes.css";
 
 const NotesInfo = ({ note, mode }) => {
   return (
     <div className="notes-card-style">
       <div style={{ display: "flex" }}>
-        <div style={{ color: `${mode === 'dark' ? '#dcd1d1' : 'black'}` }}>
+        <div style={{ color: `${mode === 'dark' ? '#9d8585' : 'black'}` }}>
           <p
             style={{
               fontSize: "1em",

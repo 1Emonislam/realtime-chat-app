@@ -1,7 +1,7 @@
-import { Box, Card, IconButton } from "@mui/material";
-import React from "react";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import RestoreFromTrashIcon from "@mui/icons-material/RestoreFromTrash";
+import { Box, Card, IconButton } from "@mui/material";
+import React from "react";
 
 const TrashInfo = ({ note }) => {
   const mode = JSON.parse(localStorage.getItem('themeCurrent'));
@@ -12,7 +12,7 @@ const TrashInfo = ({ note }) => {
           textAlign: "start",
           fontSize: "1em",
           fontWeight: "500",
-          color: `${mode === 'dark' ? '#dcd1d1' : 'black'}`
+          color: `${mode === 'dark' ? '#9d8585' : 'black'}`
         }}>
           <p style={{ marginBottom: "6px" }}>{note?.title}</p>
           <p
