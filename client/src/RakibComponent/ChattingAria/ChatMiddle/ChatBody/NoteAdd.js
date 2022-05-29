@@ -17,20 +17,21 @@ const style = {
     left: '50%',
     transform: 'translate(-50%, -50%)',
     width: 400,
-    height: '200px',
+    height: '150px',
+    overflowY: 'scroll',
     bgcolor: 'background.paper',
     boxShadow: 24,
     borderRadius: '10px',
-    padding: '10px 30px'
+    padding: '20px 30px'
 };
 
 export default function NoteAdd({ noteOpen, handleNoteOpen, msg, handleNoteClose }) {
     const { theme, auth, } = useSelector(state => state);
     const mode = theme?.theme;
     const [title, setTitle] = useState('')
-    const [details, setDetails] = useState('')
+    // const [details, setDetails] = useState('')
     const dispatch = useDispatch()
-    const handleNoteCreate = (messageId, chatId, title, details, token, handleNoteClose) => {
+    const handleNoteCreate = (messageId, chatId, title, token, handleNoteClose) => {
         if (auth?.user?.token && messageId && chatId) {
             fetch(`https://collaballapp.herokuapp.com/api/note/`, {
                 method: 'POST',
@@ -39,7 +40,7 @@ export default function NoteAdd({ noteOpen, handleNoteOpen, msg, handleNoteClose
                     "authorization": `Bearer ${token}`
                 },
                 body: JSON.stringify({
-                    messageId, chatId, title, details
+                    messageId, chatId, title
                 })
             })
                 .then(res => res.json())
@@ -101,16 +102,12 @@ export default function NoteAdd({ noteOpen, handleNoteOpen, msg, handleNoteClose
                     className="notes-container"
                     sx={{ height: "100%", borderRadius: 2 }}
                 >
-                    <p color={mode === 'dark' ? '#dcd1d1' : 'black'}>
-                        {msg?.content?.text}
-                    </p>
                     <div style={{ display: "flex" }}>
-
                         <Typography
                             component='input'
                             color={mode === 'dark' ? '#dcd1d1' : 'black'}
                             type="text"
-                            onChange={(e) => setDetails(e.target.value)}
+                            onChange={(e) => setTitle(e.target.value)}
                             placeholder="Title"
                             className="input1" />
                         <IconButton sx={{ width: "30px", height: "30px" }}>
@@ -119,7 +116,7 @@ export default function NoteAdd({ noteOpen, handleNoteOpen, msg, handleNoteClose
                             />
                         </IconButton>
                     </div>
-                    <Typography
+                    {/* <Typography
                         color={mode === 'dark' ? '#dcd1d1' : 'black'}
                         sx={{ background: 'none', resize: 'none' }}
                         component='textarea'
@@ -128,7 +125,7 @@ export default function NoteAdd({ noteOpen, handleNoteOpen, msg, handleNoteClose
                         type="text"
                         placeholder="Take a note..."
                         className=""
-                    />
+                    /> */}
 
                     <Box className="notes-icon-container">
                         {/* -- Color box component -- */}
@@ -144,10 +141,14 @@ export default function NoteAdd({ noteOpen, handleNoteOpen, msg, handleNoteClose
                         <IconButton onClick={handleNoteClose}>
                             <CancelIcon className="notes-icons" />
                         </IconButton>
-                        <IconButton onClick={() => handleNoteCreate(msg?._id, msg?.chat?._id, title, details, auth?.user?.token, handleNoteClose)}>
+                        <IconButton onClick={() => handleNoteCreate(msg?._id, msg?.chat?._id, title, auth?.user?.token, handleNoteClose)}>
                             <AddCircleIcon className="notes-icons" />
                         </IconButton>
+
                     </Box>
+                    <p color={mode === 'dark' ? '#dcd1d1' : 'black'}>
+                        {msg?.content?.text}
+                    </p>
                 </Paper>
             </Modal>
         </div>
