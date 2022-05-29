@@ -38,7 +38,7 @@ const ChatBodyPage = ({ handleSingleChat, chatActive }) => {
     }, [auth?.user?.user, dispatch, selectedChat?.chat?._id]);
     useEffect(() => {
         if (!socket?.current) return;
-        socket?.current?.off('online user').on('online user', (data) => {
+        socket?.current?.off('online member').on('online member', (data) => {
             dispatch({
                 type: ONLINE_USER,
                 payload: {
