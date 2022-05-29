@@ -15,7 +15,7 @@ module.exports.acessChat = async (req, res, next) => {
     return res.status(400).json({ error: { email: 'User Credentials expired! Please login' } })
   }
   const { userId } = req.body;
-  const { page = 1, limit = 10 } = req.query;
+  let { page = 1, limit = 10 } = req.query;
   limit = parseInt(limit);
   const skip = parseInt(page - 1);
   const size = limit;
@@ -36,7 +36,7 @@ module.exports.acessChat = async (req, res, next) => {
         select: '_id pic firstName lastName email online lastOnline createdAt',
         model: 'User',
         options: {
-         
+
           skip: skip,
           limit: size
         },
@@ -49,7 +49,7 @@ module.exports.acessChat = async (req, res, next) => {
         select: '_id pic firstName lastName email online lastOnline createdAt',
         model: 'User',
         options: {
-         
+
           skip: skip,
           limit: size
         },
@@ -62,7 +62,7 @@ module.exports.acessChat = async (req, res, next) => {
         select: '_id pic firstName lastName email online lastOnline createdAt',
         model: 'User',
         options: {
-         
+
           skip: skip,
           limit: size
         },
@@ -92,7 +92,7 @@ module.exports.acessChat = async (req, res, next) => {
           select: '_id pic firstName lastName email online lastOnline createdAt',
           model: 'User',
           options: {
-           
+
             skip: skip,
             limit: size
           },
@@ -105,7 +105,7 @@ module.exports.acessChat = async (req, res, next) => {
           select: '_id pic firstName lastName email online lastOnline createdAt',
           model: 'User',
           options: {
-           
+
             skip: skip,
             limit: size
           },
@@ -118,7 +118,7 @@ module.exports.acessChat = async (req, res, next) => {
           select: '_id pic firstName lastName email online lastOnline createdAt',
           model: 'User',
           options: {
-           
+
             skip: skip,
             limit: size
           },
@@ -157,7 +157,7 @@ module.exports.getSingleChatMembers = async (req, res, next) => {
       select: '_id pic firstName lastName email online lastOnline createdAt',
       model: 'User',
       options: {
-       
+
         skip: skip,
         limit: size
       },
@@ -170,7 +170,7 @@ module.exports.getSingleChatMembers = async (req, res, next) => {
       select: '_id pic firstName lastName email online lastOnline createdAt',
       model: 'User',
       options: {
-       
+
         skip: skip,
         limit: size
       },
@@ -183,7 +183,7 @@ module.exports.getSingleChatMembers = async (req, res, next) => {
       select: '_id pic firstName lastName email online lastOnline createdAt',
       model: 'User',
       options: {
-       
+
         skip: skip,
         limit: size
       },
@@ -222,7 +222,7 @@ module.exports.getSingleChatMembers = async (req, res, next) => {
 module.exports.makeAdminChatMembers = async (req, res, next) => {
   try {
     const { chatId } = req.params;
-    let { page = 2, limit = 10 } = req.query;
+    let { page = 1, limit = 10 } = req.query;
     limit = parseInt(limit);
     const skip = parseInt(page - 1);
     const size = limit;
@@ -236,7 +236,7 @@ module.exports.makeAdminChatMembers = async (req, res, next) => {
       select: '_id pic firstName lastName email online lastOnline createdAt',
       model: 'User',
       options: {
-       
+
         skip: skip,
         limit: size
       },
@@ -249,7 +249,7 @@ module.exports.makeAdminChatMembers = async (req, res, next) => {
       select: '_id pic firstName lastName email online lastOnline createdAt',
       model: 'User',
       options: {
-       
+
         skip: skip,
         limit: size
       },
@@ -262,7 +262,7 @@ module.exports.makeAdminChatMembers = async (req, res, next) => {
       select: '_id pic firstName lastName email online lastOnline createdAt',
       model: 'User',
       options: {
-       
+
         skip: skip,
         limit: size
       },
@@ -316,7 +316,7 @@ module.exports.removeAdminChatMembers = async (req, res, next) => {
   try {
     const { chatId } = req.params;
     const { member } = req.body;
-    let { page = 2, limit = 10 } = req.query;
+    let { page = 1, limit = 10 } = req.query;
     limit = parseInt(limit);
     const skip = parseInt(page - 1);
     const size = limit;
@@ -329,7 +329,7 @@ module.exports.removeAdminChatMembers = async (req, res, next) => {
       select: '_id pic firstName lastName email online lastOnline createdAt',
       model: 'User',
       options: {
-       
+
         skip: skip,
         limit: size
       },
@@ -342,7 +342,7 @@ module.exports.removeAdminChatMembers = async (req, res, next) => {
       select: '_id pic firstName lastName email online lastOnline createdAt',
       model: 'User',
       options: {
-       
+
         skip: skip,
         limit: size
       },
@@ -355,7 +355,7 @@ module.exports.removeAdminChatMembers = async (req, res, next) => {
       select: '_id pic firstName lastName email online lastOnline createdAt',
       model: 'User',
       options: {
-       
+
         skip: skip,
         limit: size
       },
@@ -520,7 +520,7 @@ module.exports.groupRename = async (req, res, next) => {
   if (!req?.user?._id) {
     return res.status(400).json({ error: { email: 'User Credentials expired! Please login' } })
   }
-  const { page = 1, limit = 10 } = req.query;
+  let { page = 1, limit = 10 } = req.query;
   limit = parseInt(limit);
   const skip = parseInt(page - 1);
   const size = limit;
@@ -535,7 +535,7 @@ module.exports.groupRename = async (req, res, next) => {
       select: '_id pic firstName lastName email online lastOnline createdAt',
       model: 'User',
       options: {
-       
+
         skip: skip,
         limit: size
       },
@@ -548,7 +548,7 @@ module.exports.groupRename = async (req, res, next) => {
       select: '_id pic firstName lastName email online lastOnline createdAt',
       model: 'User',
       options: {
-       
+
         skip: skip,
         limit: size
       },
@@ -561,7 +561,7 @@ module.exports.groupRename = async (req, res, next) => {
       select: '_id pic firstName lastName email online lastOnline createdAt',
       model: 'User',
       options: {
-       
+
         skip: skip,
         limit: size
       },
@@ -597,7 +597,7 @@ module.exports.groupAddTo = async (req, res, next) => {
   if (!req?.user?._id) {
     return res.status(400).json({ error: { email: 'User Credentials expired! Please login' } })
   }
-  const { page = 1, limit = 10 } = req.query;
+  let { page = 1, limit = 10 } = req.query;
   limit = parseInt(limit);
   const skip = parseInt(page - 1);
   const size = limit;
@@ -614,7 +614,7 @@ module.exports.groupAddTo = async (req, res, next) => {
       select: '_id pic firstName lastName email online lastOnline createdAt',
       model: 'User',
       options: {
-       
+
         skip: skip,
         limit: size
       },
@@ -627,7 +627,7 @@ module.exports.groupAddTo = async (req, res, next) => {
       select: '_id pic firstName lastName email online lastOnline createdAt',
       model: 'User',
       options: {
-       
+
         skip: skip,
         limit: size
       },
@@ -640,7 +640,7 @@ module.exports.groupAddTo = async (req, res, next) => {
       select: '_id pic firstName lastName email online lastOnline createdAt',
       model: 'User',
       options: {
-       
+
         skip: skip,
         limit: size
       },
@@ -661,7 +661,7 @@ module.exports.groupAddTo = async (req, res, next) => {
       select: '_id pic firstName lastName email online lastOnline createdAt',
       model: 'User',
       options: {
-       
+
         skip: skip,
         limit: size
       },
@@ -674,7 +674,7 @@ module.exports.groupAddTo = async (req, res, next) => {
       select: '_id pic firstName lastName email online lastOnline createdAt',
       model: 'User',
       options: {
-       
+
         skip: skip,
         limit: size
       },
@@ -687,7 +687,7 @@ module.exports.groupAddTo = async (req, res, next) => {
       select: '_id pic firstName lastName email online lastOnline createdAt',
       model: 'User',
       options: {
-       
+
         skip: skip,
         limit: size
       },
@@ -742,7 +742,7 @@ module.exports.groupInviteAccept = async (req, res, next) => {
   if (!req?.user?._id) {
     return res.status(400).json({ error: { email: 'User Credentials expired! Please login' } })
   }
-  const { page = 1, limit = 10 } = req.query;
+  let { page = 1, limit = 10 } = req.query;
   limit = parseInt(limit);
   const skip = parseInt(page - 1);
   const size = limit;
@@ -776,7 +776,7 @@ module.exports.groupInviteAccept = async (req, res, next) => {
       select: '_id pic firstName lastName email online lastOnline createdAt',
       model: 'User',
       options: {
-       
+
         skip: skip,
         limit: size
       },
@@ -789,7 +789,7 @@ module.exports.groupInviteAccept = async (req, res, next) => {
       select: '_id pic firstName lastName email online lastOnline createdAt',
       model: 'User',
       options: {
-       
+
         skip: skip,
         limit: size
       },
@@ -802,7 +802,7 @@ module.exports.groupInviteAccept = async (req, res, next) => {
       select: '_id pic firstName lastName email online lastOnline createdAt',
       model: 'User',
       options: {
-       
+
         skip: skip,
         limit: size
       },
@@ -847,7 +847,7 @@ module.exports.groupAddToInviteSent = async (req, res, next) => {
     return res.status(400).json({ error: { invite: "Credentials expired! please login" } });
   }
   try {
-    const { page = 1, limit = 10 } = req.query;
+    let { page = 1, limit = 10 } = req.query;
     limit = parseInt(limit);
     const skip = parseInt(page - 1);
     const size = limit;
@@ -881,7 +881,7 @@ module.exports.groupAddToInviteSent = async (req, res, next) => {
       select: '_id pic firstName lastName email online lastOnline createdAt',
       model: 'User',
       options: {
-       
+
         skip: skip,
         limit: size
       },
@@ -1100,7 +1100,7 @@ module.exports.singleGroupDelete = async (req, res, next) => {
   try {
     const { chatId } = req.body;
     const chat = await Chat.findOne({ _id: chatId })
-    const { page = 1, limit = 10 } = req.query;
+    let { page = 1, limit = 10 } = req.query;
     limit = parseInt(limit);
     const skip = parseInt(page - 1);
     const size = limit;
@@ -1127,7 +1127,7 @@ module.exports.singleGroupDelete = async (req, res, next) => {
           select: '_id pic firstName lastName email online lastOnline createdAt',
           model: 'User',
           options: {
-           
+
             skip: skip,
             limit: size
           },
@@ -1140,7 +1140,7 @@ module.exports.singleGroupDelete = async (req, res, next) => {
           select: '_id pic firstName lastName email online lastOnline createdAt',
           model: 'User',
           options: {
-           
+
             skip: skip,
             limit: size
           },
@@ -1153,7 +1153,7 @@ module.exports.singleGroupDelete = async (req, res, next) => {
           select: '_id pic firstName lastName email online lastOnline createdAt',
           model: 'User',
           options: {
-           
+
             skip: skip,
             limit: size
           },
@@ -1187,7 +1187,7 @@ module.exports.groupMemberRemoveTo = async (req, res, next) => {
   if (!req?.user?._id) {
     return res.status(400).json({ error: { email: 'User Credentials expired! Please login' } })
   }
-  const { page = 1, limit = 10 } = req.query;
+  let { page = 1, limit = 10 } = req.query;
   limit = parseInt(limit);
   const skip = parseInt(page - 1);
   const size = limit;
@@ -1213,7 +1213,7 @@ module.exports.groupMemberRemoveTo = async (req, res, next) => {
         select: '_id pic firstName lastName email online lastOnline createdAt',
         model: 'User',
         options: {
-         
+
           skip: skip,
           limit: size
         },
@@ -1226,7 +1226,7 @@ module.exports.groupMemberRemoveTo = async (req, res, next) => {
         select: '_id pic firstName lastName email online lastOnline createdAt',
         model: 'User',
         options: {
-         
+
           skip: skip,
           limit: size
         },
@@ -1239,7 +1239,7 @@ module.exports.groupMemberRemoveTo = async (req, res, next) => {
         select: '_id pic firstName lastName email online lastOnline createdAt',
         model: 'User',
         options: {
-         
+
           skip: skip,
           limit: size
         },
