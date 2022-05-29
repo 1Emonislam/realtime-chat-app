@@ -8,7 +8,7 @@ const initState = {
 }
 export const STORE_AUDIOS = 'STORE_AUDIOS'
 export const STORE_LOADING = 'STORE_LOADING'
-export const STORE_VOICE = 'STORSTORE_VOICEE_VOICE'
+export const STORE_VOICE = 'VOICE_VOICE'
 export const STORE_VIDEOS = 'STORE_VIDEOS'
 export const STORE_IMAGES = 'STORE_IMAGES'
 export const STORE_OTHERS = 'STORE_OTHERS'
