@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { toast, ToastContainer } from 'react-toastify';
 //import VoiceMessage from '../components/VoiceMessage.js/VoiceMessage';
 import { editMessage, sendAllUploadMessage, sendMessage } from '../store/actions/messageAction';
+import { UPLOAD_SUCCESS, VALUE } from '../store/reducers/uploadReducer';
 import { SUCCESS_MESSAGE_CLEAR, UPDATE_MESSAGE_FAILED, WRITE_MESSAGE_UPDATE } from '../store/type/messageTypes';
 import './Editor.css';
 import FileUploadPopup from './FileUploadPopup';
@@ -82,14 +83,14 @@ function Editor({ handleTyping, groupMessage, messageEditHandle, editMsg, isTypi
     const onData = (recordedBlob) => {
 
     }
-    const convertBlobToBase64 = (blob) => new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.onerror = reject;
-        reader.onload = () => {
-            resolve(reader.result);
-        };
-        reader.readAsDataURL(blob);
-    });
+    // const convertBlobToBase64 = (blob) => new Promise((resolve, reject) => {
+    //     const reader = new FileReader();
+    //     reader.onerror = reject;
+    //     reader.onload = () => {
+    //         resolve(reader.result);
+    //     };
+    //     reader.readAsDataURL(blob);
+    // });
     const onStop = async (recordedBlob) => {
         if (recordedBlob?.blobURL === null) {
             toast.error(`Recording Failed! Please try again!`, {
@@ -105,11 +106,61 @@ function Editor({ handleTyping, groupMessage, messageEditHandle, editMsg, isTypi
         }
         if (recordedBlob?.blobURL) {
             if (selectedChat?.chat?._id && auth?.user?.token) {
-                const voiceUrl = await convertBlobToBase64(recordedBlob?.blob)
-                const voiceData = {
-                    secure_url: voiceUrl, write: write?.write || '', bytes: '', original_filename: 'voice over audio', format: 'wav', duration: '',voiceFile:'voice'
-                }
-                dispatch(sendAllUploadMessage(voiceData, selectedChat?.chat?._id, auth?.user?.token))
+                const data = new FormData()
+                data.append("file", recordedBlob?.blob)
+                data.append("upload_preset", "allFiles")
+                data.append("cloud_name", "wesoftin")
+                dispatch({
+                    type: UPLOAD_SUCCESS,
+                    payload: {
+                        success: false,
+                        error: false,
+                        loading: true,
+                    }
+                })
+                dispatch({
+                    type: VALUE,
+                    payload: {
+                        success: false,
+                        error: false,
+                        loading: true,
+                        value: 50,
+                    }
+                })
+                fetch("  https://api.cloudinary.com/v1_1/wesoftin/upload", {
+                    method: "post",
+                    body: data
+                })
+                    .then(resp => resp.json())
+                    .then(data => {
+                        dispatch({
+                            type: VALUE,
+                            payload: {
+                                success: false,
+                                error: false,
+                                loading: true,
+                                value: 100,
+                            }
+                        })
+                        data.voiceFile = 'voice'
+                        dispatch(sendAllUploadMessage(data, selectedChat?.chat?._id, auth?.user?.token))
+                    })
+                    .catch(err => {
+                        dispatch({
+                            type: VALUE,
+                            payload: {
+                                success: false,
+                                error: true,
+                                loading: false,
+                                value: 1,
+                            }
+                        })
+                    })
+                // const voiceUrl = await convertBlobToBase64(recordedBlob?.blob)
+                // const voiceData = {
+                //     secure_url: voiceUrl, write: write?.write || '', bytes: '', original_filename: 'voice over audio', format: 'wav', duration: '', voiceFile: 'voice'
+                // }
+                // dispatch(sendAllUploadMessage(voiceData, selectedChat?.chat?._id, auth?.user?.token))
             }
         }
     }
