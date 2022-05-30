@@ -21,7 +21,7 @@ export const createNotes = (messageId, chatId, title, details, token, handleNote
                     dispatch({
                         type: POST_NOTES,
                         payload: {
-                            message: data?.data?.message,
+                            message: data?.message,
                             note: data?.data?.note,
                             noteCount: data?.data.noteCount,
                             trash: [],
@@ -65,6 +65,7 @@ export const createNoteItem = (data, token, reset) => {
                     payload: {
                         loading: false,
                         note: data?.data?.note,
+                        message: data.message,
                         noteCount: data?.data?.noteCount,
                     }
                 })
@@ -102,11 +103,11 @@ export const actionByNotesUpdate = (data, noteId, token, setNoteCount, notePage,
         })
             .then(res => res.json())
             .then((data) => {
-               if(handleClose){
-                handleClose()
-               }
+                if (handleClose) {
+                    handleClose()
+                }
                 // console.log(data)
-                setNoteCount(data?.noteCount)
+                setNoteCount(data?.data.noteCount)
                 dispatch({
                     type: GET_NOTES,
                     payload: {
@@ -148,6 +149,96 @@ export const actionByNotesTrashUpdate = (data, noteId, token, setTrashCount, tra
                 "authorization": `Bearer ${token}`
             },
             body: JSON.stringify(data)
+        })
+            .then(res => res.json())
+            .then((data) => {
+                // console.log(data)
+                setTrashCount(data?.data.trashCount)
+                dispatch({
+                    type: GET_NOTES,
+                    payload: {
+                        message: data.message,
+                        loading: false,
+                        note: data?.data?.note,
+                        trash: data?.data?.trash,
+                        archive: data?.data?.archive,
+                        pin: data?.data?.pin,
+                        noteCount: data?.data?.noteCount,
+                        trashCount: data?.data?.trashCount,
+                        archiveCount: data?.data?.archiveCount,
+                        pinCount: data?.data?.pinCount,
+
+                    }
+                })
+                dispatch({
+                    type: ERROR_NOTE,
+                    payload: {
+                        loading: false,
+                        error: data.error,
+                    }
+                })
+            })
+    }
+}
+export const actionByNotesTrashSingleDelete = (noteId, token, setTrashCount, trashPage) => {
+    return (dispatch) => {
+        dispatch({
+            type: LOADING_NOTES,
+            payload: {
+                loading: true
+            }
+        })
+        fetch(`https://collaballapp.herokuapp.com/api/note/trash/${noteId}?page=${trashPage}`, {
+            method: 'DELETE',
+            headers: {
+                "Content-Type": "application/json",
+                "authorization": `Bearer ${token}`
+            },
+        })
+            .then(res => res.json())
+            .then((data) => {
+                // console.log(data)
+                setTrashCount(data?.data.trashCount)
+                dispatch({
+                    type: GET_NOTES,
+                    payload: {
+                        message: data.message,
+                        loading: false,
+                        note: data?.data?.note,
+                        trash: data?.data?.trash,
+                        archive: data?.data?.archive,
+                        pin: data?.data?.pin,
+                        noteCount: data?.data?.noteCount,
+                        trashCount: data?.data?.trashCount,
+                        archiveCount: data?.data?.archiveCount,
+                        pinCount: data?.data?.pinCount,
+
+                    }
+                })
+                dispatch({
+                    type: ERROR_NOTE,
+                    payload: {
+                        loading: false,
+                        error: data.error,
+                    }
+                })
+            })
+    }
+}
+export const actionByNotesTrashAllDelete = (token, setTrashCount, trashPage) => {
+    return (dispatch) => {
+        dispatch({
+            type: LOADING_NOTES,
+            payload: {
+                loading: true
+            }
+        })
+        fetch(`https://collaballapp.herokuapp.com/api/note?page=${trashPage}`, {
+            method: 'DELETE',
+            headers: {
+                "Content-Type": "application/json",
+                "authorization": `Bearer ${token}`
+            },
         })
             .then(res => res.json())
             .then((data) => {

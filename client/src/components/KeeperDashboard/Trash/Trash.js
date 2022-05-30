@@ -1,13 +1,14 @@
-import React, { useEffect, useState } from "react";
-import NoContentIcon from "../NoContentIcon/NoContentIcon";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
-import TrashInfo from "./TrashInfo";
-import "./Trash.css";
-import { Card, Pagination } from "@mui/material";
+import { Pagination } from "@mui/material";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast, ToastContainer } from "react-toastify";
-import { ERROR_NOTE, MESSAGE_NOTE } from "../../../store/reducers/notesReducer";
 import { actionByNotesNoteGet } from "../../../store/actions/noteAction";
+import { ERROR_NOTE, MESSAGE_NOTE } from "../../../store/reducers/notesReducer";
+import NoContentIcon from "../NoContentIcon/NoContentIcon";
+import "./Trash.css";
+import TrashEmtyPermission from "./TrashEmtyPermission";
+import TrashInfo from "./TrashInfo";
 const Trash = () => {
   const { notes, auth, theme } = useSelector(state => state)
   const dispatch = useDispatch()
@@ -62,14 +63,10 @@ const Trash = () => {
   }, [trashPage, dispatch, auth?.user?.token])
   return (
     <>
-      <Card
-        className="trash-empty-card"
-        sx={{
-          '&:hover': {
-            backgroundColor: `${mode === 'dark' ? 'rgb(47 44 44)' : 'rgb(243, 243, 243)'}`
-          }
-        }}
-      >Click here empty trash </Card>
+
+      <div style={{ marginTop: '50px' }}>
+        {notes?.trash?.length !== 0 && <TrashEmtyPermission setTrashCount={setTrashCount} trashPage={trashPage} />}
+      </div>
 
       {/* --- No content icon --- */}
       {notes?.trash?.length === 0 && (
@@ -87,7 +84,7 @@ const Trash = () => {
         variant="outlined"
         onChange={(e, value) => setTrashPage(value)}
       />
-        <ToastContainer
+      <ToastContainer
         position="bottom-right"
         autoClose={5000}
         hideProgressBar={false}

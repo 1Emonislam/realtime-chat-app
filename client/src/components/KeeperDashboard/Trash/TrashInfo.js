@@ -4,7 +4,7 @@ import RestoreFromTrashIcon from "@mui/icons-material/RestoreFromTrash";
 import { Box, Card, IconButton, Tooltip } from "@mui/material";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { actionByNotesTrashUpdate } from '../../../store/actions/noteAction';
+import { actionByNotesTrashSingleDelete, actionByNotesTrashUpdate } from '../../../store/actions/noteAction';
 const TrashInfo = ({ note, trashCount, setTrashCount, trashPage }) => {
   const { theme, auth } = useSelector(state => state)
   const dispatch = useDispatch()
@@ -55,11 +55,7 @@ const TrashInfo = ({ note, trashCount, setTrashCount, trashPage }) => {
           </IconButton>
         </Tooltip>
         <Tooltip title="Delete" arrow placement="top" onClick={() => {
-          const data = {
-            action: 'delete',
-            status: 'trash',
-          }
-          dispatch(actionByNotesTrashUpdate(data, note?._id, auth?.user?.token, setTrashCount, trashPage))
+          dispatch(actionByNotesTrashSingleDelete(note?._id, auth?.user?.token, setTrashCount, trashPage))
         }}>
           <IconButton>
             <DeleteIcon />
