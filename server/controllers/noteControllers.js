@@ -66,7 +66,7 @@ module.exports.updateNote = async (req, res, next) => {
             ],
         } : { author: req?.user?._id, action: 'note' };
         const note = await Note.find(noteKeyword).sort("-createdAt").limit(limit * 1).skip((page - 1) * limit).populate("message", "content").populate("chat", "chatName img _id");
-
+        const noteCount = await Note.find(noteKeyword).count();
         //2 trash
         const trashKeyword = req.query.search ? {
             author: req?.user?._id,
@@ -142,7 +142,7 @@ module.exports.getNote = async (req, res, next) => {
             ],
         } : { author: req?.user?._id, action: 'note' };
         const note = await Note.find(noteKeyword).sort("-createdAt").limit(limit * 1).skip((page - 1) * limit).populate("message", "content").populate("chat", "chatName img _id");
-
+        const noteCount = await Note.find(noteKeyword).count();
         //2 trash
         const trashKeyword = req.query.search ? {
             author: req?.user?._id,
