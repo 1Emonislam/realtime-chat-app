@@ -23,7 +23,7 @@ export const getMessage = (chatId, token, search) => {
                 .then(res => res.json())
                 .then(data => {
                     if (data) {
-                        console.log(data)
+                        // console.log(data)
                         dispatch({
                             type: GET_MESSAGE,
                             payload: {
