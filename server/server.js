@@ -83,7 +83,6 @@ io.on("connection", async (socket) => {
         if (!chat.members) return console.log('chat.members not defined');
         const members = chat?.members?.filter(user => user?._id !== newMessageRecieved?.sender?._id);
         const notificationObj = {
-            receiver: members,
             type: 'groupchat',
             subject: `New Message from ${newMessageRecieved?.sender?.firstName + ' ' + newMessageRecieved?.sender?.lastName}`,
             message: {
@@ -97,11 +96,12 @@ io.on("connection", async (socket) => {
             createdAt: newMessageRecieved.createdAt,
             updatedAt: newMessageRecieved.updatedAt
         }
+        socket.in(room).emit("message recieved", { newMessageRecieved, notificationObj })
         // console.log(notificationObj)
-        members.forEach(user => {
-            if (user?._id?.toString() === newMessageRecieved.sender?._id?.toString()) return;
-            socket.in(user?._id).emit("message recieved", { newMessageRecieved, notificationObj })
-        })
+        // members.forEach(user => {
+        //     if (user?._id?.toString() === newMessageRecieved.sender?._id?.toString()) return;
+        //     socket.in(user?._id).emit("message recieved", { newMessageRecieved, notificationObj })
+        // })
     })
     const userSessionData = socket.handshake?.auth?.data?.user;
     let loggedUser;
