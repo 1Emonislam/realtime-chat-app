@@ -61,7 +61,7 @@ function onlyUnique(value, index, self) {
     return self.indexOf(value) === index;
 }
 let users = {};
-const chatOnlineOfflineUser = {};
+const chatOnlineUser = {};
 io.on("connection", async (socket) => {
     console.log("socket.io: User connected: ", socket.id);
     socket.on('setup', (userData) => {
@@ -125,10 +125,7 @@ io.on("connection", async (socket) => {
     socket.emit("online user", users)
     socket.on("online members", async (chat) => {
         const onlineMember = await Chat.findOne({ _id: chat }).populate("members", "_id pic firstName lastName email online lastOnline createdAt")
-        console.log(onlineMember)
-        const online = await onlineMember?.members?.filter(online => online?.online === true);
-        const offline = await onlineMember?.members?.filter(online => online?.online === false);
-        socket.emit("online member", { online, offline })
+        socket.emit("online member",onlineMember)
     })
 
 })
