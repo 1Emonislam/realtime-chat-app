@@ -47,24 +47,16 @@ module.exports.updateNote = async (req, res, next) => {
     }
     try {
         let { page = 1, limit = 10 } = req.query;
-        let deletedPermission;
         const { title, details, status = 'note', message, messageId = '', chatId = '', action = 'note' } = req.body;
         if (action === 'permanentRemove') {
-            const del = await deleteOne({ _id: req.params.id })
-            if (del.deletedCount === 1) {
-                deletedPermission = true
-            } else {
-                deletedPermission = false
-            }
+            await deleteOne({ _id: req.params.id })
         } else {
-            if (!deletedPermission) {
-                const updateNote = await Note.findOneAndUpdate({ _id: req.params.id }, {
-                    title, details,
-                    action
-                }, { new: true });
-                if (!updateNote) {
-                    return res.status(400).json({ error: { note: "Action Failed to try again. Make Sure to Provide the Right Credentials!" } })
-                }
+            const updateNote = await Note.findOneAndUpdate({ _id: req.params.id }, {
+                title, details,
+                action
+            }, { new: true });
+            if (!updateNote) {
+                return res.status(400).json({ error: { note: "Action Failed to try again. Make Sure to Provide the Right Credentials!" } })
             }
         }
         const noteKeyword = req.query.search ? {
@@ -117,9 +109,8 @@ module.exports.updateNote = async (req, res, next) => {
         } : { author: req?.user?._id, action: 'pin' };
         const pin = await Note.find(pinKeyword).sort("-createdAt").limit(limit * 1).skip((page - 1) * limit).populate("message", "content").populate("chat", "chatName img _id");
         const pinCount = await Note.find(pinKeyword).count();
-
         return res.status(200).json({
-            message: `Note ${message || deletedPermission ? 'Trash Deleted Successfully!' : 'Trash Remove Failed!'}`,
+            message: `Note ${message}`,
             data: {
                 note,
                 noteCount,
@@ -195,7 +186,7 @@ module.exports.getNote = async (req, res, next) => {
         const pin = await Note.find(pinKeyword).sort("-createdAt").limit(limit * 1).skip((page - 1) * limit).populate("message", "content").populate("chat", "chatName img _id");
         const pinCount = await Note.find(pinKeyword).count();
         return res.status(200).json({
-            message: 'Data fetch Successfully',
+            message: '',
             data: {
                 note,
                 noteCount,
