@@ -96,7 +96,7 @@ io.on("connection", async (socket) => {
             createdAt: newMessageRecieved.createdAt,
             updatedAt: newMessageRecieved.updatedAt
         }
-        socket.in(newMessageRecieved?.chat?._id).emit("message recieved", { newMessageRecieved, notificationObj })
+        socket.to(newMessageRecieved?.chat?._id).emit("message recieved", { newMessageRecieved, notificationObj })
         // console.log(notificationObj)
         // members.forEach(user => {
         //     if (user?._id?.toString() === newMessageRecieved.sender?._id?.toString()) return;
