@@ -118,7 +118,7 @@ module.exports.sendFilesUploadMessage = async (req, res, next) => {
             url: secure_url,
         })
         // console.log(uploadFile)
-        if (audioFile) {
+        if (audioFile || voiceFile) {
             audioFile = uploadFile?._id
         }
         if (videoFile) {

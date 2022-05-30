@@ -5,7 +5,8 @@ import * as React from 'react';
 import { BsThreeDotsVertical } from 'react-icons/bs';
 import { useDispatch, useSelector } from 'react-redux';
 import { useSpeechSynthesis } from 'react-speech-kit';
-import { toast, ToastContainer } from 'react-toastify';
+import { toast } from 'react-toastify';
+import { useEffect } from 'react';
 import addNoteImg from '../../../../Ashikur/chatRepliedImages/add-note.png';
 import confusedImg from '../../../../Ashikur/chatRepliedImages/confused.png';
 import copyImg from '../../../../Ashikur/chatRepliedImages/copy.png';
@@ -71,8 +72,16 @@ export default function MessageFunc({ isSameSenderPermission, handleTyping, isTy
 
     // console.log(messageInfo)
     if (groupMessage?.success) {
+       // eslint-disable-next-line react-hooks/rules-of-hooks
+       useEffect(() =>{
+        dispatch({
+            type: FAILED_MESSAGE,
+            payload: {
+                error: ''
+            }
+        })
         toast.success(`${groupMessage?.success}`, {
-            position: "bottom-right",
+            position: "top-center",
             theme: theme?.theme,
             autoClose: 5000,
             hideProgressBar: false,
@@ -84,26 +93,35 @@ export default function MessageFunc({ isSameSenderPermission, handleTyping, isTy
         dispatch({
             type: SUCCESS_MESSAGE_CLEAR
         })
+       // eslint-disable-next-line react-hooks/exhaustive-deps
+       },[])
     }
     if (groupMessage?.error) {
-        Object.values(groupMessage?.error)?.forEach((err) => {
-            toast.error(`${err}`, {
-                position: "bottom-right",
-                theme: theme?.theme,
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-            });
-            dispatch({
-                type: FAILED_MESSAGE,
-                payload: {
-                    error: ''
-                }
-            })
+        dispatch({
+            type: SUCCESS_MESSAGE_CLEAR
         })
+        // eslint-disable-next-line react-hooks/rules-of-hooks
+        useEffect(() =>{
+            Object.values(groupMessage?.error)?.forEach((err) => {
+                toast.error(`${err}`, {
+                    position: "top-center",
+                    theme: theme?.theme,
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                });
+                dispatch({
+                    type: FAILED_MESSAGE,
+                    payload: {
+                        error: ''
+                    }
+                })
+            })
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+        },[])
     }
 
     return (
@@ -137,9 +155,9 @@ export default function MessageFunc({ isSameSenderPermission, handleTyping, isTy
                             <img style={{ height: '20px', marginLeft: '10px' }} src={editImg} alt='' />
                         </span>
                     </Typography>
-                    <EditMessage handleTyping={handleTyping} isTyping={isTyping} messageInfo={messageInfo} messageText={message} messageEditHandle={messageEditHandle} setEditMessageOpen={setEditMessageOpen} editMessageOpen={editMessageOpen} />
+                    {<EditMessage handleTyping={handleTyping} isTyping={isTyping} messageInfo={messageInfo} messageText={message} messageEditHandle={messageEditHandle} setEditMessageOpen={setEditMessageOpen} editMessageOpen={editMessageOpen} />}
                     {/* Delete message */}
-                    <Typography onClick={() => {
+                    {(messageInfo?.chat?._id && messageInfo?._id && auth?.user?.token) && <Typography onClick={() => {
                         dispatch(deleteMessage(messageInfo?.chat?._id, messageInfo?._id, auth?.user?.token))
                     }} sx={{ cursor: 'pointer', '&:hover': { bgcolor: 'rgb(234, 234, 234, 0.5)' }, py: 1, px: 2, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                         <span style={{ fontSize: 14 }}> Delete </span>
@@ -154,7 +172,7 @@ export default function MessageFunc({ isSameSenderPermission, handleTyping, isTy
                             <img style={{ height: '20px', marginLeft: '10px' }} src={deleteImg} alt='' />
                         </Tooltip>
                         {/* } */}
-                    </Typography>
+                    </Typography>}
                 </>}
                 {/* onClick={() => dispatch(noteCreate(messageInfo?._id, messageInfo?.chat?._id, auth.user?.token))} */}
                 {/* Add to Note Message */}
@@ -208,7 +226,7 @@ export default function MessageFunc({ isSameSenderPermission, handleTyping, isTy
                     </span>
                 </Typography>
             </Popover>
-            <ToastContainer
+            {/* <ToastContainer
                 position="top-center"
                 autoClose={5000}
                 hideProgressBar={false}
@@ -218,7 +236,7 @@ export default function MessageFunc({ isSameSenderPermission, handleTyping, isTy
                 pauseOnFocusLoss
                 draggable
                 pauseOnHover
-            />
+            /> */}
         </div>
     );
 }

@@ -50,6 +50,7 @@ export default function MediaDetails() {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+  console.log(voice)
   // console.log(audios, videos, others, voice, images)
   const dispatch = useDispatch()
   const [count, setCount] = useState(0);

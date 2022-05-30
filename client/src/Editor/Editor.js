@@ -107,7 +107,7 @@ function Editor({ handleTyping, groupMessage, messageEditHandle, editMsg, isTypi
             if (selectedChat?.chat?._id && auth?.user?.token) {
                 const voiceUrl = await convertBlobToBase64(recordedBlob?.blob)
                 const voiceData = {
-                    secure_url: voiceUrl, write: write?.write || '', audioFile: 'audio', bytes: '', original_filename: 'voice over audio', format: 'wav', duration: '',voiceFile:'voice'
+                    secure_url: voiceUrl, write: write?.write || '', bytes: '', original_filename: 'voice over audio', format: 'wav', duration: '',voiceFile:'voice'
                 }
                 dispatch(sendAllUploadMessage(voiceData, selectedChat?.chat?._id, auth?.user?.token))
             }

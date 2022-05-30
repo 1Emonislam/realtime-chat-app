@@ -16,6 +16,10 @@ const noteSchema = mongoose.Schema({
     title: {
         type: String,
     },
+    action: {
+        type: String,
+        default: 'note'
+    },
     details: {
         type: String,
     }
