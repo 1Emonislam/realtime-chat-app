@@ -19,7 +19,7 @@ const style = {
     p: 4,
 };
 
-export default function UpdateNote({ open, mode, page, setCount, handleOpen, handleClose, singleNoteInfo }) {
+export default function UpdateNote({ open, mode, notePage, setNoteCount, handleOpen, handleClose, singleNoteInfo }) {
     const { auth } = useSelector(state => state);
     const dispatch = useDispatch()
     const { register,
@@ -28,7 +28,7 @@ export default function UpdateNote({ open, mode, page, setCount, handleOpen, han
         data.action = 'note';
         data.status = 'note'
         data.message = 'Successfully Updated!'
-        dispatch(actionByNotesUpdate(data, singleNoteInfo?._id, auth?.user?.token, setCount, page, handleClose))
+        dispatch(actionByNotesUpdate(data, singleNoteInfo?._id, auth?.user?.token, setNoteCount, notePage, handleClose))
     };
     return (
         <div>

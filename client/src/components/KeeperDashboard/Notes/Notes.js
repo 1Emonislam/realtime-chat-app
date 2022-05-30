@@ -13,7 +13,7 @@ import NoContentIcon from "../NoContentIcon/NoContentIcon";
 import "./Notes.css";
 import { useForm } from 'react-hook-form';
 import NotesInfo from "./NotesInfo";
-import { actionByNotesGet, createNoteItem } from "../../../store/actions/noteAction";
+import { actionByNotesNoteGet, createNoteItem } from "../../../store/actions/noteAction";
 import { toast, ToastContainer } from "react-toastify";
 import { ERROR_NOTE, MESSAGE_NOTE } from "../../../store/reducers/notesReducer";
 import { useEffect, useState } from "react";
@@ -23,10 +23,10 @@ const Notes = () => {
     <NoteOutlinedIcon sx={{ fontSize: "130px", color: "#ececec" }} />
   );
 
-  const [page, setPage] = useState(1)
-  const [count, setCount] = useState(0)
-  const limit = 10;
   const { auth, notes, loading } = useSelector(state => state)
+  const [notePage, setNotePage] = useState(1)
+  const [noteCount, setNoteCount] = useState()
+  const limit = 10;
   // console.log(notes.notes)
   const mode = useSelector(state => state?.theme?.theme)
   const dispatch = useDispatch()
@@ -74,9 +74,9 @@ const Notes = () => {
     })
   }
   useEffect(() => {
-    dispatch(actionByNotesGet( page, limit, setCount, auth?.user?.token))
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [page, dispatch,auth?.user?.token])
+    dispatch(actionByNotesNoteGet(notePage, limit, auth?.user?.token,setNoteCount))
+    //eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [notePage, dispatch, auth?.user?.token])
   return (
     <>
       <Paper
@@ -135,7 +135,7 @@ const Notes = () => {
 
       {/* --- No content icon --- */}
       {loading && <Loading />}
-      {(notes?.notes?.length === 0) && (
+      {(notes?.note?.length === 0) && (
         <>
           <NoContentIcon
             noCIcon={noCIcon}
@@ -145,15 +145,15 @@ const Notes = () => {
       )}
 
       <div style={{ display: "flex", flexWrap: "wrap" }}>
-        {notes?.notes?.map((note, index) => (
-          <NotesInfo setCount={setCount}key={index} note={note} page={page} count={count} setPage={setPage} mode={mode}></NotesInfo>
+        {notes?.note?.map((note, index) => (
+          <NotesInfo setNoteCount={setNoteCount} key={index} note={note} notePage={notePage} setNotePage={setNotePage} noteCount={noteCount} mode={mode}></NotesInfo>
         ))}
       </div>
       <Pagination
-        count={Math.ceil(count / limit)}
+        count={Math.ceil(noteCount / limit)}
         color="secondary"
         variant="outlined"
-        onChange={(e, value) => setPage(value)}
+        onChange={(e, value) => setNoteCount(value)}
       />
       <ToastContainer
         position="bottom-right"

@@ -10,7 +10,7 @@ import UpdateNote from "./UpdateNote.js/UpdateNote";
 import { useDispatch, useSelector } from "react-redux";
 import { actionByNotesUpdate } from "../../../store/actions/noteAction";
 
-const NotesInfo = ({ note, mode, page, setCount }) => {
+const NotesInfo = ({ note, mode, notePage, setNoteCount }) => {
   const { auth } = useSelector(state => state)
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
@@ -57,7 +57,7 @@ const NotesInfo = ({ note, mode, page, setCount }) => {
             status: 'note',
             message:'Pin Addded'
           }
-          dispatch(actionByNotesUpdate(data, note?._id, auth?.user?.token, setCount, page, handleClose))
+          dispatch(actionByNotesUpdate(data, note?._id, auth?.user?.token, setNoteCount, notePage, handleClose))
         }}>
           <IconButton>
             <PushPinIcon style={{ position: 'relative', top: '2px' }} />
@@ -69,7 +69,7 @@ const NotesInfo = ({ note, mode, page, setCount }) => {
             status: 'note',
             message:'Archive Added'
           }
-          dispatch(actionByNotesUpdate(data, note?._id, auth?.user?.token, setCount, page, handleClose))
+          dispatch(actionByNotesUpdate(data, note?._id, auth?.user?.token, setNoteCount, notePage, handleClose))
         }}>
           <IconButton>
             <ArchiveIcon />
@@ -81,7 +81,7 @@ const NotesInfo = ({ note, mode, page, setCount }) => {
             status: 'note',
             message: 'Trashed Added'
           }
-          dispatch(actionByNotesUpdate(data, note?._id, auth?.user?.token, setCount, page, handleClose))
+          dispatch(actionByNotesUpdate(data, note?._id, auth?.user?.token, setNoteCount, notePage, handleClose))
         }}>
           <IconButton>
             <DeleteIcon />
@@ -96,7 +96,7 @@ const NotesInfo = ({ note, mode, page, setCount }) => {
           </IconButton>
         </Tooltip>
       </Box>
-      {singleNoteInfo && <UpdateNote page={page} setCount={setCount} mode={mode} singleNoteInfo={singleNoteInfo} open={open} handleOpen={handleOpen} handleClose={handleClose} />}
+      {singleNoteInfo && <UpdateNote notePage={notePage} setNoteCount={setNoteCount} mode={mode} singleNoteInfo={singleNoteInfo} open={open} handleOpen={handleOpen} handleClose={handleClose} />}
     </div>
   );
 };

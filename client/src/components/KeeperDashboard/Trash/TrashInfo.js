@@ -1,11 +1,13 @@
-import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+import DeleteIcon from '@mui/icons-material/Delete';
+import InfoIcon from '@mui/icons-material/Info';
 import RestoreFromTrashIcon from "@mui/icons-material/RestoreFromTrash";
 import { Box, Card, IconButton, Tooltip } from "@mui/material";
 import React from "react";
-import InfoIcon from '@mui/icons-material/Info';
-import { useSelector } from "react-redux";
-const TrashInfo = ({ note }) => {
-  const { notes, theme } = useSelector(state => state)
+import { useDispatch, useSelector } from "react-redux";
+import { actionByNotesTrashUpdate } from '../../../store/actions/noteAction';
+const TrashInfo = ({ note, trashCount, setTrashCount, trashPage }) => {
+  const { theme, auth } = useSelector(state => state)
+  const dispatch = useDispatch()
   const mode = theme?.theme;
   return (
     <Card className="notes-card-style">
@@ -40,12 +42,29 @@ const TrashInfo = ({ note }) => {
       </div>
 
       <Box sx={{ display: "flex", justifyContent: "end" }}>
-        <IconButton>
-          <DeleteForeverIcon />
-        </IconButton>
-        <IconButton>
-          <RestoreFromTrashIcon />
-        </IconButton>
+        <Tooltip title="Restore" placement="top" onClick={() => {
+          const data = {
+            action: 'note',
+            status: 'trash',
+            message: 'Trash Restore'
+          }
+          dispatch(actionByNotesTrashUpdate(data, note?._id, auth?.user?.token, setTrashCount, trashPage))
+        }}>
+          <IconButton>
+            <RestoreFromTrashIcon />
+          </IconButton>
+        </Tooltip>
+        <Tooltip title="Delete" arrow placement="top" onClick={() => {
+          const data = {
+            action: 'delete',
+            status: 'trash',
+          }
+          dispatch(actionByNotesTrashUpdate(data, note?._id, auth?.user?.token, setTrashCount, trashPage))
+        }}>
+          <IconButton>
+            <DeleteIcon />
+          </IconButton>
+        </Tooltip>
       </Box>
     </Card>
   );

@@ -21,8 +21,9 @@ export const createNotes = (messageId, chatId, title, details, token, handleNote
                     dispatch({
                         type: POST_NOTES,
                         payload: {
-                            message: data?.message,
-                            note: data?.note,
+                            message: data?.data?.message,
+                            note: data?.data?.note,
+                            noteCount: data?.data.noteCount,
                             trash: [],
                             archive: [],
                             pin: [],
@@ -63,8 +64,8 @@ export const createNoteItem = (data, token, reset) => {
                     type: POST_NOTES,
                     payload: {
                         loading: false,
-                        note: data?.note,
-                        noteCount: data.noteCount,
+                        note: data?.data?.note,
+                        noteCount: data?.data?.noteCount,
                     }
                 })
                 dispatch({
@@ -82,7 +83,103 @@ export const createNoteItem = (data, token, reset) => {
         }
     }
 }
-export const actionByNotesGet = (page, limit, setCount, token, search, messageId, chatId) => {
+
+export const actionByNotesUpdate = (data, noteId, token, setNoteCount, notePage, handleClose) => {
+    return (dispatch) => {
+        dispatch({
+            type: LOADING_NOTES,
+            payload: {
+                loading: true
+            }
+        })
+        fetch(`https://collaballapp.herokuapp.com/api/note/${noteId}?page=${notePage}`, {
+            method: 'PUT',
+            headers: {
+                "Content-Type": "application/json",
+                "authorization": `Bearer ${token}`
+            },
+            body: JSON.stringify(data)
+        })
+            .then(res => res.json())
+            .then((data) => {
+               if(handleClose){
+                handleClose()
+               }
+                // console.log(data)
+                setNoteCount(data?.noteCount)
+                dispatch({
+                    type: GET_NOTES,
+                    payload: {
+                        message: data.message,
+                        loading: false,
+                        note: data?.data?.note,
+                        trash: data?.data?.trash,
+                        archive: data?.data?.archive,
+                        pin: data?.data?.pin,
+                        noteCount: data?.data?.noteCount,
+                        trashCount: data?.data?.trashCount,
+                        archiveCount: data?.data?.archiveCount,
+                        pinCount: data?.data?.pinCount,
+
+                    }
+                })
+                dispatch({
+                    type: ERROR_NOTE,
+                    payload: {
+                        loading: false,
+                        error: data.error,
+                    }
+                })
+            })
+    }
+}
+export const actionByNotesTrashUpdate = (data, noteId, token, setTrashCount, trashPage) => {
+    return (dispatch) => {
+        dispatch({
+            type: LOADING_NOTES,
+            payload: {
+                loading: true
+            }
+        })
+        fetch(`https://collaballapp.herokuapp.com/api/note/${noteId}?page=${trashPage}`, {
+            method: 'PUT',
+            headers: {
+                "Content-Type": "application/json",
+                "authorization": `Bearer ${token}`
+            },
+            body: JSON.stringify(data)
+        })
+            .then(res => res.json())
+            .then((data) => {
+                // console.log(data)
+                setTrashCount(data?.trashCount)
+                dispatch({
+                    type: GET_NOTES,
+                    payload: {
+                        message: data.message,
+                        loading: false,
+                        note: data?.data?.note,
+                        trash: data?.data?.trash,
+                        archive: data?.data?.archive,
+                        pin: data?.data?.pin,
+                        noteCount: data?.data?.noteCount,
+                        trashCount: data?.data?.trashCount,
+                        archiveCount: data?.data?.archiveCount,
+                        pinCount: data?.data?.pinCount,
+
+                    }
+                })
+                dispatch({
+                    type: ERROR_NOTE,
+                    payload: {
+                        loading: false,
+                        error: data.error,
+                    }
+                })
+            })
+    }
+}
+export const actionByNotesNoteGet = (page, limit, token, setNoteCount, setTrashCount, setArchiveCount, setPinCount, search, messageId, chatId) => {
     return (dispatch) => {
         dispatch({
             type: LOADING_NOTES,
@@ -104,67 +201,34 @@ export const actionByNotesGet = (page, limit, setCount, token, search, messageId
         })
             .then(res => res.json())
             .then((data) => {
-                // console.log(data)
                 // setCount(data.count)
+                if (setNoteCount) {
+                    setNoteCount(data?.data?.noteCount || 0);
+                }
+                if (setTrashCount) {
+                    // console.log(setTrashCount)
+                    setTrashCount(data?.data?.trashCount || 0);
+                }
+                if (setArchiveCount) {
+                    setPinCount(data?.data?.archiveCount || 0)
+                }
+                if (setPinCount) {
+                    setPinCount(data?.data?.pinCount || 0)
+                }
                 dispatch({
                     type: GET_NOTES,
                     payload: {
-                        loading: false,
-                        note: data?.note,
-                        trash: data.trash,
-                        archive: data.archive,
-                        pin: data.pin,
-                        noteCount: data.noteCount,
-                        trashCount: data.trashCount,
-                        archiveCount: data.archiveCount,
-                        pinCount: data.pinCount,
                         message: data.message,
-                    }
-                })
-                dispatch({
-                    type: ERROR_NOTE,
-                    payload: {
                         loading: false,
-                        error: data.error,
-                    }
-                })
-            })
-    }
-}
-export const actionByNotesUpdate = (data, noteId, token, setCount, page, handleClose) => {
-    return (dispatch) => {
-        dispatch({
-            type: LOADING_NOTES,
-            payload: {
-                loading: true
-            }
-        })
-        fetch(`https://collaballapp.herokuapp.com/api/note/${noteId}?page=${page}`, {
-            method: 'PUT',
-            headers: {
-                "Content-Type": "application/json",
-                "authorization": `Bearer ${token}`
-            },
-            body: JSON.stringify(data)
-        })
-            .then(res => res.json())
-            .then((data) => {
-                handleClose()
-                // console.log(data)
-                setCount(data.count)
-                dispatch({
-                    type: GET_NOTES,
-                    payload: {
-                        loading: false,
-                        note: data?.note,
-                        trash: data.trash,
-                        archive: data.archive,
-                        pin: data.pin,
-                        noteCount: data.noteCount,
-                        trashCount: data.trashCount,
-                        archiveCount: data.archiveCount,
-                        pinCount: data.pinCount,
-                        message: data.message,
+                        note: data?.data?.note,
+                        trash: data?.data?.trash,
+                        archive: data?.data?.archive,
+                        pin: data?.data?.pin,
+                        noteCount: data?.data?.noteCount,
+                        trashCount: data?.data?.trashCount,
+                        archiveCount: data?.data?.archiveCount,
+                        pinCount: data?.data?.pinCount,
+
                     }
                 })
                 dispatch({

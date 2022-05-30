@@ -36,6 +36,7 @@ export const notesReducer = (state = initialState, action) => {
         }
     }
     if (type === GET_NOTES) {
+        // console.log(payload)
         return {
             ...state,
             note: payload?.note,
@@ -47,7 +48,7 @@ export const notesReducer = (state = initialState, action) => {
             trashCount: payload.trashCount,
             archiveCount: payload.archiveCount,
             pinCount: payload.pinCount,
-            error: payload.error,
+            error: '',
             message: payload.message,
         }
     }
