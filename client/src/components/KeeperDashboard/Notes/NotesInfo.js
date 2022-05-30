@@ -3,10 +3,16 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import PushPinIcon from "@mui/icons-material/PushPin";
 import { Box, IconButton, Tooltip } from "@mui/material";
-import React from "react";
+import InfoIcon from '@mui/icons-material/Info';
+import React, { useState } from "react";
 import "./Notes.css";
+import UpdateNote from "./UpdateNote.js/UpdateNote";
 
-const NotesInfo = ({ note, mode }) => {
+const NotesInfo = ({ note, mode,page,setCount }) => {
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+  const [singleNoteInfo, setSingleNoteInfo] = useState('')
   return (
     <div className="notes-card-style">
       <div style={{ display: "flex" }}>
@@ -16,9 +22,13 @@ const NotesInfo = ({ note, mode }) => {
               fontSize: "1em",
               fontWeight: "500",
               marginBottom: "6px",
+              display: 'flex',
+              justifyContent: 'space-between'
             }}
           >
-            {note?.title}
+            {note?.title?.slice(0, 50)} <Tooltip title={note?.title} arrow>
+              <span style={{ cursor: 'pointer' }}><InfoIcon style={{ position: 'relative', top: '5px', fontSize: '20px' }} /></span>
+            </Tooltip>
           </p>
           <p
             style={{
@@ -28,12 +38,11 @@ const NotesInfo = ({ note, mode }) => {
               fontWeight: "400",
             }}
           >
-            {note?.details}
+            {note?.details?.slice(0, 120) || note?.message?.content?.text?.slice(0, 120)}...<Tooltip title={note?.details || note?.message?.content?.text} arrow>
+              <span style={{ cursor: 'pointer' }}>More</span>
+            </Tooltip>
           </p>
         </div>
-        <IconButton sx={{ width: "30px", height: "30px" }}>
-          <PushPinIcon sx={{ color: "#bebebe", fontSize: "19px" }} />
-        </IconButton>
       </div>
 
       <Box sx={{ display: "flex", justifyContent: "end" }}>
@@ -53,12 +62,16 @@ const NotesInfo = ({ note, mode }) => {
             <DeleteIcon />
           </IconButton>
         </Tooltip>
-        <Tooltip title="Edit" arrow placement="top">
+        <Tooltip title="Edit" arrow placement="top" onClick={() => {
+          setSingleNoteInfo(note)
+          setOpen(true)
+        }}>
           <IconButton>
             <EditIcon />
           </IconButton>
         </Tooltip>
       </Box>
+      {singleNoteInfo && <UpdateNote page={page}setCount={setCount}mode={mode} singleNoteInfo={singleNoteInfo} open={open} handleOpen={handleOpen} handleClose={handleClose} />}
     </div>
   );
 };

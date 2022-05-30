@@ -64,7 +64,7 @@ module.exports.updateNote = async (req, res, next) => {
         }, { new: true });
         const data = await Note.find(keyword).sort("-createdAt").limit(limit * 1).skip((page - 1) * limit).populate("message", "content").populate("chat", "chatName img _id");
         const count = await Note.find(keyword).count();
-        return res.status(200).json({ data: data, count })
+        return res.status(200).json({message:'Note Updated Successfully!', data: data, count })
     }
     catch (error) {
         next(error)

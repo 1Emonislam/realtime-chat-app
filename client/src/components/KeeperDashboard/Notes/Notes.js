@@ -17,14 +17,17 @@ import { actionByNotesGet, createNoteItem } from "../../../store/actions/noteAct
 import { toast, ToastContainer } from "react-toastify";
 import { ERROR_NOTE, MESSAGE_NOTE } from "../../../store/reducers/notesReducer";
 import { useEffect, useState } from "react";
+import Loading from "../../Spinner/Loading";
 const Notes = () => {
   const noCIcon = (
     <NoteOutlinedIcon sx={{ fontSize: "130px", color: "#ececec" }} />
   );
+
   const [page, setPage] = useState(1)
   const [count, setCount] = useState(0)
   const limit = 10;
-  const { auth, notes } = useSelector(state => state)
+  const { auth, notes, loading } = useSelector(state => state)
+  // console.log(notes.notes)
   const mode = useSelector(state => state?.theme?.theme)
   const dispatch = useDispatch()
   const { register, reset, handleSubmit } = useForm();
@@ -73,7 +76,7 @@ const Notes = () => {
   useEffect(() => {
     dispatch(actionByNotesGet('note', page, limit, setCount, auth?.user?.token))
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [page, dispatch])
+  }, [page, dispatch,auth?.user?.token])
   return (
     <>
       <Paper
@@ -131,16 +134,19 @@ const Notes = () => {
       </Paper>
 
       {/* --- No content icon --- */}
+      {loading && <Loading />}
       {(notes?.notes?.length === 0) && (
-        <NoContentIcon
-          noCIcon={noCIcon}
-          content={"Notes you add appear here"}
-        />
+        <>
+          <NoContentIcon
+            noCIcon={noCIcon}
+            content={"Notes you add appear here"}
+          />
+        </>
       )}
 
       <div style={{ display: "flex", flexWrap: "wrap" }}>
         {notes?.notes?.map((note, index) => (
-          <NotesInfo key={index} note={note} page={page} count={count}setPage={setPage} mode={mode}></NotesInfo>
+          <NotesInfo setCount={setCount}key={index} note={note} page={page} count={count} setPage={setPage} mode={mode}></NotesInfo>
         ))}
       </div>
       <Pagination

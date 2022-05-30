@@ -14,7 +14,7 @@ export const createNotes = (messageId, chatId, title, details, token, handleNote
         })
             .then(res => res.json())
             .then(data => {
-                console.log(data)
+                // console.log(data)
                 if (data.data) {
                     handleNoteClose()
                     // console.log(data)
@@ -80,24 +80,28 @@ export const createNoteItem = (data, token, reset) => {
     }
 }
 export const actionByNotesGet = (action, page, limit, setCount, token, search, messageId, chatId) => {
-    return async (dispatch) => {
+    return (dispatch) => {
         dispatch({
             type: LOADING_NOTES,
             payload: {
                 loading: true
             }
         })
-        const config = {
+        const data = {
+            action: action || '',
+            messageId: messageId || '',
+            chatId: chatId || ''
+        }
+        fetch(`https://collaballapp.herokuapp.com/api/note/actions?search=${search || ''}&page=${page}&limit=${limit}`, {
+            method: 'POST',
             headers: {
                 "Content-Type": "application/json",
                 "authorization": `Bearer ${token}`
             },
-        }
-        const data = {
-            action, messageId, chatId
-        }
-        try {
-            axios.post(`https://collaballapp.herokuapp.com/api/note/actions?search=${search || ''}&page=${page}limit=${limit}`, data, config).then(({ data }) => {
+            body: JSON.stringify(data)
+        })
+            .then(res => res.json())
+            .then((data) => {
                 // console.log(data)
                 setCount(data.count)
                 dispatch({
@@ -117,9 +121,45 @@ export const actionByNotesGet = (action, page, limit, setCount, token, search, m
                     }
                 })
             })
-        }
-        catch (error) {
-
-        }
+    }
+}
+export const actionByNotesUpdate = (data, noteId, token, setCount, page, handleClose) => {
+    return (dispatch) => {
+        dispatch({
+            type: LOADING_NOTES,
+            payload: {
+                loading: true
+            }
+        })
+        fetch(`https://collaballapp.herokuapp.com/api/note/${noteId}?page=${page}`, {
+            method: 'PUT',
+            headers: {
+                "Content-Type": "application/json",
+                "authorization": `Bearer ${token}`
+            },
+            body: JSON.stringify(data)
+        })
+            .then(res => res.json())
+            .then((data) => {
+                handleClose()
+                // console.log(data)
+                setCount(data.count)
+                dispatch({
+                    type: GET_NOTES,
+                    payload: {
+                        loading: false,
+                        notes: data?.data,
+                        count: data.count,
+                        message: data.message,
+                    }
+                })
+                dispatch({
+                    type: ERROR_NOTE,
+                    payload: {
+                        loading: false,
+                        message: data.error,
+                    }
+                })
+            })
     }
 }
