@@ -134,8 +134,20 @@ module.exports.deleteSingleNote = async (req, res, next) => {
         let deletedPermission;
         if (deletedFile.deletedCount === 1) {
             deletedPermission = true;
-        } else {
-            deletedPermission = false
+        } else if (deletedFile.deletedCount !== 1){
+            const keyword = req.query.search ? {
+                author: req?.user?._id,
+                action: 'trash',
+                $or: [
+                    { "title": { $regex: req.query.search, $options: "i" } },
+                    { "details": { $regex: req.query.search, $options: "i" } },
+                    { message: messageId },
+                    { chat: chatId }
+                ],
+            } : { author: req?.user?._id, action: 'trash' };
+            const trash = await Note.find(keyword).sort("-createdAt").limit(limit * 1).skip((page - 1) * limit).populate("message", "content").populate("chat", "chatName img _id");
+            const trashCount = await Note.find(keyword).sort("-createdAt").count()
+            return res.status(400).json({ error: { note: 'Trash Remove Failed!' }, data: { trash: trash, trashCount: trashCount } })
         }
         const noteKeyword = req.query.search ? {
             author: req?.user?._id,
@@ -188,7 +200,7 @@ module.exports.deleteSingleNote = async (req, res, next) => {
         const pin = await Note.find(pinKeyword).sort("-createdAt").limit(limit * 1).skip((page - 1) * limit).populate("message", "content").populate("chat", "chatName img _id");
         const pinCount = await Note.find(pinKeyword).count();
         return res.status(200).json({
-            message: `Note ${deletedPermission ? 'Trash Removed Successfully!' : 'Trash Remove Failed!'}`,
+            message: `Note Trash Removed Successfully!`,
             data: {
                 note,
                 noteCount,
@@ -288,13 +300,25 @@ module.exports.allRemoveNote = async (req, res, next) => {
     }
     try {
         let { page = 1, limit = 10 } = req.query;
+        const keyword = req.query.search ? {
+            author: req?.user?._id,
+            action: 'note',
+            $or: [
+                { "title": { $regex: req.query.search, $options: "i" } },
+                { "details": { $regex: req.query.search, $options: "i" } },
+                { message: messageId },
+                { chat: chatId }
+            ],
+        } : { author: req?.user?._id, action: 'note' };
         const { status = 'note', message, messageId = '', chatId = '', action = 'note' } = req.body;
         const deletedFile = await Note.deleteMany({ author: req.user?._id, action: 'trash' });
         let deletedPermission;
         if (deletedFile.deletedCount === 1) {
-            deletedPermission = true;
+            deletedPermission = true
         } else {
-            deletedPermission = false
+            const trash = await Note.find(keyword).sort("-createdAt").limit(limit * 1).skip((page - 1) * limit).populate("message", "content").populate("chat", "chatName img _id");
+            const trashCount = await Note.find(keyword).sort("-createdAt").count()
+            return res.status(400).json({ error: { trash: 'All Trash Remove Failed!' }, data: { trash: trash, trashCount: trashCount } })
         }
         const noteKeyword = req.query.search ? {
             author: req?.user?._id,
@@ -347,7 +371,7 @@ module.exports.allRemoveNote = async (req, res, next) => {
         const pin = await Note.find(pinKeyword).sort("-createdAt").limit(limit * 1).skip((page - 1) * limit).populate("message", "content").populate("chat", "chatName img _id");
         const pinCount = await Note.find(pinKeyword).count();
         return res.status(200).json({
-            error: `Note ${deletedPermission ? 'All Trash Removed Successfully!' : 'All Trashed Remove Failed!'}`,
+            message: `Note All Trash Removed Successfully!`,
             data: {
                 note,
                 noteCount,
