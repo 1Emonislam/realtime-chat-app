@@ -133,6 +133,7 @@ function Editor({ handleTyping, groupMessage, messageEditHandle, editMsg, isTypi
                 })
                     .then(resp => resp.json())
                     .then(data => {
+                        data.voiceFile = 'voice'
                         dispatch({
                             type: VALUE,
                             payload: {
@@ -142,7 +143,6 @@ function Editor({ handleTyping, groupMessage, messageEditHandle, editMsg, isTypi
                                 value: 100,
                             }
                         })
-                        data.voiceFile = 'voice'
                         dispatch(sendAllUploadMessage(data, selectedChat?.chat?._id, auth?.user?.token))
                     })
                     .catch(err => {
