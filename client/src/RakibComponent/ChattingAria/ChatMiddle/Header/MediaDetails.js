@@ -9,6 +9,7 @@ import DocViewer from 'react-doc-viewer';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { mediaFilesSearchAudios, mediaFilesSearchImages, mediaFilesSearchOthers, mediaFilesSearchVideos, mediaFilesSearchVoice } from '../../../../store/actions/mediaFilesSearchAction';
+import Loading from '../../../../components/Spinner/Loading';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -46,7 +47,7 @@ function a11yProps(index) {
 export default function MediaDetails() {
   const [value, setValue] = React.useState(0);
   const { media, selectedChat } = useSelector(state => state);
-  const { audios, videos, others, voice, images } = media;
+  const { audios, videos, loading, others, voice, images } = media;
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
@@ -67,10 +68,10 @@ export default function MediaDetails() {
     if (selectedPage === 'audio') {
       dispatch(mediaFilesSearchAudios('audio', selectedChat?.chat?._id, page, limit, setCount))
     }
-    if(selectedPage === 'video'){
+    if (selectedPage === 'video') {
       dispatch(mediaFilesSearchVideos('video', selectedChat?.chat?._id, page, limit, setCount))
     }
-    if(selectedPage === 'others'){
+    if (selectedPage === 'others') {
       dispatch(mediaFilesSearchOthers('others', selectedChat?.chat?._id, page, limit, setCount))
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -89,20 +90,21 @@ export default function MediaDetails() {
             dispatch(mediaFilesSearchVoice('voice', selectedChat?.chat?._id, page, limit, setCount))
           }} />
           <Tab label="Audios" {...a11yProps(1)} onClick={() => {
-              setSelectedPage('audio')
+            setSelectedPage('audio')
             dispatch(mediaFilesSearchAudios('audio', selectedChat?.chat?._id, page, limit, setCount))
           }} />
           <Tab label="Videos" {...a11yProps(2)} onClick={() => {
-                   setSelectedPage('video')
+            setSelectedPage('video')
             dispatch(mediaFilesSearchVideos('video', selectedChat?.chat?._id, page, limit, setCount))
           }} />
           <Tab label="Others" {...a11yProps(3)} onClick={() => {
-              setSelectedPage('others')
+            setSelectedPage('others')
             dispatch(mediaFilesSearchOthers('others', selectedChat?.chat?._id, page, limit, setCount))
           }} />
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
+        {loading && <Loading />}
         <Grid container spacing={0}>
           {
             images?.length !== 0 && images?.map((pic, index) => (
@@ -119,7 +121,9 @@ export default function MediaDetails() {
         />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <Grid container spacing={0}>
+      {loading && <Loading />}
+        <Grid container spacing={0} justifyContent="space-between">
+     
           {
             voice?.length !== 0 && voice?.map((voice, index) => (
               <Grid item xs={6} key={index}>
@@ -134,7 +138,9 @@ export default function MediaDetails() {
           onChange={(e, value) => setPage(value)}
         />
       </TabPanel>
+
       <TabPanel value={value} index={2}>
+        {loading && <Loading />}
         <Grid container spacing={0} justifyContent="space-between">
           {
             audios?.length !== 0 && audios?.map((audio, index) => (
@@ -151,7 +157,9 @@ export default function MediaDetails() {
         />
       </TabPanel>
       <TabPanel value={value} index={3}>
-        <Grid container spacing={0}>
+      {loading && <Loading />}
+        <Grid container spacing={0} justifyContent="space-between">
+     
           {
             videos?.length !== 0 && videos?.map((video, index) => (
               <Grid item xs={6} key={index}>
@@ -167,7 +175,9 @@ export default function MediaDetails() {
         />
       </TabPanel>
       <TabPanel value={value} index={4}>
-        <Grid container spacing={0}>
+      {loading && <Loading />}
+        <Grid container spacing={0} justifyContent="space-between">
+      
           {
             others?.length !== 0 && others?.map((other, index) => (
               <Grid item xs={3} key={index}>

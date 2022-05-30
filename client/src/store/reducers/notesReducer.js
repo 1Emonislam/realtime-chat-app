@@ -1,9 +1,6 @@
 
 const initialState = {
     notes: [],
-    trash: [],
-    archive: [],
-    pin: [],
     loading: false,
     error: '',
     message: '',
@@ -34,9 +31,6 @@ export const notesReducer = (state = initialState, action) => {
         return {
             ...state,
             notes: payload.notes,
-            trash: payload.trash,
-            archive: payload.archive,
-            pin: payload?.pin,
             loading: false,
             error: payload.error,
             message: payload.message,

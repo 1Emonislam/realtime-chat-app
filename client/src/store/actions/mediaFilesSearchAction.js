@@ -110,18 +110,18 @@ export const mediaFilesSearchVideos = (status, chat, page, limit, setCount) => {
 }
 export const mediaFilesSearchOthers = (status,chat, page, limit, setCount) => {
     return (dispatch) => {
-        const config = {
-            headers: {
-                'Content-Type': "application/json",
-                "authorization": `Bearer ${store.getState()?.auth?.user?.token}`
-            },
-        }
         dispatch({
             type: STORE_LOADING,
             payload: {
                 loading: true
             }
         })
+        const config = {
+            headers: {
+                'Content-Type': "application/json",
+                "authorization": `Bearer ${store.getState()?.auth?.user?.token}`
+            },
+        }
         axios.get(`https://collaballapp.herokuapp.com/api/chat/media/files/search?status=${status || ''}&chat=${chat || ''}&page=${page}&limit=${limit}`,config).then(({data}) => {
             dispatch({
                 type: STORE_LOADING,

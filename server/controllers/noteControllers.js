@@ -2,14 +2,14 @@ const Note = require("../models/noteModels");
 module.exports.noteCreate = async (req, res, next) => {
     try {
         const issue = {}
-        const { messageId, chatId, title, details,permission } = req.body;
+        const { messageId, chatId, title, details, permission } = req.body;
         if (!req?.user?._id) {
             return res.status(400).json({ error: { token: 'User Credentials expired! Please login!' } })
         }
         if (!(messageId || permission)) {
             issue.message = 'error occurred message!'
         }
-        if (!(chatId ||permission)) {
+        if (!(chatId || permission)) {
             issue.chat = 'error occurred chat!'
         }
         if (Object?.keys(issue)?.length) {
@@ -33,11 +33,25 @@ module.exports.updateNote = async (req, res, next) => {
         return res.status(400).json({ error: { token: 'User Credentials expired! Please login!' } })
     }
     try {
-        const { title, details } = req.body;
+        let { page = 1, limit = 10 } = req.query;
+        const { title, details, messageId = '', chatId = '', action = 'note' } = req.body;
+        const keyword = req.query.search ? {
+            author: req?.user?._id,
+            action: action,
+            $or: [
+                { "title": { $regex: req.query.search, $options: "i" } },
+                { "details": { $regex: req.query.search, $options: "i" } },
+                { message: messageId },
+                { chat: chatId }
+            ],
+        } : { author: req?.user?._id, action: 'note' };
         const updateNote = await Note.findOneAndUpdate({ _id: req.params.id }, {
-            title, details
+            title, details,
+            action
         }, { new: true });
-        return res.status(200).json({ data: updateNote })
+        const data = await Note.find(keyword).limit(limit * 1).skip((page - 1) * limit).populate("message", "content").populate("chat", "chatName img _id");
+        const count = await Note.find(keyword).count();
+        return res.status(200).json({ data: data, count })
     }
     catch (error) {
         next(error)
@@ -50,14 +64,20 @@ module.exports.getNote = async (req, res, next) => {
             return res.status(400).json({ error: { token: 'User Credentials expired! Please login!' } })
         }
         let { page = 1, limit = 10 } = req.query;
+        const { messageId = '', chatId = '', action = 'note' } = req.body;
         const keyword = req.query.search ? {
             author: req?.user?._id,
+            action: action,
             $or: [
-                { "content.text": { $regex: req.query.search, $options: "i" } },
+                { "title": { $regex: req.query.search, $options: "i" } },
+                { "details": { $regex: req.query.search, $options: "i" } },
+                { message: messageId },
+                { chat: chatId }
             ],
-        } : { author: req?.user?._id };
-        const data = await Note.find(keyword).limit(limit * 1).skip((page - 1) * limit).populate("message").populate("chat");
-        return res.status(200).json({ data: data })
+        } : { author: req?.user?._id, action: 'note' };
+        const data = await Note.find(keyword).limit(limit * 1).skip((page - 1) * limit).populate("message", "content").populate("chat", "chatName img _id");
+        const count = await Note.find(keyword).count();
+        return res.status(200).json({ data: data, count })
     }
     catch (error) {
         next(error)
