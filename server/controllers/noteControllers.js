@@ -289,7 +289,7 @@ module.exports.allRemoveNote = async (req, res, next) => {
     try {
         let { page = 1, limit = 10 } = req.query;
         const { status = 'note', message, messageId = '', chatId = '', action = 'note' } = req.body;
-        const deletedFile = await Note.deleteMany({ _id: req.params.id, author: req.user?._id, action: 'trash' });
+        const deletedFile = await Note.deleteMany({ author: req.user?._id, action: 'trash' });
         let deletedPermission;
         if (deletedFile.deletedCount === 1) {
             deletedPermission = true;
@@ -347,7 +347,7 @@ module.exports.allRemoveNote = async (req, res, next) => {
         const pin = await Note.find(pinKeyword).sort("-createdAt").limit(limit * 1).skip((page - 1) * limit).populate("message", "content").populate("chat", "chatName img _id");
         const pinCount = await Note.find(pinKeyword).count();
         return res.status(200).json({
-            message: `Note ${deletedPermission ? 'All Trash Removed Successfully!' : 'All Trashed Remove Failed!'}`,
+            error: `Note ${deletedPermission ? 'All Trash Removed Successfully!' : 'All Trashed Remove Failed!'}`,
             data: {
                 note,
                 noteCount,
