@@ -39,12 +39,13 @@ const ChatBodyPage = ({ handleSingleChat, chatActive }) => {
     useEffect(() => {
         if (!socket?.current) return;
         socket?.current?.off('online member').on('online member', (data) => {
-            console.log(data)
+            const online = data?.members?.filter(data => data.online === true);
+            const offline = data?.members?.filter(data => data.online === false);
             dispatch({
                 type: ONLINE_USER,
                 payload: {
-                    online: data?.online,
-                    offline: data?.offline
+                    online: online,
+                    offline: offline
                 }
             })
         })

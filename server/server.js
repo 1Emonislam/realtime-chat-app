@@ -124,7 +124,7 @@ io.on("connection", async (socket) => {
     })
     socket.emit("online user", users)
     socket.on("online members", async (chat) => {
-        const onlineMember = await Chat.findOne({ _id: chat }).populate("members", "_id pic firstName lastName email online lastOnline createdAt")
+        const onlineMember = await Chat.findOne({ _id: chat }).populate("members", "_id pic firstName lastName email online lastOnline createdAt").select("-seen").select("-groupAdmin")
         socket.emit("online member",onlineMember)
     })
 
