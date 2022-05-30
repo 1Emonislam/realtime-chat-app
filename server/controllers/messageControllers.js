@@ -105,7 +105,7 @@ module.exports.sendFilesUploadMessage = async (req, res, next) => {
         return res.status(400);
     }
 
-    let { secure_url, write, bytes, original_filename, format, duration, resource_type, audioFile,voiceFile, videoFile, othersFile, imagesFile } = req.body;
+    let { secure_url, write, bytes, original_filename, format, duration, resource_type, audioFile, voiceFile, videoFile, othersFile, imagesFile } = req.body;
     try {
         const uploadFile = await UploadFiles.create({
             author: req.user?._id,
@@ -361,6 +361,12 @@ module.exports.messageRemove = async (req, res, next) => {
                 email: req?.user?.email
             }
         }
+        if (!(delete1?.deletedCount > 0 || delete2?.deletedCount > 0)) {
+            return res.status(400).json({
+                error: { action: "Message Removed Failed!" }, me: message?.length > 0 ? me : {},
+                data: message
+            })
+        }
         if (delete1?.deletedCount > 0 || delete2?.deletedCount > 0) {
             await GroupNotification.deleteMany({ message: messageId, chat: chatId });
             return res.status(200).json({
@@ -368,11 +374,6 @@ module.exports.messageRemove = async (req, res, next) => {
                 me: message?.length > 0 ? me : {},
                 data: message
             });
-        } else {
-            return res.status(400).json({
-                error: { action: "Message Removed Failed!" }, me: message?.length > 0 ? me : {},
-                data: message
-            })
         }
     }
     catch (error) {
