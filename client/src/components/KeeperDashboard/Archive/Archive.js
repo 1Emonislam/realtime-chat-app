@@ -3,12 +3,14 @@ import ArchiveOutlinedIcon from "@mui/icons-material/ArchiveOutlined";
 import NoContentIcon from "../NoContentIcon/NoContentIcon";
 import fakeData from "../fakeData/fakeData";
 import ArchiveInfo from "./ArchiveInfo";
+import { useSelector } from "react-redux";
 
 const Archive = () => {
+  const { notes,theme } = useSelector(state => state)
   const noCIcon = (
     <ArchiveOutlinedIcon sx={{ fontSize: "130px", color: "#ececec" }} />
   );
-  const mode = JSON.parse(localStorage.getItem('themeCurrent'));
+  const mode = theme?.theme;
 
   return (
     <>

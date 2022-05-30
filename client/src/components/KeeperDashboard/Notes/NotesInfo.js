@@ -53,7 +53,9 @@ const NotesInfo = ({ note, mode, page, setCount }) => {
         {/* -- Color box component -- */}
         <Tooltip title="Pin" arrow placement="top" onClick={() => {
           const data = {
-            action: 'Pin Added'
+            action: 'pin',
+            status: 'note',
+            message:'Pin Addded'
           }
           dispatch(actionByNotesUpdate(data, note?._id, auth?.user?.token, setCount, page, handleClose))
         }}>
@@ -63,7 +65,9 @@ const NotesInfo = ({ note, mode, page, setCount }) => {
         </Tooltip>
         <Tooltip title="Archive" arrow placement="top" onClick={() => {
           const data = {
-            action: 'Archive Added'
+            action: 'archive',
+            status: 'note',
+            message:'Archive Added'
           }
           dispatch(actionByNotesUpdate(data, note?._id, auth?.user?.token, setCount, page, handleClose))
         }}>
@@ -74,6 +78,7 @@ const NotesInfo = ({ note, mode, page, setCount }) => {
         <Tooltip title="Delete" arrow placement="top" onClick={() => {
           const data = {
             action: 'trash',
+            status: 'note',
             message: 'Trashed Added'
           }
           dispatch(actionByNotesUpdate(data, note?._id, auth?.user?.token, setCount, page, handleClose))

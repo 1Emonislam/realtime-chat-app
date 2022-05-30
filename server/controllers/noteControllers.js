@@ -34,7 +34,7 @@ module.exports.noteCreate = async (req, res, next) => {
         if (!note) {
             return res.status(400).json({ error: { note: 'Note Creation failed!' } })
         }
-        return res.status(200).json({ message: 'My Note Collection Added New Note', data: data, count })
+        return res.status(200).json({ message: 'My Note Collection Added New Note', data: { note: data, noteCount: count }, count })
     }
     catch (error) {
         next(error)
@@ -47,17 +47,7 @@ module.exports.updateNote = async (req, res, next) => {
     }
     try {
         let { page = 1, limit = 10 } = req.query;
-        const { title, details, message, messageId = '', chatId = '', action = 'note' } = req.body;
-        const keyword = req.query.search ? {
-            author: req?.user?._id,
-            action: action,
-            $or: [
-                { "title": { $regex: req.query.search, $options: "i" } },
-                { "details": { $regex: req.query.search, $options: "i" } },
-                { message: messageId },
-                { chat: chatId }
-            ],
-        } : { author: req?.user?._id, action: action };
+        const { title, details, status = 'note', message, messageId = '', chatId = '', action = 'note' } = req.body;
         const updateNote = await Note.findOneAndUpdate({ _id: req.params.id }, {
             title, details,
             action
@@ -65,9 +55,69 @@ module.exports.updateNote = async (req, res, next) => {
         if (!updateNote) {
             return res.status(400).json({ error: { note: "Action Failed to try again. Make Sure to Provide the Right Credentials!" } })
         }
-        const data = await Note.find(keyword).sort("-createdAt").limit(limit * 1).skip((page - 1) * limit).populate("message", "content").populate("chat", "chatName img _id");
-        const count = await Note.find(keyword).count();
-        return res.status(200).json({ message: `Note ${message}`, data: data, count })
+        const noteKeyword = req.query.search ? {
+            author: req?.user?._id,
+            action: 'note',
+            $or: [
+                { "title": { $regex: req.query.search, $options: "i" } },
+                { "details": { $regex: req.query.search, $options: "i" } },
+                { message: messageId },
+                { chat: chatId }
+            ],
+        } : { author: req?.user?._id, action: 'note' };
+        const note = await Note.find(noteKeyword).sort("-createdAt").limit(limit * 1).skip((page - 1) * limit).populate("message", "content").populate("chat", "chatName img _id");
+
+        //2 trash
+        const trashKeyword = req.query.search ? {
+            author: req?.user?._id,
+            action: 'trash',
+            $or: [
+                { "title": { $regex: req.query.search, $options: "i" } },
+                { "details": { $regex: req.query.search, $options: "i" } },
+                { message: messageId },
+                { chat: chatId }
+            ],
+        } : { author: req?.user?._id, action: 'trash' };
+        const trash = await Note.find(trashKeyword).sort("-createdAt").limit(limit * 1).skip((page - 1) * limit).populate("message", "content").populate("chat", "chatName img _id");
+        const trashCount = await Note.find(trashKeyword).count();
+        //3 archive
+        const archiveKeyword = req.query.search ? {
+            author: req?.user?._id,
+            action: 'archive',
+            $or: [
+                { "title": { $regex: req.query.search, $options: "i" } },
+                { "details": { $regex: req.query.search, $options: "i" } },
+                { message: messageId },
+                { chat: chatId }
+            ],
+        } : { author: req?.user?._id, action: 'archive' };
+        const archive = await Note.find(archiveKeyword).sort("-createdAt").limit(limit * 1).skip((page - 1) * limit).populate("message", "content").populate("chat", "chatName img _id");
+        const archiveCount = await Note.find(archiveKeyword).count();
+        const pinKeyword = req.query.search ? {
+            author: req?.user?._id,
+            action: 'pin',
+            $or: [
+                { "title": { $regex: req.query.search, $options: "i" } },
+                { "details": { $regex: req.query.search, $options: "i" } },
+                { message: messageId },
+                { chat: chatId }
+            ],
+        } : { author: req?.user?._id, action: 'pin' };
+        const pin = await Note.find(pinKeyword).sort("-createdAt").limit(limit * 1).skip((page - 1) * limit).populate("message", "content").populate("chat", "chatName img _id");
+        const pinCount = await Note.find(pinKeyword).count();
+        return res.status(200).json({
+            message: `Note ${message}`,
+            data: {
+                note,
+                noteCount,
+                trash,
+                trashCount,
+                archive,
+                archiveCount,
+                pin,
+                pinCount
+            },
+        })
     }
     catch (error) {
         next(error)
@@ -81,19 +131,68 @@ module.exports.getNote = async (req, res, next) => {
         }
         let { page = 1, limit = 10 } = req.query;
         const { messageId = '', chatId = '', action = 'note' } = req.body;
-        const keyword = req.query.search ? {
+        const noteKeyword = req.query.search ? {
             author: req?.user?._id,
-            action: action,
+            action: 'note',
             $or: [
                 { "title": { $regex: req.query.search, $options: "i" } },
                 { "details": { $regex: req.query.search, $options: "i" } },
                 { message: messageId },
                 { chat: chatId }
             ],
-        } : { author: req?.user?._id, action: action };
-        const data = await Note.find(keyword).sort("-createdAt").limit(limit * 1).skip((page - 1) * limit).populate("message", "content").populate("chat", "chatName img _id");
-        const count = await Note.find(keyword).count();
-        return res.status(200).json({ data: data, count })
+        } : { author: req?.user?._id, action: 'note' };
+        const note = await Note.find(noteKeyword).sort("-createdAt").limit(limit * 1).skip((page - 1) * limit).populate("message", "content").populate("chat", "chatName img _id");
+
+        //2 trash
+        const trashKeyword = req.query.search ? {
+            author: req?.user?._id,
+            action: 'trash',
+            $or: [
+                { "title": { $regex: req.query.search, $options: "i" } },
+                { "details": { $regex: req.query.search, $options: "i" } },
+                { message: messageId },
+                { chat: chatId }
+            ],
+        } : { author: req?.user?._id, action: 'trash' };
+        const trash = await Note.find(trashKeyword).sort("-createdAt").limit(limit * 1).skip((page - 1) * limit).populate("message", "content").populate("chat", "chatName img _id");
+        const trashCount = await Note.find(trashKeyword).count();
+        //3 archive
+        const archiveKeyword = req.query.search ? {
+            author: req?.user?._id,
+            action: 'archive',
+            $or: [
+                { "title": { $regex: req.query.search, $options: "i" } },
+                { "details": { $regex: req.query.search, $options: "i" } },
+                { message: messageId },
+                { chat: chatId }
+            ],
+        } : { author: req?.user?._id, action: 'archive' };
+        const archive = await Note.find(archiveKeyword).sort("-createdAt").limit(limit * 1).skip((page - 1) * limit).populate("message", "content").populate("chat", "chatName img _id");
+        const archiveCount = await Note.find(archiveKeyword).count();
+        const pinKeyword = req.query.search ? {
+            author: req?.user?._id,
+            action: 'pin',
+            $or: [
+                { "title": { $regex: req.query.search, $options: "i" } },
+                { "details": { $regex: req.query.search, $options: "i" } },
+                { message: messageId },
+                { chat: chatId }
+            ],
+        } : { author: req?.user?._id, action: 'pin' };
+        const pin = await Note.find(pinKeyword).sort("-createdAt").limit(limit * 1).skip((page - 1) * limit).populate("message", "content").populate("chat", "chatName img _id");
+        const pinCount = await Note.find(pinKeyword).count();
+        return res.status(200).json({
+            data: {
+                note,
+                noteCount,
+                trash,
+                trashCount,
+                archive,
+                archiveCount,
+                pin,
+                pinCount
+            },
+        })
     }
     catch (error) {
         next(error)

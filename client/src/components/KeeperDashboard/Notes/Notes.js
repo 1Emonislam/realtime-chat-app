@@ -74,7 +74,7 @@ const Notes = () => {
     })
   }
   useEffect(() => {
-    dispatch(actionByNotesGet('note', page, limit, setCount, auth?.user?.token))
+    dispatch(actionByNotesGet( page, limit, setCount, auth?.user?.token))
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page, dispatch,auth?.user?.token])
   return (

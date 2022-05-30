@@ -22,7 +22,10 @@ export const createNotes = (messageId, chatId, title, details, token, handleNote
                         type: POST_NOTES,
                         payload: {
                             message: data?.message,
-                            data: data.data,
+                            note: data?.note,
+                            trash: [],
+                            archive: [],
+                            pin: [],
                         }
                     })
                 }
@@ -60,15 +63,15 @@ export const createNoteItem = (data, token, reset) => {
                     type: POST_NOTES,
                     payload: {
                         loading: false,
-                        notes: data?.data,
-                        message: data.message,
+                        note: data?.note,
+                        noteCount: data.noteCount,
                     }
                 })
                 dispatch({
                     type: ERROR_NOTE,
                     payload: {
                         loading: false,
-                        message: data.error,
+                        error: data.error,
                     }
                 })
             })
@@ -79,7 +82,7 @@ export const createNoteItem = (data, token, reset) => {
         }
     }
 }
-export const actionByNotesGet = (action, page, limit, setCount, token, search, messageId, chatId) => {
+export const actionByNotesGet = (page, limit, setCount, token, search, messageId, chatId) => {
     return (dispatch) => {
         dispatch({
             type: LOADING_NOTES,
@@ -88,7 +91,6 @@ export const actionByNotesGet = (action, page, limit, setCount, token, search, m
             }
         })
         const data = {
-            action: action || '',
             messageId: messageId || '',
             chatId: chatId || ''
         }
@@ -103,13 +105,19 @@ export const actionByNotesGet = (action, page, limit, setCount, token, search, m
             .then(res => res.json())
             .then((data) => {
                 // console.log(data)
-                setCount(data.count)
+                // setCount(data.count)
                 dispatch({
                     type: GET_NOTES,
                     payload: {
                         loading: false,
-                        notes: data?.data,
-                        count: data.count,
+                        note: data?.note,
+                        trash: data.trash,
+                        archive: data.archive,
+                        pin: data.pin,
+                        noteCount: data.noteCount,
+                        trashCount: data.trashCount,
+                        archiveCount: data.archiveCount,
+                        pinCount: data.pinCount,
                         message: data.message,
                     }
                 })
@@ -117,7 +125,7 @@ export const actionByNotesGet = (action, page, limit, setCount, token, search, m
                     type: ERROR_NOTE,
                     payload: {
                         loading: false,
-                        message: data.error,
+                        error: data.error,
                     }
                 })
             })
@@ -148,8 +156,14 @@ export const actionByNotesUpdate = (data, noteId, token, setCount, page, handleC
                     type: GET_NOTES,
                     payload: {
                         loading: false,
-                        notes: data?.data,
-                        count: data.count,
+                        note: data?.note,
+                        trash: data.trash,
+                        archive: data.archive,
+                        pin: data.pin,
+                        noteCount: data.noteCount,
+                        trashCount: data.trashCount,
+                        archiveCount: data.archiveCount,
+                        pinCount: data.pinCount,
                         message: data.message,
                     }
                 })
@@ -157,7 +171,7 @@ export const actionByNotesUpdate = (data, noteId, token, setCount, page, handleC
                     type: ERROR_NOTE,
                     payload: {
                         loading: false,
-                        message: data.error,
+                        error: data.error,
                     }
                 })
             })

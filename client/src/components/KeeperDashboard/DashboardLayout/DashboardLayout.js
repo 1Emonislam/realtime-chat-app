@@ -7,6 +7,7 @@ import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
 import Toolbar from "@mui/material/Toolbar";
 import * as React from "react";
+import { useSelector } from "react-redux";
 import { Link, Outlet } from "react-router-dom";
 import logo from '../../../assets/logo/white_large.png';
 import ChatProfile from "../../ChatProfile/ChatProfile";
@@ -18,7 +19,8 @@ const drawerWidth = 220;
 function DashboardLayout() {
   const isDesktop = useMediaQuery("(min-width: 780px)");
   const [sideBarOpen, setSideBarOpen] = React.useState(false);
-  const mode = JSON.parse(localStorage.getItem('themeCurrent'));
+  const { notes,theme } = useSelector(state => state)
+  const mode = theme?.theme;
 
   const handleDrawerOpen = () => {
     setSideBarOpen(true);

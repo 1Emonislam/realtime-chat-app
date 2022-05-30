@@ -26,6 +26,7 @@ export default function UpdateNote({ open, mode, page, setCount, handleOpen, han
         handleSubmit } = useForm();
     const onSubmit = data => {
         data.action = 'note';
+        data.status = 'note'
         data.message = 'Successfully Updated!'
         dispatch(actionByNotesUpdate(data, singleNoteInfo?._id, auth?.user?.token, setCount, page, handleClose))
     };

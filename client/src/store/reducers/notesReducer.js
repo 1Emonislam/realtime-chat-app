@@ -1,7 +1,13 @@
 
 const initialState = {
-    notes: [],
-    count: 0,
+    note: [],
+    trash: [],
+    archive: [],
+    pin: [],
+    noteCount: 0,
+    trashCount: 0,
+    archiveCount: 0,
+    pinCount: 0,
     loading: false,
     error: '',
     message: '',
@@ -24,17 +30,23 @@ export const notesReducer = (state = initialState, action) => {
         return {
             ...state,
             loading: false,
-            notes: payload?.data,
-            count: payload.count,
+            note: payload?.note,
+            noteCount: payload.noteCount,
             message: payload.message
         }
     }
     if (type === GET_NOTES) {
         return {
             ...state,
-            notes: payload.notes,
+            note: payload?.note,
+            trash: payload.trash,
+            archive: payload.archive,
+            pin: payload.pin,
             loading: false,
-            count: payload.count,
+            noteCount: payload.noteCount,
+            trashCount: payload.trashCount,
+            archiveCount: payload.archiveCount,
+            pinCount: payload.pinCount,
             error: payload.error,
             message: payload.message,
         }
