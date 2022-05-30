@@ -5,7 +5,6 @@ import { GROUP_LOADING_DATA } from "../type/groupType";
 import { FAILED_MESSAGE, GET_MESSAGE, LOADING_MESSAGE, NOTE_CREATE, REMOVE_MESSAGE, SEND_MESSAGE, UPDATE_MESSAGE, UPDATE_MESSAGE_FAILED, UPDATE_MESSAGE_STORE } from "../type/messageTypes";
 import store from './../store'
 export const getMessage = (chatId, token, search) => {
-
     return async (dispatch) => {
         dispatch({
             type: LOADING_MESSAGE,
@@ -24,7 +23,7 @@ export const getMessage = (chatId, token, search) => {
                 .then(res => res.json())
                 .then(data => {
                     if (data) {
-                        // console.log(data)
+                        console.log(data)
                         dispatch({
                             type: GET_MESSAGE,
                             payload: {

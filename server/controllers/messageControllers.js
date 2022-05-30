@@ -235,9 +235,9 @@ module.exports.allMessage = async (req, res, next) => {
 
         let message;
         if (req.query?.search) {
-            message = await Message.find(keyword, { members: { $slice: [numPage, size] } }, { groupAdmin: { $slice: [numPage, size] } }).sort('-createdAt').limit(100)
+            message = await Message.find(keyword).sort('-createdAt').limit(50)
         } else {
-            message = await Message.find({ chat: req.params.chatId }).limit(100)
+            message = await Message.find({ chat: req.params.chatId }).limit(50)
         }
         message = await UploadFiles.populate(message, {
             path: 'content.audio',
