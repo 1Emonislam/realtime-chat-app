@@ -134,7 +134,7 @@ module.exports.deleteSingleNote = async (req, res, next) => {
         let deletedPermission;
         if (deletedFile.deletedCount === 1) {
             deletedPermission = true;
-        } else if (deletedFile.deletedCount !== 1){
+        } else if (deletedFile.deletedCount !== 1) {
             const keyword = req.query.search ? {
                 author: req?.user?._id,
                 action: 'trash',
@@ -315,7 +315,7 @@ module.exports.allRemoveNote = async (req, res, next) => {
         let deletedPermission;
         if (deletedFile.deletedCount === 1) {
             deletedPermission = true
-        } else {
+        } else if (deletedFile.deletedCount !== 1) {
             const trash = await Note.find(keyword).sort("-createdAt").limit(limit * 1).skip((page - 1) * limit).populate("message", "content").populate("chat", "chatName img _id");
             const trashCount = await Note.find(keyword).sort("-createdAt").count()
             return res.status(400).json({ error: { trash: 'All Trash Remove Failed!' }, data: { trash: trash, trashCount: trashCount } })
