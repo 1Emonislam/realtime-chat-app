@@ -36,6 +36,6 @@ const rootReducer = combineReducers({
 const middleware = [thunk];
 const store = createStore(rootReducer, compose(
     applyMiddleware(...middleware),
-    //  composeWithDevTools()
+    //composeWithDevTools()
 ))
 export default store;

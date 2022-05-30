@@ -7,11 +7,15 @@ import InfoIcon from '@mui/icons-material/Info';
 import React, { useState } from "react";
 import "./Notes.css";
 import UpdateNote from "./UpdateNote.js/UpdateNote";
+import { useDispatch, useSelector } from "react-redux";
+import { actionByNotesUpdate } from "../../../store/actions/noteAction";
 
-const NotesInfo = ({ note, mode,page,setCount }) => {
+const NotesInfo = ({ note, mode, page, setCount }) => {
+  const { auth } = useSelector(state => state)
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  const dispatch = useDispatch()
   const [singleNoteInfo, setSingleNoteInfo] = useState('')
   return (
     <div className="notes-card-style">
@@ -47,17 +51,33 @@ const NotesInfo = ({ note, mode,page,setCount }) => {
 
       <Box sx={{ display: "flex", justifyContent: "end" }}>
         {/* -- Color box component -- */}
-        <Tooltip title="Pin" arrow placement="top">
+        <Tooltip title="Pin" arrow placement="top" onClick={() => {
+          const data = {
+            action: 'Pin Added'
+          }
+          dispatch(actionByNotesUpdate(data, note?._id, auth?.user?.token, setCount, page, handleClose))
+        }}>
           <IconButton>
             <PushPinIcon style={{ position: 'relative', top: '2px' }} />
           </IconButton>
         </Tooltip>
-        <Tooltip title="Archive" arrow placement="top">
+        <Tooltip title="Archive" arrow placement="top" onClick={() => {
+          const data = {
+            action: 'Archive Added'
+          }
+          dispatch(actionByNotesUpdate(data, note?._id, auth?.user?.token, setCount, page, handleClose))
+        }}>
           <IconButton>
             <ArchiveIcon />
           </IconButton>
         </Tooltip>
-        <Tooltip title="Delete" arrow placement="top">
+        <Tooltip title="Delete" arrow placement="top" onClick={() => {
+          const data = {
+            action: 'trash',
+            message: 'Trashed Added'
+          }
+          dispatch(actionByNotesUpdate(data, note?._id, auth?.user?.token, setCount, page, handleClose))
+        }}>
           <IconButton>
             <DeleteIcon />
           </IconButton>
@@ -71,7 +91,7 @@ const NotesInfo = ({ note, mode,page,setCount }) => {
           </IconButton>
         </Tooltip>
       </Box>
-      {singleNoteInfo && <UpdateNote page={page}setCount={setCount}mode={mode} singleNoteInfo={singleNoteInfo} open={open} handleOpen={handleOpen} handleClose={handleClose} />}
+      {singleNoteInfo && <UpdateNote page={page} setCount={setCount} mode={mode} singleNoteInfo={singleNoteInfo} open={open} handleOpen={handleOpen} handleClose={handleClose} />}
     </div>
   );
 };

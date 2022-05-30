@@ -19,14 +19,15 @@ const style = {
     p: 4,
 };
 
-export default function UpdateNote({ open, mode, page,setCount,handleOpen, handleClose, singleNoteInfo }) {
+export default function UpdateNote({ open, mode, page, setCount, handleOpen, handleClose, singleNoteInfo }) {
     const { auth } = useSelector(state => state);
     const dispatch = useDispatch()
     const { register,
         handleSubmit } = useForm();
     const onSubmit = data => {
         data.action = 'note';
-        dispatch(actionByNotesUpdate(data, singleNoteInfo?._id, auth?.user?.token,setCount,page,handleClose))
+        data.message = 'Successfully Updated!'
+        dispatch(actionByNotesUpdate(data, singleNoteInfo?._id, auth?.user?.token, setCount, page, handleClose))
     };
     return (
         <div>
