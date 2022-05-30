@@ -2,14 +2,14 @@ const Note = require("../models/noteModels");
 module.exports.noteCreate = async (req, res, next) => {
     try {
         const issue = {}
-        const { messageId, chatId, title, details } = req.body;
+        const { messageId, chatId, title, details,permission } = req.body;
         if (!req?.user?._id) {
             return res.status(400).json({ error: { token: 'User Credentials expired! Please login!' } })
         }
-        if (!messageId) {
+        if (!(messageId || permission)) {
             issue.message = 'error occurred message!'
         }
-        if (!chatId) {
+        if (!(chatId ||permission)) {
             issue.chat = 'error occurred chat!'
         }
         if (Object?.keys(issue)?.length) {

@@ -1,7 +1,8 @@
 import AddIcon from "@mui/icons-material/Add";
 import ArchiveOutlinedIcon from "@mui/icons-material/ArchiveOutlined";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
-import ModeEditOutlinedIcon from "@mui/icons-material/ModeEditOutlined";
+// import ModeEditOutlinedIcon from "@mui/icons-material/ModeEditOutlined";
+import PushPinOutlinedIcon from '@mui/icons-material/PushPinOutlined';// import {BsPinFill} from 'react-icons/bs'
 import NoteOutlinedIcon from "@mui/icons-material/NoteOutlined";
 import { Box, Typography } from "@mui/material";
 import Modal from "@mui/material/Modal";
@@ -25,7 +26,7 @@ const style = {
 
 const DrawerContent = ({ mode }) => {
   const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
+  // const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const textColor = `${mode === 'dark' ? 'white' : 'black'}`;
 
@@ -55,7 +56,7 @@ const DrawerContent = ({ mode }) => {
             </div>
           </NavLink>
 
-          <div
+          {/* <div
             className="drawerLink"
             style={{ display: "flex", cursor: "pointer", color: textColor }}
           >
@@ -70,8 +71,23 @@ const DrawerContent = ({ mode }) => {
                 Edit Labels
               </h3>
             </div>
-          </div>
+          </div> */}
 
+          <NavLink
+            to="/keeper/archive"
+            className="drawerLink"
+            style={{ display: "flex" }}
+          >
+            <div style={{ color: textColor }} className="linkItem">
+              <h5 style={{ marginLeft: "15px" }}>
+                <PushPinOutlinedIcon
+                  sx={{ mt: "5px", mr: 2 }}
+                  fontSize="medium"
+                />
+              </h5>
+              <h3 style={{ fontWeight: "400" }}>Pin</h3>
+            </div>
+          </NavLink>
           <NavLink
             to="/keeper/archive"
             className="drawerLink"

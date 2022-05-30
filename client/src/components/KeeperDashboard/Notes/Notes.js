@@ -1,23 +1,72 @@
 import AddCircleIcon from "@mui/icons-material/AddCircle";
-import ArchiveIcon from "@mui/icons-material/Archive";
-import CancelIcon from "@mui/icons-material/Cancel";
-import CheckBoxIcon from "@mui/icons-material/CheckBox";
-import LabelIcon from "@mui/icons-material/Label";
+// import ArchiveIcon from "@mui/icons-material/Archive";
+// import CancelIcon from "@mui/icons-material/Cancel";
+// import CheckBoxIcon from "@mui/icons-material/CheckBox";
+// import LabelIcon from "@mui/icons-material/Label";
+// import {BsPinFill} from 'react-icons/bs'
 import NoteOutlinedIcon from "@mui/icons-material/NoteOutlined";
 import PushPinIcon from "@mui/icons-material/PushPin";
 import { Box, IconButton, Paper, Typography } from "@mui/material";
 import * as React from "react";
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import fakeData from "../fakeData/fakeData";
 import NoContentIcon from "../NoContentIcon/NoContentIcon";
 import "./Notes.css";
+import { useForm } from 'react-hook-form';
 import NotesInfo from "./NotesInfo";
+import { createNoteItem } from "../../../store/actions/noteAction";
+import { toast } from "react-toastify";
+import { ERROR_NOTE, MESSAGE_NOTE } from "../../../store/reducers/notesReducer";
 const Notes = () => {
   const noCIcon = (
     <NoteOutlinedIcon sx={{ fontSize: "130px", color: "#ececec" }} />
   );
+  const { auth, notes } = useSelector(state => state)
   const mode = useSelector(state => state?.theme?.theme)
-
+  const dispatch = useDispatch()
+  const { register, reset, handleSubmit } = useForm();
+  const onSubmit = data => {
+    data.permission = true;
+    dispatch(createNoteItem(data, auth?.user?.token, reset))
+  };
+  if (notes?.message) {
+    toast.error(`${notes?.message}`, {
+      position: "bottom-right",
+      theme: mode,
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
+    dispatch({
+      type: MESSAGE_NOTE,
+      payload: {
+        message: ''
+      }
+    })
+  }
+  if (notes?.error?.length) {
+    Object.values(notes?.error)?.forEach((err) => {
+      toast.error(`${err}`, {
+        position: "bottom-right",
+        theme: mode,
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+      dispatch({
+        type: ERROR_NOTE,
+        payload: {
+          error: ''
+        }
+      })
+    })
+  }
   return (
     <>
       <Paper
@@ -25,47 +74,53 @@ const Notes = () => {
         className="notes-container"
         sx={{ height: "100%", borderRadius: 2 }}
       >
-        <div style={{ display: "flex" }}>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <div style={{ display: "flex" }}>
+            <Typography
+              component='input'
+              color={mode === 'dark' ? '#9d8585' : 'black'}
+              type="text"
+              {...register("title", { min: 0 })} required
+              placeholder="Title"
+              className="input1" />
+            <IconButton sx={{ width: "30px", height: "30px" }}>
+              <PushPinIcon
+                sx={{ color: "#bebebe", fontSize: "19px", marginTop: "10px" }}
+              />
+            </IconButton>
+          </div>
           <Typography
-            component='input'
             color={mode === 'dark' ? '#9d8585' : 'black'}
+            sx={{ background: 'none', border: 'none!important', outline: 0 }}
+            {...register("details", { min: 0 })}
+            component='textarea'
+            width="100%"
+            rows="auto"
             type="text"
-            placeholder="Title"
-            className="input1" />
-          <IconButton sx={{ width: "30px", height: "30px" }}>
-            <PushPinIcon
-              sx={{ color: "#bebebe", fontSize: "19px", marginTop: "10px" }}
-            />
-          </IconButton>
-        </div>
-        <Typography
-          color={mode === 'dark' ? '#9d8585' : 'black'}
-          sx={{ background: 'none', }}
-          component='textarea'
-          rows="auto"
-          type="text"
-          placeholder="Take a note..."
-          className=""
-        />
 
-        <Box className="notes-icon-container">
-          {/* -- Color box component -- */}
-          <IconButton>
+            placeholder="Take a note..."
+            className=""
+          />
+          <Box className="notes-icon-container">
+            {/* -- Color box component -- */}
+            {/* <IconButton>
             <CheckBoxIcon className="notes-icons" />
-          </IconButton>
-          <IconButton>
-            <LabelIcon className="notes-icons" />
-          </IconButton>
-          <IconButton>
+          </IconButton> */}
+            {/* <IconButton>
+            <BsPinFill style={{maarginTop:'5px'}} className="notes-icons" />
+          </IconButton> */}
+            {/* <IconButton>
             <ArchiveIcon className="notes-icons" />
-          </IconButton>
-          <IconButton>
-            <CancelIcon className="notes-icons" />
-          </IconButton>
-          <IconButton>
-            <AddCircleIcon className="notes-icons" />
-          </IconButton>
-        </Box>
+          </IconButton> */}
+            {/* <IconButton>
+              <CancelIcon className="notes-icons" />
+            </IconButton> */}
+            <IconButton type="submit">
+              <AddCircleIcon className="notes-icons" />
+            </IconButton>
+          </Box>
+        </form>
+
       </Paper>
 
       {/* --- No content icon --- */}
