@@ -79,9 +79,9 @@ io.on("connection", async (socket) => {
     socket.on('stop typing', (room) => socket.in(room).emit("stop typing"))
     socket.on('new message', async (newMessageRecieved) => {
         // console.log(newMessageRecieved)
-        let chat = await Chat.findOne({ _id: newMessageRecieved?.chat?._id }).populate("members", "_id").select("-groupAdmin").select("-seen");
-        if (!chat.members) return console.log('chat.members not defined');
-        const members = chat?.members?.filter(user => user?._id !== newMessageRecieved?.sender?._id);
+        // let chat = await Chat.findOne({ _id: newMessageRecieved?.chat?._id }).populate("members", "_id").select("-groupAdmin").select("-seen");
+        // if (!chat.members) return console.log('chat.members not defined');
+        // const members = chat?.members?.filter(user => user?._id !== newMessageRecieved?.sender?._id);
         const notificationObj = {
             type: 'groupchat',
             subject: `New Message from ${newMessageRecieved?.sender?.firstName + ' ' + newMessageRecieved?.sender?.lastName}`,
