@@ -1,6 +1,7 @@
 
 const initialState = {
     notes: [],
+    count: 0,
     loading: false,
     error: '',
     message: '',
@@ -24,6 +25,7 @@ export const notesReducer = (state = initialState, action) => {
             ...state,
             loading: false,
             notes: payload?.data,
+            count: payload.count,
             message: payload.message
         }
     }
@@ -32,6 +34,7 @@ export const notesReducer = (state = initialState, action) => {
             ...state,
             notes: payload.notes,
             loading: false,
+            count: payload.count,
             error: payload.error,
             message: payload.message,
         }

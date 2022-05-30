@@ -6,21 +6,24 @@ import AddCircleIcon from "@mui/icons-material/AddCircle";
 // import {BsPinFill} from 'react-icons/bs'
 import NoteOutlinedIcon from "@mui/icons-material/NoteOutlined";
 import PushPinIcon from "@mui/icons-material/PushPin";
-import { Box, IconButton, Paper, Typography } from "@mui/material";
+import { Box, IconButton, Pagination, Paper, Typography } from "@mui/material";
 import * as React from "react";
 import { useDispatch, useSelector } from 'react-redux';
-import fakeData from "../fakeData/fakeData";
 import NoContentIcon from "../NoContentIcon/NoContentIcon";
 import "./Notes.css";
 import { useForm } from 'react-hook-form';
 import NotesInfo from "./NotesInfo";
-import { createNoteItem } from "../../../store/actions/noteAction";
+import { actionByNotesGet, createNoteItem } from "../../../store/actions/noteAction";
 import { toast, ToastContainer } from "react-toastify";
 import { ERROR_NOTE, MESSAGE_NOTE } from "../../../store/reducers/notesReducer";
+import { useEffect, useState } from "react";
 const Notes = () => {
   const noCIcon = (
     <NoteOutlinedIcon sx={{ fontSize: "130px", color: "#ececec" }} />
   );
+  const [page, setPage] = useState(1)
+  const [count, setCount] = useState(0)
+  const limit = 10;
   const { auth, notes } = useSelector(state => state)
   const mode = useSelector(state => state?.theme?.theme)
   const dispatch = useDispatch()
@@ -67,6 +70,10 @@ const Notes = () => {
       })
     })
   }
+  useEffect(() => {
+    dispatch(actionByNotesGet('note', page, limit, setCount, auth?.user?.token))
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [page, dispatch])
   return (
     <>
       <Paper
@@ -124,7 +131,7 @@ const Notes = () => {
       </Paper>
 
       {/* --- No content icon --- */}
-      {!fakeData?.length && (
+      {(notes?.notes?.length === 0) && (
         <NoContentIcon
           noCIcon={noCIcon}
           content={"Notes you add appear here"}
@@ -132,10 +139,16 @@ const Notes = () => {
       )}
 
       <div style={{ display: "flex", flexWrap: "wrap" }}>
-        {fakeData?.slice(0, 14)?.map((note, index) => (
-          <NotesInfo key={index} note={note} mode={mode}></NotesInfo>
+        {notes?.notes?.map((note, index) => (
+          <NotesInfo key={index} note={note} page={page} count={count}setPage={setPage} mode={mode}></NotesInfo>
         ))}
       </div>
+      <Pagination
+        count={Math.ceil(count / limit)}
+        color="secondary"
+        variant="outlined"
+        onChange={(e, value) => setPage(value)}
+      />
       <ToastContainer
         position="bottom-right"
         autoClose={5000}

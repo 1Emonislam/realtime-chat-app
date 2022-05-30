@@ -3,6 +3,6 @@ const { noteCreate, updateNote, getNote } = require('../controllers/noteControll
 const { protect } = require('../middlewares/protect');
 const router = express.Router();
 router.post('/', protect, noteCreate)
-router.post('/:id', protect, updateNote)
-router.get('/', protect,getNote)
+router.put('/:id', protect, updateNote)
+router.post('/actions', protect,getNote)
 module.exports = router;
