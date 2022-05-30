@@ -15,7 +15,7 @@ import "./Notes.css";
 import { useForm } from 'react-hook-form';
 import NotesInfo from "./NotesInfo";
 import { createNoteItem } from "../../../store/actions/noteAction";
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import { ERROR_NOTE, MESSAGE_NOTE } from "../../../store/reducers/notesReducer";
 const Notes = () => {
   const noCIcon = (
@@ -30,7 +30,7 @@ const Notes = () => {
     dispatch(createNoteItem(data, auth?.user?.token, reset))
   };
   if (notes?.message) {
-    toast.error(`${notes?.message}`, {
+    toast.success(`${notes?.message}`, {
       position: "bottom-right",
       theme: mode,
       autoClose: 5000,
@@ -136,6 +136,17 @@ const Notes = () => {
           <NotesInfo key={index} note={note} mode={mode}></NotesInfo>
         ))}
       </div>
+      <ToastContainer
+        position="bottom-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
     </>
   );
 };

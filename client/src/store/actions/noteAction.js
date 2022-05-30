@@ -54,7 +54,7 @@ export const createNoteItem = (data, token, reset) => {
         }
         try {
             axios.post('https://collaballapp.herokuapp.com/api/note/', data, config).then(({ data }) => {
-                console.log(data)
+                // console.log(data)
                 reset()
                 dispatch({
                     type: POST_NOTES,
