@@ -22,7 +22,6 @@ const TrashInfo = ({ note, trashCount, setTrashCount, trashPage }) => {
               justifyContent: 'space-between'
             }}
           >
-            <span style={{ border: '1px solid #ddd', padding: '0px 7px', borderRadius: '20px', marginRight: '5px', color: 'gray' }}>{note?.action} </span>
             {note?.title?.slice(0, 50)} <Tooltip title={note?.title} arrow>
               <span style={{ cursor: 'pointer' }}><InfoIcon style={{ position: 'relative', top: '5px', fontSize: '20px' }} /></span>
             </Tooltip>
@@ -42,7 +41,7 @@ const TrashInfo = ({ note, trashCount, setTrashCount, trashPage }) => {
         </div>
       </div>
 
-      <Box sx={{ display: "flex", justifyContent: "end" }}>
+      <Box sx={{ display: "flex", justifyContent: "end",position:'relative' }}>
         <Tooltip title="Restore" placement="top" onClick={() => {
           const data = {
             action: 'note',
@@ -62,6 +61,7 @@ const TrashInfo = ({ note, trashCount, setTrashCount, trashPage }) => {
             <DeleteIcon />
           </IconButton>
         </Tooltip>
+        <span style={{ border: '1px solid #ddd', padding: '0px 8px', left: "0px", fontSize: "13px", bottom: '11px', color: 'gray', position: 'absolute', borderRadius: '20px' }}>{note?.action} </span>
       </Box>
     </Card>
   );

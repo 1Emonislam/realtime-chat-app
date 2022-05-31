@@ -27,14 +27,14 @@ const NotesInfo = ({ note, mode, notePage, setNoteCount }) => {
               fontWeight: "500",
               marginBottom: "6px",
               display: 'flex',
-              justifyContent: 'space-between'
+              justifyContent: 'space-between',
+
             }}
           >
-            <span style={{ border: '1px solid #ddd', padding: '0px 7px', borderRadius: '20px', marginRight: '5px',color:'gray' }}>{note?.action} </span>
+
             {note?.title?.slice(0, 50)} <Tooltip title={note?.title} arrow>
               <span style={{ cursor: 'pointer' }}><InfoIcon style={{ position: 'relative', top: '5px', fontSize: '20px' }} /></span>
             </Tooltip>
-            <div style={{ padding: '0px 7px', borderRadius: '15px', color: `${mode === 'dark' ? 'gray' : 'black'}`, border: '1px solid #ddd', }}> {note?.action}</div>
           </p>
           <p
             style={{
@@ -51,7 +51,7 @@ const NotesInfo = ({ note, mode, notePage, setNoteCount }) => {
         </div>
       </div>
 
-      <Box sx={{ display: "flex", justifyContent: "end" }}>
+      <Box sx={{ display: "flex", justifyContent: "end", position: 'relative' }}>
 
         {/* -- Color box component -- */}
         <Tooltip title="Pin" arrow placement="top" onClick={() => {
@@ -98,6 +98,7 @@ const NotesInfo = ({ note, mode, notePage, setNoteCount }) => {
             <EditIcon />
           </IconButton>
         </Tooltip>
+        <span style={{ border: '1px solid #ddd', padding: '0px 8px', left: "0px", fontSize: "13px", bottom: '11px', color: 'gray', position: 'absolute', borderRadius: '20px' }}>{note?.action} </span>
       </Box>
       {singleNoteInfo && <UpdateNote notePage={notePage} setNoteCount={setNoteCount} mode={mode} singleNoteInfo={singleNoteInfo} open={open} handleOpen={handleOpen} handleClose={handleClose} />}
     </div>
