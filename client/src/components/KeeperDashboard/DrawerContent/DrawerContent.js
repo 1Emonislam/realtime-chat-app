@@ -36,10 +36,11 @@ const DrawerContent = ({ mode }) => {
       <Box
         sx={{
           display: "flex",
-          flexDirection: "column",
+          flexWrap:'wrap',
+          alignContent:'flex-start',
           height: "100%",
           color: "white",
-          mt: 1,
+          pt: 1,
         }}
       >
         <Box sx={{ flexGrow: 1, fontSize: "14px" }}>
@@ -121,7 +122,6 @@ const DrawerContent = ({ mode }) => {
           </NavLink>
         </Box>
       </Box>
-
       {/* ---------- Modal --------- */}
 
       <Modal keepMounted open={open} onClose={handleClose}>

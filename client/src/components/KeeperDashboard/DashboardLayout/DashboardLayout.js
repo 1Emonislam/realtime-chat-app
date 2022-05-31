@@ -12,6 +12,7 @@ import { Link, Outlet } from "react-router-dom";
 import logo from '../../../assets/logo/white_large.png';
 import { getActinByNotes } from "../../../store/actions/noteAction";
 import ChatProfile from "../../ChatProfile/ChatProfile";
+import DrawerBottomContent from "../DrawerBottomContent/DrawerBottomContent";
 import DrawerContent from "../DrawerContent/DrawerContent";
 import useMediaQuery from "../useMediaQuery/useMediaQuery";
 import "./DashboardLayout.css";
@@ -71,38 +72,38 @@ function DashboardLayout() {
               </Link>
             </Box>
           )}
-            <div className="searchBg">
-              <SearchIcon
-                className="searchIconStyle"
-                sx={{ color: "#6d6d6d", fontSize: "25px" }}
-              />
-              <input
-                type="text"
-                className="NavSearchInput"
-                placeholder="Search"
-                style={{ width: '100%' }}
-                onChange={(e) => setSearch(e.target.value)}
-              />
+          <div className="searchBg">
+            <SearchIcon
+              className="searchIconStyle"
+              sx={{ color: "#6d6d6d", fontSize: "25px" }}
+            />
+            <input
+              type="text"
+              className="NavSearchInput"
+              placeholder="Search"
+              style={{ width: '100%' }}
+              onChange={(e) => setSearch(e.target.value)}
+            />
+            <div
+              style={{
+                position: "absolute",
+                right: 12,
+                display: "flex",
+                alignItems: "center",
+              }}
+            >
+              {/* -- Color box component -- */}
               <div
                 style={{
-                  position: "absolute",
-                  right: 12,
-                  display: "flex",
-                  alignItems: "center",
+                  color: "#6d6d6d",
+                  fontSize: "25px",
+                  marginBottom: "-10px",
                 }}
               >
-                {/* -- Color box component -- */}
-                <div
-                  style={{
-                    color: "#6d6d6d",
-                    fontSize: "25px",
-                    marginBottom: "-10px",
-                  }}
-                >
 
-                </div>
               </div>
             </div>
+          </div>
 
           <div
             style={{
@@ -128,14 +129,18 @@ function DashboardLayout() {
             border: 0,
             boxShadow: "0px 5px 8px gray",
             boxSizing: "border-box",
+            overflow: 'hidden'
           },
         }}
         variant="persistent"
         anchor="left"
         open={sideBarOpen}
       >
-        <Box onClick={isDesktop ? "" : handleDrawerClose}>
+        <Box sx={{ height: '50%' }} onClick={isDesktop ? "" : handleDrawerClose}>
           <DrawerContent mode={mode} />
+        </Box>
+        <Box sx={{ height: '50%' }} onClick={isDesktop ? "" : handleDrawerClose}>
+          <DrawerBottomContent mode={mode} />
         </Box>
       </Drawer>
 
