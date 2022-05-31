@@ -1,9 +1,9 @@
 import ArchiveIcon from "@mui/icons-material/Archive";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
+import InfoIcon from '@mui/icons-material/Info';
 import PushPinIcon from "@mui/icons-material/PushPin";
 import { Box, IconButton, Tooltip } from "@mui/material";
-import InfoIcon from '@mui/icons-material/Info';
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { actionByNotesUpdate } from "../../../store/actions/noteAction";
@@ -19,7 +19,7 @@ const ArchiveInfo = ({ note, mode, archivePage, setArchiveCount }) => {
   return (
     <div className="notes-card-style">
       <div style={{ display: "flex" }}>
-        <div style={{ color: `${mode === 'dark' ? '#9d8585' : 'black'}` }}>
+        <div style={{ color: `${mode === 'dark' ? 'gray' : 'black'}` }}>
           <p
             style={{
               fontSize: "1em",

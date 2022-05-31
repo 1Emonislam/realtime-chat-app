@@ -88,7 +88,7 @@ const Notes = () => {
           <div style={{ display: "flex" }}>
             <Typography
               component='input'
-              color={mode === 'dark' ? '#9d8585' : 'black'}
+              color={mode === 'dark' ? 'gray' : 'black'}
               type="text"
               {...register("title", { min: 0 })} required
               placeholder="Title"
@@ -100,7 +100,7 @@ const Notes = () => {
             </IconButton>
           </div>
           <Typography
-            color={mode === 'dark' ? '#9d8585' : 'black'}
+            color={mode === 'dark' ? 'gray' : 'black'}
             sx={{ background: 'none', border: 'none!important', outline: 0 }}
             {...register("details", { min: 0 })}
             component='textarea'

@@ -18,7 +18,7 @@ const DrawerBottomContent = () => {
           flexWrap: 'wrap',
           alignContent: 'flex-end',
           height: "70%",
-          color: `${mode === 'dark' ? '#9d8585' : 'black'}`
+          color: `${mode === 'dark' ? 'gray' : 'black'}`
         }}
       >
         <NavLink
