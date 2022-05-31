@@ -1,14 +1,14 @@
 import ArchiveIcon from "@mui/icons-material/Archive";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
+import InfoIcon from '@mui/icons-material/Info';
 import PushPinIcon from "@mui/icons-material/PushPin";
 import { Box, IconButton, Tooltip } from "@mui/material";
-import InfoIcon from '@mui/icons-material/Info';
 import React, { useState } from "react";
-import "./Notes.css";
-import UpdateNote from "./UpdateNote.js/UpdateNote";
 import { useDispatch, useSelector } from "react-redux";
 import { actionByNotesUpdate } from "../../../store/actions/noteAction";
+import "./Notes.css";
+import UpdateNote from "./UpdateNote.js/UpdateNote";
 
 const NotesInfo = ({ note, mode, notePage, setNoteCount }) => {
   const { auth } = useSelector(state => state)
@@ -20,7 +20,7 @@ const NotesInfo = ({ note, mode, notePage, setNoteCount }) => {
   return (
     <div className="notes-card-style">
       <div style={{ display: "flex" }}>
-        <div style={{ color: `${mode === 'dark' ? '#9d8585' : 'black'}` }}>
+        <div style={{ color: `${mode === 'dark' ? 'gray' : 'black'}` }}>
           <p
             style={{
               fontSize: "1em",
@@ -34,6 +34,7 @@ const NotesInfo = ({ note, mode, notePage, setNoteCount }) => {
             {note?.title?.slice(0, 50)} <Tooltip title={note?.title} arrow>
               <span style={{ cursor: 'pointer' }}><InfoIcon style={{ position: 'relative', top: '5px', fontSize: '20px' }} /></span>
             </Tooltip>
+            <div style={{ padding: '0px 7px', borderRadius: '15px', color: `${mode === 'dark' ? 'gray' : 'black'}`, border: '1px solid #ddd', }}> {note?.action}</div>
           </p>
           <p
             style={{

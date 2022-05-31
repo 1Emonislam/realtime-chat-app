@@ -12,7 +12,7 @@ const TrashInfo = ({ note, trashCount, setTrashCount, trashPage }) => {
   return (
     <Card className="notes-card-style">
       <div style={{ display: "inlineblock" }}>
-        <div style={{ color: `${mode === 'dark' ? '#9d8585' : 'black'}` }}>
+        <div style={{ color: `${mode === 'dark' ? 'gray' : 'black'}` }}>
           <p
             style={{
               fontSize: "1em",

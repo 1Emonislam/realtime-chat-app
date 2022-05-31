@@ -1,9 +1,9 @@
 import AddIcon from "@mui/icons-material/Add";
 import ArchiveOutlinedIcon from "@mui/icons-material/ArchiveOutlined";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
-// import ModeEditOutlinedIcon from "@mui/icons-material/ModeEditOutlined";
-import PushPinOutlinedIcon from '@mui/icons-material/PushPinOutlined';// import {BsPinFill} from 'react-icons/bs'
 import NoteOutlinedIcon from "@mui/icons-material/NoteOutlined";
+// import ModeEditOutlinedIcon from "@mui/icons-material/ModeEditOutlined";
+import PushPinOutlinedIcon from '@mui/icons-material/PushPinOutlined'; // import {BsPinFill} from 'react-icons/bs'
 import { Box, Typography } from "@mui/material";
 import Modal from "@mui/material/Modal";
 import * as React from "react";
@@ -131,7 +131,7 @@ const DrawerContent = ({ mode }) => {
               margin: "0",
               padding: "0",
               fontSize: "15px",
-              color: `${mode === 'dark' ? '#9d8585' : 'black'}`
+              color: `${mode === 'dark' ? 'gray' : 'black'}`
             }}>
               Edit Labels
             </h2>

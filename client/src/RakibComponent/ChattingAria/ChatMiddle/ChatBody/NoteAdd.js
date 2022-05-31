@@ -105,7 +105,7 @@ export default function NoteAdd({ noteOpen, handleNoteOpen, msg, handleNoteClose
                     <div style={{ display: "flex" }}>
                         <Typography
                             component='input'
-                            color={mode === 'dark' ? '#9d8585' : 'black'}
+                            color={mode === 'dark' ? 'gray' : 'black'}
                             type="text"
                             onChange={(e) => setTitle(e.target.value)}
                             placeholder="Title"
@@ -117,7 +117,7 @@ export default function NoteAdd({ noteOpen, handleNoteOpen, msg, handleNoteClose
                         </IconButton>
                     </div>
                     {/* <Typography
-                        color={mode === 'dark' ? '#9d8585' : 'black'}
+                        color={mode === 'dark' ? 'gray' : 'black'}
                         sx={{ background: 'none', resize: 'none' }}
                         component='textarea'
                         onChange={(e) => setTitle(e.target.value)}
@@ -146,7 +146,7 @@ export default function NoteAdd({ noteOpen, handleNoteOpen, msg, handleNoteClose
                         </IconButton>
 
                     </Box>
-                    <p color={mode === 'dark' ? '#9d8585' : 'black'}>
+                    <p color={mode === 'dark' ? 'gray' : 'black'}>
                         {msg?.content?.text}
                     </p>
                 </Paper>

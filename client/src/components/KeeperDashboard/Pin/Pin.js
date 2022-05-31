@@ -22,7 +22,7 @@ const Pin = () => {
     const { auth, notes, loading } = useSelector(state => state)
     const [pinPage, setPinPage] = useState(1)
     const [pinCount, setPinCount] = useState(notes?.pinCount || 0)
-    const limit = 10;
+    const limit = 12;
     // console.log(notes.notes)
     const mode = useSelector(state => state?.theme?.theme)
     const dispatch = useDispatch()

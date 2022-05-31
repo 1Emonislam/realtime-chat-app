@@ -26,7 +26,7 @@ const Notes = () => {
   const { auth, notes, loading } = useSelector(state => state)
   const [notePage, setNotePage] = useState(1)
   const [noteCount, setNoteCount] = useState(notes?.noteCount || 0)
-  const limit = 10;
+  const limit = 12;
   // console.log(notes.notes)
   const mode = useSelector(state => state?.theme?.theme)
   const dispatch = useDispatch()
@@ -88,7 +88,7 @@ const Notes = () => {
           <div style={{ display: "flex" }}>
             <Typography
               component='input'
-              color={mode === 'dark' ? '#9d8585' : 'black'}
+              color={mode === 'dark' ? 'gray' : 'black'}
               type="text"
               {...register("title", { min: 0 })} required
               placeholder="Title"
@@ -100,7 +100,7 @@ const Notes = () => {
             </IconButton>
           </div>
           <Typography
-            color={mode === 'dark' ? '#9d8585' : 'black'}
+            color={mode === 'dark' ? 'gray' : 'black'}
             sx={{ background: 'none', border: 'none!important', outline: 0 }}
             {...register("details", { min: 0 })}
             component='textarea'

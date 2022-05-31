@@ -1,9 +1,9 @@
-import * as React from 'react';
+import CancelIcon from '@mui/icons-material/Cancel';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
-import CancelIcon from '@mui/icons-material/Cancel';
+import Typography from '@mui/material/Typography';
+import * as React from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { actionByNotesUpdate } from '../../../../store/actions/noteAction';
@@ -43,7 +43,7 @@ export default function UpdateNote({ open, mode, notePage, setNoteCount, handleO
                         <div style={{ display: "flex", justifyContent: 'space-between' }}>
                             <Typography
                                 component='input'
-                                color={mode === 'dark' ? '#9d8585' : 'black'}
+                                color={mode === 'dark' ? 'gray' : 'black'}
                                 type="text"
                                 {...register("title", { min: 0 })} required
                                 defaultValue={singleNoteInfo?.title}
@@ -51,7 +51,7 @@ export default function UpdateNote({ open, mode, notePage, setNoteCount, handleO
                             <CancelIcon onClick={() => handleClose()} style={{ color: 'purple' }}></CancelIcon>
                         </div>
                         {singleNoteInfo?.details && <Typography
-                            color={mode === 'dark' ? '#9d8585' : 'black'}
+                            color={mode === 'dark' ? 'gray' : 'black'}
                             sx={{ background: 'none', border: 'none!important', paddingTop: "20px", outline: 0 }}
                             {...register("details", { min: 0 })}
                             component='textarea'
