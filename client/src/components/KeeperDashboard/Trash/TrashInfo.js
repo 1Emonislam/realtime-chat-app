@@ -22,6 +22,7 @@ const TrashInfo = ({ note, trashCount, setTrashCount, trashPage }) => {
               justifyContent: 'space-between'
             }}
           >
+            <span style={{ border: '1px solid #ddd', padding: '0px 7px', borderRadius: '20px', marginRight: '5px', color: 'gray' }}>{note?.action} </span>
             {note?.title?.slice(0, 50)} <Tooltip title={note?.title} arrow>
               <span style={{ cursor: 'pointer' }}><InfoIcon style={{ position: 'relative', top: '5px', fontSize: '20px' }} /></span>
             </Tooltip>

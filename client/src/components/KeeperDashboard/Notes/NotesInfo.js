@@ -30,6 +30,7 @@ const NotesInfo = ({ note, mode, notePage, setNoteCount }) => {
               justifyContent: 'space-between'
             }}
           >
+            <span style={{ border: '1px solid #ddd', padding: '0px 7px', borderRadius: '20px', marginRight: '5px',color:'gray' }}>{note?.action} </span>
             {note?.title?.slice(0, 50)} <Tooltip title={note?.title} arrow>
               <span style={{ cursor: 'pointer' }}><InfoIcon style={{ position: 'relative', top: '5px', fontSize: '20px' }} /></span>
             </Tooltip>
@@ -50,14 +51,15 @@ const NotesInfo = ({ note, mode, notePage, setNoteCount }) => {
       </div>
 
       <Box sx={{ display: "flex", justifyContent: "end" }}>
+
         {/* -- Color box component -- */}
         <Tooltip title="Pin" arrow placement="top" onClick={() => {
           const data = {
             action: 'pin',
             status: 'note',
-            message:'Pin Addded'
+            message: 'Pin Addded'
           }
-          dispatch(actionByNotesUpdate(data, note?._id, auth?.user?.token,notePage, handleClose))
+          dispatch(actionByNotesUpdate(data, note?._id, auth?.user?.token, notePage, handleClose))
         }}>
           <IconButton>
             <PushPinIcon style={{ position: 'relative', top: '2px' }} />
@@ -67,7 +69,7 @@ const NotesInfo = ({ note, mode, notePage, setNoteCount }) => {
           const data = {
             action: 'archive',
             status: 'note',
-            message:'Archive Added'
+            message: 'Archive Added'
           }
           dispatch(actionByNotesUpdate(data, note?._id, auth?.user?.token, notePage, handleClose))
         }}>
@@ -81,7 +83,7 @@ const NotesInfo = ({ note, mode, notePage, setNoteCount }) => {
             status: 'note',
             message: 'Trashed Added'
           }
-          dispatch(actionByNotesUpdate(data, note?._id, auth?.user?.token,notePage, handleClose))
+          dispatch(actionByNotesUpdate(data, note?._id, auth?.user?.token, notePage, handleClose))
         }}>
           <IconButton>
             <DeleteIcon />

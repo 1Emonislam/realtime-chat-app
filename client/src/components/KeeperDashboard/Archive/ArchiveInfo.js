@@ -29,6 +29,7 @@ const ArchiveInfo = ({ note, mode, archivePage, setArchiveCount }) => {
               justifyContent: 'space-between'
             }}
           >
+            <span style={{ border: '1px solid #ddd', padding: '0px 7px', borderRadius: '20px', marginRight: '5px', color: 'gray' }}>{note?.action} </span>
             {note?.title?.slice(0, 50)} <Tooltip title={note?.title} arrow>
               <span style={{ cursor: 'pointer' }}><InfoIcon style={{ position: 'relative', top: '5px', fontSize: '20px' }} /></span>
             </Tooltip>
@@ -56,7 +57,7 @@ const ArchiveInfo = ({ note, mode, archivePage, setArchiveCount }) => {
             status: 'note',
             message: 'Pin Addded'
           }
-          dispatch(actionByNotesUpdate(data, note?._id, auth?.user?.token,archivePage, handleClose))
+          dispatch(actionByNotesUpdate(data, note?._id, auth?.user?.token, archivePage, handleClose))
         }}>
           <IconButton>
             <PushPinIcon style={{ position: 'relative', top: '2px' }} />
@@ -80,7 +81,7 @@ const ArchiveInfo = ({ note, mode, archivePage, setArchiveCount }) => {
             status: 'note',
             message: 'Trashed Added'
           }
-          dispatch(actionByNotesUpdate(data, note?._id, auth?.user?.token,archivePage, handleClose))
+          dispatch(actionByNotesUpdate(data, note?._id, auth?.user?.token, archivePage, handleClose))
         }}>
           <IconButton>
             <DeleteIcon />

@@ -72,36 +72,36 @@ export default function MessageFunc({ isSameSenderPermission, handleTyping, isTy
 
     // console.log(messageInfo)
     if (groupMessage?.success) {
-       // eslint-disable-next-line react-hooks/rules-of-hooks
-       useEffect(() =>{
-        dispatch({
-            type: FAILED_MESSAGE,
-            payload: {
-                error: ''
-            }
-        })
-        toast.success(`${groupMessage?.success}`, {
-            position: "top-center",
-            theme: theme?.theme,
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-        });
-        dispatch({
-            type: SUCCESS_MESSAGE_CLEAR
-        })
-       // eslint-disable-next-line react-hooks/exhaustive-deps
-       },[])
+        // eslint-disable-next-line react-hooks/rules-of-hooks
+        useEffect(() => {
+            dispatch({
+                type: FAILED_MESSAGE,
+                payload: {
+                    error: ''
+                }
+            })
+            toast.success(`${groupMessage?.success}`, {
+                position: "top-center",
+                theme: theme?.theme,
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            });
+            dispatch({
+                type: SUCCESS_MESSAGE_CLEAR
+            })
+            // eslint-disable-next-line react-hooks/exhaustive-deps
+        }, [])
     }
     if (groupMessage?.error) {
         dispatch({
             type: SUCCESS_MESSAGE_CLEAR
         })
         // eslint-disable-next-line react-hooks/rules-of-hooks
-        useEffect(() =>{
+        useEffect(() => {
             Object.values(groupMessage?.error)?.forEach((err) => {
                 toast.error(`${err}`, {
                     position: "top-center",
@@ -120,8 +120,8 @@ export default function MessageFunc({ isSameSenderPermission, handleTyping, isTy
                     }
                 })
             })
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-        },[])
+            // eslint-disable-next-line react-hooks/exhaustive-deps
+        }, [])
     }
 
     return (
@@ -218,7 +218,7 @@ export default function MessageFunc({ isSameSenderPermission, handleTyping, isTy
 
                 {/* Text to speak */}
                 <Typography onClick={handleSpeechToRead} sx={{ cursor: 'pointer', '&:hover': { bgcolor: 'rgb(234, 234, 234, 0.5)' }, py: 1, px: 2, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                    <span style={{ fontSize: 14 }}> Read Message
+                    <span style={{ fontSize: 14, color: '#dda248', fontWeight: '700' }}> Read Message
                     </span>
                     <span>
                         {/* <RiQuestionnaireFill style={{ position: 'relative', top: '3px', paddingLeft: '5px' }} /> */}

@@ -29,6 +29,7 @@ const PinInfo = ({ note, mode, pinPage, setPinCount }) => {
                             justifyContent: 'space-between'
                         }}
                     >
+                        <span style={{ border: '1px solid #ddd', padding: '0px 7px', borderRadius: '20px', marginRight: '5px', color: 'gray' }}>{note?.action} </span>
                         {note?.title?.slice(0, 50)} <Tooltip title={note?.title} arrow>
                             <span style={{ cursor: 'pointer' }}><InfoIcon style={{ position: 'relative', top: '5px', fontSize: '20px' }} /></span>
                         </Tooltip>
@@ -68,7 +69,7 @@ const PinInfo = ({ note, mode, pinPage, setPinCount }) => {
                         status: 'note',
                         message: 'Archive Added'
                     }
-                    dispatch(actionByNotesUpdate(data, note?._id, auth?.user?.token, pinPage,handleClose))
+                    dispatch(actionByNotesUpdate(data, note?._id, auth?.user?.token, pinPage, handleClose))
                 }}>
                     <IconButton>
                         <ArchiveIcon />
