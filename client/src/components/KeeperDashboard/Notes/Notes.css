@@ -1,50 +1,51 @@
 .notes-container {
-    position: relative;
-    padding: 10px;
-    max-width: 450px;
-    height: 100%;
-    margin: 30px auto 0;
+  position: relative;
+  padding: 10px;
+  max-width: 450px;
+  height: 100%;
+  margin: 30px auto 0;
 }
 
 .notes-container,
 textarea:focus,
 input:focus {
-    outline: none;
-    border: 0;
+  outline: none;
+  border: 0;
 }
 
-.notes-container>textarea,
+.notes-container > textarea,
 input {
-    width: 100%;
-    border: 0;
-    overflow-wrap: break-word;
-    font-weight: 200;
-    font-size: 18px;
+  width: 100%;
+  border: 0;
+  overflow-wrap: break-word;
+  font-weight: 200;
+  font-size: 18px;
 }
 
 .notes-container input {
-    margin-right: 6px;
+  margin-right: 6px;
 }
 
 .notes-icon-container {
-    color: gray;
-    display: flex;
-    gap: 7px;
-    align-items: center;
-    justify-content: flex-end;
+  color: gray;
+  display: flex;
+  gap: 7px;
+  align-items: center;
+  justify-content: flex-end;
 }
 
 .notes-card-style {
-    border-radius: 7px;
-    border: 1px solid #ccc;
-    padding: 10px;
-    width: 250px;
-    height: 100%;
-    cursor: default;
-    margin: 16px;
-    transition: 0.1s ease-out;
+  border-radius: 7px;
+  border: 1px solid #ccc;
+  width: 230px;
+  height: 100%;
+  cursor: default;
+  margin: 16px;
+  transition: 0.1s ease-out;
+  padding-left: 15px;
+  padding-top: 10px;
+  padding-right: 4px;
 }
-
 .notes-card-style:hover {
-    box-shadow: 1px 2px 5px 2px gray;
+  box-shadow: 1px 2px 5px 2px gray;
 }

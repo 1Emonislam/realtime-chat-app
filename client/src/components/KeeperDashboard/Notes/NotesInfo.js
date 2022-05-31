@@ -57,7 +57,7 @@ const NotesInfo = ({ note, mode, notePage, setNoteCount }) => {
             status: 'note',
             message:'Pin Addded'
           }
-          dispatch(actionByNotesUpdate(data, note?._id, auth?.user?.token, setNoteCount, notePage, handleClose))
+          dispatch(actionByNotesUpdate(data, note?._id, auth?.user?.token,notePage, handleClose))
         }}>
           <IconButton>
             <PushPinIcon style={{ position: 'relative', top: '2px' }} />
@@ -69,7 +69,7 @@ const NotesInfo = ({ note, mode, notePage, setNoteCount }) => {
             status: 'note',
             message:'Archive Added'
           }
-          dispatch(actionByNotesUpdate(data, note?._id, auth?.user?.token, setNoteCount, notePage, handleClose))
+          dispatch(actionByNotesUpdate(data, note?._id, auth?.user?.token, notePage, handleClose))
         }}>
           <IconButton>
             <ArchiveIcon />
@@ -81,7 +81,7 @@ const NotesInfo = ({ note, mode, notePage, setNoteCount }) => {
             status: 'note',
             message: 'Trashed Added'
           }
-          dispatch(actionByNotesUpdate(data, note?._id, auth?.user?.token, setNoteCount, notePage, handleClose))
+          dispatch(actionByNotesUpdate(data, note?._id, auth?.user?.token,notePage, handleClose))
         }}>
           <IconButton>
             <DeleteIcon />

@@ -85,7 +85,7 @@ export const createNoteItem = (data, token, reset) => {
     }
 }
 
-export const actionByNotesUpdate = (data, noteId, token, setNoteCount, notePage, handleClose) => {
+export const actionByNotesUpdate = (data, noteId, token, notePage, handleClose) => {
     return (dispatch) => {
         dispatch({
             type: LOADING_NOTES,
@@ -107,7 +107,6 @@ export const actionByNotesUpdate = (data, noteId, token, setNoteCount, notePage,
                     handleClose()
                 }
                 // console.log(data)
-                setNoteCount(data?.data.noteCount)
                 dispatch({
                     type: GET_NOTES,
                     payload: {
@@ -243,7 +242,7 @@ export const actionByNotesTrashAllDelete = (token, setTrashCount, trashPage) => 
             .then(res => res.json())
             .then((data) => {
                 // console.log(data)
-                setTrashCount(data?.trashCount)
+                setTrashCount(data?.data?.trashCount)
                 dispatch({
                     type: GET_NOTES,
                     payload: {
@@ -270,7 +269,7 @@ export const actionByNotesTrashAllDelete = (token, setTrashCount, trashPage) => 
             })
     }
 }
-export const actionByNotesNoteGet = (page, limit, token, setNoteCount, setTrashCount, setArchiveCount, setPinCount, search, messageId, chatId) => {
+export const getActinByNotes = (page, limit, token, search, messageId, chatId) => {
     return (dispatch) => {
         dispatch({
             type: LOADING_NOTES,
@@ -293,19 +292,6 @@ export const actionByNotesNoteGet = (page, limit, token, setNoteCount, setTrashC
             .then(res => res.json())
             .then((data) => {
                 // setCount(data.count)
-                if (setNoteCount) {
-                    setNoteCount(data?.data?.noteCount || 0);
-                }
-                if (setTrashCount) {
-                    // console.log(setTrashCount)
-                    setTrashCount(data?.data?.trashCount || 0);
-                }
-                if (setArchiveCount) {
-                    setPinCount(data?.data?.archiveCount || 0)
-                }
-                if (setPinCount) {
-                    setPinCount(data?.data?.pinCount || 0)
-                }
                 dispatch({
                     type: GET_NOTES,
                     payload: {

@@ -3,7 +3,7 @@ import { Pagination } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast, ToastContainer } from "react-toastify";
-import { actionByNotesNoteGet } from "../../../store/actions/noteAction";
+import { getActinByNotes } from "../../../store/actions/noteAction";
 import { ERROR_NOTE, MESSAGE_NOTE } from "../../../store/reducers/notesReducer";
 import NoContentIcon from "../NoContentIcon/NoContentIcon";
 import "./Trash.css";
@@ -13,7 +13,7 @@ const Trash = () => {
   const { notes, auth, theme } = useSelector(state => state)
   const dispatch = useDispatch()
   const [trashPage, setTrashPage] = useState(1)
-  const [trashCount, setTrashCount] = useState(0)
+  const [trashCount, setTrashCount] = useState(notes?.trashCount || 0)
   const limit = 10;
   const noCIcon = (
     <DeleteOutlineIcon sx={{ fontSize: "130px", color: "#ececec" }} />
@@ -58,8 +58,7 @@ const Trash = () => {
     })
   }
   useEffect(() => {
-    dispatch(actionByNotesNoteGet(trashPage, limit, auth?.user?.token, false, setTrashCount))
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    dispatch(getActinByNotes(trashPage, limit, auth?.user?.token))
   }, [trashPage, dispatch, auth?.user?.token])
   return (
     <>

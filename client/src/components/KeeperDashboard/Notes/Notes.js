@@ -8,16 +8,16 @@ import NoteOutlinedIcon from "@mui/icons-material/NoteOutlined";
 import PushPinIcon from "@mui/icons-material/PushPin";
 import { Box, IconButton, Pagination, Paper, Typography } from "@mui/material";
 import * as React from "react";
+import { useEffect, useState } from "react";
+import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
+import { toast, ToastContainer } from "react-toastify";
+import { createNoteItem, getActinByNotes } from "../../../store/actions/noteAction";
+import { ERROR_NOTE, MESSAGE_NOTE } from "../../../store/reducers/notesReducer";
+import Loading from "../../Spinner/Loading";
 import NoContentIcon from "../NoContentIcon/NoContentIcon";
 import "./Notes.css";
-import { useForm } from 'react-hook-form';
 import NotesInfo from "./NotesInfo";
-import { actionByNotesNoteGet, createNoteItem } from "../../../store/actions/noteAction";
-import { toast, ToastContainer } from "react-toastify";
-import { ERROR_NOTE, MESSAGE_NOTE } from "../../../store/reducers/notesReducer";
-import { useEffect, useState } from "react";
-import Loading from "../../Spinner/Loading";
 const Notes = () => {
   const noCIcon = (
     <NoteOutlinedIcon sx={{ fontSize: "130px", color: "#ececec" }} />
@@ -25,7 +25,7 @@ const Notes = () => {
 
   const { auth, notes, loading } = useSelector(state => state)
   const [notePage, setNotePage] = useState(1)
-  const [noteCount, setNoteCount] = useState()
+  const [noteCount, setNoteCount] = useState(notes?.noteCount || 0)
   const limit = 10;
   // console.log(notes.notes)
   const mode = useSelector(state => state?.theme?.theme)
@@ -74,7 +74,7 @@ const Notes = () => {
     })
   }
   useEffect(() => {
-    dispatch(actionByNotesNoteGet(notePage, limit, auth?.user?.token,setNoteCount))
+    dispatch(getActinByNotes(notePage, limit, auth?.user?.token))
     //eslint-disable-next-line react-hooks/exhaustive-deps
   }, [notePage, dispatch, auth?.user?.token])
   return (
@@ -153,7 +153,7 @@ const Notes = () => {
         count={Math.ceil(noteCount / limit)}
         color="secondary"
         variant="outlined"
-        onChange={(e, value) => setNoteCount(value)}
+        onChange={(e, value) => setNotePage(value)}
       />
       <ToastContainer
         position="bottom-right"

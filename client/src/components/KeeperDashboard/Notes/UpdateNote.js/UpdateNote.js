@@ -28,7 +28,7 @@ export default function UpdateNote({ open, mode, notePage, setNoteCount, handleO
         data.action = 'note';
         data.status = 'note'
         data.message = 'Successfully Updated!'
-        dispatch(actionByNotesUpdate(data, singleNoteInfo?._id, auth?.user?.token, setNoteCount, notePage, handleClose))
+        dispatch(actionByNotesUpdate(data, singleNoteInfo?._id, auth?.user?.token,notePage, handleClose))
     };
     return (
         <div>

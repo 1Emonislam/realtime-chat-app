@@ -74,7 +74,7 @@ const DrawerContent = ({ mode }) => {
           </div> */}
 
           <NavLink
-            to="/keeper/archive"
+            to="/keeper/pin"
             className="drawerLink"
             style={{ display: "flex" }}
           >
