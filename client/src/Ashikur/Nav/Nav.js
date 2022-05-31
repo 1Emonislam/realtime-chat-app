@@ -229,7 +229,9 @@ const Nav = ({ handleSingleChat, children }) => {
             ></AddGroups>
             {/* <FontAwesomeSvgIcon icon={faEllipsisV} /> */}
             <Tooltip followCursor title='Notes' arrow>
-              <Link to='/keeper'>
+              <span onClick ={() =>{
+                window.location.replace('/keeper')
+              }}>
                 <ToggleButton value="seven">
                   <LibraryAddIcon
                     sx={{
@@ -242,7 +244,7 @@ const Nav = ({ handleSingleChat, children }) => {
                     }}
                   />
                 </ToggleButton>
-              </Link>
+              </span>
             </Tooltip>
           </Grid>
           <Grid
