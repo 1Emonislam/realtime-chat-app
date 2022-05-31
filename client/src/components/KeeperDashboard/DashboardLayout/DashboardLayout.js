@@ -7,9 +7,10 @@ import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
 import Toolbar from "@mui/material/Toolbar";
 import * as React from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, Outlet } from "react-router-dom";
 import logo from '../../../assets/logo/white_large.png';
+import { getActinByNotes } from "../../../store/actions/noteAction";
 import ChatProfile from "../../ChatProfile/ChatProfile";
 import DrawerContent from "../DrawerContent/DrawerContent";
 import useMediaQuery from "../useMediaQuery/useMediaQuery";
@@ -19,9 +20,10 @@ const drawerWidth = 220;
 function DashboardLayout() {
   const isDesktop = useMediaQuery("(min-width: 780px)");
   const [sideBarOpen, setSideBarOpen] = React.useState(false);
-  const { notes,theme } = useSelector(state => state)
+  const dispatch = useDispatch()
+  const { auth, theme } = useSelector(state => state)
   const mode = theme?.theme;
-
+  const [search, setSearch] = React.useState('')
   const handleDrawerOpen = () => {
     setSideBarOpen(true);
   };
@@ -37,7 +39,10 @@ function DashboardLayout() {
       handleDrawerClose();
     }
   }, [isDesktop]);
-
+  React.useEffect(() => {
+    dispatch(getActinByNotes(1, 10, auth?.user?.token, search))
+  }, [auth?.user?.token, dispatch, search])
+  console.log(search)
   return (
     <>
       <AppBar
@@ -67,41 +72,45 @@ function DashboardLayout() {
               </Link>
             </Box>
           )}
-          <div className="searchBg">
-            <SearchIcon
-              className="searchIconStyle"
-              sx={{ color: "#6d6d6d", fontSize: "25px" }}
-            />
-            <input
-              type="text"
-              className="NavSearchInput"
-              placeholder="Search"
-            />
-            <div
-              style={{
-                position: "absolute",
-                right: 12,
-                display: "flex",
-                alignItems: "center",
-              }}
-            >
-              {/* -- Color box component -- */}
-              <div
-                style={{
-                  color: "#6d6d6d",
-                  fontSize: "25px",
-                  marginBottom: "-10px",
-                }}
-              >
-      
-              </div>
-
-              <CloseIcon
+          <form>
+            <div className="searchBg">
+              <SearchIcon
                 className="searchIconStyle"
                 sx={{ color: "#6d6d6d", fontSize: "25px" }}
               />
+              <input
+                type="text"
+                className="NavSearchInput"
+                placeholder="Search"
+                onChange={(e) => setSearch(e.target.value)}
+              />
+              <div
+                style={{
+                  position: "absolute",
+                  right: 12,
+                  display: "flex",
+                  alignItems: "center",
+                }}
+              >
+                {/* -- Color box component -- */}
+                <div
+                  style={{
+                    color: "#6d6d6d",
+                    fontSize: "25px",
+                    marginBottom: "-10px",
+                  }}
+                >
+
+                </div>
+
+                <CloseIcon
+                  type="reset"
+                  className="searchIconStyle"
+                  sx={{ color: "#6d6d6d", fontSize: "25px" }}
+                />
+              </div>
             </div>
-          </div>
+          </form>
 
           <div
             style={{
