@@ -42,7 +42,6 @@ function DashboardLayout() {
   React.useEffect(() => {
     dispatch(getActinByNotes(1, 10, auth?.user?.token, search))
   }, [auth?.user?.token, dispatch, search])
-  console.log(search)
   return (
     <>
       <AppBar
