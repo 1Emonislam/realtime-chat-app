@@ -127,7 +127,6 @@ module.exports.deleteSingleNote = async (req, res, next) => {
     }
     try {
         let { page = 1, limit = 10 } = req.query;
-        const { status = 'note',action = 'note' } = req.body;
         const deletedFile = await Note.deleteOne({ _id: req.params.id, author: req.user?._id, action: 'trash' });
         let deletedPermission;
         if (deletedFile.deletedCount === 1) {
@@ -139,8 +138,6 @@ module.exports.deleteSingleNote = async (req, res, next) => {
                 $or: [
                     { "title": { $regex: req.query.search, $options: "i" } },
                     { "details": { $regex: req.query.search, $options: "i" } },
-                    
-                   
                 ],
             } : { author: req?.user?._id, action: 'trash' };
             const trash = await Note.find(keyword).sort("-createdAt").limit(limit * 1).skip((page - 1) * limit).populate("message", "content").populate("chat", "chatName img _id");
@@ -153,8 +150,6 @@ module.exports.deleteSingleNote = async (req, res, next) => {
             $or: [
                 { "title": { $regex: req.query.search, $options: "i" } },
                 { "details": { $regex: req.query.search, $options: "i" } },
-                
-               
             ],
         } : { author: req?.user?._id, action: 'note' };
         const note = await Note.find(noteKeyword).sort("-createdAt").limit(limit * 1).skip((page - 1) * limit).populate("message", "content").populate("chat", "chatName img _id");
@@ -165,9 +160,7 @@ module.exports.deleteSingleNote = async (req, res, next) => {
             action: 'trash',
             $or: [
                 { "title": { $regex: req.query.search, $options: "i" } },
-                { "details": { $regex: req.query.search, $options: "i" } },
-                
-               
+                { "details": { $regex: req.query.search, $options: "i" } },  
             ],
         } : { author: req?.user?._id, action: 'trash' };
         const trash = await Note.find(trashKeyword).sort("-createdAt").limit(limit * 1).skip((page - 1) * limit).populate("message", "content").populate("chat", "chatName img _id");
@@ -179,8 +172,6 @@ module.exports.deleteSingleNote = async (req, res, next) => {
             $or: [
                 { "title": { $regex: req.query.search, $options: "i" } },
                 { "details": { $regex: req.query.search, $options: "i" } },
-                
-               
             ],
         } : { author: req?.user?._id, action: 'archive' };
         const archive = await Note.find(archiveKeyword).sort("-createdAt").limit(limit * 1).skip((page - 1) * limit).populate("message", "content").populate("chat", "chatName img _id");
@@ -190,9 +181,7 @@ module.exports.deleteSingleNote = async (req, res, next) => {
             action: 'pin',
             $or: [
                 { "title": { $regex: req.query.search, $options: "i" } },
-                { "details": { $regex: req.query.search, $options: "i" } },
-                
-               
+                { "details": { $regex: req.query.search, $options: "i" } },  
             ],
         } : { author: req?.user?._id, action: 'pin' };
         const pin = await Note.find(pinKeyword).sort("-createdAt").limit(limit * 1).skip((page - 1) * limit).populate("message", "content").populate("chat", "chatName img _id");
@@ -222,15 +211,12 @@ module.exports.getNote = async (req, res, next) => {
             return res.status(400).json({ error: { token: 'User Credentials expired! Please login!' } })
         }
         let { page = 1, limit = 10 } = req.query;
-        const { messageId = '', chatId = '', action = 'note' } = req.body;
         const noteKeyword = req.query.search ? {
             author: req?.user?._id,
             action: 'note',
             $or: [
                 { "title": { $regex: req.query.search, $options: "i" } },
                 { "details": { $regex: req.query.search, $options: "i" } },
-                
-               
             ],
         } : { author: req?.user?._id, action: 'note' };
         const note = await Note.find(noteKeyword).sort("-createdAt").limit(limit * 1).skip((page - 1) * limit).populate("message", "content").populate("chat", "chatName img _id");
@@ -241,9 +227,7 @@ module.exports.getNote = async (req, res, next) => {
             action: 'trash',
             $or: [
                 { "title": { $regex: req.query.search, $options: "i" } },
-                { "details": { $regex: req.query.search, $options: "i" } },
-                
-               
+                { "details": { $regex: req.query.search, $options: "i" } }        
             ],
         } : { author: req?.user?._id, action: 'trash' };
         const trash = await Note.find(trashKeyword).sort("-createdAt").limit(limit * 1).skip((page - 1) * limit).populate("message", "content").populate("chat", "chatName img _id");
@@ -255,8 +239,7 @@ module.exports.getNote = async (req, res, next) => {
             $or: [
                 { "title": { $regex: req.query.search, $options: "i" } },
                 { "details": { $regex: req.query.search, $options: "i" } },
-                
-               
+
             ],
         } : { author: req?.user?._id, action: 'archive' };
         const archive = await Note.find(archiveKeyword).sort("-createdAt").limit(limit * 1).skip((page - 1) * limit).populate("message", "content").populate("chat", "chatName img _id");
@@ -267,8 +250,7 @@ module.exports.getNote = async (req, res, next) => {
             $or: [
                 { "title": { $regex: req.query.search, $options: "i" } },
                 { "details": { $regex: req.query.search, $options: "i" } },
-                
-               
+
             ],
         } : { author: req?.user?._id, action: 'pin' };
         const pin = await Note.find(pinKeyword).sort("-createdAt").limit(limit * 1).skip((page - 1) * limit).populate("message", "content").populate("chat", "chatName img _id");
@@ -304,11 +286,8 @@ module.exports.allRemoveNote = async (req, res, next) => {
             $or: [
                 { "title": { $regex: req.query.search, $options: "i" } },
                 { "details": { $regex: req.query.search, $options: "i" } },
-                
-               
             ],
         } : { author: req?.user?._id, action: 'note' };
-        const { status = 'note',action = 'note' } = req.body;
         const deletedFile = await Note.deleteMany({ author: req.user?._id, action: 'trash' });
         let deletedPermission;
         if (deletedFile.deletedCount === 1) {
@@ -324,8 +303,6 @@ module.exports.allRemoveNote = async (req, res, next) => {
             $or: [
                 { "title": { $regex: req.query.search, $options: "i" } },
                 { "details": { $regex: req.query.search, $options: "i" } },
-                
-               
             ],
         } : { author: req?.user?._id, action: 'note' };
         const note = await Note.find(noteKeyword).sort("-createdAt").limit(limit * 1).skip((page - 1) * limit).populate("message", "content").populate("chat", "chatName img _id");
@@ -337,8 +314,6 @@ module.exports.allRemoveNote = async (req, res, next) => {
             $or: [
                 { "title": { $regex: req.query.search, $options: "i" } },
                 { "details": { $regex: req.query.search, $options: "i" } },
-                
-               
             ],
         } : { author: req?.user?._id, action: 'trash' };
         const trash = await Note.find(trashKeyword).sort("-createdAt").limit(limit * 1).skip((page - 1) * limit).populate("message", "content").populate("chat", "chatName img _id");
@@ -349,9 +324,7 @@ module.exports.allRemoveNote = async (req, res, next) => {
             action: 'archive',
             $or: [
                 { "title": { $regex: req.query.search, $options: "i" } },
-                { "details": { $regex: req.query.search, $options: "i" } },
-                
-               
+                { "details": { $regex: req.query.search, $options: "i" } }, 
             ],
         } : { author: req?.user?._id, action: 'archive' };
         const archive = await Note.find(archiveKeyword).sort("-createdAt").limit(limit * 1).skip((page - 1) * limit).populate("message", "content").populate("chat", "chatName img _id");
@@ -361,9 +334,7 @@ module.exports.allRemoveNote = async (req, res, next) => {
             action: 'pin',
             $or: [
                 { "title": { $regex: req.query.search, $options: "i" } },
-                { "details": { $regex: req.query.search, $options: "i" } },
-                
-               
+                { "details": { $regex: req.query.search, $options: "i" } }, 
             ],
         } : { author: req?.user?._id, action: 'pin' };
         const pin = await Note.find(pinKeyword).sort("-createdAt").limit(limit * 1).skip((page - 1) * limit).populate("message", "content").populate("chat", "chatName img _id");

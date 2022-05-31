@@ -1,4 +1,4 @@
-import CloseIcon from "@mui/icons-material/Close";
+// import CloseIcon from "@mui/icons-material/Close";
 import MenuIcon from "@mui/icons-material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
 import { Drawer, Typography } from "@mui/material";
@@ -72,7 +72,6 @@ function DashboardLayout() {
               </Link>
             </Box>
           )}
-          <form>
             <div className="searchBg">
               <SearchIcon
                 className="searchIconStyle"
@@ -82,6 +81,7 @@ function DashboardLayout() {
                 type="text"
                 className="NavSearchInput"
                 placeholder="Search"
+                style={{ width: '100%' }}
                 onChange={(e) => setSearch(e.target.value)}
               />
               <div
@@ -102,15 +102,8 @@ function DashboardLayout() {
                 >
 
                 </div>
-
-                <CloseIcon
-                  type="reset"
-                  className="searchIconStyle"
-                  sx={{ color: "#6d6d6d", fontSize: "25px" }}
-                />
               </div>
             </div>
-          </form>
 
           <div
             style={{
