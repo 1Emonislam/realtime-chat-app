@@ -26,7 +26,7 @@ const Notes = () => {
   const { auth, notes, loading } = useSelector(state => state)
   const [notePage, setNotePage] = useState(1)
   const [noteCount, setNoteCount] = useState(notes?.noteCount || 0)
-  const limit = 10;
+  const limit = 12;
   // console.log(notes.notes)
   const mode = useSelector(state => state?.theme?.theme)
   const dispatch = useDispatch()

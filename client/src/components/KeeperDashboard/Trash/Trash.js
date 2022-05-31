@@ -14,7 +14,7 @@ const Trash = () => {
   const dispatch = useDispatch()
   const [trashPage, setTrashPage] = useState(1)
   const [trashCount, setTrashCount] = useState(notes?.trashCount || 0)
-  const limit = 10;
+  const limit = 12;
   const noCIcon = (
     <DeleteOutlineIcon sx={{ fontSize: "130px", color: "#ececec" }} />
   );

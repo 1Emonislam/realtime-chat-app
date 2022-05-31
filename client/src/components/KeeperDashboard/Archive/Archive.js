@@ -23,7 +23,7 @@ const Archive = () => {
   const { auth, notes, loading } = useSelector(state => state)
   const [archivePage, setArchivePage] = useState(1)
   const [archiveCount, setArchiveCount] = useState(notes?.archiveCount || 0)
-  const limit = 10;
+  const limit = 12;
   // console.log(notes.notes)
   const mode = useSelector(state => state?.theme?.theme)
   const dispatch = useDispatch()
