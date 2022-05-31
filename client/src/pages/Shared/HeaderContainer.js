@@ -1,4 +1,4 @@
-import SearchIcon from "@mui/icons-material/Search";
+// import SearchIcon from "@mui/icons-material/Search";
 import { Box, Grid, Typography } from "@mui/material";
 import React from "react";
 import { useNavigate } from "react-router-dom";
@@ -68,14 +68,14 @@ const HeaderContainer = ({ mode }) => {
           style={{ padding: "6px 0" }}
           color={mode !== 'dark' ? 'inherit' : '#fff'}
         >
-          <Box className="search-field-box">
+          {/* <Box className="search-field-box">
             <SearchIcon />
             <Typography component="input"
               type="text"
               placeholder="Search Contacts"
               color={mode !== 'dark' ? 'inherit' : '#fff'}
             />
-          </Box>
+          </Box> */}
         </Grid>
       </Grid>
     </Box>
