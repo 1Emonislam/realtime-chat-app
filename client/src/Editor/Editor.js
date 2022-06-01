@@ -165,7 +165,26 @@ function Editor({ handleTyping, groupMessage, messageEditHandle, editMsg, isTypi
         }
     }
     const handleEditMsg = () => {
+        socketFunc?.socket?.current?.emit('stop typing', selectedChat?.chat?._id);
         dispatch(editMessage(updateMsg?.messageInfoStore?.content?.text, updateMsg?.messageInfoStore?.chat?._id, updateMsg?.messageInfoStore?._id, auth?.user?.token, messageEditHandle))
+    }
+    const handleEnterSendMessage = (e) => {
+        if (e.key === 'Enter') {
+            if (selectedChat?.chat?._id) {
+                socketFunc?.socket?.current?.emit('stop typing', selectedChat?.chat?._id);
+                if (!write?.write) return
+                dispatch(sendMessage(write?.write, selectedChat?.chat?._id, auth?.user?.token))
+            }
+        }
+    }
+    const handleUpdateMessage = (e) => {
+        if (e.key === 'Enter') {
+            if (selectedChat?.chat?._id) {
+                socketFunc?.socket?.current?.emit('stop typing', selectedChat?.chat?._id);
+                if (!updateMsg?.messageInfoStore?.content?.text) return
+                dispatch(editMessage(updateMsg?.messageInfoStore?.content?.text, updateMsg?.messageInfoStore?.chat?._id, updateMsg?.messageInfoStore?._id, auth?.user?.token, messageEditHandle))
+            }
+        }
     }
     return (
         <div style={{
@@ -190,7 +209,7 @@ function Editor({ handleTyping, groupMessage, messageEditHandle, editMsg, isTypi
                             sm: '15px',
                             xs: '10px'
                         }
-                    }} onChange={handleUpdate} value={updateMsg?.messageInfoStore?.content?.text} placeholder='Enter text here...'>
+                    }} onChange={handleUpdate} onKeyDown={handleUpdateMessage} value={updateMsg?.messageInfoStore?.content?.text} placeholder='Enter text here...'>
                     </textarea>
                 </Grid> : <Grid item xs={8}>
                     <textarea className='text-msg' id="write-enter" sx={{
@@ -200,7 +219,7 @@ function Editor({ handleTyping, groupMessage, messageEditHandle, editMsg, isTypi
                             sm: '15px',
                             xs: '10px'
                         }
-                    }} onChange={(e) => handleTyping(e)} value={write?.write} placeholder='Enter text here...'>
+                    }} onChange={(e) => handleTyping(e)} value={write?.write} onKeyDown={handleEnterSendMessage} placeholder='Enter text here...'>
                     </textarea>
                 </Grid>}
                 <Grid item xs={0.7}>
