@@ -8,6 +8,7 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { actionByNotesUpdate } from "../../../store/actions/noteAction";
 import UpdateNote from "../Notes/UpdateNote.js/UpdateNote";
+import { BsPinAngleFill } from 'react-icons/bs'
 
 const PinInfo = ({ note, mode, pinPage, setPinCount }) => {
     const { auth } = useSelector(state => state)
@@ -29,7 +30,7 @@ const PinInfo = ({ note, mode, pinPage, setPinCount }) => {
                             justifyContent: 'space-between'
                         }}
                     >
-            
+
                         {note?.title?.slice(0, 50)} <Tooltip title={note?.title} arrow>
                             <span style={{ cursor: 'pointer' }}><InfoIcon style={{ position: 'relative', top: '5px', fontSize: '20px' }} /></span>
                         </Tooltip>
@@ -49,12 +50,23 @@ const PinInfo = ({ note, mode, pinPage, setPinCount }) => {
                 </div>
             </div>
 
-            <Box sx={{ display: "flex", justifyContent: "end",position:'relative' }}>
+            <Box sx={{ display: "flex", justifyContent: "end", position: 'relative' }}>
                 {/* -- Color box component -- */}
-                <Tooltip title="Pin" arrow placement="top" onClick={() => {
+                {note?.action === 'pin' ? <Tooltip title="UnPin" arrow placement="top" onClick={() => {
+                    const data = {
+                        action: 'unpin',
+                        status: 'pin',
+                        message: 'Unpin Addded'
+                    }
+                    dispatch(actionByNotesUpdate(data, note?._id, auth?.user?.token, pinPage, handleClose))
+                }}>
+                    <IconButton>
+                        <BsPinAngleFill style={{ position: 'relative', top: '2px' }} />
+                    </IconButton>
+                </Tooltip> : <Tooltip title="Pin" arrow placement="top" onClick={() => {
                     const data = {
                         action: 'pin',
-                        status: 'note',
+                        status: 'pin',
                         message: 'Pin Addded'
                     }
                     dispatch(actionByNotesUpdate(data, note?._id, auth?.user?.token, pinPage, handleClose))
@@ -63,6 +75,7 @@ const PinInfo = ({ note, mode, pinPage, setPinCount }) => {
                         <PushPinIcon style={{ position: 'relative', top: '2px' }} />
                     </IconButton>
                 </Tooltip>
+                }
                 <Tooltip title="Archive" arrow placement="top" onClick={() => {
                     const data = {
                         action: 'archive',

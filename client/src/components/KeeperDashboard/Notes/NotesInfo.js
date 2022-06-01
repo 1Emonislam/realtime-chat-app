@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { actionByNotesUpdate } from "../../../store/actions/noteAction";
 import "./Notes.css";
 import UpdateNote from "./UpdateNote.js/UpdateNote";
+import { BsPinAngleFill } from 'react-icons/bs'
 
 const NotesInfo = ({ note, mode, notePage, setNoteCount }) => {
   const { auth } = useSelector(state => state)
@@ -54,7 +55,18 @@ const NotesInfo = ({ note, mode, notePage, setNoteCount }) => {
       <Box sx={{ display: "flex", justifyContent: "end", position: 'relative' }}>
 
         {/* -- Color box component -- */}
-        <Tooltip title="Pin" arrow placement="top" onClick={() => {
+        {note?.action === 'pin' ? <Tooltip title="UnPin" arrow placement="top" onClick={() => {
+          const data = {
+            action: 'unpin',
+            status: 'note',
+            message: 'Unpin Addded'
+          }
+          dispatch(actionByNotesUpdate(data, note?._id, auth?.user?.token, notePage, handleClose))
+        }}>
+          <IconButton>
+            <BsPinAngleFill style={{ position: 'relative', top: '2px' }} />
+          </IconButton>
+        </Tooltip> : <Tooltip title="Pin" arrow placement="top" onClick={() => {
           const data = {
             action: 'pin',
             status: 'note',
@@ -65,7 +77,7 @@ const NotesInfo = ({ note, mode, notePage, setNoteCount }) => {
           <IconButton>
             <PushPinIcon style={{ position: 'relative', top: '2px' }} />
           </IconButton>
-        </Tooltip>
+        </Tooltip>}
         <Tooltip title="Archive" arrow placement="top" onClick={() => {
           const data = {
             action: 'archive',

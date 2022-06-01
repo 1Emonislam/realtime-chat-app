@@ -8,7 +8,7 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { actionByNotesUpdate } from "../../../store/actions/noteAction";
 import UpdateNote from "../Notes/UpdateNote.js/UpdateNote";
-
+import { BsPinAngleFill } from 'react-icons/bs'
 const UnPinInfo = ({ note, mode, unPinPage, setUnPinCount }) => {
     const { auth } = useSelector(state => state)
     const [open, setOpen] = React.useState(false);
@@ -29,7 +29,7 @@ const UnPinInfo = ({ note, mode, unPinPage, setUnPinCount }) => {
                             justifyContent: 'space-between'
                         }}
                     >
-            
+
                         {note?.title?.slice(0, 50)} <Tooltip title={note?.title} arrow>
                             <span style={{ cursor: 'pointer' }}><InfoIcon style={{ position: 'relative', top: '5px', fontSize: '20px' }} /></span>
                         </Tooltip>
@@ -49,12 +49,23 @@ const UnPinInfo = ({ note, mode, unPinPage, setUnPinCount }) => {
                 </div>
             </div>
 
-            <Box sx={{ display: "flex", justifyContent: "end",position:'relative' }}>
+            <Box sx={{ display: "flex", justifyContent: "end", position: 'relative' }}>
                 {/* -- Color box component -- */}
-                <Tooltip title="Pin" arrow placement="top" onClick={() => {
+                {note?.action === 'pin' ? <Tooltip title="UnPin" arrow placement="top" onClick={() => {
+                    const data = {
+                        action: 'unpin',
+                        status: 'unpin',
+                        message: 'Unpin Addded'
+                    }
+                    dispatch(actionByNotesUpdate(data, note?._id, auth?.user?.token, unPinPage, handleClose))
+                }}>
+                    <IconButton>
+                        <BsPinAngleFill style={{ position: 'relative', top: '2px' }} />
+                    </IconButton>
+                </Tooltip> : <Tooltip title="Pin" arrow placement="top" onClick={() => {
                     const data = {
                         action: 'pin',
-                        status: 'note',
+                        status: 'unpin',
                         message: 'Pin Addded'
                     }
                     dispatch(actionByNotesUpdate(data, note?._id, auth?.user?.token, unPinPage, handleClose))
@@ -63,10 +74,11 @@ const UnPinInfo = ({ note, mode, unPinPage, setUnPinCount }) => {
                         <PushPinIcon style={{ position: 'relative', top: '2px' }} />
                     </IconButton>
                 </Tooltip>
+                }
                 <Tooltip title="Archive" arrow placement="top" onClick={() => {
                     const data = {
                         action: 'archive',
-                        status: 'note',
+                        status: 'unpin',
                         message: 'Archive Added'
                     }
                     dispatch(actionByNotesUpdate(data, note?._id, auth?.user?.token, unPinPage, handleClose))
@@ -78,7 +90,7 @@ const UnPinInfo = ({ note, mode, unPinPage, setUnPinCount }) => {
                 <Tooltip title="Delete" arrow placement="top" onClick={() => {
                     const data = {
                         action: 'trash',
-                        status: 'note',
+                        status: 'unpin',
                         message: 'Trashed Added'
                     }
                     dispatch(actionByNotesUpdate(data, note?._id, auth?.user?.token, unPinPage, handleClose))

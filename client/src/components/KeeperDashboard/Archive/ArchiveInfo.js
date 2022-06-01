@@ -8,7 +8,7 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { actionByNotesUpdate } from "../../../store/actions/noteAction";
 import UpdateNote from "../Notes/UpdateNote.js/UpdateNote";
-
+import { BsPinAngleFill } from 'react-icons/bs'
 const ArchiveInfo = ({ note, mode, archivePage, setArchiveCount }) => {
   const { auth } = useSelector(state => state)
   const [open, setOpen] = React.useState(false);
@@ -48,12 +48,23 @@ const ArchiveInfo = ({ note, mode, archivePage, setArchiveCount }) => {
         </div>
       </div>
 
-      <Box sx={{ display: "flex", justifyContent: "end",position:'relative' }}>
+      <Box sx={{ display: "flex", justifyContent: "end", position: 'relative' }}>
         {/* -- Color box component -- */}
-        <Tooltip title="Pin" arrow placement="top" onClick={() => {
+        {note?.action === 'pin' ? <Tooltip title="UnPin" arrow placement="top" onClick={() => {
+          const data = {
+            action: 'unpin',
+            status: 'acrhive',
+            message: 'Unpin Addded'
+          }
+          dispatch(actionByNotesUpdate(data, note?._id, auth?.user?.token, archivePage, handleClose))
+        }}>
+          <IconButton>
+            <BsPinAngleFill style={{ position: 'relative', top: '2px' }} />
+          </IconButton>
+        </Tooltip> : <Tooltip title="Pin" arrow placement="top" onClick={() => {
           const data = {
             action: 'pin',
-            status: 'note',
+            status: 'archive',
             message: 'Pin Addded'
           }
           dispatch(actionByNotesUpdate(data, note?._id, auth?.user?.token, archivePage, handleClose))
@@ -61,11 +72,11 @@ const ArchiveInfo = ({ note, mode, archivePage, setArchiveCount }) => {
           <IconButton>
             <PushPinIcon style={{ position: 'relative', top: '2px' }} />
           </IconButton>
-        </Tooltip>
+        </Tooltip>}
         <Tooltip title="Archive" arrow placement="top" onClick={() => {
           const data = {
             action: 'archive',
-            status: 'note',
+            status: 'archive',
             message: 'Archive Added'
           }
           dispatch(actionByNotesUpdate(data, note?._id, auth?.user?.token, archivePage, handleClose))
@@ -77,7 +88,7 @@ const ArchiveInfo = ({ note, mode, archivePage, setArchiveCount }) => {
         <Tooltip title="Delete" arrow placement="top" onClick={() => {
           const data = {
             action: 'trash',
-            status: 'note',
+            status: 'archive',
             message: 'Trashed Added'
           }
           dispatch(actionByNotesUpdate(data, note?._id, auth?.user?.token, archivePage, handleClose))
