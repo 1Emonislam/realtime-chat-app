@@ -204,9 +204,9 @@ function Editor({ handleTyping, groupMessage, messageEditHandle, editMsg, isTypi
                 {editMsg ? <Grid item xs={6}>
                     <textarea className='text-msg' sx={{
                         fontSize: {
-                            lg: '18px',
-                            md: '16px',
-                            sm: '15px',
+                            lg: '14px',
+                            md: '14px',
+                            sm: '14px',
                             xs: '10px'
                         }
                     }} onChange={handleUpdate} onKeyDown={handleUpdateMessage} value={updateMsg?.messageInfoStore?.content?.text} placeholder='Enter text here...'>
@@ -214,9 +214,9 @@ function Editor({ handleTyping, groupMessage, messageEditHandle, editMsg, isTypi
                 </Grid> : <Grid item xs={8}>
                     <textarea className='text-msg' id="write-enter" sx={{
                         fontSize: {
-                            lg: '18px',
-                            md: '16px',
-                            sm: '15px',
+                            lg: '14px',
+                            md: '14px',
+                            sm: '14px',
                             xs: '10px'
                         }
                     }} onChange={(e) => handleTyping(e)} value={write?.write} onKeyDown={handleEnterSendMessage} placeholder='Enter text here...'>

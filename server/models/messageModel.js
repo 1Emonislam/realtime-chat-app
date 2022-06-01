@@ -9,6 +9,11 @@ const messageSchema = mongoose.Schema({
         text: {
             type: String,
         },
+        reaction:{
+            question:{
+                
+            }
+        },
         audio: [{
             type: mongoose.Schema.Types.ObjectId,
             ref: "UploadFiles"
