@@ -81,12 +81,13 @@ const Pin = () => {
                 </>
             )}
 
-            <div style={{ display: "flex", flexWrap: "wrap", marginTop: "40px" }}>
+            <div style={{ display: "flex", flexWrap: "wrap", marginTop: "40px", justifyContent: "center" }}>
                 {notes?.pin?.map((note, index) => (
                     <PinInfo setPinCount={setPinCount} key={index} note={note} pinPage={pinPage} setPinPage={setPinPage} mode={mode}></PinInfo>
                 ))}
             </div>
             <Pagination
+                style={{ marginLeft: "50px" }}
                 count={Math.ceil(pinCount / limit)}
                 color="secondary"
                 variant="outlined"

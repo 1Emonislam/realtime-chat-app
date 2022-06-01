@@ -72,12 +72,13 @@ const Trash = () => {
         <NoContentIcon noCIcon={noCIcon} content={"No notes in Trash"} />
       )}
 
-      {notes?.trash?.length !== 0 && <div style={{ display: "flex", flexWrap: "wrap" }}>
+      {notes?.trash?.length !== 0 && <div style={{ display: "flex", flexWrap: "wrap", justifyContent: 'center' }}>
         {notes?.trash?.map((note, index) => (
           <TrashInfo trashCount={trashCount} setTrashCount={setTrashCount} trashPage={trashPage} key={index} note={note} mode={mode}></TrashInfo>
         ))}
       </div>}
       <Pagination
+        style={{ marginLeft: "50px" }}
         count={Math.ceil(trashCount / limit)}
         color="secondary"
         variant="outlined"

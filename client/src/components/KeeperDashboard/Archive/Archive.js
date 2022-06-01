@@ -82,12 +82,13 @@ const Archive = () => {
         </>
       )}
 
-      <div style={{ display: "flex", flexWrap: "wrap", marginTop: "40px" }}>
+      <div style={{ display: "flex", flexWrap: "wrap", marginTop: "40px", justifyContent: 'center' }}>
         {notes?.archive?.map((note, index) => (
           <ArchiveInfo setArchiveCount={setArchiveCount} key={index} note={note} archivePage={archivePage} setArchivePage={setArchivePage} mode={mode}></ArchiveInfo>
         ))}
       </div>
       <Pagination
+        style={{ marginLeft: "50px" }}
         count={Math.ceil(archiveCount / limit)}
         color="secondary"
         variant="outlined"

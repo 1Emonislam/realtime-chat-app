@@ -144,12 +144,13 @@ const Notes = () => {
         </>
       )}
 
-      <div style={{ display: "flex", flexWrap: "wrap" }}>
+      <div style={{ display: "flex", flexWrap: "wrap", justifyContent: 'center' }}>
         {notes?.note?.map((note, index) => (
           <NotesInfo setNoteCount={setNoteCount} key={index} note={note} notePage={notePage} setNotePage={setNotePage} noteCount={noteCount} mode={mode}></NotesInfo>
         ))}
       </div>
       <Pagination
+        style={{ marginLeft: "50px" }}
         count={Math.ceil(noteCount / limit)}
         color="secondary"
         variant="outlined"

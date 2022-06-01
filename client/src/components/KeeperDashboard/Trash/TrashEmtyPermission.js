@@ -26,7 +26,7 @@ export default function TrashEmtyPermission({ setTrashCount, trashPage }) {
 
     return (
         <div>
-            <Button variant="outlined" onClick={handleClickOpen} style={{ marginLeft: '20px', borderRadius: '10px', textTransform: 'capitalize', padding: '10px 25px!important' }}>
+            <Button variant="outlined" onClick={handleClickOpen} style={{ marginLeft: '20px', borderRadius: '10px', width: "210px", margin: "auto", display: 'flex', justifyContent: 'center', textTransform: 'capitalize', padding: '10px 25px!important' }}>
                 Click here empty trash
             </Button>
             <Dialog
