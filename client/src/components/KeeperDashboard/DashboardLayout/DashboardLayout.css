@@ -7,7 +7,9 @@
   font-weight: 600;
   font-size: 40px;
 }
-
+.linkItem:hover {
+  color: #cf5d5d !important;
+}
 .searchBg {
   position: absolute;
   display: flex;

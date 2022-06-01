@@ -84,3 +84,9 @@ ul {
 svg {
   font-size: 20px;
 }
+a:hover {
+  color: blueviolet;
+}
+.active-note {
+  color: #cf5d5d;
+}

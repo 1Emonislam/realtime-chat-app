@@ -52,7 +52,7 @@ function DashboardLayout() {
           py: 1
         }}
       >
-      <Toolbar sx={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
+        <Toolbar sx={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
           {!isDesktop && (
             <IconButton
               color="inherit"
@@ -67,7 +67,7 @@ function DashboardLayout() {
 
           {isDesktop && (
             <Box sx={{ mr: 2 }}>
-              <Link to='/'>
+              <Link to='/' className={(state) => state.isActive ? 'active-note drawerLink' : 'drawerLink'}>
                 <Typography sx={{ width: '120px', height: '30px' }} component='img' src={logo} />
               </Link>
             </Box>
