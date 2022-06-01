@@ -38,6 +38,7 @@ import { getNotification } from "./store/actions/messageNotificationAction";
 import { SOCKET_GLOBAL } from "./store/type/socketType";
 import { getMembersPagination } from "./store/actions/selectedChatAction";
 import Pin from "./components/KeeperDashboard/Pin/Pin";
+import UnPin from "./components/KeeperDashboard/UnPin/UnPin";
 export const ThemeSelectContext = React.createContext();
 export const PaginationContext = React.createContext();
 const ColorModeContext = React.createContext({ toggleColorMode: () => { } });
@@ -250,6 +251,7 @@ export default function ToggleColorMode() {
                   <Route path="notes" element={<Notes />} />
                   <Route path="archive" element={<Archive />} />
                   <Route path="pin" element={<Pin />} />
+                  <Route path="unPin" element={<UnPin />} />
                   <Route path="trash" element={<Trash />} />
                 </Route>
                 {/* Keeper Dashboard End */}

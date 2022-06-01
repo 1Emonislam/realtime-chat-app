@@ -27,6 +27,7 @@ export const createNotes = (messageId, chatId, title, details, token, handleNote
                             trash: [],
                             archive: [],
                             pin: [],
+                            unPin: []
                         }
                     })
                 }
@@ -116,6 +117,8 @@ export const actionByNotesUpdate = (data, noteId, token, notePage, handleClose) 
                         trash: data?.data?.trash,
                         archive: data?.data?.archive,
                         pin: data?.data?.pin,
+                        unPin: data.data.unPin,
+                        unPinCount: data.data.unPinCount,
                         noteCount: data?.data?.noteCount,
                         trashCount: data?.data?.trashCount,
                         archiveCount: data?.data?.archiveCount,
@@ -161,6 +164,8 @@ export const actionByNotesTrashUpdate = (data, noteId, token, setTrashCount, tra
                         note: data?.data?.note,
                         trash: data?.data?.trash,
                         archive: data?.data?.archive,
+                        unPin: data.data.unPin,
+                        unPinCount: data.data.unPinCount,
                         pin: data?.data?.pin,
                         noteCount: data?.data?.noteCount,
                         trashCount: data?.data?.trashCount,
@@ -206,6 +211,8 @@ export const actionByNotesTrashSingleDelete = (noteId, token, setTrashCount, tra
                         note: data?.data?.note,
                         trash: data?.data?.trash,
                         archive: data?.data?.archive,
+                        unPin: data.data.unPin,
+                        unPinCount: data.data.unPinCount,
                         pin: data?.data?.pin,
                         noteCount: data?.data?.noteCount,
                         trashCount: data?.data?.trashCount,
@@ -250,6 +257,8 @@ export const actionByNotesTrashAllDelete = (token, setTrashCount, trashPage) => 
                         loading: false,
                         note: data?.data?.note,
                         trash: data?.data?.trash,
+                        unPin: data.data.unPin,
+                        unPinCount: data.data.unPinCount,
                         archive: data?.data?.archive,
                         pin: data?.data?.pin,
                         noteCount: data?.data?.noteCount,
@@ -299,6 +308,8 @@ export const getActinByNotes = (page, limit, token, search, messageId, chatId) =
                         loading: false,
                         note: data?.data?.note,
                         trash: data?.data?.trash,
+                        unPin: data.data.unPin,
+                        unPinCount: data.data.unPinCount,
                         archive: data?.data?.archive,
                         pin: data?.data?.pin,
                         noteCount: data?.data?.noteCount,

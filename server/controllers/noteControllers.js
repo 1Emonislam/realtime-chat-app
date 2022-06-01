@@ -25,8 +25,8 @@ module.exports.noteCreate = async (req, res, next) => {
             $or: [
                 { "title": { $regex: req.query.search, $options: "i" } },
                 { "details": { $regex: req.query.search, $options: "i" } },
-                
-               
+
+
             ],
         } : { author: req?.user?._id, action: action };
         const data = await Note.find(keyword).sort("-updatedAt").limit(limit * 1).skip((page - 1) * limit).populate("message", "content").populate("chat", "chatName img _id");
@@ -47,7 +47,7 @@ module.exports.updateNote = async (req, res, next) => {
     }
     try {
         let { page = 1, limit = 10 } = req.query;
-        const { title, details,message, status = 'note',action = 'note' } = req.body;
+        const { title, details, message, status = 'note', action = 'note' } = req.body;
         const updateNote = await Note.findOneAndUpdate({ _id: req.params.id, author: req?.user?._id }, {
             title, details,
             action
@@ -72,8 +72,8 @@ module.exports.updateNote = async (req, res, next) => {
             $or: [
                 { "title": { $regex: req.query.search, $options: "i" } },
                 { "details": { $regex: req.query.search, $options: "i" } },
-                
-               
+
+
             ],
         } : { author: req?.user?._id, action: 'trash' };
         const trash = await Note.find(trashKeyword).sort("-updatedAt").limit(limit * 1).skip((page - 1) * limit).populate("message", "content").populate("chat", "chatName img _id");
@@ -85,8 +85,8 @@ module.exports.updateNote = async (req, res, next) => {
             $or: [
                 { "title": { $regex: req.query.search, $options: "i" } },
                 { "details": { $regex: req.query.search, $options: "i" } },
-                
-               
+
+
             ],
         } : { author: req?.user?._id, action: 'archive' };
         const archive = await Note.find(archiveKeyword).sort("-updatedAt").limit(limit * 1).skip((page - 1) * limit).populate("message", "content").populate("chat", "chatName img _id");
@@ -97,17 +97,31 @@ module.exports.updateNote = async (req, res, next) => {
             $or: [
                 { "title": { $regex: req.query.search, $options: "i" } },
                 { "details": { $regex: req.query.search, $options: "i" } },
-                
-               
+
+
             ],
         } : { author: req?.user?._id, action: 'pin' };
         const pin = await Note.find(pinKeyword).sort("-updatedAt").limit(limit * 1).skip((page - 1) * limit).populate("message", "content").populate("chat", "chatName img _id");
         const pinCount = await Note.find(pinKeyword).count();
+
+        const unPinKeyword = req.query.search ? {
+            author: req?.user?._id,
+            action: 'unpin',
+            $or: [
+                { "title": { $regex: req.query.search, $options: "i" } },
+                { "details": { $regex: req.query.search, $options: "i" } },
+
+            ],
+        } : { author: req?.user?._id, action: 'unpin' };
+        const unPin = await Note.find(unPinKeyword).sort("-updatedAt").limit(limit * 1).skip((page - 1) * limit).populate("message", "content").populate("chat", "chatName img _id");
+        const unPinCount = await Note.find(unPinKeyword).count();
         return res.status(200).json({
             message: `Note ${message}`,
             data: {
                 note,
                 noteCount,
+                unPin,
+                unPinCount,
                 trash,
                 trashCount,
                 archive,
@@ -160,7 +174,7 @@ module.exports.deleteSingleNote = async (req, res, next) => {
             action: 'trash',
             $or: [
                 { "title": { $regex: req.query.search, $options: "i" } },
-                { "details": { $regex: req.query.search, $options: "i" } },  
+                { "details": { $regex: req.query.search, $options: "i" } },
             ],
         } : { author: req?.user?._id, action: 'trash' };
         const trash = await Note.find(trashKeyword).sort("-updatedAt").limit(limit * 1).skip((page - 1) * limit).populate("message", "content").populate("chat", "chatName img _id");
@@ -181,16 +195,30 @@ module.exports.deleteSingleNote = async (req, res, next) => {
             action: 'pin',
             $or: [
                 { "title": { $regex: req.query.search, $options: "i" } },
-                { "details": { $regex: req.query.search, $options: "i" } },  
+                { "details": { $regex: req.query.search, $options: "i" } },
             ],
         } : { author: req?.user?._id, action: 'pin' };
         const pin = await Note.find(pinKeyword).sort("-updatedAt").limit(limit * 1).skip((page - 1) * limit).populate("message", "content").populate("chat", "chatName img _id");
         const pinCount = await Note.find(pinKeyword).count();
+
+        const unPinKeyword = req.query.search ? {
+            author: req?.user?._id,
+            action: 'unpin',
+            $or: [
+                { "title": { $regex: req.query.search, $options: "i" } },
+                { "details": { $regex: req.query.search, $options: "i" } },
+
+            ],
+        } : { author: req?.user?._id, action: 'unpin' };
+        const unPin = await Note.find(unPinKeyword).sort("-updatedAt").limit(limit * 1).skip((page - 1) * limit).populate("message", "content").populate("chat", "chatName img _id");
+        const unPinCount = await Note.find(unPinKeyword).count();
         return res.status(200).json({
             message: `Note Trash Removed Successfully!`,
             data: {
                 note,
                 noteCount,
+                unPin,
+                unPinCount,
                 trash,
                 trashCount,
                 archive,
@@ -227,7 +255,7 @@ module.exports.getNote = async (req, res, next) => {
             action: 'trash',
             $or: [
                 { "title": { $regex: req.query.search, $options: "i" } },
-                { "details": { $regex: req.query.search, $options: "i" } }        
+                { "details": { $regex: req.query.search, $options: "i" } }
             ],
         } : { author: req?.user?._id, action: 'trash' };
         const trash = await Note.find(trashKeyword).sort("-updatedAt").limit(limit * 1).skip((page - 1) * limit).populate("message", "content").populate("chat", "chatName img _id");
@@ -255,11 +283,25 @@ module.exports.getNote = async (req, res, next) => {
         } : { author: req?.user?._id, action: 'pin' };
         const pin = await Note.find(pinKeyword).sort("-updatedAt").limit(limit * 1).skip((page - 1) * limit).populate("message", "content").populate("chat", "chatName img _id");
         const pinCount = await Note.find(pinKeyword).count();
+
+        const unPinKeyword = req.query.search ? {
+            author: req?.user?._id,
+            action: 'unpin',
+            $or: [
+                { "title": { $regex: req.query.search, $options: "i" } },
+                { "details": { $regex: req.query.search, $options: "i" } },
+
+            ],
+        } : { author: req?.user?._id, action: 'unpin' };
+        const unPin = await Note.find(unPinKeyword).sort("-updatedAt").limit(limit * 1).skip((page - 1) * limit).populate("message", "content").populate("chat", "chatName img _id");
+        const unPinCount = await Note.find(unPinKeyword).count();
         return res.status(200).json({
             message: '',
             data: {
                 note,
                 noteCount,
+                unPin,
+                unPinCount,
                 trash,
                 trashCount,
                 archive,
@@ -324,7 +366,7 @@ module.exports.allRemoveNote = async (req, res, next) => {
             action: 'archive',
             $or: [
                 { "title": { $regex: req.query.search, $options: "i" } },
-                { "details": { $regex: req.query.search, $options: "i" } }, 
+                { "details": { $regex: req.query.search, $options: "i" } },
             ],
         } : { author: req?.user?._id, action: 'archive' };
         const archive = await Note.find(archiveKeyword).sort("-updatedAt").limit(limit * 1).skip((page - 1) * limit).populate("message", "content").populate("chat", "chatName img _id");
@@ -334,15 +376,29 @@ module.exports.allRemoveNote = async (req, res, next) => {
             action: 'pin',
             $or: [
                 { "title": { $regex: req.query.search, $options: "i" } },
-                { "details": { $regex: req.query.search, $options: "i" } }, 
+                { "details": { $regex: req.query.search, $options: "i" } },
             ],
         } : { author: req?.user?._id, action: 'pin' };
         const pin = await Note.find(pinKeyword).sort("-updatedAt").limit(limit * 1).skip((page - 1) * limit).populate("message", "content").populate("chat", "chatName img _id");
         const pinCount = await Note.find(pinKeyword).count();
+
+        const unPinKeyword = req.query.search ? {
+            author: req?.user?._id,
+            action: 'unpin',
+            $or: [
+                { "title": { $regex: req.query.search, $options: "i" } },
+                { "details": { $regex: req.query.search, $options: "i" } },
+
+            ],
+        } : { author: req?.user?._id, action: 'unpin' };
+        const unPin = await Note.find(unPinKeyword).sort("-updatedAt").limit(limit * 1).skip((page - 1) * limit).populate("message", "content").populate("chat", "chatName img _id");
+        const unPinCount = await Note.find(unPinKeyword).count();
         return res.status(200).json({
             message: `Note All Trash Removed Successfully!`,
             data: {
                 note,
+                unPin,
+                unPinCount,
                 noteCount,
                 trash,
                 trashCount,
