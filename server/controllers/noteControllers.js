@@ -29,7 +29,7 @@ module.exports.noteCreate = async (req, res, next) => {
                
             ],
         } : { author: req?.user?._id, action: action };
-        const data = await Note.find(keyword).sort("-createdAt").limit(limit * 1).skip((page - 1) * limit).populate("message", "content").populate("chat", "chatName img _id");
+        const data = await Note.find(keyword).sort("-updatedAt").limit(limit * 1).skip((page - 1) * limit).populate("message", "content").populate("chat", "chatName img _id");
         const count = await Note.find(keyword).count();
         if (!note) {
             return res.status(400).json({ error: { note: 'Note Creation failed!' } })
@@ -63,7 +63,7 @@ module.exports.updateNote = async (req, res, next) => {
                 { "details": { $regex: req.query.search, $options: "i" } },
             ],
         } : { author: req?.user?._id, action: 'note' };
-        const note = await Note.find(noteKeyword).sort("-createdAt").limit(limit * 1).skip((page - 1) * limit).populate("message", "content").populate("chat", "chatName img _id");
+        const note = await Note.find(noteKeyword).sort("-updatedAt").limit(limit * 1).skip((page - 1) * limit).populate("message", "content").populate("chat", "chatName img _id");
         const noteCount = await Note.find(noteKeyword).count();
         //2 trash
         const trashKeyword = req.query.search ? {
@@ -76,7 +76,7 @@ module.exports.updateNote = async (req, res, next) => {
                
             ],
         } : { author: req?.user?._id, action: 'trash' };
-        const trash = await Note.find(trashKeyword).sort("-createdAt").limit(limit * 1).skip((page - 1) * limit).populate("message", "content").populate("chat", "chatName img _id");
+        const trash = await Note.find(trashKeyword).sort("-updatedAt").limit(limit * 1).skip((page - 1) * limit).populate("message", "content").populate("chat", "chatName img _id");
         const trashCount = await Note.find(trashKeyword).count();
         //3 archive
         const archiveKeyword = req.query.search ? {
@@ -89,7 +89,7 @@ module.exports.updateNote = async (req, res, next) => {
                
             ],
         } : { author: req?.user?._id, action: 'archive' };
-        const archive = await Note.find(archiveKeyword).sort("-createdAt").limit(limit * 1).skip((page - 1) * limit).populate("message", "content").populate("chat", "chatName img _id");
+        const archive = await Note.find(archiveKeyword).sort("-updatedAt").limit(limit * 1).skip((page - 1) * limit).populate("message", "content").populate("chat", "chatName img _id");
         const archiveCount = await Note.find(archiveKeyword).count();
         const pinKeyword = req.query.search ? {
             author: req?.user?._id,
@@ -101,7 +101,7 @@ module.exports.updateNote = async (req, res, next) => {
                
             ],
         } : { author: req?.user?._id, action: 'pin' };
-        const pin = await Note.find(pinKeyword).sort("-createdAt").limit(limit * 1).skip((page - 1) * limit).populate("message", "content").populate("chat", "chatName img _id");
+        const pin = await Note.find(pinKeyword).sort("-updatedAt").limit(limit * 1).skip((page - 1) * limit).populate("message", "content").populate("chat", "chatName img _id");
         const pinCount = await Note.find(pinKeyword).count();
         return res.status(200).json({
             message: `Note ${message}`,
@@ -140,8 +140,8 @@ module.exports.deleteSingleNote = async (req, res, next) => {
                     { "details": { $regex: req.query.search, $options: "i" } },
                 ],
             } : { author: req?.user?._id, action: 'trash' };
-            const trash = await Note.find(keyword).sort("-createdAt").limit(limit * 1).skip((page - 1) * limit).populate("message", "content").populate("chat", "chatName img _id");
-            const trashCount = await Note.find(keyword).sort("-createdAt").count()
+            const trash = await Note.find(keyword).sort("-updatedAt").limit(limit * 1).skip((page - 1) * limit).populate("message", "content").populate("chat", "chatName img _id");
+            const trashCount = await Note.find(keyword).sort("-updatedAt").count()
             return res.status(400).json({ error: { note: 'Trash Remove Failed!' }, data: { trash: trash, trashCount: trashCount } })
         }
         const noteKeyword = req.query.search ? {
@@ -152,7 +152,7 @@ module.exports.deleteSingleNote = async (req, res, next) => {
                 { "details": { $regex: req.query.search, $options: "i" } },
             ],
         } : { author: req?.user?._id, action: 'note' };
-        const note = await Note.find(noteKeyword).sort("-createdAt").limit(limit * 1).skip((page - 1) * limit).populate("message", "content").populate("chat", "chatName img _id");
+        const note = await Note.find(noteKeyword).sort("-updatedAt").limit(limit * 1).skip((page - 1) * limit).populate("message", "content").populate("chat", "chatName img _id");
         const noteCount = await Note.find(noteKeyword).count();
         //2 trash
         const trashKeyword = req.query.search ? {
@@ -163,7 +163,7 @@ module.exports.deleteSingleNote = async (req, res, next) => {
                 { "details": { $regex: req.query.search, $options: "i" } },  
             ],
         } : { author: req?.user?._id, action: 'trash' };
-        const trash = await Note.find(trashKeyword).sort("-createdAt").limit(limit * 1).skip((page - 1) * limit).populate("message", "content").populate("chat", "chatName img _id");
+        const trash = await Note.find(trashKeyword).sort("-updatedAt").limit(limit * 1).skip((page - 1) * limit).populate("message", "content").populate("chat", "chatName img _id");
         const trashCount = await Note.find(trashKeyword).count();
         //3 archive
         const archiveKeyword = req.query.search ? {
@@ -174,7 +174,7 @@ module.exports.deleteSingleNote = async (req, res, next) => {
                 { "details": { $regex: req.query.search, $options: "i" } },
             ],
         } : { author: req?.user?._id, action: 'archive' };
-        const archive = await Note.find(archiveKeyword).sort("-createdAt").limit(limit * 1).skip((page - 1) * limit).populate("message", "content").populate("chat", "chatName img _id");
+        const archive = await Note.find(archiveKeyword).sort("-updatedAt").limit(limit * 1).skip((page - 1) * limit).populate("message", "content").populate("chat", "chatName img _id");
         const archiveCount = await Note.find(archiveKeyword).count();
         const pinKeyword = req.query.search ? {
             author: req?.user?._id,
@@ -184,7 +184,7 @@ module.exports.deleteSingleNote = async (req, res, next) => {
                 { "details": { $regex: req.query.search, $options: "i" } },  
             ],
         } : { author: req?.user?._id, action: 'pin' };
-        const pin = await Note.find(pinKeyword).sort("-createdAt").limit(limit * 1).skip((page - 1) * limit).populate("message", "content").populate("chat", "chatName img _id");
+        const pin = await Note.find(pinKeyword).sort("-updatedAt").limit(limit * 1).skip((page - 1) * limit).populate("message", "content").populate("chat", "chatName img _id");
         const pinCount = await Note.find(pinKeyword).count();
         return res.status(200).json({
             message: `Note Trash Removed Successfully!`,
@@ -219,7 +219,7 @@ module.exports.getNote = async (req, res, next) => {
                 { "details": { $regex: req.query.search, $options: "i" } },
             ],
         } : { author: req?.user?._id, action: 'note' };
-        const note = await Note.find(noteKeyword).sort("-createdAt").limit(limit * 1).skip((page - 1) * limit).populate("message", "content").populate("chat", "chatName img _id");
+        const note = await Note.find(noteKeyword).sort("-updatedAt").limit(limit * 1).skip((page - 1) * limit).populate("message", "content").populate("chat", "chatName img _id");
         const noteCount = await Note.find(noteKeyword).count();
         //2 trash
         const trashKeyword = req.query.search ? {
@@ -230,7 +230,7 @@ module.exports.getNote = async (req, res, next) => {
                 { "details": { $regex: req.query.search, $options: "i" } }        
             ],
         } : { author: req?.user?._id, action: 'trash' };
-        const trash = await Note.find(trashKeyword).sort("-createdAt").limit(limit * 1).skip((page - 1) * limit).populate("message", "content").populate("chat", "chatName img _id");
+        const trash = await Note.find(trashKeyword).sort("-updatedAt").limit(limit * 1).skip((page - 1) * limit).populate("message", "content").populate("chat", "chatName img _id");
         const trashCount = await Note.find(trashKeyword).count();
         //3 archive
         const archiveKeyword = req.query.search ? {
@@ -242,7 +242,7 @@ module.exports.getNote = async (req, res, next) => {
 
             ],
         } : { author: req?.user?._id, action: 'archive' };
-        const archive = await Note.find(archiveKeyword).sort("-createdAt").limit(limit * 1).skip((page - 1) * limit).populate("message", "content").populate("chat", "chatName img _id");
+        const archive = await Note.find(archiveKeyword).sort("-updatedAt").limit(limit * 1).skip((page - 1) * limit).populate("message", "content").populate("chat", "chatName img _id");
         const archiveCount = await Note.find(archiveKeyword).count();
         const pinKeyword = req.query.search ? {
             author: req?.user?._id,
@@ -253,7 +253,7 @@ module.exports.getNote = async (req, res, next) => {
 
             ],
         } : { author: req?.user?._id, action: 'pin' };
-        const pin = await Note.find(pinKeyword).sort("-createdAt").limit(limit * 1).skip((page - 1) * limit).populate("message", "content").populate("chat", "chatName img _id");
+        const pin = await Note.find(pinKeyword).sort("-updatedAt").limit(limit * 1).skip((page - 1) * limit).populate("message", "content").populate("chat", "chatName img _id");
         const pinCount = await Note.find(pinKeyword).count();
         return res.status(200).json({
             message: '',
@@ -293,8 +293,8 @@ module.exports.allRemoveNote = async (req, res, next) => {
         if (deletedFile.deletedCount === 1) {
             deletedPermission = true
         } else if (deletedFile.deletedCount !== 1) {
-            const trash = await Note.find(keyword).sort("-createdAt").limit(limit * 1).skip((page - 1) * limit).populate("message", "content").populate("chat", "chatName img _id");
-            const trashCount = await Note.find(keyword).sort("-createdAt").count()
+            const trash = await Note.find(keyword).sort("-updatedAt").limit(limit * 1).skip((page - 1) * limit).populate("message", "content").populate("chat", "chatName img _id");
+            const trashCount = await Note.find(keyword).sort("-updatedAt").count()
             return res.status(400).json({ error: { trash: 'All Trash Remove Failed!' }, data: { trash: trash, trashCount: trashCount } })
         }
         const noteKeyword = req.query.search ? {
@@ -305,7 +305,7 @@ module.exports.allRemoveNote = async (req, res, next) => {
                 { "details": { $regex: req.query.search, $options: "i" } },
             ],
         } : { author: req?.user?._id, action: 'note' };
-        const note = await Note.find(noteKeyword).sort("-createdAt").limit(limit * 1).skip((page - 1) * limit).populate("message", "content").populate("chat", "chatName img _id");
+        const note = await Note.find(noteKeyword).sort("-updatedAt").limit(limit * 1).skip((page - 1) * limit).populate("message", "content").populate("chat", "chatName img _id");
         const noteCount = await Note.find(noteKeyword).count();
         //2 trash
         const trashKeyword = req.query.search ? {
@@ -316,7 +316,7 @@ module.exports.allRemoveNote = async (req, res, next) => {
                 { "details": { $regex: req.query.search, $options: "i" } },
             ],
         } : { author: req?.user?._id, action: 'trash' };
-        const trash = await Note.find(trashKeyword).sort("-createdAt").limit(limit * 1).skip((page - 1) * limit).populate("message", "content").populate("chat", "chatName img _id");
+        const trash = await Note.find(trashKeyword).sort("-updatedAt").limit(limit * 1).skip((page - 1) * limit).populate("message", "content").populate("chat", "chatName img _id");
         const trashCount = await Note.find(trashKeyword).count();
         //3 archive
         const archiveKeyword = req.query.search ? {
@@ -327,7 +327,7 @@ module.exports.allRemoveNote = async (req, res, next) => {
                 { "details": { $regex: req.query.search, $options: "i" } }, 
             ],
         } : { author: req?.user?._id, action: 'archive' };
-        const archive = await Note.find(archiveKeyword).sort("-createdAt").limit(limit * 1).skip((page - 1) * limit).populate("message", "content").populate("chat", "chatName img _id");
+        const archive = await Note.find(archiveKeyword).sort("-updatedAt").limit(limit * 1).skip((page - 1) * limit).populate("message", "content").populate("chat", "chatName img _id");
         const archiveCount = await Note.find(archiveKeyword).count();
         const pinKeyword = req.query.search ? {
             author: req?.user?._id,
@@ -337,7 +337,7 @@ module.exports.allRemoveNote = async (req, res, next) => {
                 { "details": { $regex: req.query.search, $options: "i" } }, 
             ],
         } : { author: req?.user?._id, action: 'pin' };
-        const pin = await Note.find(pinKeyword).sort("-createdAt").limit(limit * 1).skip((page - 1) * limit).populate("message", "content").populate("chat", "chatName img _id");
+        const pin = await Note.find(pinKeyword).sort("-updatedAt").limit(limit * 1).skip((page - 1) * limit).populate("message", "content").populate("chat", "chatName img _id");
         const pinCount = await Note.find(pinKeyword).count();
         return res.status(200).json({
             message: `Note All Trash Removed Successfully!`,
