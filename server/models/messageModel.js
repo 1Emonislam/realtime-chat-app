@@ -9,9 +9,14 @@ const messageSchema = mongoose.Schema({
         text: {
             type: String,
         },
-        reaction:{
-            question:{
-              
+        reaction: {
+            question: {
+                url: 'https://i.ibb.co/7jzqN3F/question.png',
+                count: 0,
+            },
+            confused: {
+                url: 'https://i.ibb.co/JRF9WsY/confused.png',
+                count: 0,
             }
         },
         audio: [{
