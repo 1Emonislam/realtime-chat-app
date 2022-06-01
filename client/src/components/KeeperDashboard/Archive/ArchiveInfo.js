@@ -50,7 +50,7 @@ const ArchiveInfo = ({ note, mode, archivePage, setArchiveCount }) => {
 
       <Box sx={{ display: "flex", justifyContent: "end", position: 'relative' }}>
         {/* -- Color box component -- */}
-        {note?.action === 'pin' ? <Tooltip title="UnPin" arrow placement="top" onClick={() => {
+        {note?.pin ? <Tooltip title="UnPin" arrow placement="top" onClick={() => {
           const data = {
             pin: false,
             status: 'archive',
