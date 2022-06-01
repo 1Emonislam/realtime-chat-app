@@ -1,46 +1,46 @@
 .drawerOpen {
-    margin-left: 240px;
+  margin-left: 240px;
 }
 
 .keeperLogo {
-    color: white;
-    font-weight: 600;
-    font-size: 40px;
+  color: white;
+  font-weight: 600;
+  font-size: 40px;
 }
 
 .searchBg {
-    position: relative;
-    display: flex;
-    align-items: center;
-    background-color: white;
-    width: 50%;
-    padding: 10px;
-    border-radius: 15px;
+  position: absolute;
+  display: flex;
+  align-items: center;
+  background-color: white;
+  width: 50%;
+  padding: 10px;
+  border-radius: 15px;
 }
 
 .NavSearchInput {
-    font-size: 22px;
-    margin-left: 5px;
+  font-size: 22px;
+  margin-left: 5px;
 }
 
 .searchIconStyle {
-    border-radius: 50%;
-    width: 170px;
-    height: 170px;
+  border-radius: 50%;
+  width: 170px;
+  height: 170px;
 }
 
 .searchIconStyle:hover {
-    background-color: rgb(240, 236, 236);
+  background-color: rgb(240, 236, 236);
 }
 
 .searchBarLogoutBtn {
-    background-color: inherit;
-    border: 1.5px solid #dbdbdb;
-    outline: none;
-    border-radius: 3px;
-    height: 40px;
-    width: 100px;
-    color: #fff;
-    cursor: pointer;
-    font-size: 15px;
+  background-color: inherit;
+  border: 1.5px solid #dbdbdb;
+  outline: none;
+  border-radius: 3px;
+  height: 40px;
+  width: 100px;
+  color: #fff;
+  cursor: pointer;
+  font-size: 15px;
 }

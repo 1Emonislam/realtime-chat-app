@@ -52,7 +52,7 @@ function DashboardLayout() {
           py: 1
         }}
       >
-        <Toolbar sx={{ display: "flex", alignItems: "center" }}>
+      <Toolbar sx={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
           {!isDesktop && (
             <IconButton
               color="inherit"
