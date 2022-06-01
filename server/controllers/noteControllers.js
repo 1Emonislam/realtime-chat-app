@@ -25,9 +25,10 @@ module.exports.noteCreate = async (req, res, next) => {
             $or: [
                 { "title": { $regex: req.query.search, $options: "i" } },
                 { "details": { $regex: req.query.search, $options: "i" } },
-                { "action": "unpin" },
+
+
             ],
-        } : { author: req?.user?._id, action: action, "action": "unpin" };
+        } : { author: req?.user?._id, action: action };
         const data = await Note.find(keyword).sort("-updatedAt").limit(limit * 1).skip((page - 1) * limit).populate("message", "content").populate("chat", "chatName img _id");
         const count = await Note.find(keyword).count();
         if (!note) {
@@ -60,9 +61,8 @@ module.exports.updateNote = async (req, res, next) => {
             $or: [
                 { "title": { $regex: req.query.search, $options: "i" } },
                 { "details": { $regex: req.query.search, $options: "i" } },
-                { "action": "unpin" },
             ],
-        } : { author: req?.user?._id, action: 'note', "action": "unpin" };
+        } : { author: req?.user?._id, action: 'note' };
         const note = await Note.find(noteKeyword).sort("-updatedAt").limit(limit * 1).skip((page - 1) * limit).populate("message", "content").populate("chat", "chatName img _id");
         const noteCount = await Note.find(noteKeyword).count();
         //2 trash
@@ -72,6 +72,8 @@ module.exports.updateNote = async (req, res, next) => {
             $or: [
                 { "title": { $regex: req.query.search, $options: "i" } },
                 { "details": { $regex: req.query.search, $options: "i" } },
+
+
             ],
         } : { author: req?.user?._id, action: 'trash' };
         const trash = await Note.find(trashKeyword).sort("-updatedAt").limit(limit * 1).skip((page - 1) * limit).populate("message", "content").populate("chat", "chatName img _id");
@@ -83,10 +85,10 @@ module.exports.updateNote = async (req, res, next) => {
             $or: [
                 { "title": { $regex: req.query.search, $options: "i" } },
                 { "details": { $regex: req.query.search, $options: "i" } },
-                { "action": "unpin" },
+
 
             ],
-        } : { author: req?.user?._id, action: 'archive', "action": "unpin" };
+        } : { author: req?.user?._id, action: 'archive' };
         const archive = await Note.find(archiveKeyword).sort("-updatedAt").limit(limit * 1).skip((page - 1) * limit).populate("message", "content").populate("chat", "chatName img _id");
         const archiveCount = await Note.find(archiveKeyword).count();
         const pinKeyword = req.query.search ? {
@@ -95,7 +97,7 @@ module.exports.updateNote = async (req, res, next) => {
             $or: [
                 { "title": { $regex: req.query.search, $options: "i" } },
                 { "details": { $regex: req.query.search, $options: "i" } },
-                { "action": "unpin" },
+
 
             ],
         } : { author: req?.user?._id, action: 'pin' };
@@ -108,9 +110,9 @@ module.exports.updateNote = async (req, res, next) => {
             $or: [
                 { "title": { $regex: req.query.search, $options: "i" } },
                 { "details": { $regex: req.query.search, $options: "i" } },
-                { "action": "unpin" },
+
             ],
-        } : { author: req?.user?._id, action: 'unpin', "action": "unpin" };
+        } : { author: req?.user?._id, action: 'unpin' };
         const unPin = await Note.find(unPinKeyword).sort("-updatedAt").limit(limit * 1).skip((page - 1) * limit).populate("message", "content").populate("chat", "chatName img _id");
         const unPinCount = await Note.find(unPinKeyword).count();
         return res.status(200).json({
