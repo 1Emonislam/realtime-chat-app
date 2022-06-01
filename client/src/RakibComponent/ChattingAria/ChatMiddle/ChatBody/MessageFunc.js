@@ -217,7 +217,7 @@ export default function MessageFunc({ isSameSenderPermission, handleTyping, isTy
                 </Typography>
 
                 {/* Text to speak */}
-                <Typography onClick={handleSpeechToRead} sx={{ cursor: 'pointer', '&:hover': { bgcolor: 'rgb(234, 234, 234, 0.5)' }, py: 1, px: 2, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                <Typography onClick={() => handleSpeechToRead()} sx={{ cursor: 'pointer', '&:hover': { bgcolor: 'rgb(234, 234, 234, 0.5)' }, py: 1, px: 2, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                     <span style={{ fontSize: 14, color: '#dda248', fontWeight: '700' }}> Read Message
                     </span>
                     <span>

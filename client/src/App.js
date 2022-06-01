@@ -16,9 +16,10 @@ import SettingSinch from "./components/DashBoardSettings/SettingSinch";
 import Users from "./components/DashBoardSettings/Users";
 import Group from "./components/Group/Group";
 import GroupInviteAccept from "./components/GroupInviteAccept";
+import Archive from "./components/KeeperDashboard/Archive/Archive";
 import DashboardLayout from "./components/KeeperDashboard/DashboardLayout/DashboardLayout";
 import Notes from "./components/KeeperDashboard/Notes/Notes";
-import Archive from "./components/KeeperDashboard/Archive/Archive";
+import Pin from "./components/KeeperDashboard/Pin/Pin";
 import Trash from "./components/KeeperDashboard/Trash/Trash";
 import Settings from "./components/Settings/Settings/Settings";
 import Status from "./components/Status/Status/Status";
@@ -35,10 +36,8 @@ import DHome from './pages/Dashboard/DHome/DHome';
 import Home from "./pages/Home/Home";
 import { getGroupChatData } from "./store/actions/groupActions";
 import { getNotification } from "./store/actions/messageNotificationAction";
-import { SOCKET_GLOBAL } from "./store/type/socketType";
 import { getMembersPagination } from "./store/actions/selectedChatAction";
-import Pin from "./components/KeeperDashboard/Pin/Pin";
-import UnPin from "./components/KeeperDashboard/UnPin/UnPin";
+import { SOCKET_GLOBAL } from "./store/type/socketType";
 export const ThemeSelectContext = React.createContext();
 export const PaginationContext = React.createContext();
 const ColorModeContext = React.createContext({ toggleColorMode: () => { } });
@@ -251,7 +250,6 @@ export default function ToggleColorMode() {
                   <Route path="notes" element={<Notes />} />
                   <Route path="archive" element={<Archive />} />
                   <Route path="pin" element={<Pin />} />
-                  <Route path="unPin" element={<UnPin />} />
                   <Route path="trash" element={<Trash />} />
                 </Route>
                 {/* Keeper Dashboard End */}

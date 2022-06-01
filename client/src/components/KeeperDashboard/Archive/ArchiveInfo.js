@@ -52,8 +52,8 @@ const ArchiveInfo = ({ note, mode, archivePage, setArchiveCount }) => {
         {/* -- Color box component -- */}
         {note?.action === 'pin' ? <Tooltip title="UnPin" arrow placement="top" onClick={() => {
           const data = {
-            action: 'unpin',
-            status: 'acrhive',
+            pin: false,
+            status: 'archive',
             message: 'Unpin Addded'
           }
           dispatch(actionByNotesUpdate(data, note?._id, auth?.user?.token, archivePage, handleClose))
@@ -63,7 +63,7 @@ const ArchiveInfo = ({ note, mode, archivePage, setArchiveCount }) => {
           </IconButton>
         </Tooltip> : <Tooltip title="Pin" arrow placement="top" onClick={() => {
           const data = {
-            action: 'pin',
+            pin: true,
             status: 'archive',
             message: 'Pin Addded'
           }

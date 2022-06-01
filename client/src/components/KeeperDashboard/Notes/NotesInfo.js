@@ -57,7 +57,7 @@ const NotesInfo = ({ note, mode, notePage, setNoteCount }) => {
         {/* -- Color box component -- */}
         {note?.action === 'pin' ? <Tooltip title="UnPin" arrow placement="top" onClick={() => {
           const data = {
-            action: 'unpin',
+            pin: false,
             status: 'note',
             message: 'Unpin Addded'
           }
@@ -68,8 +68,8 @@ const NotesInfo = ({ note, mode, notePage, setNoteCount }) => {
           </IconButton>
         </Tooltip> : <Tooltip title="Pin" arrow placement="top" onClick={() => {
           const data = {
-            action: 'pin',
-            status: 'note',
+            pin: true,
+            status:'note',
             message: 'Pin Addded'
           }
           dispatch(actionByNotesUpdate(data, note?._id, auth?.user?.token, notePage, handleClose))

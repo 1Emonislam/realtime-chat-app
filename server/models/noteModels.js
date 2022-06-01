@@ -13,6 +13,10 @@ const noteSchema = mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "Chat",
     },
+    pin: {
+        type: Boolean,
+        default: false
+    },
     title: {
         type: String,
     },

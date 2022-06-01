@@ -4,7 +4,6 @@ import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import NoteOutlinedIcon from "@mui/icons-material/NoteOutlined";
 // import ModeEditOutlinedIcon from "@mui/icons-material/ModeEditOutlined";
 import PushPinOutlinedIcon from '@mui/icons-material/PushPinOutlined'; // import {BsPinFill} from 'react-icons/bs'
-import { BsPinAngleFill } from 'react-icons/bs'
 import { Box, Typography } from "@mui/material";
 import Modal from "@mui/material/Modal";
 import * as React from "react";
@@ -88,21 +87,6 @@ const DrawerContent = ({ mode }) => {
                 />
               </h5>
               <h3 style={{ fontWeight: "400" }}>Pin</h3>
-            </div>
-          </NavLink>
-          <NavLink
-            to="/keeper/unPin"
-            className="drawerLink"
-            style={{ display: "flex" }}
-          >
-            <div style={{ color: textColor }} className="linkItem">
-              <h5 style={{ marginLeft: "15px" }}>
-                <BsPinAngleFill
-                  sx={{ mt: "5px", ml: '5px' }}
-                  fontSize="medium"
-                />
-              </h5>
-              <h3 style={{ fontWeight: "400", marginLeft: '20px' }}>Unpin</h3>
             </div>
           </NavLink>
           <NavLink
