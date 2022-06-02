@@ -309,6 +309,80 @@ export const editMessage = (data, chatId, messageId, token, messageEditHandle) =
         }
     }
 }
+export const reactionMessage = (reaction, chatId, messageId, token, messageEditHandle) => {
+    if (!store.getState()?.socketFunc?.socket?.current) {
+        toast.error('Message Reaction failed! try again', {
+            position: "bottom-right",
+            theme: store.getState()?.theme?.theme,
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+        });
+        return
+    };
+    return async (dispatch) => {
+        dispatch({
+            type: LOADING_MESSAGE,
+            payload: {
+                loading: false,
+            },
+        })
+        try {
+            fetch(`https://collaballapp.herokuapp.com/api/message`, {
+                method: 'PUT',
+                headers: {
+                    "Content-Type": "application/json",
+                    "authorization": `Bearer ${token}`
+                },
+                body: JSON.stringify({
+                    reaction,
+                    chatId: chatId,
+                    messageId: messageId,
+                })
+            })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.error) {
+                        dispatch({
+                            type: FAILED_MESSAGE,
+                            payload: {
+                                error: data?.error,
+                            }
+                        })
+                    }
+                    if (data) {
+                        messageEditHandle(false)
+                        if (data?.data) {
+                            const findUpdateMsg = data?.data.find(msg => msg?._id?.toString() === messageId?.toString())
+                            if (store.getState()?.socketFunc?.socket?.current) {
+                                store.getState()?.socketFunc?.socket?.current.emit("new message", findUpdateMsg);
+                            }
+                            dispatch({
+                                type: UPDATE_MESSAGE,
+                                payload: {
+                                    message: data?.message,
+                                    data: data,
+                                    updateMsg: findUpdateMsg,
+                                }
+                            })
+                        }
+                    }
+
+                })
+        }
+        catch (error) {
+            dispatch({
+                type: FAILED_MESSAGE,
+                payload: {
+                    error: error.message,
+                }
+            })
+        }
+    }
+}
 export const deleteMessage = (chatId, messageId, token) => {
     // console.log(data, chatId, messageId, token, editor)
     return async (dispatch) => {

@@ -100,7 +100,8 @@ module.exports.reactionUpdate = async (req, res, next) => {
     if (!req?.user?._id) {
         return res.status(400).json({ error: { email: 'User Credentials expired! Please login' } })
     }
-    const { chatId, messageId, questionCount, confusedCount } = req.body;
+    const { chatId, messageId, reaction } = req.body;
+    const { questionCount, confusedCount } = reaction;
     if (!chatId || !messageId) {
         return res.status(400).json({ error: { token: "please provide valid credentials!" } })
     }
@@ -163,7 +164,7 @@ module.exports.reactionUpdate = async (req, res, next) => {
                 }
             }
             return res.status(200).json({
-                message: "Message Successfully Updated",
+                message: "Message Reaction added",
                 me: message?.length > 0 ? me : {},
                 data: message
             });

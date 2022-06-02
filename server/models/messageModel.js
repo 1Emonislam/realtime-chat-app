@@ -35,6 +35,15 @@ const messageSchema = mongoose.Schema({
                 },
             }
         },
+        replay: {
+            text: {
+                type: String,
+            },
+            user: {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: "User",
+            }
+        },
         audio: [{
             type: mongoose.Schema.Types.ObjectId,
             ref: "UploadFiles"
