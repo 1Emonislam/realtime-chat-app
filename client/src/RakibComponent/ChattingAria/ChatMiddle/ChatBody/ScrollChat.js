@@ -178,7 +178,7 @@ function ScrollChat({ messages, user, handleTyping, isTyping }) {
 
                                                 </Typography>
                                             </div>
-
+                                            {console.log(m)}
                                             <Grid sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
 
                                                 {
@@ -205,7 +205,7 @@ function ScrollChat({ messages, user, handleTyping, isTyping }) {
 
                                                                     <img
 
-                                                                        style={{ height: '25px', marginLeft: '7px',position:'relative' }}
+                                                                        style={{ height: '25px', marginLeft: '7px', position: 'relative' }}
                                                                         src={m?.content?.text?.toLowerCase() === "question?" ? questionImg
                                                                             :
                                                                             m?.content?.text?.toLowerCase() === "don't understand!" ? confusedImg

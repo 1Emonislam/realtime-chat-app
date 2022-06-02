@@ -9,32 +9,6 @@ const messageSchema = mongoose.Schema({
         text: {
             type: String,
         },
-        reaction: {
-            question: {
-                type: String,
-                url: 'https://i.ibb.co/7jzqN3F/question.png',
-                users: [{
-                    type: mongoose.Schema.Types.ObjectId,
-                    ref: "User",
-                }],
-                count: {
-                    type: Number,
-                    default: 0
-                },
-            },
-            confused: {
-                type: String,
-                url: 'https://i.ibb.co/JRF9WsY/confused.png',
-                users: [{
-                    type: mongoose.Schema.Types.ObjectId,
-                    ref: "User",
-                }],
-                count: {
-                    type: Number,
-                    default: 0
-                },
-            }
-        },
         replay: {
             text: {
                 type: String,
@@ -43,6 +17,12 @@ const messageSchema = mongoose.Schema({
                 type: mongoose.Schema.Types.ObjectId,
                 ref: "User",
             }
+        },
+        question: {
+            type: String,
+        },
+        confused: {
+            type: String,
         },
         audio: [{
             type: mongoose.Schema.Types.ObjectId,

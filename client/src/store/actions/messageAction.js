@@ -354,7 +354,9 @@ export const reactionMessage = (reaction, chatId, messageId, token, messageEditH
                         })
                     }
                     if (data) {
-                        messageEditHandle(false)
+                        if (messageEditHandle) {
+                            messageEditHandle(false)
+                        }
                         if (data?.data) {
                             const findUpdateMsg = data?.data.find(msg => msg?._id?.toString() === messageId?.toString())
                             if (store.getState()?.socketFunc?.socket?.current) {

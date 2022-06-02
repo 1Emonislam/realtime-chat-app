@@ -101,16 +101,24 @@ module.exports.reactionUpdate = async (req, res, next) => {
         return res.status(400).json({ error: { email: 'User Credentials expired! Please login' } })
     }
     const { chatId, messageId, reaction } = req.body;
-    const { questionCount, confusedCount } = reaction;
+    const { question, confused } = reaction;
     if (!chatId || !messageId) {
         return res.status(400).json({ error: { token: "please provide valid credentials!" } })
     }
     try {
         let message = await Message.findOneAndUpdate({ _id: messageId, chat: chatId }, {
-            $inc: { "content.reaction.question.count": questionCount },
-            $addToSet: { "content.reaction.question.users": req.user?._id },
-            $inc: { "content.reaction.confused.count": confusedCount },
-            $addToSet: { "content.reaction.confused.users": req.user?._id },
+            content: {
+                question: {
+                    question
+                },
+                confused: {
+                    confused
+                },
+                replay: {
+                    text: text,
+                    user: req.user?._id
+                }
+            },
         }, { new: true })
         await Chat.findOneAndUpdate({ _id: req.body.chatId }, {
             latestMessage: message?._id,
