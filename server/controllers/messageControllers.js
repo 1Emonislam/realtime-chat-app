@@ -96,6 +96,83 @@ module.exports.sendMessage = async (req, res, next) => {
         next(error)
     }
 }
+module.exports.reactionUpdate = async (req, res, next) => {
+    if (!req?.user?._id) {
+        return res.status(400).json({ error: { email: 'User Credentials expired! Please login' } })
+    }
+    const { chatId, messageId, questionCount, confusedCount } = req.body;
+    if (!chatId || !messageId) {
+        return res.status(400).json({ error: { token: "please provide valid credentials!" } })
+    }
+    try {
+        let message = await Message.findOneAndUpdate({ _id: messageId, chat: chatId }, {
+            $inc: { "content.reaction.question.count": questionCount },
+            $addToSet: { "content.reaction.question.users": req.user?._id },
+            $inc: { "content.reaction.confused.count": confusedCount },
+            $addToSet: { "content.reaction.confused.users": req.user?._id },
+        }, { new: true })
+        await Chat.findOneAndUpdate({ _id: req.body.chatId }, {
+            latestMessage: message?._id,
+            $addToSet: { seen: req.user?._id }
+        }, { new: true }).populate({
+            path: 'groupAdmin',
+            select: '_id pic firstName lastName email online lastOnline'
+        })
+        // console.log(message)
+        if (!message) {
+            return res.status(400).json({ error: { action: "Message Update Failed!" }, data: [] })
+        }
+        // console.log(message)
+        if (message) {
+            message = await Message.find({ chat: chatId }).limit(100)
+            message = await UploadFiles.populate(message, {
+                path: 'content.files',
+                select: '_id duration author filename sizeOfBytes type format duration url createdAt'
+            })
+            message = await User.populate(message, {
+                path: 'sender',
+                select: '_id pic firstName lastName email online lastOnline'
+            })
+            message = await Chat.populate(message, {
+                path: 'chat',
+                select: '_id  chatName img seen groupAdmin members',
+            })
+            message = await User.populate(message, {
+                path: 'chat.members',
+                select: '_id pic firstName lastName email online lastOnline'
+            })
+            message = await User.populate(message, {
+                path: 'chat.groupAdmin',
+                select: '_id pic firstName lastName email online lastOnline'
+            })
+            message = await Chat.populate(message, {
+                path: 'chat.seen',
+                select: '_id pic firstName lastName email online lastOnline',
+            })
+            await GroupNotification.updateMany({ chat: chatId, receiver: req.user?._id }, {
+                seen: true,
+                lastSeen: new Date(),
+            }, { new: true })
+            const me = {
+                msgLastSeen: new Date(),
+                info: {
+                    firstName: req?.user?.firstName,
+                    lastName: req?.user?.lastName,
+                    pic: req?.user?.pic,
+                    email: req?.user?.email
+                }
+            }
+            return res.status(200).json({
+                message: "Message Successfully Updated",
+                me: message?.length > 0 ? me : {},
+                data: message
+            });
+        }
+    }
+    catch (error) {
+        next(error)
+    }
+}
 module.exports.sendFilesUploadMessage = async (req, res, next) => {
     if (!req?.user?._id) {
         return res.status(400).json({ error: { email: 'User Credentials expired! Please login' } })

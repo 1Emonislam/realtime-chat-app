@@ -13,12 +13,26 @@ const messageSchema = mongoose.Schema({
             question: {
                 type: String,
                 url: 'https://i.ibb.co/7jzqN3F/question.png',
-                count: 0,
+                users: [{
+                    type: mongoose.Schema.Types.ObjectId,
+                    ref: "User",
+                }],
+                count: {
+                    type: Number,
+                    default: 0
+                },
             },
             confused: {
                 type: String,
                 url: 'https://i.ibb.co/JRF9WsY/confused.png',
-                count: 0,
+                users: [{
+                    type: mongoose.Schema.Types.ObjectId,
+                    ref: "User",
+                }],
+                count: {
+                    type: Number,
+                    default: 0
+                },
             }
         },
         audio: [{
