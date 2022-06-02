@@ -9,24 +9,19 @@ const messageSchema = mongoose.Schema({
         text: {
             type: String,
         },
-        replay: {
-            text: {
+        question: {
+            icon: {
                 type: String,
             },
-            user: {
-                type: mongoose.Schema.Types.ObjectId,
-                ref: "User",
-            }
-        },
-        question: {
-            type: String,
             count: {
                 type: Number,
                 default: 0
             }
         },
         confused: {
-            type: String,
+            icon: {
+                type: String,
+            },
             count: {
                 type: Number,
                 default: 0
