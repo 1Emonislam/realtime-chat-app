@@ -313,9 +313,9 @@ module.exports.allMessage = async (req, res, next) => {
 
         let message;
         if (req.query?.search) {
-            message = await Message.find(keyword).sort('-createdAt').limit(50)
+            message = await Message.find(keyword).sort('-updatedAt').limit(50)
         } else {
-            message = await Message.find({ chat: req.params.chatId }).limit(50)
+            message = await Message.find({ chat: req.params.chatId }).sort('updatedAt').limit(50)
         }
         message = await UploadFiles.populate(message, {
             path: 'content.audio',
