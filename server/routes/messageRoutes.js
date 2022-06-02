@@ -6,7 +6,7 @@ router.post('/', protect, sendMessage)
 router.delete('/', protect, messageRemove)
 router.put('/', protect, messageEdit)
 router.get('/:chatId', protect, allMessage)
-router.put('/reaction', reactionUpdate)
+router.put('/reaction',protect, reactionUpdate)
 router.delete('/:chatId', protect, allMessageRemove)
 router.post('/all/upload/:id', protect, sendFilesUploadMessage)
 module.exports = router;
