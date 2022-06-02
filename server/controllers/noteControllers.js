@@ -45,10 +45,11 @@ module.exports.updateNote = async (req, res, next) => {
     }
     try {
         let { page = 1, limit = 10 } = req.query;
-        const { title, details, message, status = 'note', action = ''} = req.body;
+        const { title, details, message, status = 'note', action = '' } = req.body;
+        const pervius = await Note.findOne({ _id: req.params.id, author: req?.user?._id });
         const updateNote = await Note.findOneAndUpdate({ _id: req.params.id, author: req?.user?._id }, {
             title, details,
-            action,
+            action: action || pervius.action,
             pin: req?.body?.pin || false,
         }, { new: true });
         if (!updateNote) {
