@@ -208,7 +208,7 @@ function ScrollChat({ messages, user, handleTyping, isTyping }) {
                                                                         style={{ height: '25px', marginLeft: '7px', position: 'relative' }}
                                                                         src={m?.content?.text?.toLowerCase() === "question?" ? questionImg
                                                                             :
-                                                                            m?.content?.text?.toLowerCase() === "don't understand!" ? confusedImg
+                                                                            m?.content?.confused?.icon?.toLowerCase() === "don't understand!" ? confusedImg
                                                                                 :
                                                                                 m?.content?.text?.toLowerCase() === "repeat!" ? resendImg : ""
                                                                         }

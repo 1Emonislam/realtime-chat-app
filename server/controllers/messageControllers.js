@@ -98,7 +98,7 @@ module.exports.reactionUpdate = async (req, res, next) => {
             await Message.findOneAndUpdate({ _id: messageId, chat: chatId }, {
                 content: {
                     question: {
-                        text: question,
+                        icon: question,
                     },
                 },
                 $inc: { 'content.question.count': 1 },
@@ -108,7 +108,7 @@ module.exports.reactionUpdate = async (req, res, next) => {
             await Message.findOneAndUpdate({ _id: messageId, chat: chatId }, {
                 content: {
                     confused: {
-                        text: confused,
+                        icon: confused,
                     },
                 },
                 $inc: { 'content.confused.count': 1 },
