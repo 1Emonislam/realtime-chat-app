@@ -24,12 +24,12 @@ module.exports.sendMessage = async (req, res, next) => {
     }
     try {
         let message = await Message.create(newMessage);
-        await Chat.findByIdAndUpdate(req.body.chatId, {
+        const members = await Chat.findByIdAndUpdate(req.body.chatId, {
             latestMessage: message?._id,
             seen: [req.user?._id],
             isGroupChat: true
         }).populate({
-            path: 'groupAdmin',
+            path: 'members',
             select: '_id pic firstName lastName email online lastOnline'
         })
         message = await UploadFiles.populate(message, {
@@ -52,28 +52,16 @@ module.exports.sendMessage = async (req, res, next) => {
             path: 'sender',
             select: '_id pic firstName lastName email online lastOnline'
         })
-        message = await User.populate(message, {
-            path: 'chat.members',
-            select: '_id pic firstName lastName email online lastOnline'
-        })
         message = await Chat.populate(message, {
             path: 'chat',
-            select: '_id  chatName img seen groupAdmin members',
-        })
-        message = await Chat.populate(message, {
-            path: 'chat.members',
-            select: '_id pic firstName lastName email online lastOnline',
-        })
-        message = await User.populate(message, {
-            path: 'chat.groupAdmin',
-            select: '_id pic firstName lastName email online lastOnline'
+            select: '_id  chatName img seen',
         })
         message = await Chat.populate(message, {
             path: 'chat.seen',
             select: '_id pic firstName lastName email online lastOnline',
         })
         if (message) {
-            const sendUser = await message?.chat?.members?.filter(member => {
+            const sendUser = await members?.chat?.members?.filter(member => {
                 return (member?._id?.toString() !== req?.user?._id?.toString());
             });
             // console.log(message.chat)
@@ -109,10 +97,10 @@ module.exports.reactionUpdate = async (req, res, next) => {
         let message = await Message.findOneAndUpdate({ _id: messageId, chat: chatId }, {
             content: {
                 question: {
-                    question
+                    question,
                 },
                 confused: {
-                    confused
+                    confused,
                 },
                 replay: {
                     text: replayText,
@@ -120,6 +108,16 @@ module.exports.reactionUpdate = async (req, res, next) => {
                 }
             },
         }, { new: true })
+        if (question) {
+            await Message.findOneAndUpdate({ _id: messageId, chat: chatId }, {
+                $inc: { 'content.question.count': 1 },
+            }, { new: true })
+        }
+        if (confused) {
+            await Message.findOneAndUpdate({ _id: messageId, chat: chatId }, {
+                $inc: { 'content.confused.count': 1 },
+            }, { new: true })
+        }
         await Chat.findOneAndUpdate({ _id: req.body.chatId }, {
             latestMessage: message?._id,
             $addToSet: { seen: req.user?._id }
@@ -144,16 +142,9 @@ module.exports.reactionUpdate = async (req, res, next) => {
             })
             message = await Chat.populate(message, {
                 path: 'chat',
-                select: '_id  chatName img seen groupAdmin members',
+                select: '_id  chatName img seen',
             })
-            message = await User.populate(message, {
-                path: 'chat.members',
-                select: '_id pic firstName lastName email online lastOnline'
-            })
-            message = await User.populate(message, {
-                path: 'chat.groupAdmin',
-                select: '_id pic firstName lastName email online lastOnline'
-            })
+
             message = await Chat.populate(message, {
                 path: 'chat.seen',
                 select: '_id pic firstName lastName email online lastOnline',
@@ -229,12 +220,12 @@ module.exports.sendFilesUploadMessage = async (req, res, next) => {
         }
         let message = await Message.create(newMessage);
         // console.log(message)
-        await Chat.findByIdAndUpdate(req.params?.id, {
+        const members = await Chat.findByIdAndUpdate(req.params?.id, {
             latestMessage: message?._id,
             seen: [req.user?._id],
             isGroupChat: true
         }).populate({
-            path: 'groupAdmin',
+            path: 'members',
             select: '_id pic firstName lastName email online lastOnline'
         })
         message = await UploadFiles.populate(message, {
@@ -257,21 +248,9 @@ module.exports.sendFilesUploadMessage = async (req, res, next) => {
             path: 'sender',
             select: '_id pic firstName lastName email online lastOnline'
         })
-        message = await User.populate(message, {
-            path: 'chat.members',
-            select: '_id pic firstName lastName email online lastOnline'
-        })
         message = await Chat.populate(message, {
             path: 'chat',
-            select: '_id  chatName img seen groupAdmin members',
-        })
-        message = await Chat.populate(message, {
-            path: 'chat.members',
-            select: '_id pic firstName lastName email online lastOnline',
-        })
-        message = await User.populate(message, {
-            path: 'chat.groupAdmin',
-            select: '_id pic firstName lastName email online lastOnline'
+            select: '_id  chatName img seen',
         })
         message = await Chat.populate(message, {
             path: 'chat.seen',
@@ -279,7 +258,7 @@ module.exports.sendFilesUploadMessage = async (req, res, next) => {
         })
         // console.log(message)
         if (message) {
-            const sendUser = await message?.chat?.members?.filter(member => {
+            const sendUser = await members?.chat?.members?.filter(member => {
                 return (member?._id?.toString() !== req?.user?._id?.toString());
             });
             // console.log(message.chat)
@@ -321,9 +300,9 @@ module.exports.allMessage = async (req, res, next) => {
 
         let message;
         if (req.query?.search) {
-            message = await Message.find(keyword).sort('-updatedAt').limit(50)
+            message = await Message.find(keyword).select("-members").select("-groupAdmin").sort('-updatedAt').limit(50)
         } else {
-            message = await Message.find({ chat: req.params.chatId }).sort('updatedAt').limit(50)
+            message = await Message.find({ chat: req.params.chatId }).select("-members").select("-groupAdmin").sort('updatedAt').limit(50)
         }
         message = await UploadFiles.populate(message, {
             path: 'content.audio',
@@ -345,18 +324,11 @@ module.exports.allMessage = async (req, res, next) => {
             path: 'sender',
             select: '_id pic firstName lastName email online lastOnline'
         })
-        message = await User.populate(message, {
-            path: 'chat.members',
-            select: '_id pic firstName lastName email online lastOnline'
-        })
         message = await Chat.populate(message, {
             path: 'chat',
-            select: '_id seen groupAdmin members img chatName',
+            select: '_id seen img chatName',
         })
-        message = await User.populate(message, {
-            path: 'chat.groupAdmin',
-            select: '_id pic firstName lastName email online lastOnline'
-        })
+
         message = await Chat.populate(message, {
             path: 'chat.seen',
             select: '_id pic firstName lastName email online lastOnline',
@@ -418,18 +390,6 @@ module.exports.messageRemove = async (req, res, next) => {
             path: 'sender',
             select: '_id pic firstName lastName email online lastOnline'
         })
-        message = await User.populate(message, {
-            path: 'chat.members',
-            select: '_id pic firstName lastName email online lastOnline'
-        })
-        message = await Chat.populate(message, {
-            path: 'chat',
-            select: '_id seen groupAdmin',
-        })
-        message = await User.populate(message, {
-            path: 'chat.groupAdmin',
-            select: '_id pic firstName lastName email online lastOnline'
-        })
         message = await Chat.populate(message, {
             path: 'chat.seen',
             select: '_id pic firstName lastName email online lastOnline',
@@ -489,10 +449,7 @@ module.exports.messageEdit = async (req, res, next) => {
         await Chat.findOneAndUpdate({ _id: req.body.chatId }, {
             latestMessage: message?._id,
             $addToSet: { seen: req.user?._id }
-        }, { new: true }).populate({
-            path: 'groupAdmin',
-            select: '_id pic firstName lastName email online lastOnline'
-        })
+        }, { new: true })
         // console.log(message)
         if (!message) {
             return res.status(400).json({ error: { action: "Message Update Failed!" }, data: [] })
@@ -510,15 +467,7 @@ module.exports.messageEdit = async (req, res, next) => {
             })
             message = await Chat.populate(message, {
                 path: 'chat',
-                select: '_id  chatName img seen groupAdmin members',
-            })
-            message = await User.populate(message, {
-                path: 'chat.members',
-                select: '_id pic firstName lastName email online lastOnline'
-            })
-            message = await User.populate(message, {
-                path: 'chat.groupAdmin',
-                select: '_id pic firstName lastName email online lastOnline'
+                select: '_id  chatName img seen',
             })
             message = await Chat.populate(message, {
                 path: 'chat.seen',
@@ -581,17 +530,10 @@ module.exports.allMessageRemove = async (req, res, next) => {
             path: 'sender',
             select: '_id pic firstName lastName email online lastOnline'
         })
-        message = await User.populate(message, {
-            path: 'chat.members',
-            select: '_id pic firstName lastName email online lastOnline'
-        })
+
         message = await Chat.populate(message, {
             path: 'chat',
-            select: '_id seen groupAdmin',
-        })
-        message = await User.populate(message, {
-            path: 'chat.groupAdmin',
-            select: '_id pic firstName lastName email online lastOnline'
+            select: '_id seen chatName img',
         })
         message = await Chat.populate(message, {
             path: 'chat.seen',

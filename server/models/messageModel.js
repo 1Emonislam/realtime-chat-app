@@ -20,9 +20,17 @@ const messageSchema = mongoose.Schema({
         },
         question: {
             type: String,
+            count: {
+                type: Number,
+                default: 0
+            }
         },
         confused: {
             type: String,
+            count: {
+                type: Number,
+                default: 0
+            }
         },
         audio: [{
             type: mongoose.Schema.Types.ObjectId,
