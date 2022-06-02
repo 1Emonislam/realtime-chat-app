@@ -16,7 +16,7 @@ import questionImg from '../../../../Ashikur/chatRepliedImages/question.png';
 // import resendImg from '../../../../Ashikur/chatRepliedImages/resend.png';
 import readTextImg from '../../../../Ashikur/chatRepliedImages/readtext.png';
 import EditMessage from '../../../../Editor/EditMessage';
-import { deleteMessage, reactionMessage, sendMessage, updateMessageStore } from '../../../../store/actions/messageAction';
+import { deleteMessage, reactionMessage, updateMessageStore } from '../../../../store/actions/messageAction';
 import { FAILED_MESSAGE, SUCCESS_MESSAGE_CLEAR } from '../../../../store/type/messageTypes';
 import NoteAdd from './NoteAdd';
 
@@ -186,7 +186,10 @@ export default function MessageFunc({ isSameSenderPermission, handleTyping, isTy
 
                 {/* this is need to solve for question */}
                 <Typography onClick={() => {
-                    dispatch(sendMessage('Question?', messageInfo?.chat?._id, auth.user?.token))
+                    const reaction = {
+                        question:`question?`
+                    }
+                    dispatch(reactionMessage(reaction, messageInfo?.chat?._id, messageInfo?._id, auth.user?.token))
                 }} sx={{ cursor: 'pointer', '&:hover': { bgcolor: 'rgb(234, 234, 234, 0.5)' }, py: 1, px: 2, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                     <span style={{ fontSize: 14 }}>Question</span>
                     <span>
