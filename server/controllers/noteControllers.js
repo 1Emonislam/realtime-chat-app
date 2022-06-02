@@ -45,7 +45,7 @@ module.exports.updateNote = async (req, res, next) => {
     }
     try {
         let { page = 1, limit = 10 } = req.query;
-        const { title, details, message, status = 'note', action = 'note' } = req.body;
+        const { title, details, message, status = 'note', action = ''} = req.body;
         const updateNote = await Note.findOneAndUpdate({ _id: req.params.id, author: req?.user?._id }, {
             title, details,
             action,
