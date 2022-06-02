@@ -11,10 +11,12 @@ const messageSchema = mongoose.Schema({
         },
         reaction: {
             question: {
+                type: String,
                 url: 'https://i.ibb.co/7jzqN3F/question.png',
                 count: 0,
             },
             confused: {
+                type: String,
                 url: 'https://i.ibb.co/JRF9WsY/confused.png',
                 count: 0,
             }
