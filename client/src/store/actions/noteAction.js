@@ -2,7 +2,7 @@ import axios from 'axios'
 import { ERROR_NOTE, GET_NOTES, LOADING_NOTES, POST_NOTES } from "../reducers/notesReducer"
 export const createNotes = (messageId, chatId, title, details, token, handleNoteClose) => {
     return async (dispatch) => {
-        fetch(`https://collaballapp.herokuapp.com/api/note/`, {
+        fetch(`http://localhost:5000/api/note/`, {
             method: 'POST',
             headers: {
                 "Content-Type": "application/json",
@@ -58,7 +58,7 @@ export const createNoteItem = (data, token, reset) => {
             },
         }
         try {
-            axios.post('https://collaballapp.herokuapp.com/api/note/', data, config).then(({ data }) => {
+            axios.post('http://localhost:5000/api/note/', data, config).then(({ data }) => {
                 // console.log(data)
                 reset()
                 dispatch({
@@ -94,7 +94,7 @@ export const actionByNotesUpdate = (data, noteId, token, notePage, handleClose) 
                 loading: true
             }
         })
-        fetch(`https://collaballapp.herokuapp.com/api/note/${noteId}?page=${notePage}`, {
+        fetch(`http://localhost:5000/api/note/${noteId}?page=${notePage}`, {
             method: 'PUT',
             headers: {
                 "Content-Type": "application/json",
@@ -144,7 +144,7 @@ export const actionByNotesTrashUpdate = (data, noteId, token, setTrashCount, tra
                 loading: true
             }
         })
-        fetch(`https://collaballapp.herokuapp.com/api/note/${noteId}?page=${trashPage}`, {
+        fetch(`http://localhost:5000/api/note/${noteId}?page=${trashPage}`, {
             method: 'PUT',
             headers: {
                 "Content-Type": "application/json",
@@ -192,7 +192,7 @@ export const actionByNotesTrashSingleDelete = (noteId, token, setTrashCount, tra
                 loading: true
             }
         })
-        fetch(`https://collaballapp.herokuapp.com/api/note/trash/${noteId}?page=${trashPage}`, {
+        fetch(`http://localhost:5000/api/note/trash/${noteId}?page=${trashPage}`, {
             method: 'DELETE',
             headers: {
                 "Content-Type": "application/json",
@@ -239,7 +239,7 @@ export const actionByNotesTrashAllDelete = (token, setTrashCount, trashPage) => 
                 loading: true
             }
         })
-        fetch(`https://collaballapp.herokuapp.com/api/note?page=${trashPage}`, {
+        fetch(`http://localhost:5000/api/note?page=${trashPage}`, {
             method: 'DELETE',
             headers: {
                 "Content-Type": "application/json",
@@ -290,7 +290,7 @@ export const getActinByNotes = (page, limit, token, search, messageId, chatId) =
             messageId: messageId || '',
             chatId: chatId || ''
         }
-        fetch(`https://collaballapp.herokuapp.com/api/note/actions?search=${search || ''}&page=${page}&limit=${limit}`, {
+        fetch(`http://localhost:5000/api/note/actions?search=${search || ''}&page=${page}&limit=${limit}`, {
             method: 'POST',
             headers: {
                 "Content-Type": "application/json",

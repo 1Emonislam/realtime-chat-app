@@ -1,6 +1,7 @@
 const Chat = require("../models/chatModel");
 const GroupNotification = require("../models/groupNotificationModel");
 const Message = require("../models/messageModel");
+const Reaction = require("../models/ReactionModels");
 const UploadFiles = require("../models/uploadFilesModel");
 const User = require("../models/userModel");
 const { upload, fileUpload } = require("../utils/file");
@@ -88,81 +89,126 @@ module.exports.reactionUpdate = async (req, res, next) => {
     if (!req?.user?._id) {
         return res.status(400).json({ error: { email: 'User Credentials expired! Please login' } })
     }
-    const { chatId, messageId,question,confused } = req.body;
+    const { chatId, messageId, reaction } = req.body;
+    const { icon } = reaction;
+    let { page = 1, limit = 10 } = req.query;
+    limit = parseInt(limit);
+    const skip = parseInt(page - 1);
+    const size = limit;
+    // console.log(req.body)
     if (!chatId || !messageId) {
         return res.status(400).json({ error: { token: "please provide valid credentials!" } })
     }
     try {
-        if (question) {
-            await Message.findOneAndUpdate({ _id: messageId, chat: chatId }, {
-                content: {
-                    question: {
-                        icon: question,
-                    },
-                },
-                $inc: { 'content.question.count': 1 },
+        if (icon) {
+            let reactionAdd = await Reaction.findOne({ author: req.user?._id, message: messageId, chat: chatId, icon: icon })
+            if (reactionAdd) {
+                reactionAdd = await Reaction.findOneAndUpdate({ _id: reactionAdd?._id }, {
+                    $inc: { count: -1 }
+                }, { new: true })
+                if (reactionAdd.count < 0) {
+                    reactionAdd = await Reaction.findOneAndUpdate({ _id: reactionAdd?._id }, {
+                        count: +1,
+                    }, { new: true })
+                }
+            } else {
+                reactionAdd = await Reaction.findOneAndUpdate({
+                    message: messageId, chat: chatId, icon: icon
+                }, {
+                    author: req?.user?._id,
+                    message: messageId,
+                    chat: chatId,
+                    icon: icon,
+                    $inc: { count: +1 }
+                }, { new: true, upsert: true })
+            }
+            const updateMsg = await Message.findOneAndUpdate({ _id: messageId, chat: chatId }, {
+                $addToSet: { "content.reaction": reactionAdd?._id }
             }, { new: true })
-        }
-        if (confused) {
-            await Message.findOneAndUpdate({ _id: messageId, chat: chatId }, {
-                content: {
-                    confused: {
-                        icon: confused,
-                    },
-                },
-                $inc: { 'content.confused.count': 1 },
-            }, { new: true })
+            if (!updateMsg) {
+                return res.status(400).json({ error: { action: "Message Reaction Failed!" }, data: [] })
+            }
         }
         await Chat.findOneAndUpdate({ _id: req.body.chatId }, {
-            latestMessage: message?._id,
+            latestMessage: messageId,
             $addToSet: { seen: req.user?._id }
         }, { new: true }).populate({
             path: 'groupAdmin',
             select: '_id pic firstName lastName email online lastOnline'
         })
         // console.log(message)
-        if (!message) {
-            return res.status(400).json({ error: { action: "Message Update Failed!" }, data: [] })
-        }
-        // console.log(message)
-        if (message) {
-            message = await Message.find({ chat: chatId }).sort("updatedAt").limit(50)
-            message = await UploadFiles.populate(message, {
-                path: 'content.files',
-                select: '_id duration author filename sizeOfBytes type format duration url createdAt'
-            })
-            message = await User.populate(message, {
-                path: 'sender',
-                select: '_id pic firstName lastName email online lastOnline'
-            })
-            message = await Chat.populate(message, {
-                path: 'chat',
-                select: '_id  chatName img seen',
-            })
 
-            message = await Chat.populate(message, {
-                path: 'chat.seen',
-                select: '_id pic firstName lastName email online lastOnline',
-            })
-            await GroupNotification.updateMany({ chat: chatId, receiver: req.user?._id }, {
-                seen: true,
-                lastSeen: new Date(),
-            }, { new: true })
-            const me = {
-                msgLastSeen: new Date(),
-                info: {
-                    firstName: req?.user?.firstName,
-                    lastName: req?.user?.lastName,
-                    pic: req?.user?.pic,
-                    email: req?.user?.email
-                }
+        // console.log(message)
+        let message = await Message.find({ chat: chatId, members: req.user?._id }).populate({
+            path: "content.reaction",
+            populate: [
+                {
+                    path: "author",
+                    select: "_id pic firstName lastName email online lastOnline createdAt",
+                    options: {
+                        skip: skip,
+                        limit: size
+                    },
+                    match: {
+                        // filter result in case of multiple result in populate
+                        // may not useful in this case
+                    }
+                },
+            ],
+        }).sort("updatedAt").limit(50)
+        message = await UploadFiles.populate(message, {
+            path: 'content.files',
+            select: '_id duration author filename sizeOfBytes type format duration url createdAt'
+        })
+        message = await User.populate(message, {
+            path: 'sender',
+            select: '_id pic firstName lastName email online lastOnline'
+        })
+        message = await Chat.populate(message, {
+            path: 'chat',
+            select: '_id  chatName img seen',
+        })
+
+        message = await Chat.populate(message, {
+            path: 'chat.seen',
+            select: '_id pic firstName lastName email online lastOnline',
+        })
+        await GroupNotification.updateMany({ chat: chatId, receiver: req.user?._id }, {
+            seen: true,
+            lastSeen: new Date(),
+        }, { new: true })
+        const me = {
+            msgLastSeen: new Date(),
+            info: {
+                firstName: req?.user?.firstName,
+                lastName: req?.user?.lastName,
+                pic: req?.user?.pic,
+                email: req?.user?.email
             }
-            return res.status(200).json({
-                message: "Message Reaction added",
-                me: message?.length > 0 ? me : {},
-                data: message
-            });
         }
+        const updateMessage = await Message.findOne({ _id: messageId, chat: chatId }).populate({
+            path: "content.reaction",
+            populate: [
+                {
+                    path: "author",
+                    select: "_id pic firstName lastName online lastOnline createdAt",
+                    options: {
+                        skip: skip,
+                        limit: size
+                    },
+                    match: {
+                        // filter result in case of multiple result in populate
+                        // may not useful in this case
+                    }
+                },
+            ],
+        }).populate("chat", "_id chatName img")
+        return res.status(200).json({
+            message: "Message Reaction added",
+            me: message?.length > 0 ? me : {},
+            data: message || [],
+            updateMsg: updateMessage,
+        });
     }
     catch (error) {
         next(error)
@@ -172,8 +218,11 @@ module.exports.replayMSG = async (req, res, next) => {
     if (!req?.user?._id) {
         return res.status(400).json({ error: { email: 'User Credentials expired! Please login' } })
     }
-    const { chatId, messageId, } = req.body;
-    const { question, confused, replayText } = reaction;
+    const { chatId, messageId, replayText } = req.body;
+    let { page = 1, limit = 10 } = req.query;
+    limit = parseInt(limit);
+    const skip = parseInt(page - 1);
+    const size = limit;
     if (!chatId || !messageId) {
         return res.status(400).json({ error: { token: "please provide valid credentials!" } })
     }
@@ -193,7 +242,23 @@ module.exports.replayMSG = async (req, res, next) => {
         }
         // console.log(message)
         if (message) {
-            message = await Message.find({ chat: chatId }).sort("updatedAt").limit(50)
+            message = await Message.find({ chat: chatId, members: req.user?._id }).populate({
+                path: "content.reaction",
+                populate: [
+                    {
+                        path: "author",
+                        select: "_id pic firstName lastName email online lastOnline createdAt",
+                        options: {
+                            skip: skip,
+                            limit: size
+                        },
+                        match: {
+                            // filter result in case of multiple result in populate
+                            // may not useful in this case
+                        }
+                    },
+                ],
+            }).sort("updatedAt").limit(50)
             message = await UploadFiles.populate(message, {
                 path: 'content.files',
                 select: '_id duration author filename sizeOfBytes type format duration url createdAt'
@@ -227,7 +292,7 @@ module.exports.replayMSG = async (req, res, next) => {
             return res.status(200).json({
                 message: "Message Reaction added",
                 me: message?.length > 0 ? me : {},
-                data: message
+                data: message || []
             });
         }
     }
@@ -362,9 +427,41 @@ module.exports.allMessage = async (req, res, next) => {
 
         let message;
         if (req.query?.search) {
-            message = await Message.find(keyword).select("-members").select("-groupAdmin").sort('-updatedAt').limit(50)
+            message = await Message.find(keyword).populate({
+                path: "content.reaction",
+                populate: [
+                    {
+                        path: "author",
+                        select: "_id pic firstName lastName email online lastOnline createdAt",
+                        options: {
+                            skip: skip,
+                            limit: numPage
+                        },
+                        match: {
+                            // filter result in case of multiple result in populate
+                            // may not useful in this case
+                        }
+                    },
+                ],
+            }).select("-members").select("-groupAdmin").sort('-updatedAt').limit(50)
         } else {
-            message = await Message.find({ chat: req.params.chatId }).select("-members").select("-groupAdmin").sort('updatedAt').limit(50)
+            message = await Message.find({ chat: req.params.chatId }).populate({
+                path: "content.reaction",
+                populate: [
+                    {
+                        path: "author",
+                        select: "_id pic firstName lastName email online lastOnline createdAt",
+                        options: {
+                            skip: skip,
+                            limit: numPage
+                        },
+                        match: {
+                            // filter result in case of multiple result in populate
+                            // may not useful in this case
+                        }
+                    },
+                ],
+            }).select("-members").select("-groupAdmin").sort('updatedAt').limit(50)
         }
         message = await UploadFiles.populate(message, {
             path: 'content.audio',
@@ -411,7 +508,7 @@ module.exports.allMessage = async (req, res, next) => {
         return res.status(200).json({
             message: "messages fetched successfully",
             me: message?.length > 0 ? me : {},
-            data: message
+            data: message || []
         });
     } catch (error) {
         res.status(400)
@@ -422,6 +519,11 @@ module.exports.messageRemove = async (req, res, next) => {
     if (!req?.user?._id) {
         return res.status(400).json({ error: { email: 'User Credentials expired! Please login' } })
     }
+    let { page = 1, limit = 1 } = req.query;
+    limit = parseInt(limit);
+    const skip = parseInt(page - 1);
+    const size = limit;
+    const numPage = skip * size;
     const { chatId, messageId } = req.body;
     if (!chatId || !messageId) {
         return res.status(400).json({ error: { token: "please provide valid credentials!" } })
@@ -431,7 +533,23 @@ module.exports.messageRemove = async (req, res, next) => {
         const delete1 = await Message.deleteOne({ _id: messageId, chat: chatId, groupAdmin: req.user?._id })
         const delete2 = await Message.deleteOne({ _id: messageId, chat: chatId, sender: req.user?._id })
         // console.log(delete1, delete2)
-        let message = await Message.find({ chat: chatId }).sort("updatedAt").limit(50)
+        let message = await Message.find({ chat: chatId, members: req.user?._id }).populate({
+            path: "content.reaction",
+            populate: [
+                {
+                    path: "author",
+                    select: "_id pic firstName lastName email online lastOnline createdAt",
+                    options: {
+                        skip: skip,
+                        limit: numPage
+                    },
+                    match: {
+                        // filter result in case of multiple result in populate
+                        // may not useful in this case
+                    }
+                },
+            ],
+        }).sort("updatedAt").limit(50)
         message = await UploadFiles.populate(message, {
             path: 'content.audio',
             select: '_id duration author filename sizeOfBytes type format duration url createdAt'
@@ -472,7 +590,7 @@ module.exports.messageRemove = async (req, res, next) => {
         if (!(delete1?.deletedCount > 0 || delete2?.deletedCount > 0)) {
             return res.status(400).json({
                 error: { action: "Message Removed Failed!" }, me: message?.length > 0 ? me : {},
-                data: message
+                data: message || []
             })
         }
         if (delete1?.deletedCount > 0 || delete2?.deletedCount > 0) {
@@ -480,7 +598,7 @@ module.exports.messageRemove = async (req, res, next) => {
             return res.status(200).json({
                 message: "Message Removed Successfully",
                 me: message?.length > 0 ? me : {},
-                data: message
+                data: message || []
             });
         }
     }
@@ -494,31 +612,84 @@ module.exports.messageEdit = async (req, res, next) => {
         return res.status(400).json({ error: { email: 'User Credentials expired! Please login' } })
     }
     const { chatId, messageId } = req.body;
+    let { page = 1, limit = 1 } = req.query;
+    limit = parseInt(limit);
+    const skip = parseInt(page - 1);
+    const size = limit;
+    const numPage = skip * size;
     const text = req.body?.content?.text;
     if (!chatId || !messageId) {
         return res.status(400).json({ error: { token: "please provide valid credentials!" } })
     }
     try {
-        let message = await Message.findOneAndUpdate({ _id: messageId, chat: chatId, sender: req.user?._id }, {
+        const updateMsg = await Message.findOneAndUpdate({ _id: messageId, chat: chatId, sender: req.user?._id }, {
             content: {
                 text,
             },
-        }, { new: true }) || await Message.findOneAndUpdate({ _id: messageId, chat: chatId, groupAdmin: req.user?._id }, {
+        }, { new: true }).populate({
+            path: "content.reaction",
+            populate: [
+                {
+                    path: "author",
+                    select: "_id pic firstName lastName email online lastOnline createdAt",
+                    options: {
+                        skip: skip,
+                        limit: numPage
+                    },
+                    match: {
+                        // filter result in case of multiple result in populate
+                        // may not useful in this case
+                    }
+                },
+            ],
+        }).populate("chat", "_id chatName img").populate("chat", "_id chatName img") || await Message.findOneAndUpdate({ _id: messageId, chat: chatId, groupAdmin: req.user?._id }, {
             content: {
                 text,
             },
-        }, { new: true });
+        }, { new: true }).populate({
+            path: "content.reaction",
+            populate: [
+                {
+                    path: "author",
+                    select: "_id pic firstName lastName email online lastOnline createdAt",
+                    options: {
+                        skip: skip,
+                        limit: numPage
+                    },
+                    match: {
+                        // filter result in case of multiple result in populate
+                        // may not useful in this case
+                    }
+                },
+            ],
+        }).populate("chat", "_id chatName img").populate("chat", "_id chatName img");
         await Chat.findOneAndUpdate({ _id: req.body.chatId }, {
-            latestMessage: message?._id,
+            latestMessage: messageId,
             $addToSet: { seen: req.user?._id }
         }, { new: true })
         // console.log(message)
-        if (!message) {
+        if (!updateMsg) {
             return res.status(400).json({ error: { action: "Message Update Failed!" }, data: [] })
         }
         // console.log(message)
-        if (message) {
-            message = await Message.find({ chat: chatId }).sort("updatedAt").limit(50)
+        if (updateMsg) {
+            let message = await Message.find({ chat: chatId, members: req.user?._id }).populate({
+                path: "content.reaction",
+                populate: [
+                    {
+                        path: "author",
+                        select: "_id pic firstName lastName email online lastOnline createdAt",
+                        options: {
+                            skip: skip,
+                            limit: numPage
+                        },
+                        match: {
+                            // filter result in case of multiple result in populate
+                            // may not useful in this case
+                        }
+                    },
+                ],
+            }).sort("updatedAt").limit(50)
             message = await UploadFiles.populate(message, {
                 path: 'content.files',
                 select: '_id duration author filename sizeOfBytes type format duration url createdAt'
@@ -551,7 +722,8 @@ module.exports.messageEdit = async (req, res, next) => {
             return res.status(200).json({
                 message: "Message Successfully Updated",
                 me: message?.length > 0 ? me : {},
-                data: message
+                data: message || [],
+                updateMsg: updateMsg
             });
         }
     }
@@ -564,6 +736,11 @@ module.exports.allMessageRemove = async (req, res, next) => {
         if (!req?.user?._id) {
             return res.status(400).json({ error: { email: 'User Credentials expired! Please login' } })
         }
+        let { page = 1, limit = 1 } = req.query;
+        limit = parseInt(limit);
+        const skip = parseInt(page - 1);
+        const size = limit;
+        const numPage = skip * size;
         const permission = await Chat.findOne({ _id: req.params.chatId, groupAdmin: req?.user?._id });
         if (!permission) {
             return res.status(400).json({
@@ -571,7 +748,23 @@ module.exports.allMessageRemove = async (req, res, next) => {
             })
         }
         const deleted = await Message.deleteMany({ chat: req.params?.chatId });
-        let message = await Message.find({ chat: req.params?.chatId }).limit(50)
+        let message = await Message.find({ chat: req.params?.chatId }).populate({
+            path: "content.reaction",
+            populate: [
+                {
+                    path: "author",
+                    select: "_id pic firstName lastName email online lastOnline createdAt",
+                    options: {
+                        skip: skip,
+                        limit: numPage
+                    },
+                    match: {
+                        // filter result in case of multiple result in populate
+                        // may not useful in this case
+                    }
+                },
+            ],
+        }).limit(50)
         message = await UploadFiles.populate(message, {
             path: 'content.audio',
             select: '_id duration author filename sizeOfBytes type format duration url createdAt'
@@ -615,7 +808,7 @@ module.exports.allMessageRemove = async (req, res, next) => {
             return res.status(200).json({
                 message: 'Deleted all Conversation!',
                 me: message?.length > 0 ? me : {},
-                data: message
+                data: message || []
             })
         } else {
             return res.status(400).json({
@@ -623,7 +816,7 @@ module.exports.allMessageRemove = async (req, res, next) => {
                     chatId: 'Error occurred Please try again!'
                 },
                 me: message?.length > 0 ? me : {},
-                data: message
+                data: message || []
             })
         }
     }

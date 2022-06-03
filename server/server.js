@@ -78,7 +78,6 @@ io.on("connection", async (socket) => {
     })
     socket.on('stop typing', (room) => socket.in(room).emit("stop typing"))
     socket.on('new message', async (newMessageRecieved) => {
-        // console.log(newMessageRecieved)
         // let chat = await Chat.findOne({ _id: newMessageRecieved?.chat?._id }).populate("members", "_id").select("-groupAdmin").select("-seen");
         // if (!chat.members) return console.log('chat.members not defined');
         // const members = chat?.members?.filter(user => user?._id !== newMessageRecieved?.sender?._id);
@@ -93,8 +92,8 @@ io.on("connection", async (socket) => {
             sender: newMessageRecieved?.sender,
             chat: newMessageRecieved?.chat,
             _id: newMessageRecieved?._id,
-            createdAt: newMessageRecieved.createdAt,
-            updatedAt: newMessageRecieved.updatedAt
+            createdAt: newMessageRecieved?.createdAt,
+            updatedAt: newMessageRecieved?.updatedAt
         }
         socket.to(newMessageRecieved?.chat?._id).emit("message recieved", { newMessageRecieved, notificationObj })
         // console.log(notificationObj)

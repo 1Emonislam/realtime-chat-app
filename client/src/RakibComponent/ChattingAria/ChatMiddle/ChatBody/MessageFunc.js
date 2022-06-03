@@ -187,7 +187,7 @@ export default function MessageFunc({ isSameSenderPermission, handleTyping, isTy
                 {/* this is need to solve for question */}
                 <Typography onClick={() => {
                     const reaction = {
-                        question:`question?`
+                        icon: `question?`
                     }
                     dispatch(reactionMessage(reaction, messageInfo?.chat?._id, messageInfo?._id, auth.user?.token))
                 }} sx={{ cursor: 'pointer', '&:hover': { bgcolor: 'rgb(234, 234, 234, 0.5)' }, py: 1, px: 2, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -210,7 +210,7 @@ export default function MessageFunc({ isSameSenderPermission, handleTyping, isTy
                 {/* Don't Understand Message */}
                 <Typography onClick={() => {
                     const reaction = {
-                        confused:`don't understand!`
+                        icon: `don't understand!`
                     }
                     dispatch(reactionMessage(reaction, messageInfo?.chat?._id, messageInfo?._id, auth.user?.token))
                 }} sx={{ cursor: 'pointer', '&:hover': { bgcolor: 'rgb(234, 234, 234, 0.5)' }, py: 1, px: 2, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>

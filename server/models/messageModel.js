@@ -9,24 +9,10 @@ const messageSchema = mongoose.Schema({
         text: {
             type: String,
         },
-        question: {
-            icon: {
-                type: String,
-            },
-            count: {
-                type: Number,
-                default: 0
-            }
-        },
-        confused: {
-            icon: {
-                type: String,
-            },
-            count: {
-                type: Number,
-                default: 0
-            }
-        },
+        reaction: [{
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Reaction"
+        }],
         audio: [{
             type: mongoose.Schema.Types.ObjectId,
             ref: "UploadFiles"

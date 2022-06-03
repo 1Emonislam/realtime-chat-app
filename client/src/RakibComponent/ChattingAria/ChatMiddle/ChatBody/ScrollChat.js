@@ -74,7 +74,7 @@ function ScrollChat({ messages, user, handleTyping, isTyping }) {
     }
     const handleCurrentProfile = (id) => {
         if (id) {
-            fetch(`https://collaballapp.herokuapp.com/api/auth/single/profile/get/${id}`, {
+            fetch(`http://localhost:5000/api/auth/single/profile/get/${id}`, {
                 method: 'get',
                 headers: {
                     'Content-Type': "application/json",
@@ -178,7 +178,7 @@ function ScrollChat({ messages, user, handleTyping, isTyping }) {
 
                                                 </Typography>
                                             </div>
-                                            {console.log(m)}
+                                            {/* {console.log(m)} */}
                                             <Grid sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
 
                                                 {

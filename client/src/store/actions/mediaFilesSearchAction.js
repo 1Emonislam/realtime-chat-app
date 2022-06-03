@@ -1,6 +1,6 @@
 import axios from 'axios'
-import store from './../store'
 import { STORE_AUDIOS, STORE_IMAGES, STORE_LOADING, STORE_OTHERS, STORE_VIDEOS, STORE_VOICE } from '../reducers/mediaFileSearchReducer'
+import store from './../store'
 export const mediaFilesSearchVoice = (status, chat, page, limit, setCount) => {
     return (dispatch) => {
         const config = {
@@ -15,7 +15,7 @@ export const mediaFilesSearchVoice = (status, chat, page, limit, setCount) => {
                 loading: true
             }
         })
-        axios.get(`https://collaballapp.herokuapp.com/api/chat/media/files/search?status=${status || ''}&chat=${chat || ''}&page=${page}&limit=${limit}`,config).then(({data}) => {
+        axios.get(`http://localhost:5000/api/chat/media/files/search?status=${status || ''}&chat=${chat || ''}&page=${page}&limit=${limit}`,config).then(({data}) => {
             dispatch({
                 type: STORE_LOADING,
                 payload: {
@@ -51,7 +51,7 @@ export const mediaFilesSearchAudios = (status, chat, page, limit, setCount) => {
                 loading: true
             }
         })
-        axios.get(`https://collaballapp.herokuapp.com/api/chat/media/files/search?status=${status || ''}&chat=${chat || ''}&page=${page}&limit=${limit}`,config).then(({data}) => {
+        axios.get(`http://localhost:5000/api/chat/media/files/search?status=${status || ''}&chat=${chat || ''}&page=${page}&limit=${limit}`,config).then(({data}) => {
             dispatch({
                 type: STORE_LOADING,
                 payload: {
@@ -87,7 +87,7 @@ export const mediaFilesSearchVideos = (status, chat, page, limit, setCount) => {
                 loading: true
             }
         })
-        axios.get(`https://collaballapp.herokuapp.com/api/chat/media/files/search?status=${status || ''}&chat=${chat || ''}&page=${page}&limit=${limit}`,config).then(({data}) => {
+        axios.get(`http://localhost:5000/api/chat/media/files/search?status=${status || ''}&chat=${chat || ''}&page=${page}&limit=${limit}`,config).then(({data}) => {
             dispatch({
                 type: STORE_LOADING,
                 payload: {
@@ -122,7 +122,7 @@ export const mediaFilesSearchOthers = (status,chat, page, limit, setCount) => {
                 "authorization": `Bearer ${store.getState()?.auth?.user?.token}`
             },
         }
-        axios.get(`https://collaballapp.herokuapp.com/api/chat/media/files/search?status=${status || ''}&chat=${chat || ''}&page=${page}&limit=${limit}`,config).then(({data}) => {
+        axios.get(`http://localhost:5000/api/chat/media/files/search?status=${status || ''}&chat=${chat || ''}&page=${page}&limit=${limit}`,config).then(({data}) => {
             dispatch({
                 type: STORE_LOADING,
                 payload: {
@@ -157,7 +157,7 @@ export const mediaFilesSearchImages = (status, chat, page, limit, setCount) => {
                 loading: true
             }
         })
-        axios.get(`https://collaballapp.herokuapp.com/api/chat/media/files/search?status=${status || ''}&chat=${chat || ''}&page=${page}&limit=${limit}`,config).then(({data}) => {
+        axios.get(`http://localhost:5000/api/chat/media/files/search?status=${status || ''}&chat=${chat || ''}&page=${page}&limit=${limit}`,config).then(({data}) => {
             dispatch({
                 type: STORE_LOADING,
                 payload: {
