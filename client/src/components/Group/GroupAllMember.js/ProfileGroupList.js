@@ -111,7 +111,7 @@ function ProfileGroupList({ memberInfo, count, page,setPage,limit }) {
     }
     const handleCurrentProfile = (id) => {
         if (id) {
-            fetch(`http://localhost:5000/api/auth/single/profile/get/${id}`, {
+            fetch(`https://collaballapp.herokuapp.com/api/auth/single/profile/get/${id}`, {
                 method: 'get',
                 headers: {
                     'Content-Type': "application/json",
@@ -142,7 +142,7 @@ function ProfileGroupList({ memberInfo, count, page,setPage,limit }) {
     }
     const handleMakeAdminProfile = (chatId, member) => {
         if (chatId && member) {
-            fetch(`http://localhost:5000/api/chat/make-admin/${chatId}`, {
+            fetch(`https://collaballapp.herokuapp.com/api/chat/make-admin/${chatId}`, {
                 method: 'put',
                 headers: {
                     'Content-Type': "application/json",
@@ -178,7 +178,7 @@ function ProfileGroupList({ memberInfo, count, page,setPage,limit }) {
     }
     const handleRemoveAdminProfile = (chatId, member) => {
         if (chatId && member) {
-            fetch(`http://localhost:5000/api/chat/remove-admin/${chatId}`, {
+            fetch(`https://collaballapp.herokuapp.com/api/chat/remove-admin/${chatId}`, {
                 method: 'put',
                 headers: {
                     'Content-Type': "application/json",

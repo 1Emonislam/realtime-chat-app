@@ -11,7 +11,7 @@ export const getSelectedChat = (chatId, token, pageUser, limitUser, setCountMemb
             }
         })
         try {
-            fetch(`http://localhost:5000/api/chat/${chatId}?page=${pageUser || 1}&limit=${limitUser || 10}`, {
+            fetch(`https://collaballapp.herokuapp.com/api/chat/${chatId}?page=${pageUser || 1}&limit=${limitUser || 10}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': "application/json",
@@ -86,7 +86,7 @@ export const getMembersPagination = (chatId, token, pageUser, limitUser, setCoun
     // console.log(chatId, token)
     return async (dispatch) => {
         try {
-            fetch(`http://localhost:5000/api/chat/${chatId}?page=${pageUser || 1}&limit=${limitUser || 10}`, {
+            fetch(`https://collaballapp.herokuapp.com/api/chat/${chatId}?page=${pageUser || 1}&limit=${limitUser || 10}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': "application/json",

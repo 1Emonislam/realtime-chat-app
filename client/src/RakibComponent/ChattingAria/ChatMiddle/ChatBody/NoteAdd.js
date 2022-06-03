@@ -33,7 +33,7 @@ export default function NoteAdd({ noteOpen, handleNoteOpen, msg, handleNoteClose
     const dispatch = useDispatch()
     const handleNoteCreate = (messageId, chatId, title, token, handleNoteClose) => {
         if (auth?.user?.token && messageId && chatId) {
-            fetch(`http://localhost:5000/api/note/`, {
+            fetch(`https://collaballapp.herokuapp.com/api/note/`, {
                 method: 'POST',
                 headers: {
                     "Content-Type": "application/json",

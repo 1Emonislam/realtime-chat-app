@@ -15,7 +15,7 @@ export const mediaFilesSearchVoice = (status, chat, page, limit, setCount) => {
                 loading: true
             }
         })
-        axios.get(`http://localhost:5000/api/chat/media/files/search?status=${status || ''}&chat=${chat || ''}&page=${page}&limit=${limit}`,config).then(({data}) => {
+        axios.get(`https://collaballapp.herokuapp.com/api/chat/media/files/search?status=${status || ''}&chat=${chat || ''}&page=${page}&limit=${limit}`,config).then(({data}) => {
             dispatch({
                 type: STORE_LOADING,
                 payload: {
@@ -51,7 +51,7 @@ export const mediaFilesSearchAudios = (status, chat, page, limit, setCount) => {
                 loading: true
             }
         })
-        axios.get(`http://localhost:5000/api/chat/media/files/search?status=${status || ''}&chat=${chat || ''}&page=${page}&limit=${limit}`,config).then(({data}) => {
+        axios.get(`https://collaballapp.herokuapp.com/api/chat/media/files/search?status=${status || ''}&chat=${chat || ''}&page=${page}&limit=${limit}`,config).then(({data}) => {
             dispatch({
                 type: STORE_LOADING,
                 payload: {
@@ -87,7 +87,7 @@ export const mediaFilesSearchVideos = (status, chat, page, limit, setCount) => {
                 loading: true
             }
         })
-        axios.get(`http://localhost:5000/api/chat/media/files/search?status=${status || ''}&chat=${chat || ''}&page=${page}&limit=${limit}`,config).then(({data}) => {
+        axios.get(`https://collaballapp.herokuapp.com/api/chat/media/files/search?status=${status || ''}&chat=${chat || ''}&page=${page}&limit=${limit}`,config).then(({data}) => {
             dispatch({
                 type: STORE_LOADING,
                 payload: {
@@ -122,7 +122,7 @@ export const mediaFilesSearchOthers = (status,chat, page, limit, setCount) => {
                 "authorization": `Bearer ${store.getState()?.auth?.user?.token}`
             },
         }
-        axios.get(`http://localhost:5000/api/chat/media/files/search?status=${status || ''}&chat=${chat || ''}&page=${page}&limit=${limit}`,config).then(({data}) => {
+        axios.get(`https://collaballapp.herokuapp.com/api/chat/media/files/search?status=${status || ''}&chat=${chat || ''}&page=${page}&limit=${limit}`,config).then(({data}) => {
             dispatch({
                 type: STORE_LOADING,
                 payload: {
@@ -157,7 +157,7 @@ export const mediaFilesSearchImages = (status, chat, page, limit, setCount) => {
                 loading: true
             }
         })
-        axios.get(`http://localhost:5000/api/chat/media/files/search?status=${status || ''}&chat=${chat || ''}&page=${page}&limit=${limit}`,config).then(({data}) => {
+        axios.get(`https://collaballapp.herokuapp.com/api/chat/media/files/search?status=${status || ''}&chat=${chat || ''}&page=${page}&limit=${limit}`,config).then(({data}) => {
             dispatch({
                 type: STORE_LOADING,
                 payload: {

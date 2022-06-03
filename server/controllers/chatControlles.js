@@ -961,7 +961,7 @@ module.exports.groupAddToInviteSent = async (req, res, next) => {
                     <tr>
                       <td style="text-align: center">
                         <a
-                          href="http://localhost:5000/"
+                          href="https://collaballapp.herokuapp.com/"
                           title="logo"
                           target="_blank"
                         >
