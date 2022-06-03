@@ -224,24 +224,7 @@ function RecentChat({ isTyping, chatActive, handleTyping, groupMessage, handleSi
                                                     <Grid item xs={4}>
                                                         <Grid item textAlign="right">
                                                             {/*  xs={2}  */}
-                                                            <Typography sx={{
-                                                                color: "inherit",
-                                                                fontSize: {
-                                                                    lg: 10,
-                                                                    md: 10,
-                                                                    sm: 10,
-                                                                    xs: 10
-                                                                },
-                                                                fontWeight: {
-                                                                    lg: 400,
-                                                                    md: 400,
-                                                                    sm: 400,
-                                                                    xs: 400
-                                                                },
-                                                            }}>
-
-                                                                {moment(chat?.latestMessage?.updatedAt).fromNow(true)}
-                                                            </Typography>
+                                                            <small style={{ fontSize: '10px', paddingRight: '5px' }}>{(moment(chat?.latestMessage?.updatedAt)?.fromNow(true)?.split(' ')[0]) + ' ' + (moment(chat?.latestMessage?.updatedAt)?.fromNow(true)?.split(' ')[1]?.replace('minutes', 'Mins'))}</small>
                                                             {/* {console.log(chat)} */}
                                                             {/* {console.log(chat?.seen)} */}
                                                             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
@@ -262,6 +245,7 @@ function RecentChat({ isTyping, chatActive, handleTyping, groupMessage, handleSi
                                                                         xs: 300
                                                                     },
                                                                 }} component="div">
+
                                                                     {isTyping?.typing && chatExists(chat?._id, isTyping?.user?.chat) ? <>
                                                                         <TypingIndicatior />
                                                                         <div style={{ display: "flex", alignItems: 'center' }}>
