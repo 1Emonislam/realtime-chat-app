@@ -3,6 +3,7 @@
 import { Avatar, AvatarGroup, Grid, Pagination, ToggleButton, Tooltip, Typography } from '@mui/material';
 import Badge from '@mui/material/Badge';
 // import TypingIndicatior from './Typing/TypingIndicatior';
+import LockIcon from '@mui/icons-material/Lock';
 import moment from 'moment';
 import React, { useContext } from 'react';
 import { BsFillCheckCircleFill, BsFillFileEarmarkFill } from 'react-icons/bs';
@@ -13,6 +14,7 @@ import { SiAudiomack } from 'react-icons/si';
 import { useSelector } from 'react-redux';
 import { PaginationContext } from '../App';
 import SkeletonRecentGroup from '../Editor/SkeletonRecentGroup';
+import PublicIcon from '@mui/icons-material/Public';
 import { chatExists } from '../RakibComponent/ChattingAria/ChatMiddle/ChatBody/chatLogic';
 import './Chat.css';
 import GroupSort from './GroupSort';
@@ -190,6 +192,8 @@ function RecentChat({ isTyping, chatActive, handleTyping, groupMessage, handleSi
                                                             color: "inherit",
                                                             textAlign: 'left',
                                                             marginLeft: '0px',
+                                                            display: 'flex',
+                                                            alignItems: 'center',
                                                             fontSize: {
                                                                 md: 14,
                                                                 sm: 14,
@@ -202,7 +206,9 @@ function RecentChat({ isTyping, chatActive, handleTyping, groupMessage, handleSi
                                                                 xs: 400
                                                             },
                                                         }}>
-                                                            {chat?.chatName}
+                                                            <span >
+                                                                {chat?.chatName} </span>
+                                                            {chat.status === 'private' ? < LockIcon style={{ marginLeft: '5px', fontSize: '17px' }} /> : <PublicIcon style={{ marginLeft: '5px', fontSize: '17px' }} />}
                                                         </Typography>
                                                         <span style={{ fontSize: 'bold', fontWeight: '900', marginRight: '5px' }}>
                                                             {chat?.latestMessage?.sender?.firstName}
@@ -234,7 +240,7 @@ function RecentChat({ isTyping, chatActive, handleTyping, groupMessage, handleSi
                                                                 },
                                                             }}>
 
-                                                                {moment(chat?.latestMessage?.updatedAt).fromNow() === 'a few sencond ago'}
+                                                                {moment(chat?.latestMessage?.updatedAt).fromNow(true)}
                                                             </Typography>
                                                             {/* {console.log(chat)} */}
                                                             {/* {console.log(chat?.seen)} */}
