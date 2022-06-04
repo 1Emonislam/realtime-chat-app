@@ -46,7 +46,7 @@ function VideoCall({ videoOpen, setVideoOpen }) {
                                 <div className="call-inner">
                                     <div className="call-user">
                                         <img alt="User" src={selectedChat?.chat?.img} className="call-avatar" />
-                                        <Tooltip title={selectedChat?.chat?.chatName} arrow>
+                                        <Tooltip title={selectedChat?.chat?.chatName} arrow placement='top'>
                                             <h4>{selectedChat?.chat?.chatName?.slice(0, 20)}<span>voice calling</span>
                                             </h4>
                                         </Tooltip>
