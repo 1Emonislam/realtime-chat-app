@@ -188,28 +188,30 @@ function RecentChat({ isTyping, chatActive, handleTyping, groupMessage, handleSi
                                             <Grid item xs={10}>
                                                 <Grid container spacing={0} alignItems="center" style={{ textAlign: 'left' }} justifyContent="center">
                                                     <Grid item xs={8}>
-                                                        <Typography sx={{
-                                                            color: "inherit",
-                                                            textAlign: 'left',
-                                                            marginLeft: '0px',
-                                                            display: 'flex',
-                                                            alignItems: 'center',
-                                                            fontSize: {
-                                                                md: 14,
-                                                                sm: 14,
-                                                                xs: 14
-                                                            },
-                                                            fontWeight: {
-                                                                lg: 600,
-                                                                md: 600,
-                                                                sm: 500,
-                                                                xs: 400
-                                                            },
-                                                        }}>
-                                                            <span >
-                                                                {chat?.chatName} </span>
-                                                            {chat.status === 'private' ? < LockIcon style={{ marginLeft: '5px', fontSize: '17px' }} /> : <PublicIcon style={{ marginLeft: '5px', fontSize: '17px' }} />}
-                                                        </Typography>
+                                                        <Tooltip title={chat?.chatName}arrow>
+                                                            <Typography sx={{
+                                                                color: "inherit",
+                                                                textAlign: 'left',
+                                                                marginLeft: '0px',
+                                                                display: 'flex',
+                                                                alignItems: 'center',
+                                                                fontSize: {
+                                                                    md: 14,
+                                                                    sm: 14,
+                                                                    xs: 14
+                                                                },
+                                                                fontWeight: {
+                                                                    lg: 600,
+                                                                    md: 600,
+                                                                    sm: 500,
+                                                                    xs: 400
+                                                                },
+                                                            }}>
+                                                                <span >
+                                                                    {chat?.chatName?.slice(0, 18)} </span>
+                                                                {chat.status === 'private' ? < LockIcon style={{ marginLeft: '5px', fontSize: '17px' }} /> : <PublicIcon style={{ marginLeft: '5px', fontSize: '17px' }} />}
+                                                            </Typography>
+                                                        </Tooltip>
                                                         <span style={{ fontSize: 'bold', fontWeight: '900', marginRight: '5px' }}>
                                                             {chat?.latestMessage?.sender?.firstName}
                                                         </span>

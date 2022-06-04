@@ -4,6 +4,40 @@
 .d-none {
   display: none !important;
 }
+@media (max-width: 600px) {
+  .chat_Header_icon li {
+    position: relative;
+    list-style: none;
+    border-color: #f4f4fa;
+    cursor: pointer;
+    width: 35px;
+    height: 35px;
+    background-color: transparent;
+    padding: 0;
+    border-radius: 50px;
+    margin-right: 0.5rem;
+    text-align: center;
+    line-height: 45px;
+    transition: 0.3s;
+  }
+}
+@media (min-width: 600px) {
+  .chat_Header_icon li {
+    position: relative;
+    list-style: none;
+    border-color: #f4f4fa;
+    cursor: pointer;
+    width: 35px;
+    height: 35px;
+    background-color: #f4f4fa;
+    padding: 0;
+    border-radius: 50px;
+    margin-right: 0.5rem;
+    text-align: center;
+    line-height: 45px;
+    transition: 0.3s;
+  }
+}
 /* header section */
 .chatHeader_section {
   display: flex;
@@ -58,21 +92,6 @@ h4.hedding_4 {
   color: darkgray;
 }
 
-.chat_Header_icon li {
-  position: relative;
-  list-style: none;
-  border-color: #f4f4fa;
-  cursor: pointer;
-  width: 35px;
-  height: 35px;
-  background-color: #f4f4fa;
-  padding: 0;
-  border-radius: 50px;
-  margin-right: 0.5rem;
-  text-align: center;
-  line-height: 45px;
-  transition: 0.3s;
-}
 .chat_Header_icon li:hover {
   background-color: #4b0973;
   border-color: #4b0973;

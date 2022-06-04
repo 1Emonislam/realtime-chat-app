@@ -127,9 +127,9 @@ const Header = () => {
     return (
         <>
             {selectedChat?.chat?._id && <Box className='chatHeader_section' style={{ paddingBottom: '10px', marginBottom: '5px' }}>
-                <Grid container spacing={2} className='header_row'justifyContent="space-between">
+                <Grid container spacing={2} className='header_row' justifyContent="space-between">
                     <Grid item xs={8} sx={{ textAlign: 'start' }}>
-                        <Grid container spacing={0} alignItems="center"justifyContent="space-between">
+                        <Grid container spacing={0} alignItems="center" justifyContent="space-between">
                             <Grid item xs={6}>
                                 <Box className='profile_image'>
                                     <Box sx={{ marginLeft: '15px' }}>
@@ -140,9 +140,9 @@ const Header = () => {
                                 </Box>
                             </Grid>
                             <Grid item xs={6}>
-                                <Tooltip title={'#' + selectedChat?.chat?.chatName} arrow  >
+                                <Tooltip title={selectedChat?.chat?.chatName} arrow  >
                                     <ToggleButton value="two" style={{ border: 'none' }} onClick={handleGroupInfoOpen}>
-                                        {selectedChat?.chat?.chatName}
+                                        {selectedChat?.chat?.chatName?.slice(0, 18)}
                                     </ToggleButton>
                                 </Tooltip>
                                 <GroupInfo groupInfo={selectedChat} groupInfoOpen={groupInfoOpen} setGroupInfoOpen={setGroupInfoOpen} chatId={selectedChat?.chat?._id} token={auth?.user?.token} handleGroupInfoClose={handleGroupInfoClose} handleGroupInfoOpen={handleGroupInfoOpen} />
