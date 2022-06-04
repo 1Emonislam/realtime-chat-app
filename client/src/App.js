@@ -1,11 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import * as React from "react";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { io } from "socket.io-client";
 import "./App.css";
-import Call from "./components/Call/Call";
 import BlockedUser from "./components/DashBoardSettings/BlockedUser";
 import OnLineAndOffLineStatusBar from "./components/DashBoardSettings/OnLineAndOffLineStatusBar";
 import ReportUser from "./components/DashBoardSettings/ReportUser";
@@ -14,7 +14,6 @@ import SettingsFirebase from "./components/DashBoardSettings/SettingsFirebase";
 import SettingsGeneral from "./components/DashBoardSettings/SettingsGeneral";
 import SettingSinch from "./components/DashBoardSettings/SettingSinch";
 import Users from "./components/DashBoardSettings/Users";
-import Group from "./components/Group/Group";
 import GroupInviteAccept from "./components/GroupInviteAccept";
 import Archive from "./components/KeeperDashboard/Archive/Archive";
 import DashboardLayout from "./components/KeeperDashboard/DashboardLayout/DashboardLayout";
@@ -35,14 +34,15 @@ import Dashboard from './pages/Dashboard/Dashboard';
 import DHome from './pages/Dashboard/DHome/DHome';
 import Home from "./pages/Home/Home";
 import { getGroupChatData } from "./store/actions/groupActions";
+import { getMessage } from "./store/actions/messageAction";
 import { getNotification } from "./store/actions/messageNotificationAction";
-import { getMembersPagination } from "./store/actions/selectedChatAction";
+import { getMembersPagination, getSelectedChat } from "./store/actions/selectedChatAction";
 import { SOCKET_GLOBAL } from "./store/type/socketType";
 export const ThemeSelectContext = React.createContext();
 export const PaginationContext = React.createContext();
 const ColorModeContext = React.createContext({ toggleColorMode: () => { } });
 export default function ToggleColorMode() {
-  const { auth,selectedChat  } = useSelector(state => state);
+  const { auth, selectedChat } = useSelector(state => state);
   const [mode, setMode] = React.useState(
     window.localStorage.getItem("themeCurrent") ? JSON.parse(window.localStorage.getItem("themeCurrent")) : 'light');
   if (!mode) {
@@ -86,6 +86,8 @@ export default function ToggleColorMode() {
   const [count, setCount] = React.useState(0)
   const [page, setPage] = React.useState(1)
   const limit = 10;
+  const dispatch = useDispatch()
+  const [chatActive, setChatActive] = useState(false)
   React.useEffect(() => {
     if (!auth?.user?.user?.email) {
       <Navigate to="/login" replace></Navigate>
@@ -93,7 +95,7 @@ export default function ToggleColorMode() {
   }, [auth?.user?.user?.email])
   const socket = React.useRef();
   const ENDPOINT = "https://collaballapp.herokuapp.com/";
-  const dispatch = useDispatch()
+
   React.useEffect(() => {
     socket.current = io(ENDPOINT, {
       auth: {
@@ -134,6 +136,19 @@ export default function ToggleColorMode() {
     dispatch(getGroupChatData(auth?.user?.token, 'recent', page, limit, setPage, setCount));
     dispatch(getNotification(auth.user?.token))
   }, [auth.user?.token, page, dispatch])
+
+  const handleSingleChat = (id, pageUser, limitUser, setCountMember, setCountAdmin, countMember, countAdmin, setPageUser) => {
+    if (id) {
+      dispatch(getSelectedChat(id, auth?.user?.token, pageUser, limitUser, setCountMember, setCountAdmin, countMember, countAdmin, setPageUser))
+      dispatch(getMessage(id, auth?.user?.token))
+      dispatch(getNotification(auth.user?.token))
+    }
+    if (id === selectedChat?.chat?._id) {
+      setChatActive(true)
+    } else {
+      setChatActive(false)
+    }
+  }
   return (
     <ColorModeContext.Provider value={colorMode} sx={{
       bgcolor: "background.default",
@@ -164,7 +179,7 @@ export default function ToggleColorMode() {
                 <Route
                   path="/chat"
                   element={
-                    <Chat>
+                    <Chat handleSingleChat={handleSingleChat} chatActive={chatActive}>
                       <ThemeSwitch
                         onClick={colorMode.toggleColorMode}
                         style={{ fontSize: "20px" }}
@@ -173,7 +188,7 @@ export default function ToggleColorMode() {
                     </Chat>
                   }
                 ></Route>
-                <Route
+                {/* <Route
                   path="/group"
                   element={
                     <Group>
@@ -192,11 +207,11 @@ export default function ToggleColorMode() {
                       />
                     </Call>
                   }
-                ></Route>
+                ></Route> */}
                 <Route
                   path="/dashboard"
                   element={
-                    <UserDashboard mode={mode}>
+                    <UserDashboard mode={mode}handleSingleChat={handleSingleChat}>
                       <ThemeSwitch
                         onClick={colorMode.toggleColorMode}
                         style={{ fontSize: "20px" }}
@@ -245,7 +260,7 @@ export default function ToggleColorMode() {
                   <Route path="" element={<DHome />} />
                 </Route>
                 {/* Keeper Dashboard Start */}
-                <Route path="keeper" element={<DashboardLayout />}>
+                <Route path="notes" element={<DashboardLayout />}>
                   <Route path="" element={<Notes />} />
                   <Route path="notes" element={<Notes />} />
                   <Route path="archive" element={<Archive />} />

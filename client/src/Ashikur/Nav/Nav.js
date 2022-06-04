@@ -230,7 +230,7 @@ const Nav = ({ handleSingleChat, children }) => {
             {/* <FontAwesomeSvgIcon icon={faEllipsisV} /> */}
             <Tooltip followCursor title='Notes' arrow>
               <span onClick ={() =>{
-                window.location.replace('/keeper')
+                window.location.replace('/notes')
               }}>
                 <ToggleButton value="seven">
                   <LibraryAddIcon

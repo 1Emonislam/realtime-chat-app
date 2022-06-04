@@ -3,14 +3,17 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import { Box, Container, Grid, Paper, Typography } from '@mui/material';
 import React from 'react';
 import { AiOutlineArrowDown, AiOutlineArrowUp } from "react-icons/ai";
-import { BsFillChatDotsFill, BsFillChatLeftFill, BsFillPeopleFill } from "react-icons/bs";
+import {
+    BsFillChatDotsFill,
+    BsFillChatLeftFill
+} from "react-icons/bs";
 import { FcDoughnutChart } from "react-icons/fc";
-import { HiUserGroup } from "react-icons/hi";
-import { IoIosNotifications } from "react-icons/io";
-import { MdGroupAdd } from "react-icons/md";
+import { useNavigate } from 'react-router-dom';
+// import { MdGroupAdd } from "react-icons/md";
 import pic from "../../images/increase.png";
-
-const DashBoardHome = ({ mode }) => {
+import MessageNotificationBadge from '../Notification/MsgNotificationBadge';
+const DashBoardHome = ({ mode, handleSingleChat }) => {
+    const navigate = useNavigate()
     return (
         <Container sx={{ py: "50px" }}>
             <Box>
@@ -20,8 +23,8 @@ const DashBoardHome = ({ mode }) => {
                     variant='h4'
                 >Dashboard</Typography>
             </Box>
-            <Grid container spacing={6}>
-                <Grid item xs={12} md={4}>
+            <Grid container spacing={6} justifyContent="space-between">
+                <Grid item xs={12} md={4.5}>
                     <Box sx={{ boxShadow: '1px 1px 10px #dacdcd' }}>
                         <Box>
                             <Paper
@@ -69,7 +72,7 @@ const DashBoardHome = ({ mode }) => {
                         </Box>
                     </Box>
                 </Grid>
-                <Grid item xs={12} md={4}>
+                {/* <Grid item xs={12} md={4}>
                     <Box sx={{ boxShadow: '1px 1px 10px #dacdcd' }}>
                         <Box>
                             <Paper
@@ -109,8 +112,8 @@ const DashBoardHome = ({ mode }) => {
                         </Box>
 
                     </Box>
-                </Grid>
-                <Grid item xs={12} md={4}>
+                </Grid> */}
+                {/* <Grid item xs={12} md={4}>
                     <Box sx={{ boxShadow: '1px 1px 10px #dacdcd' }}>
                         <Box>
                             <Paper
@@ -150,8 +153,8 @@ const DashBoardHome = ({ mode }) => {
                         </Box>
 
                     </Box>
-                </Grid>
-                <Grid item xs={12} md={4}>
+                </Grid> */}
+                <Grid item xs={12} md={5}>
                     <Box sx={{ boxShadow: '1px 1px 10px #dacdcd' }}>
                         <Box sx={{ p: "25px", backgroundColor: `${mode === 'dark' ? '#141414' : 'white'}`, mb: "4px", borderBottom: '1px solid #ddd' }}>
                             <Typography color={mode !== 'dark' ? 'black' : 'white'} sx={{ textAlign: "center", fontSize: '16px', fontWeight: 'bold' }} variant="h4" component="h4">Meeting Group</Typography>
@@ -159,28 +162,39 @@ const DashBoardHome = ({ mode }) => {
                         <Box
                             color={mode !== 'dark' ? '#141414' : 'white'}
                             sx={{ p: "10px", backgroundColor: `${mode === 'dark' ? '#141414' : 'white'}` }}>
-                            <Box sx={{ textAlign: "center", mb: "4px", fontSize: '20px' }}>
-                                <SettingsIcon/>
+                            <Box sx={{ textAlign: "center", mb: "4px", fontSize: '20px' }} onClick={() => {
+                                navigate('/settings')
+                            }}>
+                                <SettingsIcon />
                                 <Typography sx={{ textAlign: "center", fontSize: '14px' }} variant="h6" gutterBottom component="div">Settings</Typography>
                             </Box>
                             <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between", px: "30px" }}>
-                                <Box sx={{ textAlign: "center", mb: "4px", fontSize: '20px' }}>
+                                <Box sx={{ textAlign: "center", mb: "4px", fontSize: '20px' }} onClick={() => {
+                                    navigate('/chat')
+                                }}>
                                     <BsFillChatLeftFill></BsFillChatLeftFill>
                                     <Typography sx={{ textAlign: "center", fontSize: '14px' }} variant="h6" gutterBottom component="div">Chat</Typography>
                                 </Box>
-                                <Box sx={{ textAlign: "center", mb: "4px", fontSize: '20px' }}>
-                                    <IoIosNotifications  style={{fontSize:'28px'}}></IoIosNotifications>
-                                    <Typography sx={{ textAlign: "center", fontSize: '14px' }} variant="h6" gutterBottom component="div">Notification</Typography>
+                                <Box sx={{ textAlign: "center", mb: "4px", fontSize: '20px' }} onClick={() => {
+                                    navigate('/chat')
+                                }}>
+                                    {/* <IoIosNotifications style={{ fontSize: '28px' }}></IoIosNotifications>
+                                    <Typography sx={{ textAlign: "center", fontSize: '14px' }} variant="h6" gutterBottom component="div">Notification</Typography> */}
+                                    <MessageNotificationBadge handleSingleChat={handleSingleChat} />
                                 </Box>
 
                             </Box>
                             <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between", px: "30px" }}>
-                                <Box sx={{ textAlign: "center", mb: "4px", fontSize: '20px' }}>
-                                    <BsFillChatDotsFill style={{transform:'scaleX(-1)'}} />
-                                    <Typography sx={{ textAlign: "center", fontSize: '14px' }} variant="h6" gutterBottom component="div">Chale</Typography>
+                                <Box sx={{ textAlign: "center", mb: "4px", fontSize: '20px' }} onClick={() => {
+                                    window?.location?.replace('/notes')
+                                }}>
+                                    <BsFillChatDotsFill style={{ transform: 'scaleX(-1)' }} />
+                                    <Typography sx={{ textAlign: "center", fontSize: '14px' }} variant="h6" gutterBottom component="div">Notes</Typography>
                                 </Box>
-                                <Box sx={{ textAlign: "center", mb: "4px", fontSize: '20px' }}>
-                                    <GroupsIcon style={{fontSize:'30px'}}/>
+                                <Box sx={{ textAlign: "center", mb: "4px", fontSize: '20px' }} onClick={() => {
+                                    navigate('/chat')
+                                }}>
+                                    <GroupsIcon style={{ fontSize: '30px' }} />
                                     <Typography sx={{ textAlign: "center", fontSize: '14px' }} variant="h6" gutterBottom component="div">Groups</Typography>
                                 </Box>
 
@@ -191,7 +205,7 @@ const DashBoardHome = ({ mode }) => {
                 </Grid>
 
 
-                <Grid item xs={12} md={4}>
+                {/* <Grid item xs={12} md={4}>
                     <Box sx={{ boxShadow: '1px 1px 10px #dacdcd' }}>
                         <Box>
                             <Paper
@@ -231,7 +245,7 @@ const DashBoardHome = ({ mode }) => {
                         </Box>
 
                     </Box>
-                </Grid>
+                </Grid> */}
             </Grid>
         </Container>
 

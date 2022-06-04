@@ -1,6 +1,7 @@
 import { useSelector } from 'react-redux';
 import Header from '../Header/Header';
 import ScrollChat from './ScrollChat';
+import './../ChatMiddle.css'
 const ChatBody = ({ handleTyping, isTyping }) => {
     const { groupMessage, auth, } = useSelector(state => state);
 

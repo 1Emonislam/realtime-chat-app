@@ -27,8 +27,8 @@ export default function MessageNotificationBadge({ handleSingleChat }) {
   // console.log(notification)
   return (
     <Badge badgeContent={notification?.myunread} color="primary" style={{ marginTop: '10px' }}>
-      <ToggleButton value="nine">
-        <RiNotification3Fill fontSize={30} color="action" onClick={handleClick} />
+      <ToggleButton value="nine"style={{ border: 'none', outline: 'none' }}>
+        <RiNotification3Fill  fontSize={30} color="action" onClick={handleClick} />
         <Popover
           id={id}
           open={open}

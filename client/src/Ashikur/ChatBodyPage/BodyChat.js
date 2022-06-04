@@ -7,7 +7,7 @@ function BodyChat({ handleTyping, isTyping }) {
   return (
     <div style={{ paddingTop: '20px', paddingLeft: '10px' }}>
       <Grid container spacing={0}>
-        <Grid item xs={12} md={9} className="current-chat-box-container">
+        <Grid item xs={12} md={10} className="current-chat-box-container">
           <ChatMiddle isTyping={isTyping} handleTyping={handleTyping} />
         </Grid>
         <Grid item xs={12} md={3}>

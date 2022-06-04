@@ -19,8 +19,8 @@ export default function GroupPeople({ memberInfo }) {
   // } = paginationContext;
   return (
     <div>
-      <AvatarGroup total={pageMembers?.countMember || 0} onClick={handleMemberOpen} style={{ cursor: 'pointer' }}>
-        {pageMembers?.members?.slice(0, 3)?.map((member, index) => (
+      <AvatarGroup total={pageMembers?.countMember || 0} onClick={handleMemberOpen} style={{ cursor: 'pointer', justifyContent: 'flex-end' }}>
+        {pageMembers?.members?.slice(0, 2)?.map((member, index) => (
           <Tooltip style={{ cursor: "pointer" }} title={member.firstName + ' ' + member?.lastName} key={index}>
             <Avatar style={{ cursor: 'pointer' }} key={index} alt={member.username} src={member?.pic} />
           </Tooltip>

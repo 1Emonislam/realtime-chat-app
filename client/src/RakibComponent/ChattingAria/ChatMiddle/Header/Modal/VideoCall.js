@@ -46,7 +46,7 @@ function VideoCall({ videoOpen, setVideoOpen }) {
                                         <h4>Sumon Khan <span>Video calling</span>
                                         </h4>
                                     </div>
-                                    <div className="call-items">
+                                    <div className="call-items"style={{marginLeft:'5px'}}>
                                         <span onClick={() => setVideoOpen(false)}><CloseIcon /></span>
                                         <span className='green_btn'><VideocamIcon /></span>
                                     </div>

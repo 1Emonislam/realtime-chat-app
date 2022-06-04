@@ -127,9 +127,9 @@ const Header = () => {
     return (
         <>
             {selectedChat?.chat?._id && <Box className='chatHeader_section' style={{ paddingBottom: '10px', marginBottom: '5px' }}>
-                <Grid container spacing={2} className='header_row'>
-                    <Grid item xs={8.5} sx={{ textAlign: 'start' }}>
-                        <Grid container spacing={0} alignItems="center">
+                <Grid container spacing={2} className='header_row'justifyContent="space-between">
+                    <Grid item xs={8} sx={{ textAlign: 'start' }}>
+                        <Grid container spacing={0} alignItems="center"justifyContent="space-between">
                             <Grid item xs={6}>
                                 <Box className='profile_image'>
                                     <Box sx={{ marginLeft: '15px' }}>
@@ -149,7 +149,7 @@ const Header = () => {
                             </Grid>
                         </Grid>
                     </Grid>
-                    <Grid item xs={3.5}>
+                    <Grid item xs={4}>
                         <ul className='chat_Header_icon'>
                             <Tooltip style={{ cursor: "pointer" }} title="Search" arrow>
                                 <li onClick={() => setSearch('search')}>
