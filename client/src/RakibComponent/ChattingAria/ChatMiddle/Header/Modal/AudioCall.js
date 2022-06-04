@@ -8,6 +8,7 @@ import Modal from '@mui/material/Modal';
 import SettingsVoiceIcon from '@mui/icons-material/SettingsVoice';
 import CloseIcon from '@mui/icons-material/Close';
 import { useSelector } from 'react-redux';
+import { Tooltip } from '@mui/material';
 
 const style = {
     position: 'absolute',
@@ -18,16 +19,16 @@ const style = {
     bgcolor: 'background.paper',
     border: 'none',
     boxShadow: 24,
-    outline:'none',
+    outline: 'none',
     borderRadius: '10px',
     p: 4,
 };
 
-const AudioCall = ({  setAudioOpen,audioOpen }) => {
-    const {selectedChat} = useSelector(state => state)
+const AudioCall = ({ setAudioOpen, audioOpen }) => {
+    const { selectedChat } = useSelector(state => state)
     return (
         <div>
-             <Modal
+            <Modal
                 style={{ overflowY: 'scroll' }}
                 aria-labelledby="transition-modal-title"
                 aria-describedby="transition-modal-description"
@@ -46,11 +47,13 @@ const AudioCall = ({  setAudioOpen,audioOpen }) => {
                                     <div className="call-inner">
                                         <div className="call-user">
                                             <img alt="User" src={selectedChat?.chat?.img} className="call-avatar" />
-                                            <h4>{selectedChat?.chat?.chatName}<span>voice calling</span>
-                                            </h4>
+                                            <Tooltip title={selectedChat?.chat?.chatName} arrow>
+                                                <h4>{selectedChat?.chat?.chatName?.slice(0, 20)}<span>voice calling</span>
+                                                </h4>
+                                            </Tooltip>
                                         </div>
                                         <div className="call-items">
-                                            <span onClick={() => setAudioOpen(false)}><CloseIcon/></span>
+                                            <span onClick={() => setAudioOpen(false)}><CloseIcon /></span>
                                             <span className='green_btn'><SettingsVoiceIcon /></span>
                                         </div>
                                     </div>

@@ -1,5 +1,6 @@
 import CloseIcon from '@mui/icons-material/Close';
 import VideocamIcon from '@mui/icons-material/Videocam';
+import { Tooltip } from '@mui/material';
 import Backdrop from '@mui/material/Backdrop';
 import Box from '@mui/material/Box';
 import Fade from '@mui/material/Fade';
@@ -45,8 +46,10 @@ function VideoCall({ videoOpen, setVideoOpen }) {
                                 <div className="call-inner">
                                     <div className="call-user">
                                         <img alt="User" src={selectedChat?.chat?.img} className="call-avatar" />
-                                        <h4>{selectedChat?.chat?.chatName} <span> Video calling </span>
-                                        </h4>
+                                        <Tooltip title={selectedChat?.chat?.chatName} arrow>
+                                            <h4>{selectedChat?.chat?.chatName?.slice(0, 20)}<span>voice calling</span>
+                                            </h4>
+                                        </Tooltip>
                                     </div>
                                     <div className="call-items" style={{ marginLeft: '5px' }}>
                                         <span onClick={() => setVideoOpen(false)}><CloseIcon /></span>
