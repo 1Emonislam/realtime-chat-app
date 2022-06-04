@@ -287,7 +287,7 @@ function ScrollChat({ messages, user, handleTyping, isTyping }) {
                                                 </>
                                             </Grid>
                                         </>}
-                                    {console.log(m)}
+                                        
                                         {
                                             m?.content?.reaction?.length !== 0 &&
                                             <span
@@ -304,12 +304,12 @@ function ScrollChat({ messages, user, handleTyping, isTyping }) {
                                                 }}> 
                                                 
                                                 {
-                                                    m?.content?.reaction.filter(detect=>detect?.icon.toLowerCase().includes("don't understand!")).length > 0 &&
+                                                    m?.content?.reaction?.filter(detect=>detect?.icon?.toLowerCase()?.includes("don't understand!"))?.length > 0 &&
                                                     <img style={{width:'22px' , height:'22px'}} src={confusedImg} alt="" />
                                                 }
 
                                                 {
-                                                    m?.content?.reaction.filter(detect=>detect?.icon.toLowerCase().includes("question?")).length > 0 &&
+                                                    m?.content?.reaction?.filter(detect=>detect?.icon?.toLowerCase()?.includes("question?"))?.length > 0 &&
                                                     <img style={{width:'22px', height:'22px', marginLeft:'2px'}} src={questionImg} alt="" />
                                                 }
 
