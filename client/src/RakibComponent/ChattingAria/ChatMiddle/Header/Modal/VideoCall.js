@@ -5,7 +5,8 @@ import Box from '@mui/material/Box';
 import Fade from '@mui/material/Fade';
 import Modal from '@mui/material/Modal';
 import * as React from 'react';
-import chatImg from '../../../../../assets/images/avatar-8.jpg';
+import { useSelector } from 'react-redux';
+// import chatImg from '../../../../../assets/images/avatar-8.jpg';
 import './AllModal.css';
 
 const style = {
@@ -23,9 +24,10 @@ const style = {
 };
 
 function VideoCall({ videoOpen, setVideoOpen }) {
+    const { selectedChat } = useSelector(state => state)
     return (
-         <Modal
-                style={{ overflowY: 'scroll' }}
+        <Modal
+            style={{ overflowY: 'scroll' }}
             aria-labelledby="transition-modal-title"
             aria-describedby="transition-modal-description"
             open={videoOpen}
@@ -42,11 +44,11 @@ function VideoCall({ videoOpen, setVideoOpen }) {
                             <div className="call-wrapper">
                                 <div className="call-inner">
                                     <div className="call-user">
-                                        <img alt="User" src={chatImg} className="call-avatar" />
-                                        <h4>Sumon Khan <span>Video calling</span>
+                                        <img alt="User" src={selectedChat?.chat?.img} className="call-avatar" />
+                                        <h4>{selectedChat?.chat?.chatName} <span> Video calling </span>
                                         </h4>
                                     </div>
-                                    <div className="call-items"style={{marginLeft:'5px'}}>
+                                    <div className="call-items" style={{ marginLeft: '5px' }}>
                                         <span onClick={() => setVideoOpen(false)}><CloseIcon /></span>
                                         <span className='green_btn'><VideocamIcon /></span>
                                     </div>

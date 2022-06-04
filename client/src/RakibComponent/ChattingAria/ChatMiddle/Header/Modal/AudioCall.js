@@ -4,9 +4,10 @@ import Backdrop from '@mui/material/Backdrop';
 import Box from '@mui/material/Box';
 import Fade from '@mui/material/Fade';
 import Modal from '@mui/material/Modal';
-import chatImg from '../../../../../assets/images/avatar-8.jpg';
+// import chatImg from '../../../../../assets/images/avatar-8.jpg';
 import SettingsVoiceIcon from '@mui/icons-material/SettingsVoice';
 import CloseIcon from '@mui/icons-material/Close';
+import { useSelector } from 'react-redux';
 
 const style = {
     position: 'absolute',
@@ -23,6 +24,7 @@ const style = {
 };
 
 const AudioCall = ({  setAudioOpen,audioOpen }) => {
+    const {selectedChat} = useSelector(state => state)
     return (
         <div>
              <Modal
@@ -43,8 +45,8 @@ const AudioCall = ({  setAudioOpen,audioOpen }) => {
                                 <div className="call-wrapper">
                                     <div className="call-inner">
                                         <div className="call-user">
-                                            <img alt="User" src={chatImg} className="call-avatar" />
-                                            <h4>Emon Islam <span>voice calling</span>
+                                            <img alt="User" src={selectedChat?.chat?.img} className="call-avatar" />
+                                            <h4>{selectedChat?.chat?.chatName}<span>voice calling</span>
                                             </h4>
                                         </div>
                                         <div className="call-items">
