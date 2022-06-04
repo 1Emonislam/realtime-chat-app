@@ -305,7 +305,7 @@ function ScrollChat({ messages, user, handleTyping, isTyping }) {
                                                     backgroundColor:'transparent',
                                                     position:'absolute',
                                                     bottom:'-10px',
-                                                    left:`${m?.sender?._id === user?._id && '-45px'}`,
+                                                    left:`${m?.sender?._id === user?._id && '-55px'}`,
                                                     right:`${m?.sender?._id !== user?._id && '-45px'}`,
                                                     padding:'2.5px',
                                                     borderRadius:'10px'
