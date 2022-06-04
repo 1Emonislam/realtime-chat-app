@@ -147,9 +147,11 @@ function ScrollChat({ messages, user, handleTyping, isTyping }) {
                                             fontWeight: "500",
                                         }}
                                     >
-                                        <span style={{ position: 'absolute', left: '-20px', top: '18px', color: 'blue', fontWeight: '900' }}>
-                                            {user?._id && <MessageFunc handleTyping={handleTyping} isTyping={isTyping} isSameSenderPermission={isSameSenderPermission(messages, m, i, user?._id)} message={m?.content?.text} messageInfo={m} />}
-                                        </span>
+                                        <Tooltip style={{ position: 'absolute', left: '-20px', top: '18px', color: 'blue', fontWeight: '900' }} arrow title="More" placement="top">
+                                            <span>
+                                                {user?._id && <MessageFunc handleTyping={handleTyping} isTyping={isTyping} isSameSenderPermission={isSameSenderPermission(messages, m, i, user?._id)} message={m?.content?.text} messageInfo={m} />}
+                                            </span>
+                                        </Tooltip>
                                         {<>
                                             <div>
                                                 <Typography sx={{
