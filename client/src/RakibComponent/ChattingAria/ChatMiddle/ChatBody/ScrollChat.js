@@ -296,6 +296,7 @@ function ScrollChat({ messages, user, handleTyping, isTyping }) {
                                                     </>
                                                 </Grid>
                                             </>}
+                                            
                                         </span>
                                     </div>
 
