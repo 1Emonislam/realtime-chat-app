@@ -45,7 +45,7 @@ const DrawerContent = ({ mode }) => {
       >
         <Box sx={{ flexGrow: 1, fontSize: "14px" }}>
           <NavLink
-            to="/keeper/notes"
+            to="/notes/notes"
             className="drawerLink"
             style={{ display: "flex", padding: "4px", marginLeft: "6px" }}
           >
@@ -75,7 +75,7 @@ const DrawerContent = ({ mode }) => {
           </div> */}
 
           <NavLink
-            to="/keeper/pin"
+            to="/notes/pin"
             className="drawerLink"
             style={{ display: "flex" }}
           >
@@ -90,7 +90,7 @@ const DrawerContent = ({ mode }) => {
             </div>
           </NavLink>
           <NavLink
-            to="/keeper/archive"
+            to="/notes/archive"
             className="drawerLink"
             style={{ display: "flex" }}
           >
@@ -106,7 +106,7 @@ const DrawerContent = ({ mode }) => {
           </NavLink>
 
           <NavLink
-            to="/keeper/trash"
+            to="/notes/trash"
             className="drawerLink"
             style={{ display: "flex" }}
           >
