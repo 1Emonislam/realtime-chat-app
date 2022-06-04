@@ -113,9 +113,8 @@ function ScrollChat({ messages, user, handleTyping, isTyping }) {
                     <div style={{ marginTop: "50px" }}>
                         {messages?.length !== 0 && messages?.length && messages?.map((m, i) => (
                             <span key={i}>
-                                <div style={{ display: "flex", alignItems: 'center', marginBottom: '10px', marginLeft: '20px' }} ref={messagesEndRef}>
+                                <div style={{ display: "flex", alignItems: 'center', marginBottom: '16px', marginLeft: '20px' }} ref={messagesEndRef}>
                                     <div>
-
                                         {(isSameSender(messages, m, i, user._id) ||
                                             isLastMessage(messages, i, user._id)) && (
                                                 <Tooltip onClick={() => handleCurrentProfile(m.sender?._id)} style={{ cursor: "pointer" }} title={m?.sender?.firstName + ' ' + m?.sender?.lastName}
@@ -178,9 +177,7 @@ function ScrollChat({ messages, user, handleTyping, isTyping }) {
 
                                                 </Typography>
                                             </div>
-                                            {/* {console.log(m)} */}
                                             <Grid sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-
                                                 {
                                                     m?.content?.text?.toLowerCase() === "question?" ||
                                                         m?.content?.text?.toLowerCase() === "don't understand!" ||
@@ -204,7 +201,6 @@ function ScrollChat({ messages, user, handleTyping, isTyping }) {
                                                                     ?
 
                                                                     <img
-
                                                                         style={{ height: '25px', marginLeft: '7px', position: 'relative' }}
                                                                         src={m?.content?.confused?.icon?.toLowerCase() === "question?" ? questionImg
                                                                             :
@@ -291,6 +287,41 @@ function ScrollChat({ messages, user, handleTyping, isTyping }) {
                                                 </>
                                             </Grid>
                                         </>}
+                                    {console.log(m)}
+                                        {
+                                            m?.content?.reaction?.length !== 0 &&
+                                            <span
+                                                style={{
+                                                    display:'flex',
+                                                    alignItems:'cneter',
+                                                    backgroundColor:'whitesmoke',
+                                                    position:'absolute',
+                                                    bottom:'-20px',
+                                                    left:`${m?.sender?._id === user?._id && '-25px'}`,
+                                                    right:`${m?.sender?._id !== user?._id && '-25px'}`,
+                                                    padding:'2.5px',
+                                                    borderRadius:'10px'
+                                                }}> 
+                                                
+                                                {
+                                                    m?.content?.reaction.filter(detect=>detect?.icon.toLowerCase().includes("don't understand!")).length > 0 &&
+                                                    <img style={{width:'22px' , height:'22px'}} src={confusedImg} alt="" />
+                                                }
+
+                                                {
+                                                    m?.content?.reaction.filter(detect=>detect?.icon.toLowerCase().includes("question?")).length > 0 &&
+                                                    <img style={{width:'22px', height:'22px', marginLeft:'2px'}} src={questionImg} alt="" />
+                                                }
+
+                                                {
+                                                    m?.content?.reaction?.length >= 2 &&
+                                                    <Typography variant="caption" display="inline-block" gutterBottom sx={{color:'black', bgcolor:'rgba(245, 245, 245, 0.243)', ml:1, borderRadius:'5px'}}>
+                                                        {m?.content?.reaction?.length}
+                                                    </Typography>
+                                                }
+                                                
+                                            </span>
+                                            }
                                     </span>
                                 </div>
 
