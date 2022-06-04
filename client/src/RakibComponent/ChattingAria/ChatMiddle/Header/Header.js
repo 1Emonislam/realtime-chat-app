@@ -62,8 +62,8 @@ const Header = () => {
     const handleGroupInfoClose = () => setGroupInfoOpen(false);
     useEffect(() => {
         const delayDebounceFn = setTimeout(() => {
-            if (selectedChat?.chat?._id && selectedChat?.search && auth?.user?.token) {
-                dispatch(getMessage(selectedChat?.chat?._id, auth?.user?.token, selectedChat?.search))
+            if (selectedChat?.chat?._id && auth?.user?.token) {
+                dispatch(getMessage(selectedChat?.chat?._id, auth?.user?.token, selectedChat?.search || ''))
             }
         }, 500)
         return () => clearTimeout(delayDebounceFn)
