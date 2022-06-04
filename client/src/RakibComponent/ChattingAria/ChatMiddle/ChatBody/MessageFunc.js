@@ -2,11 +2,11 @@ import { Tooltip } from '@mui/material';
 import Popover from '@mui/material/Popover';
 import Typography from '@mui/material/Typography';
 import * as React from 'react';
+import { useEffect } from 'react';
 import { BsThreeDotsVertical } from 'react-icons/bs';
 import { useDispatch, useSelector } from 'react-redux';
 import { useSpeechSynthesis } from 'react-speech-kit';
 import { toast } from 'react-toastify';
-import { useEffect } from 'react';
 import addNoteImg from '../../../../Ashikur/chatRepliedImages/add-note.png';
 import confusedImg from '../../../../Ashikur/chatRepliedImages/confused.png';
 import copyImg from '../../../../Ashikur/chatRepliedImages/copy.png';
@@ -28,8 +28,9 @@ export default function MessageFunc({ isSameSenderPermission, handleTyping, isTy
     const handleNoteOpen = () => setNoteOpen(true);
     const handleNoteClose = () => setNoteOpen(false);
     // text to read
-    const [value, setValue] = React.useState('');
+    const [value, setValue] = React.useState(message);
     const { speak } = useSpeechSynthesis();
+
 
     const handleSpeechToRead = () => {
         setValue(message)
@@ -223,7 +224,7 @@ export default function MessageFunc({ isSameSenderPermission, handleTyping, isTy
                 </Typography>
 
                 {/* Text to speak */}
-                <Typography onClick={() => handleSpeechToRead()} sx={{ cursor: 'pointer', '&:hover': { bgcolor: 'rgb(234, 234, 234, 0.5)' }, py: 1, px: 2, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                <Typography onClick={handleSpeechToRead} sx={{ cursor: 'pointer', '&:hover': { bgcolor: 'rgb(234, 234, 234, 0.5)' }, py: 1, px: 2, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                     <span style={{ fontSize: 14, color: '#dda248', fontWeight: '700' }}> Read Message
                     </span>
                     <span>
@@ -231,6 +232,7 @@ export default function MessageFunc({ isSameSenderPermission, handleTyping, isTy
                         <img style={{ height: '20px', marginLeft: '10px' }} src={readTextImg} alt='' />
                     </span>
                 </Typography>
+                
             </Popover>
             {/* <ToastContainer
                 position="top-center"
