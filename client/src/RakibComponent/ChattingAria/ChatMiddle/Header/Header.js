@@ -164,62 +164,64 @@ const Header = () => {
                                 <li onClick={() => setVideoOpen(true)}><VideocamIcon />
                                 </li>
                             </Tooltip>
-                            <div className='ancor'>
-                                {selectedChat?.chat?._id ? <MoreHorizIcon id={id} onClick={handleClick} /> : <MoreHorizIcon></MoreHorizIcon>}
-                                <Popover
-                                    id={id}
-                                    open={open}
-                                    anchorEl={anchorEl}
-                                    onClose={handleClose}
-                                    anchorOrigin={{
-                                        vertical: 'bottom',
-                                        horizontal: 'left',
-                                    }}
-                                >
-                                    <Typography sx={{ pb: 1, pt: 1, px: 2, display: 'flex', alignItems: 'center', justifyContent: 'space-around' }}>
+                            <Tooltip title="More" arrow placement='top'>
+                                <div className='ancor'>
+                                    {selectedChat?.chat?._id ? <MoreHorizIcon id={id} onClick={handleClick} /> : <MoreHorizIcon></MoreHorizIcon>}
+                                    <Popover
+                                        id={id}
+                                        open={open}
+                                        anchorEl={anchorEl}
+                                        onClose={handleClose}
+                                        anchorOrigin={{
+                                            vertical: 'bottom',
+                                            horizontal: 'left',
+                                        }}
+                                    >
+                                        <Typography sx={{ pb: 1, pt: 1, px: 2, display: 'flex', alignItems: 'center', justifyContent: 'space-around' }}>
 
-                                        <span style={{ paddingRight: '8px' }}>Group Invite</span>
-                                        <GroupInvite groupInviteOpen={groupInviteOpen} setGroupInviteOpen={setGroupInviteOpen} chatId={selectedChat?.chat?._id} token={auth?.user?.token} handleGroupInvite={handleGroupInvite} handleGroupInviteClose={handleGroupInviteClose} />
-                                        <FcInvite onClick={handleGroupInvite} />
-                                    </Typography>
-                                    <Divider />
-                                    <Typography sx={{ pb: 1, pt: 1, px: 2, display: 'flex', alignItems: 'center', justifyContent: 'space-around' }}>
-                                        <span style={{ paddingRight: '8px' }}>Add Member</span>
-                                        <GroupAllMemberSearch addMemberOpen={addMemberOpen} setAddMemberOpen={setAddMemberOpen} chatId={selectedChat?.chat?._id} token={auth?.user?.token} handleAddMemberOpen={handleAddMemberOpen} handleAddMemberClose={handleAddMemberClose} />
-                                        <MdPersonAddAlt1 onClick={handleAddMemberOpen} style={{ color: '#d1c4e6' }} />
-                                    </Typography>
-                                    <Divider />
-                                    <Typography sx={{ pb: 1, pt: 1, px: 2, display: 'flex', alignItems: 'center', justifyContent: 'space-around' }}>
-                                        <span style={{ paddingRight: '8px' }}>Group Update</span>
-                                        <UpdateGroup groupInfo={selectedChat} groupOpen={groupOpen} handleGroupClose={handleGroupClose} />
-                                        <FcDataBackup onClick={handleGroupOpen} style={{ color: '#d1c4e6' }} />
-                                    </Typography>
-                                    <Divider />
-                                    <Typography sx={{ pb: 1, pt: 1, px: 2, display: 'flex', alignItems: 'center', justifyContent: 'space-around' }}>
-                                        <span style={{ paddingRight: '8px' }}> Group Delete</span>
-                                        <GroupAlertShow setAlertOpenGroup={setAlertOpenGroup} chatId={selectedChat?.chat?._id} token={auth?.user?.token} handleAlertOpenGroup={handleAlertOpenGroup} handleAlertCloseGroup={handleAlertCloseGroup} alertOpenGroup={alertOpenGroup} />
-                                        <Delete style={{ color: '#d1c4e9' }} onClick={handleAlertOpenGroup} />
-                                    </Typography>
-                                    <Divider />
+                                            <span style={{ paddingRight: '8px' }}>Group Invite</span>
+                                            <GroupInvite groupInviteOpen={groupInviteOpen} setGroupInviteOpen={setGroupInviteOpen} chatId={selectedChat?.chat?._id} token={auth?.user?.token} handleGroupInvite={handleGroupInvite} handleGroupInviteClose={handleGroupInviteClose} />
+                                            <FcInvite onClick={handleGroupInvite} />
+                                        </Typography>
+                                        <Divider />
+                                        <Typography sx={{ pb: 1, pt: 1, px: 2, display: 'flex', alignItems: 'center', justifyContent: 'space-around' }}>
+                                            <span style={{ paddingRight: '8px' }}>Add Member</span>
+                                            <GroupAllMemberSearch addMemberOpen={addMemberOpen} setAddMemberOpen={setAddMemberOpen} chatId={selectedChat?.chat?._id} token={auth?.user?.token} handleAddMemberOpen={handleAddMemberOpen} handleAddMemberClose={handleAddMemberClose} />
+                                            <MdPersonAddAlt1 onClick={handleAddMemberOpen} style={{ color: '#d1c4e6' }} />
+                                        </Typography>
+                                        <Divider />
+                                        <Typography sx={{ pb: 1, pt: 1, px: 2, display: 'flex', alignItems: 'center', justifyContent: 'space-around' }}>
+                                            <span style={{ paddingRight: '8px' }}>Group Update</span>
+                                            <UpdateGroup groupInfo={selectedChat} groupOpen={groupOpen} handleGroupClose={handleGroupClose} />
+                                            <FcDataBackup onClick={handleGroupOpen} style={{ color: '#d1c4e6' }} />
+                                        </Typography>
+                                        <Divider />
+                                        <Typography sx={{ pb: 1, pt: 1, px: 2, display: 'flex', alignItems: 'center', justifyContent: 'space-around' }}>
+                                            <span style={{ paddingRight: '8px' }}> Group Delete</span>
+                                            <GroupAlertShow setAlertOpenGroup={setAlertOpenGroup} chatId={selectedChat?.chat?._id} token={auth?.user?.token} handleAlertOpenGroup={handleAlertOpenGroup} handleAlertCloseGroup={handleAlertCloseGroup} alertOpenGroup={alertOpenGroup} />
+                                            <Delete style={{ color: '#d1c4e9' }} onClick={handleAlertOpenGroup} />
+                                        </Typography>
+                                        <Divider />
 
-                                    <Typography sx={{ pb: 1, pt: 1, px: 2, display: 'flex', alignItems: 'center', justifyContent: 'space-around' }}>
-                                        <span style={{ paddingRight: '8px' }}> All Conversion</span>
-                                        <AlertShow setAlertOpen={setAlertOpen} chatId={selectedChat?.chat?._id} token={auth?.user?.token} handleAlertOpen={handleAlertOpen} handleAlertClose={handleAlertClose} alertOpen={alertOpen} />
-                                        <FcDeleteDatabase onClick={handleAlertOpen} />
-                                    </Typography>
-                                </Popover>
-                                <ToastContainer
-                                    position="top-center"
-                                    autoClose={5000}
-                                    hideProgressBar={false}
-                                    newestOnTop={false}
-                                    closeOnClick
-                                    rtl={false}
-                                    pauseOnFocusLoss
-                                    draggable
-                                    pauseOnHover
-                                />
-                            </div>
+                                        <Typography sx={{ pb: 1, pt: 1, px: 2, display: 'flex', alignItems: 'center', justifyContent: 'space-around' }}>
+                                            <span style={{ paddingRight: '8px' }}> All Conversion</span>
+                                            <AlertShow setAlertOpen={setAlertOpen} chatId={selectedChat?.chat?._id} token={auth?.user?.token} handleAlertOpen={handleAlertOpen} handleAlertClose={handleAlertClose} alertOpen={alertOpen} />
+                                            <FcDeleteDatabase onClick={handleAlertOpen} />
+                                        </Typography>
+                                    </Popover>
+                                    <ToastContainer
+                                        position="top-center"
+                                        autoClose={5000}
+                                        hideProgressBar={false}
+                                        newestOnTop={false}
+                                        closeOnClick
+                                        rtl={false}
+                                        pauseOnFocusLoss
+                                        draggable
+                                        pauseOnHover
+                                    />
+                                </div>
+                            </Tooltip>
                         </ul>
                     </Grid>
                     {
