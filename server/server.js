@@ -14,6 +14,7 @@ const friendRoutes = require('./routes/friendRoutes');
 const messageRoutes = require('./routes/messageRoutes');
 const chatRoutes = require('./routes/chatRoutes');
 const noteRoutes = require('./routes/noteRoutes')
+const graphRoutes = require('./routes/graphRoutes')
 const notificationRoutes = require('./routes/notificationRoutes');
 const Notification = require('./models/groupNotificationModel');
 const User = require('./models/userModel');
@@ -46,6 +47,7 @@ connectedDb();
 //Use Routes
 
 app.use('/api', notificationRoutes)
+app.use("/graph",graphRoutes)
 app.use('/api/auth', userRoutes);
 app.use('/api/chat', chatRoutes)
 app.use('/api/note', noteRoutes);

@@ -5,10 +5,12 @@ const User = require("../models/userModel");
 const moment = require('moment')
 const { upload } = require("../utils/file");
 const { mailSending } = require("../utils/func");
+const shortid = require('shortid');
 const { genToken, genInviteGroup } = require("../utils/genToken");
 const GroupNotification = require("../models/groupNotificationModel");
 const Message = require("../models/messageModel");
 const UploadFiles = require("../models/uploadFilesModel");
+const Invitation = require("../models/InvitationModel");
 
 module.exports.acessChat = async (req, res, next) => {
   if (!req?.user?._id) {
@@ -893,22 +895,15 @@ module.exports.groupAddToInviteSent = async (req, res, next) => {
     if (!chatGroup) {
       return res.status(400).json({ error: { invite: "Gen Invite Link expired! please provide valid Chat Group" } });
     }
+    const shortId = shortid.generate()
     const data = {
-      chat: {
-        _id: chatGroup?._id,
-        chatName: chatGroup?.chatName,
-        members: chatGroup?.members,
-        img: chatGroup?.img
-      },
-      invitePerson: {
-        _id: req.user?._id,
-        firstName: req.user?.firstName,
-        lastName: req.user?.lastName,
-        pic: req.user?.pic,
-      },
+      chat: chatGroup?._id,
+      author: req.user._id,
+      token: genInviteGroup(shortId, expire),
+      shortCode:shortId,
     }
-    const token = genInviteGroup(data, expire);
-    const link = `https://collaball.netlify.app/group/invite/${token}`;
+    await Invitation.create(data)
+    const link = `https://collaball.netlify.app/group/invite/${shortId}`;
     if (!email?.length) {
       return res.status(200).json({ data: link, msg: `group ${chatGroup.chatName} attend to join` });
     }
@@ -1303,3 +1298,4 @@ module.exports.mediaFilesSearch = async (req, res, next) => {
     next(error)
   }
 }
+
