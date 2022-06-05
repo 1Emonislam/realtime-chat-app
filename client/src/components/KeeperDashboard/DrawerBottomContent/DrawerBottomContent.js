@@ -3,12 +3,12 @@ import ChatIcon from '@mui/icons-material/Chat';
 import SettingsIcon from '@mui/icons-material/Settings';
 import { Box } from '@mui/material';
 import React from 'react';
-import { useSelector } from 'react-redux';
+// import { useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 
 const DrawerBottomContent = () => {
-  const { theme } = useSelector(state => state);
-  const mode = theme?.theme;
+  // const { theme } = useSelector(state => state);
+  // const mode = theme?.theme;
   // const textColor = `${mode === 'dark' ? 'white' : 'black'}`;
   return (
     <>
