@@ -1285,7 +1285,7 @@ return res.status(400).json({error:{invite:'Please Login Before Access this page
       if(!valided){
         return res.status(400).json({error:{invite:'Invitaion code is invalid!'}})
       }
-      const resSend  =await valided.toObject();
+      const resSend  =await valided?.toObject();
       resSend.membersCount =await resSend?.members?.length;
       await delete resSend.members;
       await  delete resSend.groupAdmin;
