@@ -179,16 +179,12 @@ function RecentChat({ isTyping, chatActive, handleTyping, groupMessage, handleSi
                                             },
                                         }}>
                                             <Grid item xs={2}>
-
-                                                <Tooltip style={{ cursor: "pointer" }} title={chat?.chatName} key={index}>
                                                     <Avatar key={index} alt={chat?.chatName} src={chat?.img} />
-                                                </Tooltip>
-
                                             </Grid>
                                             <Grid item xs={10}>
                                                 <Grid container spacing={0} alignItems="center" style={{ textAlign: 'left' }} justifyContent="center">
                                                     <Grid item xs={8}>
-                                                        <Tooltip title={chat?.chatName}arrow>
+                                                        <Tooltip title={chat?.chatName} placement="top" arrow>
                                                             <Typography sx={{
                                                                 color: "inherit",
                                                                 textAlign: 'left',
