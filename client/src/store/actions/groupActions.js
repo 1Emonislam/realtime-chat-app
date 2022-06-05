@@ -159,8 +159,13 @@ export const inviteLinkVerify = (chatId, userId, invitedPerson, token) => {
                         type: GROUP_LOADING_DATA,
                         payload: {
                             loading: false,
+                            message: data?.message,
                         }
+
                     })
+                    if (data?.message) {
+                        window.location.replace('/chat')
+                    }
                     if (data.error) {
                         dispatch({
                             type: GROUP_LOADING_DATA,
@@ -199,7 +204,8 @@ export const inviteLinkDeclined = (chatId, userId, invitedPerson, declined, toke
                         type: GROUP_LOADING_DATA,
                         payload: {
                             loading: false,
-                        }
+                        },
+                        message: data?.message,
                     })
                     if (data.data) {
                         window.location?.reload()
