@@ -1,15 +1,15 @@
-import { Box, Grid, Typography, IconButton, InputBase, Paper, } from '@mui/material';
-import React from 'react';
+import CallIcon from '@mui/icons-material/Call';
+import ForumIcon from '@mui/icons-material/Forum';
 import GroupIcon from '@mui/icons-material/Group';
 import SearchIcon from '@mui/icons-material/Search';
+import { Box, Grid, IconButton, InputBase, Paper, Typography } from '@mui/material';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import CallIcon from '@mui/icons-material/Call';
-import ForumIcon from '@mui/icons-material/Forum';
+import React from 'react';
 
 const Dhome = () => {
     return (
@@ -81,13 +81,13 @@ const Dhome = () => {
                     </Box>
                     <Paper
                         component="form"
-                        sx={{ p: '1px 2px', display: 'flex', alignItems: 'center', width: 250, borderRadius: '5px', border: '1px solid #f1f3f8', boxShadow: 'none' }}
+                        sx={{ background:'white', p: '1px 2px', display: 'flex', alignItems: 'center', width: 250, borderRadius: '5px', border: '1px solid #f1f3f8', boxShadow: 'none' }}
                     >
                         <IconButton type="submit" sx={{ p: '10px', }} aria-label="search">
-                            <SearchIcon />
+                            <SearchIcon style={{ color: 'rgb(0 0 0 / 54%)'}} />
                         </IconButton>
                         <InputBase
-                            sx={{ ml: 1, flex: 1 }}
+                            sx={{ ml: 1, flex: 1, color: 'rgb(0 0 0 / 54%)' }}
                             placeholder="Search Here"
                             inputProps={{ 'aria-label': 'search here' }}
                         />
@@ -97,7 +97,7 @@ const Dhome = () => {
                 <TableContainer component={Paper}>
                     <Table sx={{ minWidth: 650 }} aria-label="simple table">
                         <TableHead sx={{ background: '#eef0f6' }}>
-                            <TableRow>
+                            <TableRow sx={{ borderBottom: '1px solid rgba(224, 224, 224, 1)'}}>
                                 <TableCell sx={{ fontFamily: 'Poppines', fontSize: '16px', fontWeight: 600, color: '#333' }}>User Id</TableCell>
                                 <TableCell sx={{ fontFamily: 'Poppines', fontSize: '16px', fontWeight: 600, color: '#333' }} align="center">User Name</TableCell>
                                 <TableCell sx={{ fontFamily: 'Poppines', fontSize: '16px', fontWeight: 600, color: '#333' }} align="center">Joined Date</TableCell>
@@ -105,7 +105,7 @@ const Dhome = () => {
                                 <TableCell sx={{ fontFamily: 'Poppines', fontSize: '16px', fontWeight: 600, color: '#333' }} align="right">Status</TableCell>
                             </TableRow>
                         </TableHead>
-                        <TableBody>
+                        <TableBody sx={{background: 'white'}}>
                             <TableRow sx={{
                                 '&:last-child td, &:last-child th': { border: 0 },
                                 '&:hover': {

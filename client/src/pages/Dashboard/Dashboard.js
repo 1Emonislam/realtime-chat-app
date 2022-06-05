@@ -10,7 +10,7 @@ const Dashboard = () => {
     const [mouseOver, setMouseOver] = useState(false);
 
     return (
-        <Box>
+        <Box sx={{ background: 'white', height: '100vh'}}>
             <Header selected={selected} setSelected={setSelected} />
             <Box
                 sx={
@@ -32,7 +32,7 @@ const Dashboard = () => {
                     <MenuBar selected={selected} mouseOver={mouseOver} />
                 </Box>
 
-                <Box sx={{ background: '#f1f4f5', p: 3 }}>
+                <Box sx={{ background: '#f1f4f5', p: 3, height: '90vh' }}>
                     <Outlet />
                 </Box>
             </Box>
