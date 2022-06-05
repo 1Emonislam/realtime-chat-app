@@ -107,7 +107,6 @@ module.exports.acessChat = async (req, res, next) => {
           select: '_id pic firstName lastName email online lastOnline createdAt',
           model: 'User',
           options: {
-
             skip: skip,
             limit: size
           },
@@ -133,9 +132,16 @@ module.exports.acessChat = async (req, res, next) => {
           path: 'content.files',
           select: '_id duration author filename sizeOfBytes type format duration url createdAt'
         })
-        await ViewsChat.create({
-          viewsChatId: createdChat?._id,
-        })
+        if (req?.user?._id) {
+          await ViewsChat.create({
+            viewsChatId: createdChat?._id,
+            user: req.user?._id
+          })
+        } else {
+          await ViewsChat.create({
+            viewsChatId: createdChat?._id,
+          })
+        }
         const views = await ViewsChat.find({ viewsChatId: createdChat?._id }).count();
         return res.status(200).json({ views, data: fullChat });
       } catch (error) {
@@ -194,6 +200,16 @@ module.exports.getSingleChatMembers = async (req, res, next) => {
         // may not useful in this case
       }
     })
+    if (req?.user?._id) {
+      await ViewsChat.create({
+        viewsChatId: getChatMember?._id,
+        user: req.user?._id
+      })
+    } else {
+      await ViewsChat.create({
+        viewsChatId: getChatMember?._id,
+      })
+    }
     getChatMember = await UploadFiles.populate(getChatMember, {
       path: 'content.files',
       select: '_id duration author filename sizeOfBytes type format duration url createdAt'
@@ -215,6 +231,7 @@ module.exports.getSingleChatMembers = async (req, res, next) => {
       amIJoined: chatCheck?.members?.some(am => am?._id?.toString() === req.user?._id?.toString()),
       amIAdmin: chatCheck?.groupAdmin?.some(am => am?._id?.toString() === req.user?._id?.toString()),
     }
+
     res.status(200).json(data);
   }
   catch (error) {
@@ -1263,6 +1280,14 @@ module.exports.groupMemberRemoveTo = async (req, res, next) => {
         joinChatId: chatId,
         userJoin: userId
       });
+      if (userId?.length) {
+        for (const user of userId) {
+          await JoinGroup.deleteMany({
+            joinChatId: chatId,
+            userJoin: user
+          });
+        }
+      }
       return res.status(200).json({ message: "Group Member Leave Successfully!", data })
     }
   }
