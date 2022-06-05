@@ -1278,12 +1278,16 @@ module.exports.groupMemberRemoveTo = async (req, res, next) => {
 module.exports.inviteCheck = async (req, res, next) => {
   const { shortCode } = req.body;
   try {
-    const valided = await Invitation.findOne({ shortCode: shortCode }).populate("chat","chatName img members");
+    if(!req?.user?._id){
+return res.status(400).json({error:{invite:'Please Login Before Access this page!'}})
+    }
+    const valided = await Invitation.findOne({ shortCode: shortCode }).populate("chat","_id chatName img members");
       if(!valided){
         return res.status(400).json({error:{invite:'Invitaion code is invalid!'}})
       }
       return res.status(200).json({data:{
         chat:{
+          _id:valided?._id,
           chatName:valided.chatName,
           img:valided.img,
           membersCount:valided.members?.length
