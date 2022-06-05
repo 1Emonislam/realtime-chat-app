@@ -236,15 +236,14 @@ export default function MessageFunc({ isSameSenderPermission, handleTyping, isTy
                 </Typography>
 
                 {/* Text to speak */}
-                {enable && <Typography onClick={handleSpeechToRead} sx={{ cursor: 'pointer', '&:hover': { bgcolor: 'rgb(234, 234, 234, 0.5)' }, py: 1, px: 2, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                {enable ? <Typography onClick={handleSpeechToRead} sx={{ cursor: 'pointer', '&:hover': { bgcolor: 'rgb(234, 234, 234, 0.5)' }, py: 1, px: 2, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                     <span style={{ fontSize: 14, color: '#dda248', fontWeight: '700' }}>Start Read Message
                     </span>
                     <span>
                         {/* <RiQuestionnaireFill style={{ position: 'relative', top: '3px', paddingLeft: '5px' }} /> */}
                         <img style={{ height: '20px', marginLeft: '10px' }} src={readTextImg} alt='' />
                     </span>
-                </Typography>}
-                {!enable && <Typography onClick={() => {
+                </Typography> : <Typography onClick={() => {
                     cancel()
                     setEnbale(true)
                     toast(`Speaking Stop`, {
