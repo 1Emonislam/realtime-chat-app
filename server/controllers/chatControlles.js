@@ -898,7 +898,7 @@ module.exports.groupAddToInviteSent = async (req, res, next) => {
     const shortId = shortid.generate()
     const data = {
       chat: chatGroup?._id,
-      author: req.user._id,
+      inviter: req.user._id,
       token: genInviteGroup(shortId, expire || '14d'),
       shortCode: shortId,
     }
@@ -1286,6 +1286,9 @@ return res.status(400).json({error:{invite:'Please Login Before Access this page
         return res.status(400).json({error:{invite:'Invitaion code is invalid!'}})
       }
       return res.status(200).json({data:{
+        inviter:valided.inviter,
+        shortCode:valided.shortCode,
+        token:valided.token,
         chat:{
           _id:valided?._id,
           chatName:valided.chatName,

@@ -4,7 +4,7 @@ const invitationSchema = mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "Chat",
     },
-    author: {
+    inviter: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
     },
