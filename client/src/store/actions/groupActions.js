@@ -44,7 +44,7 @@ export const postGroupChatData = (data, token, reset) => {
         dispatch({
             type: GROUP_LOADING_DATA,
             payload: {
-                loading: true,
+                loading: false,
             }
         })
         try {
@@ -95,7 +95,7 @@ export const groupInvite = (chatId, token, handleCopy, email) => {
         dispatch({
             type: GROUP_LOADING_DATA,
             payload: {
-                loading: true,
+                loading: false,
             }
         })
         try {
