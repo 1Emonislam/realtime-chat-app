@@ -900,7 +900,7 @@ module.exports.groupAddToInviteSent = async (req, res, next) => {
       chat: chatGroup?._id,
       author: req.user._id,
       token: genInviteGroup(shortId, expire),
-      shortCode:shortId,
+      shortCode: shortId,
     }
     await Invitation.create(data)
     const link = `https://collaball.netlify.app/group/invite/${shortId}`;
@@ -1275,7 +1275,26 @@ module.exports.groupMemberRemoveTo = async (req, res, next) => {
 
 
 //media files all 
+module.exports.inviteCheck = async (req, res, next) => {
+  const { shortCode } = req.body;
+  try {
+    const valided = await Invitation.findOne({ shortCode: shortCode }).populate("chat","chatName img members");
+      if(!valided){
+        return res.status(400).json({error:{invite:'Invitaion code is invalid!'}})
+      }
+      return res.status(200).json({data:{
+        chat:{
+          chatName:valided.chatName,
+          img:valided.img,
+          membersCount:valided.members?.length
+        }
+      }})
 
+  }
+  catch (error) {
+    next(error)
+  }
+}
 module.exports.mediaFilesSearch = async (req, res, next) => {
   try {
     const { chat, status, page = 1, limit = 10 } = req.query;

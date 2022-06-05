@@ -6,6 +6,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
+import axios from 'axios'
 import { inviteLinkDeclined, inviteLinkVerify } from '../store/actions/groupActions';
 import { GROUP_INVITE_SAVE, GROUP_PROGRESS_ACCEPTED, GROUP_PROGRESS_DECLINED } from '../store/type/groupType';
 const style = {
@@ -29,11 +30,34 @@ export default function GroupInviteAccept() {
     const [open, setOpen] = React.useState(false);
     const dispatch = useDispatch();
     useEffect(() => {
+        if (!auth?.user?.token) {
+            window.localStorage.setItem('inviteToken', JSON.stringify(token))
+            window.location.replace('/login')
+        } else {
+            window?.localStorage?.removeItem('inviteToken')
+        }
+    }, [auth?.user?.token])
+    useEffect(() => {
         try {
-            const chat = jwt_decoded(token);
-            if (chat) {
-                setChatInfo(chat)
+            const config = {
+                headers: {
+                    'Content-Type': 'Application/json',
+                    'Authorization': `Bearer ${auth?.user?.token}`
+                }
             }
+            axios.get('https://collaballapp.herokuapp.com/graph/toWeekMessage', config).then(({ data }) => {
+                dispatch({
+                    type: GROUP_INVITE_SAVE,
+                    payload: {
+                        invite: token,
+                    }
+                })
+                console.log(data)
+                const chat = jwt_decoded(data?.data?.token);
+                if (chat) {
+                    setChatInfo(data?.data)
+                }
+            })
         }
         catch (error) {
             setError(error?.message)
@@ -48,14 +72,6 @@ export default function GroupInviteAccept() {
 
     }, [dispatch, token])
 
-    useEffect(() => {
-        if (!auth?.user?.token) {
-            window.localStorage.setItem('inviteToken', JSON.stringify(token))
-            window.location.replace('/login')
-        } else {
-            window?.localStorage?.removeItem('inviteToken')
-        }
-    }, [auth?.user?.token])
     const handleClose = () => {
         setOpen(false);
         const status = 'declined'
