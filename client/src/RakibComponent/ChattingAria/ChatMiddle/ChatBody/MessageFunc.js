@@ -28,13 +28,25 @@ export default function MessageFunc({ isSameSenderPermission, handleTyping, isTy
     const handleNoteOpen = () => setNoteOpen(true);
     const handleNoteClose = () => setNoteOpen(false);
     // text to read
+    const [enable, setEnbale] = React.useState()
     const [value, setValue] = React.useState(message);
-    const { speak } = useSpeechSynthesis();
-
-
+    const { speak, cancel } = useSpeechSynthesis();
+    
     const handleSpeechToRead = () => {
         setValue(message)
+        setEnbale(true)
         speak({ text: value })
+        toast(`Speaking...`, {
+            position: "top-center",
+            theme: theme?.theme,
+            fontWeight: '500',
+            autoClose: false,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+        });
     }
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
@@ -225,14 +237,19 @@ export default function MessageFunc({ isSameSenderPermission, handleTyping, isTy
 
                 {/* Text to speak */}
                 <Typography onClick={handleSpeechToRead} sx={{ cursor: 'pointer', '&:hover': { bgcolor: 'rgb(234, 234, 234, 0.5)' }, py: 1, px: 2, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                    <span style={{ fontSize: 14, color: '#dda248', fontWeight: '700' }}> Read Message
-                    </span>
+                    {enable ? <span style={{ fontSize: 14, color: '#dda248', fontWeight: '700' }}>Start Read Message
+                    </span> :
+                        <span onClick={() => {
+                            cancel()
+                        }} style={{ fontSize: 14, color: '#dda248', fontWeight: '700' }}>Stop Read Message
+                        </span>
+                    }
                     <span>
                         {/* <RiQuestionnaireFill style={{ position: 'relative', top: '3px', paddingLeft: '5px' }} /> */}
                         <img style={{ height: '20px', marginLeft: '10px' }} src={readTextImg} alt='' />
                     </span>
                 </Typography>
-                
+
             </Popover>
             {/* <ToastContainer
                 position="top-center"
