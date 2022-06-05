@@ -1,6 +1,6 @@
 import { DASHBOARD_GRAPH, DASHBOARD_GRAPH_LOADING } from "../reducers/GraphReducer"
 
-export const getGraphDahboardData = ( token) => {
+export const getGraphDahboardData = (token) => {
     // console.log(data,token)
     return async (dispatch) => {
         dispatch({
@@ -26,6 +26,7 @@ export const getGraphDahboardData = ( token) => {
                             weekDate: data?.weekDate,
                             today: data?.today,
                             week: data?.week,
+                            totalMsg: data.totalMsg,
                             loading: false
                         }
                     })

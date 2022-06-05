@@ -13,6 +13,7 @@ const initState = {
         visitorCount: 0,
         createGroupCount: 0,
     },
+    totalMsg: 0,
     loading: false
 }
 export const DASHBOARD_GRAPH = 'DASHBOARD_GRAPH'
@@ -26,6 +27,7 @@ export const graphReducer = (state = initState, action) => {
             weekDate: payload.weekDate,
             today: payload.today,
             week: payload.week,
+            totalMsg: payload.totalMsg,
             loading: false
         }
     }

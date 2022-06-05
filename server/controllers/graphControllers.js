@@ -17,6 +17,7 @@ module.exports.graphDahboard = async (req, res, next) => {
         const weekJoinGroupCount = await JoinGroup.find({ timestamp: { $gte: toWeek }, userJoin: req.user?._id }).count()
         const weekvisitor = await ViewsChat.find({ timestamp: { $gte: toWeek }, user: req.user?._id }).count()
         const weekCreateGroup = await Chat.find({ timestamp: { $gte: toWeek }, members: req.user?._id }).count()
+        const totalMsg = await Message.find({ sender: req.user?._id }).count()
         //views chat
 
         const dashGraph = {
@@ -32,8 +33,9 @@ module.exports.graphDahboard = async (req, res, next) => {
                 msgCount: weekMsgCount,
                 joinGroupCount: weekJoinGroupCount,
                 visitorCount: weekvisitor,
-                createGroupCount: weekCreateGroup
-            }
+                createGroupCount: weekCreateGroup,
+            },
+            totalMsg: totalMsg,
         }
         return res.status(200).json(dashGraph)
 
