@@ -18,11 +18,6 @@ const DrawerBottomContent = () => {
           flexWrap: 'wrap',
           alignContent: 'flex-end',
           height: "150px",
-          '&:hover': {
-            background: "#F4F4F4",
-            color: 'black',
-            borderRadius: '5px'
-          },
         }}
       >
         <NavLink

@@ -44,11 +44,7 @@ const DrawerContent = ({ mode }) => {
         }}
       >
         <Box sx={{
-          flexGrow: 1, fontSize: "14px", '&:hover': {
-            background: "#F4F4F4",
-            color: 'black',
-            borderRadius: '5px'
-          },
+          flexGrow: 1, fontSize: "14px",
         }}>
           <NavLink
             to="/notes/notes"
