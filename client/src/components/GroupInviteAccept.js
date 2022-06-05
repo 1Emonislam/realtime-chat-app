@@ -1,10 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Avatar, Button, Modal, ToggleButton } from '@mui/material';
+import { Avatar, Button, Modal, ToggleButton, Tooltip } from '@mui/material';
 import { Box } from '@mui/system';
 import jwt_decoded from 'jwt-decode';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
 import { inviteLinkDeclined, inviteLinkVerify } from '../store/actions/groupActions';
 import { GROUP_INVITE_SAVE, GROUP_PROGRESS_ACCEPTED, GROUP_PROGRESS_DECLINED } from '../store/type/groupType';
@@ -49,7 +49,7 @@ export default function GroupInviteAccept() {
             })
                 .then(res => res.json())
                 .then((data) => {
-                    console.log(data)
+                    // console.log(data)
                     dispatch({
                         type: GROUP_INVITE_SAVE,
                         payload: {
@@ -64,6 +64,7 @@ export default function GroupInviteAccept() {
                     }
                     catch (error) {
                         setError('Invitaion Expired!')
+                        setError(data?.error?.invite)
                     }
                 })
         }
@@ -83,12 +84,12 @@ export default function GroupInviteAccept() {
     const handleClose = () => {
         setOpen(false);
         const status = 'declined'
-        dispatch(inviteLinkDeclined(chatInfo?.chat?._id, auth.user?.user?._id, chatInfo?.invitePerson?._id, status, auth?.user?.token))
+        dispatch(inviteLinkDeclined(chatInfo?.chat?._id, auth.user?.user?._id, chatInfo?.inviter?._id, status, auth?.user?.token))
         window.location.replace('/home')
     };
     const handleAcceptInvite = () => {
         // console.log(chatInfo)
-        dispatch(inviteLinkVerify(chatInfo?.chat?._id, auth.user?.user?._id, chatInfo?.invitePerson?._id, auth?.user?.token))
+        dispatch(inviteLinkVerify(chatInfo?.chat?._id, auth.user?.user?._id, chatInfo?.inviter?._id, auth?.user?.token))
     }
     if (groupData?.message) {
         toast.success(`${groupData?.message}`, {
@@ -111,7 +112,7 @@ export default function GroupInviteAccept() {
     if (groupData?.error) {
         Object.values(groupData?.error)?.forEach((err) => {
             // console.log(err)
-            toast.error(`${err || error}`, {
+            toast.error(`${err}`, {
                 position: "bottom-right",
                 theme: theme?.theme,
                 autoClose: 5000,
@@ -129,6 +130,20 @@ export default function GroupInviteAccept() {
             })
         })
     }
+    useEffect(() => {
+        if (error) {
+            toast.error(`${error}`, {
+                position: "bottom-right",
+                theme: theme?.theme,
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            });
+        }
+    }, [error])
     return (
         <>
             <Modal
@@ -139,7 +154,7 @@ export default function GroupInviteAccept() {
                 aria-labelledby="child-modal-title"
                 aria-describedby="child-modal-description"
             >
-                <Box style={style}>
+                {chatInfo?.chat?._id ? <Box style={style}>
                     <Avatar variant="inherit" alt={chatInfo?.chat?.chatName} src={chatInfo?.chat?.img} />
                     <ToggleButton value="one" style={{ border: 'none', textTransform: 'none', fontSize: '18px' }}>
                         Members {chatInfo?.chat?.membersCount}
@@ -148,13 +163,31 @@ export default function GroupInviteAccept() {
                         Invitation Accepted
                     </ToggleButton>
                     <br />
-                    <ToggleButton value="two" style={{ border: 'none', textTransform: 'none' }}>
-                        Invited  <i style={{ fontSize: '18px', fontWeight: '600', margin: '0 5px' }}> {chatInfo?.invitePerson?.firstName + ' ' + chatInfo?.invitePerson?.lastName}</i> group join  <i style={{ fontSize: '18px', fontWeight: '600', margin: '0 5px' }}> {chatInfo?.chat?.chatName}</i>
-                    </ToggleButton>
+                    {chatInfo?.inviter?.firstName && <Tooltip title={chatInfo?.chat?.chatName} placement="top" arrow>
+                        <ToggleButton value="two" style={{ border: 'none', textTransform: 'none' }}>
+                            <span style={{ display: 'felx', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+                                <i style={{ fontSize: '18px', fontWeight: '600', margin: '0 5px' }}> {chatInfo?.chat?.chatName.slice(0, 25)}</i>
+                                <br />
+                                Invited  <i style={{ fontSize: '18px', fontWeight: '600', margin: '0 5px' }}> {chatInfo?.inviter?.firstName + ' ' + chatInfo?.inviter?.lastName}</i> group join
+                            </span>
+                        </ToggleButton>
+                    </Tooltip>}
                     <br />
                     <Button onClick={handleClose}>Cancel</Button>
                     <Button onClick={handleAcceptInvite} style={{ marginLeft: '20px' }}>Accepted</Button>
-                </Box>
+                </Box> : <Box style={style}>
+                    <ToggleButton value="two" style={{ border: 'none', textTransform: 'none' }}>
+                        <h4> Permission Denied code 401</h4>
+
+                    </ToggleButton>
+                    <br />
+                    <ToggleButton value="two" style={{ marginLeft: '40px' }}>
+                        <Link to="/home">Home</Link>
+                    </ToggleButton>
+                    <ToggleButton value="three" style={{ marginLeft: '15px' }}>
+                        <Link to="/login">Login</Link>
+                    </ToggleButton>
+                </Box>}
 
             </Modal>
             <ToastContainer
