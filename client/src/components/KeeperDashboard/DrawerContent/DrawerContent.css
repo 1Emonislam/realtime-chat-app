@@ -1,28 +1,30 @@
 .drawerLink {
-    border-radius: 20px;
-    padding: 5px 10px;
+  border-radius: 20px;
+  padding: 5px 10px;
 }
 
 .linkItem {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 }
-
+.drawerLink:hover {
+  width: 100%;
+  color: "#333";
+}
 .modalInputContainer {
-    position: relative;
-
+  position: relative;
 }
 
-.modalInputContainer>input {
-    margin-top: 10px;
-    font-size: 18px;
+.modalInputContainer > input {
+  margin-top: 10px;
+  font-size: 18px;
 }
 
-.modalInputContainer>h5 {
-    margin-top: 5px;
-    position: absolute;
-    right: 0;
-    cursor: pointer;
-    font-weight: 500;
-    color: #838282;
+.modalInputContainer > h5 {
+  margin-top: 5px;
+  position: absolute;
+  right: 0;
+  cursor: pointer;
+  font-weight: 500;
+  color: #838282;
 }

@@ -28,7 +28,7 @@ const DrawerContent = ({ mode }) => {
   const [open, setOpen] = React.useState(false);
   // const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-  const textColor = `${mode === 'dark' ? 'white' : 'black'}`;
+  // const '#85abb8' = `${mode === 'dark' ? 'white' : 'black'}`;
 
   return (
     <>
@@ -43,13 +43,19 @@ const DrawerContent = ({ mode }) => {
           pt: 1,
         }}
       >
-        <Box sx={{ flexGrow: 1, fontSize: "14px" }}>
+        <Box sx={{
+          flexGrow: 1, fontSize: "14px", '&:hover': {
+            background: "#F4F4F4",
+            color: 'black',
+            borderRadius: '5px'
+          },
+        }}>
           <NavLink
             to="/notes/notes"
             className="drawerLink"
             style={{ display: "flex", padding: "4px", marginLeft: "6px" }}
           >
-            <div style={{ color: textColor }} className="linkItem">
+            <div style={{ color: '#85abb8' }} className="linkItem">
               <h5 style={{ marginLeft: "15px" }}>
                 <NoteOutlinedIcon sx={{ mt: "5px", mr: 2 }} fontSize="medium" />
               </h5>
@@ -59,7 +65,7 @@ const DrawerContent = ({ mode }) => {
 
           {/* <div
             className="drawerLink"
-            style={{ display: "flex", cursor: "pointer", color: textColor }}
+            style={{ display: "flex", cursor: "pointer", color: '#85abb8' }}
           >
             <div className="linkItem" onClick={handleOpen}>
               <h5 style={{ marginLeft: "15px" }}>
@@ -79,7 +85,7 @@ const DrawerContent = ({ mode }) => {
             className="drawerLink"
             style={{ display: "flex" }}
           >
-            <div style={{ color: textColor }} className="linkItem">
+            <div style={{ color: '#85abb8' }} className="linkItem">
               <h5 style={{ marginLeft: "15px" }}>
                 <PushPinOutlinedIcon
                   sx={{ mt: "5px", mr: 2 }}
@@ -94,7 +100,7 @@ const DrawerContent = ({ mode }) => {
             className="drawerLink"
             style={{ display: "flex" }}
           >
-            <div style={{ color: textColor }} className="linkItem">
+            <div style={{ color: '#85abb8' }} className="linkItem">
               <h5 style={{ marginLeft: "15px" }}>
                 <ArchiveOutlinedIcon
                   sx={{ mt: "5px", mr: 2 }}
@@ -110,7 +116,7 @@ const DrawerContent = ({ mode }) => {
             className="drawerLink"
             style={{ display: "flex" }}
           >
-            <div style={{ color: textColor }} className="linkItem">
+            <div style={{ color: '#85abb8' }} className="linkItem">
               <h5 style={{ marginLeft: "15px" }}>
                 <DeleteOutlineIcon
                   sx={{ mt: "5px", mr: 2 }}

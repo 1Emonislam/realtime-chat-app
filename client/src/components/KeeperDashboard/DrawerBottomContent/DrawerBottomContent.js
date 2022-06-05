@@ -9,7 +9,7 @@ import { NavLink } from 'react-router-dom';
 const DrawerBottomContent = () => {
   const { theme } = useSelector(state => state);
   const mode = theme?.theme;
-  const textColor = `${mode === 'dark' ? 'white' : 'black'}`;
+  // const textColor = `${mode === 'dark' ? 'white' : 'black'}`;
   return (
     <>
       <Box
@@ -17,16 +17,23 @@ const DrawerBottomContent = () => {
           display: 'flex',
           flexWrap: 'wrap',
           alignContent: 'flex-end',
-          height: "70%",
-          color: `${mode === 'dark' ? 'gray' : 'black'}`
+          height: "150px",
+          '&:hover': {
+            background: "#F4F4F4",
+            color: 'black',
+            borderRadius: '5px'
+          },
         }}
       >
         <NavLink
+
           to="/dashboard"
           className="drawerLink"
-          style={{ display: "flex" }}
+          style={{
+            display: "flex",
+          }}
         >
-          <div style={{ color: textColor }} className="linkItem">
+          <div style={{ color: '#85abb8' }} className="linkItem">
             <h5 style={{ marginLeft: "15px" }}>
               <AppsIcon
                 sx={{ mt: "5px", mr: 2 }}
@@ -41,7 +48,7 @@ const DrawerBottomContent = () => {
           className="drawerLink"
           style={{ display: "flex" }}
         >
-          <div style={{ color: textColor }} className="linkItem">
+          <div style={{ color: '#85abb8' }} className="linkItem">
             <h5 style={{ marginLeft: "15px" }}>
               <ChatIcon
                 sx={{ mt: "5px", mr: 2 }}
@@ -56,7 +63,7 @@ const DrawerBottomContent = () => {
           className="drawerLink"
           style={{ display: "flex" }}
         >
-          <div style={{ color: textColor }} className="linkItem">
+          <div style={{ color: '#85abb8' }} className="linkItem">
             <h5 style={{ marginLeft: "15px" }}>
               <SettingsIcon
                 sx={{ mt: "5px", mr: 2 }}

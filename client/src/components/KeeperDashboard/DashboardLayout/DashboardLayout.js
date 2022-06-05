@@ -136,10 +136,10 @@ function DashboardLayout() {
         anchor="left"
         open={sideBarOpen}
       >
-        <Box sx={{ height: '50%' }} onClick={isDesktop ? "" : handleDrawerClose}>
+        <Box sx={{ height: '60%' }} onClick={isDesktop ? "" : handleDrawerClose}>
           <DrawerContent mode={mode} />
         </Box>
-        <Box sx={{ height: '50%' }} onClick={isDesktop ? "" : handleDrawerClose}>
+        <Box sx={{ height: '30%' }} onClick={isDesktop ? "" : handleDrawerClose}>
           <DrawerBottomContent mode={mode} />
         </Box>
       </Drawer>

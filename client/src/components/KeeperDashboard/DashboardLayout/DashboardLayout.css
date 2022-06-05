@@ -9,7 +9,9 @@
 }
 .linkItem:hover {
   color: #cf5d5d !important;
+  padding: "0px 10px";
 }
+
 .searchBg {
   position: absolute;
   display: flex;
