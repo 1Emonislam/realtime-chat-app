@@ -1281,21 +1281,16 @@ module.exports.inviteCheck = async (req, res, next) => {
     if(!req?.user?._id){
 return res.status(400).json({error:{invite:'Please Login Before Access this page!'}})
     }
-    const valided = await Invitation.findOne({ shortCode: shortCode }).populate("chat","_id chatName img members");
+    const valided = await Invitation.findOne({ shortCode: shortCode }).populate("chat");
       if(!valided){
         return res.status(400).json({error:{invite:'Invitaion code is invalid!'}})
       }
-      return res.status(200).json({data:{
-        inviter:valided.inviter,
-        shortCode:valided.shortCode,
-        token:valided.token,
-        chat:{
-          _id:valided?._id,
-          chatName:valided.chatName,
-          img:valided.img,
-          membersCount:valided.members?.length
-        }
-      }})
+      const resSend  = valided.toObject();
+      resSend.membersCount = resSend?.members?.length;
+      delete resSend.members;
+      delete resSend.groupAdmin;
+      delete resSend.seen;
+      return res.status(200).json(resSend)
 
   }
   catch (error) {

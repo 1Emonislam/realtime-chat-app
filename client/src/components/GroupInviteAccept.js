@@ -6,7 +6,6 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
-import axios from 'axios'
 import { inviteLinkDeclined, inviteLinkVerify } from '../store/actions/groupActions';
 import { GROUP_INVITE_SAVE, GROUP_PROGRESS_ACCEPTED, GROUP_PROGRESS_DECLINED } from '../store/type/groupType';
 const style = {
@@ -25,6 +24,7 @@ const style = {
 export default function GroupInviteAccept() {
     const [chatInfo, setChatInfo] = useState({});
     const { token } = useParams();
+    console.log(token)
     const [error, setError] = useState('')
     const { auth, groupData, theme } = useSelector(state => state)
     const [open, setOpen] = React.useState(false);
@@ -40,26 +40,33 @@ export default function GroupInviteAccept() {
     useEffect(() => {
         if (!auth?.user?.token) return
         try {
-            const config = {
+            fetch('https://collaballapp.herokuapp.com/api/chat/invite/', {
+                method: 'POST',
                 headers: {
                     'Content-Type': 'Application/json',
                     'Authorization': `Bearer ${auth?.user?.token}`
-                }
-            }
-            axios.post('https://collaballapp.herokuapp.com/api/chat/invite/', config, { shortCode: token }).then(({ data }) => {
-                console.log(data.data)
-                dispatch({
-                    type: GROUP_INVITE_SAVE,
-                    payload: {
-                        invite: token,
+                },
+                body: JSON.stringify({ shortCode: token })
+            })
+                .then(res => res.json())
+                .then(({ data }) => {
+                    console.log(data.token)
+                    dispatch({
+                        type: GROUP_INVITE_SAVE,
+                        payload: {
+                            invite: token,
+                        }
+                    })
+                    try {
+                        const chat = jwt_decoded(data?.token);
+                        if (chat) {
+                            setChatInfo(data?.data)
+                        }
+                    }
+                    catch (error) {
+                        setError('Invitaion Expired!')
                     }
                 })
-                console.log(data)
-                const chat = jwt_decoded(data?.data?.token);
-                if (chat) {
-                    setChatInfo(data?.data)
-                }
-            })
         }
         catch (error) {
             setError(error?.message)
@@ -72,7 +79,7 @@ export default function GroupInviteAccept() {
         })
         setOpen(true)
 
-    }, [dispatch, auth?.user?.token])
+    }, [dispatch, auth?.user?.token, token])
 
     const handleClose = () => {
         setOpen(false);
