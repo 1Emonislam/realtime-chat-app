@@ -1281,7 +1281,7 @@ module.exports.inviteCheck = async (req, res, next) => {
     if(!req?.user?._id){
 return res.status(400).json({error:{invite:'Please Login Before Access this page!'}})
     }
-    const valided = await Invitation.findOne({ shortCode: shortCode }).populate("chat");
+    const valided = await Invitation.findOne({ shortCode: shortCode }).populate("chat").populate('inviter','_id pic firstName lastName');
       if(!valided){
         return res.status(400).json({error:{invite:'Invitaion code is invalid!'}})
       }
