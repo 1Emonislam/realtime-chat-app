@@ -13,7 +13,6 @@ module.exports.searchUsers = async (req, res, next) => {
                 { lastName: { $regex: req.query.search, $options: "i" } },
                 { email: { $regex: req.query.search, $options: "i" } },
                 { username: { $regex: req.query.search, $options: "i" } },
-                { phone: { $regex: req.query.search, $options: "i" } },
                 { status: 'active' },
             ],
         } : { status: 'active' };
@@ -42,7 +41,6 @@ module.exports.blockUsers = async (req, res, next) => {
                 { lastName: { $regex: req.query.search, $options: "i" } },
                 { email: { $regex: req.query.search, $options: "i" } },
                 { username: { $regex: req.query.search, $options: "i" } },
-                { phone: { $regex: req.query.search, $options: "i" } },
                 { status: 'block' },
             ],
         } : { status: 'block' };
@@ -68,8 +66,7 @@ module.exports.reportUsers = async (req, res, next) => {
                 { firstName: { $regex: req.query.search, $options: "i" } },
                 { lastName: { $regex: req.query.search, $options: "i" } },
                 { email: { $regex: req.query.search, $options: "i" } },
-                { username: { $regex: req.query.search, $options: "i" } },
-                { phone: { $regex: req.query.search, $options: "i" } },
+                { username: { $regex: req.query.search, $options: "i" } }
             ],
         } : {};
         const doc = await User.find(keyword).select("-password").sort("-createdAt").limit(limit * 1)
@@ -96,7 +93,6 @@ module.exports.actionUsers = async (req, res, next) => {
                 { lastName: { $regex: req.query.search, $options: "i" } },
                 { email: { $regex: req.query.search, $options: "i" } },
                 { username: { $regex: req.query.search, $options: "i" } },
-                { phone: { $regex: req.query.search, $options: "i" } },
                 { status: con },
             ],
         } : { status: con };
@@ -133,7 +129,6 @@ module.exports.makeAdmin = async (req, res, next) => {
                 { lastName: { $regex: req.query.search, $options: "i" } },
                 { email: { $regex: req.query.search, $options: "i" } },
                 { username: { $regex: req.query.search, $options: "i" } },
-                { phone: { $regex: req.query.search, $options: "i" } },
                 { status: sort || '' },
             ],
         } : { status: sort || '' };
