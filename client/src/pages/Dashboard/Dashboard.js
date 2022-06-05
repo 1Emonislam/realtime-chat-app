@@ -36,7 +36,7 @@ const Dashboard = () => {
                     <MenuBar selected={selected} mouseOver={mouseOver} />
                 </Box>
 
-                <Box sx={{ background: '#f1f4f5', p: 3, height: '90vh' }}>
+                <Box sx={{ background: '#f1f4f5', p: 3, height: '100%' }}>
                     <Outlet />
                 </Box>
             </Box>

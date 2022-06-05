@@ -14,7 +14,7 @@ const MenuBar = ({ selected, mouseOver }) => {
     const [active, setActive] = useState('dashboard');
 
     return (
-        <Box sx={{ py: '15px', background: 'white', height: '90vh' }}>
+        <Box sx={{ py: '15px', background: 'white', height: '100%' }}>
             <Box sx={{ display: 'flex', flexDirection: 'column' }}>
                 <Box
                     onClick={() => setActive('dashboard')}
@@ -115,11 +115,11 @@ const MenuBar = ({ selected, mouseOver }) => {
                                     sx={{ fontSize: '15px', fontFamily: 'Poppines', fontWeight: 600, display: 'block', pb: 1 }}
                                     component={Link} to='/admin-dashboard/block-users'
                                 >Blocked Users</Typography>
-                                <Typography
+                                {/* <Typography
                                     onClick={() => setActive('user')}
                                     sx={{ fontSize: '15px', fontFamily: 'Poppines', fontWeight: 600, display: 'block', pb: 1 }}
                                     component={Link} to="/admin-dashboard/report-users"
-                                >Report Users</Typography>
+                                >Report Users</Typography> */}
                             </Box>
                         </Box>
                     }
