@@ -16,7 +16,7 @@ module.exports.searchUsers = async (req, res, next) => {
                 { phone: { $regex: req.query.search, $options: "i" } },
             ],
         } : {};
-        const doc = await User.find(keyword).sort("-createdAt").find({ _id: { $ne: req.user?._id } }).limit(limit * 1)
+        const doc = await User.find(keyword).select("-password").sort("-createdAt").find({ _id: { $ne: req.user?._id } }).limit(limit * 1)
             .skip((page - 1) * limit)
         const count = await User.find(keyword).sort("-createdAt").find({ _id: { $ne: req.user?._id } }).count()
         return res.status(200).json({ data: doc, count })
@@ -42,7 +42,7 @@ module.exports.searchUsers = async (req, res, next) => {
                 { phone: { $regex: req.query.search, $options: "i" } },
             ],
         } : { status: 'active' };
-        const doc = await User.find(keyword).sort("-createdAt").find({ _id: { $ne: req.user?._id } }).limit(limit * 1)
+        const doc = await User.find(keyword).select("-password").sort("-createdAt").find({ _id: { $ne: req.user?._id } }).limit(limit * 1)
             .skip((page - 1) * limit)
         const count = await User.find(keyword).sort("-createdAt").find({ _id: { $ne: req.user?._id } }).count()
         return res.status(200).json({ data: doc, count })
@@ -69,7 +69,7 @@ module.exports.blockUsers = async (req, res, next) => {
                 { phone: { $regex: req.query.search, $options: "i" } },
             ],
         } : { status: 'block' };
-        const doc = await User.find(keyword).sort("-createdAt").find({ _id: { $ne: req.user?._id } }).limit(limit * 1)
+        const doc = await User.find(keyword).select("-password").sort("-createdAt").find({ _id: { $ne: req.user?._id } }).limit(limit * 1)
             .skip((page - 1) * limit)
         const count = await User.find(keyword).sort("-createdAt").find({ _id: { $ne: req.user?._id } }).count()
         return res.status(200).json({ data: doc, count })
@@ -95,7 +95,7 @@ module.exports.reportUsers = async (req, res, next) => {
                 { phone: { $regex: req.query.search, $options: "i" } },
             ],
         } : {};
-        const doc = await User.find(keyword).sort("-createdAt").find({ _id: { $ne: req.user?._id } }).limit(limit * 1)
+        const doc = await User.find(keyword).select("-password").sort("-createdAt").find({ _id: { $ne: req.user?._id } }).limit(limit * 1)
             .skip((page - 1) * limit)
         const count = await User.find(keyword).sort("-createdAt").find({ _id: { $ne: req.user?._id } }).count()
         return res.status(200).json({ data: doc, count })
@@ -125,9 +125,9 @@ module.exports.actionUsers = async (req, res, next) => {
         if (status) {
             const updatedUser = await User.findOneAndUpdate({ _id: userId }, {
                 status: status
-            }, { new: true })
+            }, { new: true }).select("-password")
 
-            const doc = await User.find(keyword).sort("-createdAt").find({ _id: { $ne: req.user?._id } }).limit(limit * 1)
+            const doc = await User.find(keyword).sort("-createdAt").select("-password").find({ _id: { $ne: req.user?._id } }).limit(limit * 1)
                 .skip((page - 1) * limit)
             const count = await User.find(keyword).sort("-createdAt").find({ _id: { $ne: req.user?._id } }).count()
             return res.status(200).json({ data: doc, count, updatedUser: updatedUser })
