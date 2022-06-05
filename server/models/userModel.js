@@ -113,6 +113,7 @@ const userSchema = new mongoose.Schema({
     },
     status: {
         type: String,
+        default: 'active'
     },
 }, {
     timestamps: true,
