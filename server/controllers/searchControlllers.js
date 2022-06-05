@@ -138,7 +138,6 @@ module.exports.makeAdmin = async (req, res, next) => {
             ],
         } : { status: sort || '' };
         const user = await User.findOne({ _id: userId });
-        await User.updateMany({}, { status: 'active' }, { new: true })
         if (user) {
             user.role = role;
             await user.save()
