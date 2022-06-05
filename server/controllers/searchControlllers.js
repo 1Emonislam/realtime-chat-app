@@ -108,7 +108,7 @@ module.exports.actionUsers = async (req, res, next) => {
             const doc = await User.find(keyword).sort("-createdAt").select("-password").find({ _id: { $ne: req.user?._id } }).limit(limit * 1)
                 .skip((page - 1) * limit)
             const count = await User.find(keyword).sort("-createdAt").find({ _id: { $ne: req.user?._id } }).count()
-            return res.status(200).json({ data: doc, count, updatedUser: updatedUser })
+            return res.status(200).json({ message: `User Successfully ${status}`, data: doc, count, updatedUser: updatedUser })
         } else {
             return res.status(400).json({ error: { admin: 'Action is Requered!' } })
         }
