@@ -14,8 +14,9 @@ module.exports.searchUsers = async (req, res, next) => {
                 { email: { $regex: req.query.search, $options: "i" } },
                 { username: { $regex: req.query.search, $options: "i" } },
                 { phone: { $regex: req.query.search, $options: "i" } },
+                { status: 'active' },
             ],
-        } : {};
+        } : { status: 'active' };
         const doc = await User.find(keyword).select("-password").sort("-createdAt").find({ _id: { $ne: req.user?._id } }).limit(limit * 1)
             .skip((page - 1) * limit)
         const count = await User.find(keyword).sort("-createdAt").find({ _id: { $ne: req.user?._id } }).count()
@@ -35,15 +36,16 @@ module.exports.blockUsers = async (req, res, next) => {
         let { page = 1, limit = 10 } = req.query;
         limit = parseInt(limit)
         const keyword = req.query.search ? {
-          
+
             $or: [
                 { firstName: { $regex: req.query.search, $options: "i" } },
                 { lastName: { $regex: req.query.search, $options: "i" } },
                 { email: { $regex: req.query.search, $options: "i" } },
                 { username: { $regex: req.query.search, $options: "i" } },
                 { phone: { $regex: req.query.search, $options: "i" } },
+                { status: 'block' },
             ],
-        } : {};
+        } : { status: 'block' };
         const doc = await User.find(keyword).select("-password").sort("-createdAt").find({ _id: { $ne: req.user?._id } }).limit(limit * 1)
             .skip((page - 1) * limit)
         const count = await User.find(keyword).sort("-createdAt").find({ _id: { $ne: req.user?._id } }).count()
@@ -87,6 +89,7 @@ module.exports.actionUsers = async (req, res, next) => {
         let { page = 1, limit = 10, } = req.query;
         const { userId, status } = req.body;
         limit = parseInt(limit)
+        let con = status?.trim() === 'block' ? 'active' : 'block'
         const keyword = req.query.search ? {
             $or: [
                 { firstName: { $regex: req.query.search, $options: "i" } },
@@ -94,9 +97,9 @@ module.exports.actionUsers = async (req, res, next) => {
                 { email: { $regex: req.query.search, $options: "i" } },
                 { username: { $regex: req.query.search, $options: "i" } },
                 { phone: { $regex: req.query.search, $options: "i" } },
+                { status: con },
             ],
-        } : {};
-
+        } : { status: con };
         if (status) {
             const updatedUser = await User.findOneAndUpdate({ _id: userId }, {
                 status: status
