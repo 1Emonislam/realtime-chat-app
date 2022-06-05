@@ -899,7 +899,7 @@ module.exports.groupAddToInviteSent = async (req, res, next) => {
     const data = {
       chat: chatGroup?._id,
       author: req.user._id,
-      token: genInviteGroup(shortId, expire || 14),
+      token: genInviteGroup(shortId, expire || '14d'),
       shortCode: shortId,
     }
     await Invitation.create(data)
