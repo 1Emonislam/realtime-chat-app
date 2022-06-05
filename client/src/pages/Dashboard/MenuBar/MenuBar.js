@@ -1,12 +1,12 @@
 
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import HomeIcon from '@mui/icons-material/Home';
-import GroupIcon from '@mui/icons-material/Group';
-import { Typography, Box } from '@mui/material';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import GroupIcon from '@mui/icons-material/Group';
+import HomeIcon from '@mui/icons-material/Home';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import SettingsIcon from '@mui/icons-material/Settings';
+import { Box, Typography } from '@mui/material';
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 const MenuBar = ({ selected, mouseOver }) => {
 
@@ -15,7 +15,7 @@ const MenuBar = ({ selected, mouseOver }) => {
     const [active, setActive] = useState('dashboard');
 
     return (
-        <Box sx={{ py: '15px', }}>
+        <Box sx={{ py: '15px', background: 'white', height: '90vh' }}>
             <Box sx={{ display: 'flex', flexDirection: 'column' }}>
                 <Box
                     onClick={() => setActive('dashboard')}
@@ -28,7 +28,7 @@ const MenuBar = ({ selected, mouseOver }) => {
                                 p: '12px 15px',
 
                                 '&:hover': {
-                                    background: '#f1f4f5'
+                                    background: '#f1f4f5',
                                 }
                             } :
                             {
@@ -37,7 +37,11 @@ const MenuBar = ({ selected, mouseOver }) => {
                                 fontSize: '15px',
                                 p: '12px 15px',
                                 background: '#7c2296',
-                                color: '#fff'
+                                color: '#fff',
+
+                                '&:hover': {
+                                    color: '#fff'
+                                }
                             }
                     }
                     component={Link} to="/admin-dashboard"
