@@ -116,7 +116,7 @@ function ScrollChat({ messages, user, handleTyping, isTyping }) {
                         <div style={{ marginTop: "50px" }}>
                             {messages?.length !== 0 && messages?.length && messages?.map((m, i) => (
                                 <span key={i}>
-                                    <div style={{ display: "flex", alignItems: 'center', marginBottom: '30px', marginLeft: '54px' }} ref={messagesEndRef}>
+                                    <div style={{ display: "flex", alignItems: 'center', marginBottom: '30px', marginLeft: '54px', marginRight: '45px' }} ref={messagesEndRef}>
                                         <div>
 
                                             {(isSameSender(messages, m, i, user._id) ||
@@ -297,38 +297,38 @@ function ScrollChat({ messages, user, handleTyping, isTyping }) {
                                                 </Grid>
                                             </>}
                                             {
-                                            m?.content?.reaction?.length !== 0 &&
-                                            <span
-                                                style={{
-                                                    display:'flex',
-                                                    alignItems:'cneter',
-                                                    backgroundColor:'transparent',
-                                                    position:'absolute',
-                                                    bottom:'-10px',
-                                                    left:`${m?.sender?._id === user?._id && '-55px'}`,
-                                                    right:`${m?.sender?._id !== user?._id && '-45px'}`,
-                                                    padding:'2.5px',
-                                                    borderRadius:'10px'
-                                                }}> 
-                                                
-                                                {
-                                                    m?.content?.reaction?.filter(detect=>detect?.icon?.toLowerCase()?.includes("don't understand!"))?.length > 0 &&
-                                                    <img style={{width:'22px' , height:'22px'}} src={confusedImg} alt="" />
-                                                }
+                                                m?.content?.reaction?.length !== 0 &&
+                                                <span
+                                                    style={{
+                                                        display: 'flex',
+                                                        alignItems: 'cneter',
+                                                        backgroundColor: 'transparent',
+                                                        position: 'absolute',
+                                                        bottom: '-10px',
+                                                        left: `${m?.sender?._id === user?._id && '-55px'}`,
+                                                        right: `${m?.sender?._id !== user?._id && '-45px'}`,
+                                                        padding: '2.5px',
+                                                        borderRadius: '10px'
+                                                    }}>
 
-                                                {
-                                                    m?.content?.reaction?.filter(detect=>detect?.icon?.toLowerCase()?.includes("question?"))?.length > 0 &&
-                                                    <img style={{width:'22px', height:'22px', marginLeft:'2px'}} src={questionImg} alt="" />
-                                                }
+                                                    {
+                                                        m?.content?.reaction?.filter(detect => detect?.icon?.toLowerCase()?.includes("don't understand!"))?.length > 0 &&
+                                                        <img style={{ width: '22px', height: '22px' }} src={confusedImg} alt="" />
+                                                    }
 
-                                                {/* {
+                                                    {
+                                                        m?.content?.reaction?.filter(detect => detect?.icon?.toLowerCase()?.includes("question?"))?.length > 0 &&
+                                                        <img style={{ width: '22px', height: '22px', marginLeft: '2px' }} src={questionImg} alt="" />
+                                                    }
+
+                                                    {/* {
                                                     m?.content?.reaction?.length >= 2 &&
                                                     <Typography variant="caption" display="inline-block" gutterBottom sx={{color:'black', bgcolor:'rgba(245, 245, 245, 0.243)', ml:1, borderRadius:'5px'}}>
                                                         {m?.content?.reaction?.length}
                                                     </Typography>
                                                 } */}
-                                                
-                                            </span>
+
+                                                </span>
                                             }
                                         </span>
                                     </div>

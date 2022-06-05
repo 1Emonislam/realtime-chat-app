@@ -45,7 +45,7 @@ export default function GroupInviteAccept() {
                     'Authorization': `Bearer ${auth?.user?.token}`
                 }
             }
-            axios.get('https://collaballapp.herokuapp.com/graph/toWeekMessage', config).then(({ data }) => {
+            axios.post('https://collaballapp.herokuapp.com/graph/toWeekMessage', config, { shortCode: token }).then(({ data }) => {
                 dispatch({
                     type: GROUP_INVITE_SAVE,
                     payload: {
