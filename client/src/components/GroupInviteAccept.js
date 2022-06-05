@@ -38,6 +38,7 @@ export default function GroupInviteAccept() {
         }
     }, [auth?.user?.token])
     useEffect(() => {
+        if (!auth?.user?.token) return
         try {
             const config = {
                 headers: {
@@ -45,7 +46,7 @@ export default function GroupInviteAccept() {
                     'Authorization': `Bearer ${auth?.user?.token}`
                 }
             }
-            axios.post('https://collaballapp.herokuapp.com/graph/toWeekMessage', config, { shortCode: token}).then(({ data }) => {
+            axios.post('https://collaballapp.herokuapp.com/api/chat/invite/', config, { shortCode: token }).then(({ data }) => {
                 console.log(data.data)
                 dispatch({
                     type: GROUP_INVITE_SAVE,
@@ -71,7 +72,7 @@ export default function GroupInviteAccept() {
         })
         setOpen(true)
 
-    }, [dispatch, token])
+    }, [dispatch, auth?.user?.token])
 
     const handleClose = () => {
         setOpen(false);
