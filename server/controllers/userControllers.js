@@ -202,7 +202,7 @@ module.exports.userRegister = async (req, res, next) => {
         type: 'group',
         seen: false,
         subject: `Hello ${user?.firstName}  ${user?.lastName} Congratulations! Registration Successfully`,
-        sender: user,
+        sender: user?._id,
       })
       return res.status(201).cookie('userCurrent', data, options).json({
         message: 'Registration Successfully',
