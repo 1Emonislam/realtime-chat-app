@@ -1287,9 +1287,9 @@ return res.status(400).json({error:{invite:'Please Login Before Access this page
       }
       const resSend  =await valided?.toObject();
       resSend.membersCount =await resSend?.members?.length;
-      await delete resSend.members;
-      await  delete resSend.groupAdmin;
-      await delete resSend.seen;
+      delete resSend?.chat?.members;
+      delete resSend?.chat?.groupAdmin;
+     delete resSend?.chat?.seen;
       return res.status(200).json(resSend)
 
   }
