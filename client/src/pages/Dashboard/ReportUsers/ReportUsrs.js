@@ -2,12 +2,12 @@ import SearchIcon from '@mui/icons-material/Search';
 import { Box, IconButton, InputBase, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material';
 import React from 'react';
 
-const Users = () => {
+const ReportUsers = () => {
     return (
         <Box sx={{ pt: 5 }}>
             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: '#fff', p: '15px' }}>
                 <Box>
-                    <Typography sx={{ fontSize: '24px' }} variant='h4'>Users List</Typography>
+                    <Typography sx={{ fontSize: '24px' }} variant='h4'>Report Users</Typography>
                 </Box>
                 <Paper
                     component="form"
@@ -67,4 +67,4 @@ const Users = () => {
     );
 };
 
-export default Users;
+export default ReportUsers;

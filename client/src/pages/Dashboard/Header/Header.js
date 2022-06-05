@@ -1,5 +1,4 @@
-import SearchIcon from '@mui/icons-material/Search';
-import { IconButton, InputBase, Paper, Typography } from '@mui/material';
+import { Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -7,7 +6,6 @@ import dreams_sm from '../../../assets/images/dream-sm.png';
 import toggler from '../../../assets/images/toggle.png';
 import logo from '../../../assets/logo/footer-logo.png';
 import ChatProfile from '../../../components/ChatProfile/ChatProfile';
-import Notification from '../Notification/Notification';
 
 
 const Header = ({ selected, setSelected }) => {
@@ -40,7 +38,7 @@ const Header = ({ selected, setSelected }) => {
                 <Box sx={{ px: 2 }}>
                     <Typography onClick={() => setSelected(!selected)} sx={{ width: '30px', height: '30px', cursor: 'pointer' }} component='img' src={toggler} />
                 </Box>
-                <Paper
+                {/* <Paper
                     component="form"
                     sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: 250, borderRadius: '20px', background: '#f1f3f8', boxShadow: 'none' }}
                 >
@@ -53,11 +51,11 @@ const Header = ({ selected, setSelected }) => {
                         inputProps={{ 'aria-label': 'search here' }}
                     />
 
-                </Paper>
+                </Paper> */}
             </Box>
             <Box sx={{ display: 'flex', alignItems: 'center' }}>
                 {/* notification  */}
-                <Notification />
+                {/* <Notification /> */}
 
                 {/* profile  */}
                 {/* <Profile /> */}
