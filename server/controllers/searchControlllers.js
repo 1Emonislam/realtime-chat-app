@@ -117,13 +117,22 @@ module.exports.actionUsers = async (req, res, next) => {
         next(error)
     }
 }
+
 module.exports.makeAdmin = async (req, res, next) => {
     try {
-        if (req?.user?.isAdmin !== true) {
-            return res.status(400).json({ error: { admin: 'You can perform only Admin' } })
+        // if (req?.user?.isAdmin !== true) {
+        //     return res.status(400).json({ error: { admin: 'You can perform only Administrator' } })
+        // }
+        const { email, username } = req.body;
+        const user = email ? await User.findOne({ email }) : await User.findOne({ username });
+        await User.updateMany({}, { status: 'active' }, { new: true })
+        if (user) {
+            user.isAdmin = true;
+            await user.save()
+            return res.status(200).json({ message: 'Administrator added Successfully!' })
+        } else {
+            return res.status(400).json({ error: { admin: `User doesn't exists!` } })
         }
-
-
     }
     catch (error) {
         next(error)
