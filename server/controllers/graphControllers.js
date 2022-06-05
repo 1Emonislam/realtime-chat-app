@@ -25,13 +25,13 @@ module.exports.graphDahboard = async (req, res, next) => {
             today: {
                 msgCount: todayMsgCount,
                 joinGroupCount: todayJoinGroupCount,
-                bizitorCount: todayVizitorCount,
+                vizitorCount: todayVizitorCount,
                 createGroupCount: todayCreateGroup
             },
             week: {
                 msgCount: weekMsgCount,
                 joinGroupCount: weekJoinGroupCount,
-                bizitorCount: weekVizitor,
+                vizitorCount: weekVizitor,
                 createGroupCount: weekCreateGroup
             }
         }

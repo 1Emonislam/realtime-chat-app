@@ -4,13 +4,13 @@ const initState = {
     today: {
         msgCount: 0,
         joinGroupCount: 0,
-        bizitorCount: 0,
+        vizitorCount: 0,
         createGroupCount: 0,
     },
     week: {
         msgCount: 0,
         joinGroupCount: 0,
-        bizitorCount: 0,
+        vizitorCount: 0,
         createGroupCount: 0,
     },
     loading: false
