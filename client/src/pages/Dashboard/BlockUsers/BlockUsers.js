@@ -2,6 +2,7 @@ import { Box, Button, InputBase, Pagination, Paper, Table, TableBody, TableCell,
 import moment from 'moment';
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
+import { toast, ToastContainer } from 'react-toastify';
 
 const BlockUsers = () => {
     const [users, setUsers] = useState([]);
@@ -37,6 +38,32 @@ const BlockUsers = () => {
         })
             .then(res => res.json())
             .then(data => {
+                if (data?.message) {
+                    toast.success(data?.message, {
+                        position: "top-center",
+                        theme: 'light',
+                        fontWeight: '500',
+                        autoClose: 5000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                    });
+                }
+                if (data?.error?.admin) {
+                    toast.error(data?.error?.admin, {
+                        position: "top-center",
+                        theme: 'light',
+                        fontWeight: '500',
+                        autoClose: 5000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                    });
+                }
                 setUsers(data?.data)
                 setCount(data?.count)
             })
@@ -124,6 +151,17 @@ const BlockUsers = () => {
                     onChange={(e, value) => setPage(value)}
                 />
             </Paper>
+            <ToastContainer
+                position="top-center"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+            />
         </Box>
     );
 };

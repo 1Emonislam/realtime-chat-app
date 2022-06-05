@@ -2,6 +2,7 @@ import { Box, Button, InputBase, Pagination, Paper, Table, TableBody, TableCell,
 import moment from 'moment';
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
+import { toast, ToastContainer } from 'react-toastify';
 
 const Users = () => {
     const [users, setUsers] = useState([]);
@@ -10,7 +11,7 @@ const Users = () => {
     const [count, setCount] = useState(0)
     const limit = 10;
     const { auth } = useSelector(state => state)
-    // console.log(users);
+    console.log(users);
     useEffect(() => {
         fetch(`https://collaballapp.herokuapp.com/api/dashboard/users?search=${search || ''}&page=${page}&limit=${limit}`, {
             method: "GET",
@@ -38,6 +39,114 @@ const Users = () => {
         })
             .then(res => res.json())
             .then(data => {
+                if (data?.message) {
+                    toast.success(data?.message, {
+                        position: "top-center",
+                        theme: 'light',
+                        fontWeight: '500',
+                        autoClose: 5000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                    });
+                }
+                if (data?.error?.admin) {
+                    toast.error(data?.error?.admin, {
+                        position: "top-center",
+                        theme: 'light',
+                        fontWeight: '500',
+                        autoClose: 5000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                    });
+                }
+                setUsers(data?.data)
+                setCount(data?.count)
+            })
+    }
+    const handlerMakeAdmin = (userId) => {
+        fetch(`https://collaballapp.herokuapp.com/api/dashboard/make/admin?search=${search || ''}&page=${page}&limit=${limit}`, {
+            method: "PUT",
+            body: JSON.stringify({ userId, role: 'admin', sort: 'active' }),
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${auth?.user?.token}`
+            }
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data?.message) {
+                    toast.success(data?.message, {
+                        position: "top-center",
+                        theme: 'light',
+                        fontWeight: '500',
+                        autoClose: 5000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                    });
+                }
+                if (data?.error?.admin) {
+                    toast.error(data?.error?.admin, {
+                        position: "top-center",
+                        theme: 'light',
+                        fontWeight: '500',
+                        autoClose: 5000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                    });
+                }
+                setUsers(data?.data)
+                setCount(data?.count)
+            })
+    }
+    const handlerRemoveAdmin = (userId) => {
+        fetch(`https://collaballapp.herokuapp.com/api/dashboard/make/admin?search=${search || ''}&page=${page}&limit=${limit}`, {
+            method: "PUT",
+            body: JSON.stringify({ userId, role: 'user', sort: 'active' }),
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${auth?.user?.token}`
+            }
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data?.message) {
+                    toast.success(data?.message, {
+                        position: "top-center",
+                        theme: 'light',
+                        fontWeight: '500',
+                        autoClose: 5000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                    });
+                }
+                if (data?.error?.admin) {
+                    toast.error(data?.error?.admin, {
+                        position: "top-center",
+                        theme: 'light',
+                        fontWeight: '500',
+                        autoClose: 5000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                    });
+                }
                 setUsers(data?.data)
                 setCount(data?.count)
             })
@@ -72,8 +181,9 @@ const Users = () => {
                             <TableCell sx={{ fontFamily: 'Poppines', fontSize: '16px', fontWeight: 600, color: '#333' }} align="center">User Name</TableCell>
                             <TableCell sx={{ fontFamily: 'Poppines', fontSize: '16px', fontWeight: 600, color: '#333' }} align="center">Joined Date</TableCell>
                             <TableCell sx={{ fontFamily: 'Poppines', fontSize: '16px', fontWeight: 600, color: '#333' }} align="center">Last Seen</TableCell>
+                            <TableCell sx={{ fontFamily: 'Poppines', fontSize: '16px', fontWeight: 600, color: '#333' }} align="right">Role</TableCell>
                             <TableCell sx={{ fontFamily: 'Poppines', fontSize: '16px', fontWeight: 600, color: '#333' }} align="right">Status</TableCell>
-                            <TableCell sx={{ fontFamily: 'Poppines', fontSize: '16px', fontWeight: 600, color: '#333' }} align="right">Action</TableCell>
+                            <TableCell sx={{ fontFamily: 'Poppines', fontSize: '16px', fontWeight: 600, color: '#333' }} align="center">Action</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody sx={{ background: 'white' }}>
@@ -88,6 +198,7 @@ const Users = () => {
                                 <TableCell sx={{ fontFamily: 'Poppines', fontSize: '15px', fontWeight: 400, color: '#333' }} align="center">{`${user?.firstName} ${user?.lastName}`}</TableCell>
                                 <TableCell sx={{ fontFamily: 'Poppines', fontSize: '15px', fontWeight: 400, color: '#333' }} align="center">{moment(user?.createdAt)?.format('ll')}</TableCell>
                                 <TableCell sx={{ fontFamily: 'Poppines', fontSize: '15px', fontWeight: 400, color: '#333' }} align="center">{moment(user?.lastOneline)?.fromNow()}</TableCell>
+                                <TableCell sx={{ fontFamily: 'Poppines', fontSize: '15px', fontWeight: 400, color: '#333' }} align="right">{user?.role}</TableCell>
                                 <TableCell sx={{
                                     fontFamily: 'Poppines',
                                     fontSize: '15px',
@@ -101,15 +212,45 @@ const Users = () => {
                                         onClick={() => handlerBlockUsers(user?._id)}
                                         sx={{
                                             textTransform: 'capitalize',
-                                            background: '#2a90e3',
+                                            background: '#e32ab2',
                                             color: '#fff',
+                                            mr: 1,
                                             '&:hover': {
-                                                background: '#2a90e3',
+                                                background: '#e32ab2',
                                                 color: '#fff',
                                             }
                                         }}>
                                         Block
                                     </Button>
+                                    {
+                                        user?.role === 'admin' ?
+                                            <Button
+                                                onClick={() => handlerRemoveAdmin(user?._id)}
+                                                sx={{
+                                                    textTransform: 'capitalize',
+                                                    background: '#3e74a0',
+                                                    color: '#fff',
+                                                    '&:hover': {
+                                                        background: '#3e74a0',
+                                                        color: '#fff',
+                                                    }
+                                                }}>
+                                                Remove Admin
+                                            </Button> :
+                                            <Button
+                                                onClick={() => handlerMakeAdmin(user?._id)}
+                                                sx={{
+                                                    textTransform: 'capitalize',
+                                                    background: '#2a90e3',
+                                                    color: '#fff',
+                                                    '&:hover': {
+                                                        background: '#2a90e3',
+                                                        color: '#fff',
+                                                    }
+                                                }}>
+                                                Make Admin
+                                            </Button>
+                                    }
                                 </TableCell>
                             </TableRow>)
                         }
@@ -125,6 +266,17 @@ const Users = () => {
                     onChange={(e, value) => setPage(value)}
                 />
             </Paper>
+            <ToastContainer
+                position="top-center"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+            />
         </Box>
     );
 };
