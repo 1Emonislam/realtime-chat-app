@@ -23,8 +23,9 @@ import { getGraphDahboardData } from '../../store/actions/graphActions';
 const DashBoardHome = ({ mode, handleSingleChat }) => {
     const navigate = useNavigate()
     const dispatch = useDispatch()
-    const { auth,graphDash } = useSelector(state => state)
-    console.log(graphDash)
+    const { auth, graphDash } = useSelector(state => state)
+    const { today, week } = graphDash;
+    console.log(today)
     useEffect(() => {
         dispatch(getGraphDahboardData(auth.user?.token))
     }, [dispatch, auth.user?.token])
@@ -55,9 +56,9 @@ const DashBoardHome = ({ mode, handleSingleChat }) => {
                                     <Box sx={{ mr: "30px" }}>
                                         <Typography sx={{ mb: "13px" }} variant="subtitle2" component="div">Today</Typography>
                                         <Box sx={{ display: "flex", alignItems: "center" }} >
-                                            <Box sx={{ display: "inline-block", fontWeight: "bold" }}>0</Box>
+                                            <Box sx={{ display: "inline-block", fontWeight: "bold" }}>  <span style={{ color: "green", fontWeight: "bold" }}>{today?.joinGroupCount}</span></Box>
                                             <Box sx={{ ml: "12px", display: "flex", alignItems: "center" }}>
-                                                <img width="20" height="20" src={pic} alt="" /> <span style={{ color: "green", fontWeight: "bold" }}>0.0%</span>
+                                                <img width="20" height="20" src={pic} alt="" />
                                             </Box>
                                         </Box>
                                     </Box>
@@ -67,10 +68,8 @@ const DashBoardHome = ({ mode, handleSingleChat }) => {
                                     <Typography sx={{ mr: "3px" }}>Last <span>7</span> days </Typography>
                                     <Box sx={{ fontWeight: "bold", display: "flex", alignItems: "center" }}>
                                         <Box sx={{ display: "flex", alignItems: "center" }}>
-                                            <AiOutlineArrowUp style={{ color: "green" }}></AiOutlineArrowUp> <span>0</span>
-                                        </Box>
-                                        <Box sx={{ display: "flex", alignItems: "center" }}>
-                                            <AiOutlineArrowDown style={{ color: "red" }}></AiOutlineArrowDown> <span>0</span>
+
+                                            <img width="20" height="20" src={pic} style={{ marginLeft: '5px' }} alt="" />   <span style={{ color: "green", fontWeight: "bold", marginLeft: '10px' }}>{week?.joinGroupCount}</span>
                                         </Box>
                                     </Box>
                                 </Box>

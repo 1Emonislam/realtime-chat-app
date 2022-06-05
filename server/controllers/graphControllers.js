@@ -10,12 +10,12 @@ module.exports.graphDahboard = async (req, res, next) => {
         //today
         const todayMsgCount = await Message.find({ timestamp: { $gte: new Date() }, sender: req.user?._id }).count()
         const todayJoinGroupCount = await JoinGroup.find({ timestamp: { $gte: new Date() }, userJoin: req.user?._id }).count()
-        const todayVizitorCount = await ViewsChat.find({ timestamp: { $gte: new Date() }, user: req.user?._id }).count()
+        const todayvisitorCount = await ViewsChat.find({ timestamp: { $gte: new Date() }, user: req.user?._id }).count()
         const todayCreateGroup = await Chat.find({ timestamp: { $gte: new Date() }, members: req.user?._id }).count()
         //week
         const weekMsgCount = await Message.find({ timestamp: { $gte: toWeek }, sender: req.user?._id }).count()
         const weekJoinGroupCount = await JoinGroup.find({ timestamp: { $gte: toWeek }, userJoin: req.user?._id }).count()
-        const weekVizitor = await ViewsChat.find({ timestamp: { $gte: toWeek }, user: req.user?._id }).count()
+        const weekvisitor = await ViewsChat.find({ timestamp: { $gte: toWeek }, user: req.user?._id }).count()
         const weekCreateGroup = await Chat.find({ timestamp: { $gte: toWeek }, members: req.user?._id }).count()
         //views chat
 
@@ -25,13 +25,13 @@ module.exports.graphDahboard = async (req, res, next) => {
             today: {
                 msgCount: todayMsgCount,
                 joinGroupCount: todayJoinGroupCount,
-                vizitorCount: todayVizitorCount,
+                visitorCount: todayvisitorCount,
                 createGroupCount: todayCreateGroup
             },
             week: {
                 msgCount: weekMsgCount,
                 joinGroupCount: weekJoinGroupCount,
-                vizitorCount: weekVizitor,
+                visitorCount: weekvisitor,
                 createGroupCount: weekCreateGroup
             }
         }
