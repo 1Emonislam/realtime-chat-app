@@ -59,7 +59,7 @@ export default function GroupInviteAccept() {
                     try {
                         const chat = jwt_decoded(data?.token);
                         if (chat) {
-                            setChatInfo(data?.data)
+                            setChatInfo(data)
                         }
                     }
                     catch (error) {
@@ -142,7 +142,7 @@ export default function GroupInviteAccept() {
                 <Box style={style}>
                     <Avatar variant="inherit" alt={chatInfo?.chat?.chatName} src={chatInfo?.chat?.img} />
                     <ToggleButton value="one" style={{ border: 'none', textTransform: 'none', fontSize: '18px' }}>
-                        Members {chatInfo?.chat?.members?.length}
+                        Members {chatInfo?.chat?.membersCount}
                     </ToggleButton>
                     <ToggleButton id="child-modal-title" value="two" style={{ border: 'none', textTransform: 'none', fontSize: '30px' }}>
                         Invitation Accepted
