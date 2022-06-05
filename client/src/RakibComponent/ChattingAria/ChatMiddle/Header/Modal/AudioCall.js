@@ -7,8 +7,8 @@ import Modal from '@mui/material/Modal';
 // import chatImg from '../../../../../assets/images/avatar-8.jpg';
 import SettingsVoiceIcon from '@mui/icons-material/SettingsVoice';
 import CloseIcon from '@mui/icons-material/Close';
-import { useSelector } from 'react-redux';
-import { Tooltip } from '@mui/material';
+// import { useSelector } from 'react-redux';
+import { Tooltip, Avatar } from '@mui/material';
 
 const style = {
     position: 'absolute',
@@ -24,8 +24,8 @@ const style = {
     p: 4,
 };
 
-const AudioCall = ({ setAudioOpen, audioOpen }) => {
-    const { selectedChat } = useSelector(state => state)
+const AudioCall = ({ setAudioOpen, audioOpen, chat }) => {
+    console.log(chat)
     return (
         <div>
             <Modal
@@ -46,9 +46,9 @@ const AudioCall = ({ setAudioOpen, audioOpen }) => {
                                 <div className="call-wrapper">
                                     <div className="call-inner">
                                         <div className="call-user">
-                                            <img alt="User" src={selectedChat?.chat?.img} className="call-avatar" />
-                                            <Tooltip title={selectedChat?.chat?.chatName} arrow placement='top'>
-                                                <h4>{selectedChat?.chat?.chatName?.slice(0, 20)} <span> voice calling</span>
+                                            <Avatar alt="User" style={{ display: 'block', margin: 'auto' }} src={chat?.img} className="call-avatar" />
+                                            <Tooltip title={chat?.chatName} arrow placement='top'>
+                                                <h4>{chat?.chatName?.slice(0, 20)} <span> voice calling</span>
                                                 </h4>
                                             </Tooltip>
                                         </div>

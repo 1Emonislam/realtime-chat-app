@@ -15,6 +15,7 @@ const messageRoutes = require('./routes/messageRoutes');
 const chatRoutes = require('./routes/chatRoutes');
 const noteRoutes = require('./routes/noteRoutes')
 const graphRoutes = require('./routes/graphRoutes')
+const searchRoutes = require('./routes/searchRoutes')
 const notificationRoutes = require('./routes/notificationRoutes');
 const Notification = require('./models/groupNotificationModel');
 const User = require('./models/userModel');
@@ -54,7 +55,7 @@ app.use('/api/friend', friendRoutes);
 app.use('/api/profile', profileRoutes);
 app.use('/api/message', messageRoutes);
 app.use("/api/graph", graphRoutes)
-
+app.use("/api/dashboard",searchRoutes)
 app.get('/', (req, res) => {
     res.send('server connected')
 })

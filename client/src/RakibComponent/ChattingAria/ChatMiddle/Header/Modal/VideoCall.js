@@ -1,12 +1,12 @@
 import CloseIcon from '@mui/icons-material/Close';
 import VideocamIcon from '@mui/icons-material/Videocam';
-import { Tooltip } from '@mui/material';
+import { Avatar, Tooltip } from '@mui/material';
 import Backdrop from '@mui/material/Backdrop';
 import Box from '@mui/material/Box';
 import Fade from '@mui/material/Fade';
 import Modal from '@mui/material/Modal';
 import * as React from 'react';
-import { useSelector } from 'react-redux';
+// import { useSelector } from 'react-redux';
 // import chatImg from '../../../../../assets/images/avatar-8.jpg';
 import './AllModal.css';
 
@@ -24,8 +24,8 @@ const style = {
     p: 4,
 };
 
-function VideoCall({ videoOpen, setVideoOpen }) {
-    const { selectedChat } = useSelector(state => state)
+function VideoCall({ videoOpen, setVideoOpen, chat }) {
+
     return (
         <Modal
             style={{ overflowY: 'scroll' }}
@@ -45,9 +45,9 @@ function VideoCall({ videoOpen, setVideoOpen }) {
                             <div className="call-wrapper">
                                 <div className="call-inner">
                                     <div className="call-user">
-                                        <img alt="User" src={selectedChat?.chat?.img} className="call-avatar" />
-                                        <Tooltip title={selectedChat?.chat?.chatName} arrow placement='top'>
-                                            <h4>{selectedChat?.chat?.chatName?.slice(0, 20)} <span> voice calling</span>
+                                        <Avatar style={{ display: 'block', margin: 'auto' }} alt="User" src={chat?.img} className="call-avatar" />
+                                        <Tooltip title={chat?.chatName} arrow placement='top'>
+                                            <h4>{chat?.chatName?.slice(0, 20)} <span> voice calling</span>
                                             </h4>
                                         </Tooltip>
                                     </div>

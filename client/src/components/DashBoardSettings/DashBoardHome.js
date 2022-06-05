@@ -196,7 +196,7 @@ const DashBoardHome = ({ mode, handleSingleChat }) => {
                                     <Box sx={{ fontSize: '24px', color: '#5ab267' }}>
                                         <BsFillPeopleFill />
                                     </Box>
-                                    <Typography variant="subtitle2" component="div" sx={{ display: "inline-block", ml: "5px", fontWeight: "bold", fontSize: '16px' }}>Visitors</Typography>
+                                    <Typography variant="subtitle2" component="div" sx={{ display: "inline-block", ml: "5px", fontWeight: "bold", fontSize: '16px' }}>Visits</Typography>
                                 </Box>
                                 <Box sx={{ display: "flex", alignItems: "center", my: "30px" }}>
                                     <Box sx={{ mr: "30px" }}>
