@@ -17,7 +17,11 @@ const Dashboard = () => {
                     selected || mouseOver ?
                         {
                             display: 'grid',
-                            gridTemplateColumns: '240px auto'
+                            gridTemplateColumns: {
+                                lg: '240px auto',
+                                md: '130px auto',
+                                xs: `${mouseOver ? '130px auto' : '50px auto'}`
+                            }
                         } :
                         {
                             display: 'grid',

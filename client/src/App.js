@@ -30,8 +30,11 @@ import ForgetPassword from "./pages/Auth/ForgetPassword";
 import Login from "./pages/Auth/Login";
 import Register from "./pages/Auth/Register";
 import ResetPassword from "./pages/Auth/ResetPassword";
+import BlockUsers from './pages/Dashboard/BlockUsers/BlockUsers';
 import Dashboard from './pages/Dashboard/Dashboard';
 import DHome from './pages/Dashboard/DHome/DHome';
+import ReportUsers from "./pages/Dashboard/ReportUsers/ReportUsrs";
+import AdminDashboardUsers from './pages/Dashboard/Users/Users';
 import Home from "./pages/Home/Home";
 import { getGroupChatData } from "./store/actions/groupActions";
 import { getMessage } from "./store/actions/messageAction";
@@ -258,6 +261,9 @@ export default function ToggleColorMode() {
                 {/* Admin Dashboard */}
                 <Route path="admin-dashboard" element={<Dashboard />}>
                   <Route path="" element={<DHome />} />
+                  <Route path="users" element={<AdminDashboardUsers />} />
+                  <Route path="block-users" element={<BlockUsers />} />
+                  <Route path="report-users" element={<ReportUsers />} />
                 </Route>
                 {/* Keeper Dashboard Start */}
                 <Route path="notes" element={<DashboardLayout />}>
