@@ -14,8 +14,8 @@ const style = {
     left: '50%',
     transform: 'translate(-50%, -50%)',
     bgcolor: 'background.paper',
-    border: 'none',
     width: '420px',
+    border: 'none!important',
     boxShadow: 24,
     borderRadius: '10px',
     padding: '25px',
@@ -154,11 +154,16 @@ export default function GroupInviteAccept() {
                 aria-labelledby="child-modal-title"
                 aria-describedby="child-modal-description"
             >
-                {chatInfo?.chat?._id ? <Box style={style}>
+                <Box style={style}>
+
                     <Avatar variant="inherit" alt={chatInfo?.chat?.chatName} src={chatInfo?.chat?.img} />
                     <ToggleButton value="one" style={{ border: 'none', textTransform: 'none', fontSize: '18px' }}>
                         Members {chatInfo?.chat?.membersCount}
                     </ToggleButton>
+                    <ToggleButton value="two" style={{ marginLeft: '40px' }}>
+                        <Link to="/home">Home</Link>
+                    </ToggleButton>
+                    <br />
                     <ToggleButton id="child-modal-title" value="two" style={{ border: 'none', textTransform: 'none', fontSize: '30px' }}>
                         Invitation Accepted
                     </ToggleButton>
@@ -175,19 +180,8 @@ export default function GroupInviteAccept() {
                     <br />
                     <Button onClick={handleClose}>Cancel</Button>
                     <Button onClick={handleAcceptInvite} style={{ marginLeft: '20px' }}>Accepted</Button>
-                </Box> : <Box style={style}>
-                    <ToggleButton value="two" style={{ border: 'none', textTransform: 'none' }}>
-                        <h4> Permission Denied code 401</h4>
 
-                    </ToggleButton>
-                    <br />
-                    <ToggleButton value="two" style={{ marginLeft: '40px' }}>
-                        <Link to="/home">Home</Link>
-                    </ToggleButton>
-                    <ToggleButton value="three" style={{ marginLeft: '15px' }}>
-                        <Link to="/login">Login</Link>
-                    </ToggleButton>
-                </Box>}
+                </Box>
 
             </Modal>
             <ToastContainer
