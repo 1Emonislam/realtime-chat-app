@@ -24,7 +24,6 @@ const style = {
 export default function GroupInviteAccept() {
     const [chatInfo, setChatInfo] = useState({});
     const { token } = useParams();
-    console.log(token)
     const [error, setError] = useState('')
     const { auth, groupData, theme } = useSelector(state => state)
     const [open, setOpen] = React.useState(false);
@@ -49,8 +48,8 @@ export default function GroupInviteAccept() {
                 body: JSON.stringify({ shortCode: token })
             })
                 .then(res => res.json())
-                .then(({ data }) => {
-                    console.log(data.token)
+                .then((data) => {
+                    console.log(data)
                     dispatch({
                         type: GROUP_INVITE_SAVE,
                         payload: {
