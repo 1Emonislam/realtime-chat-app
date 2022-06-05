@@ -1,3 +1,4 @@
+const GroupNotification = require("../models/groupNotificationModel");
 const User = require("../models/userModel");
 const { upload } = require("../utils/file");
 const { mailSending } = require("../utils/func");
@@ -62,7 +63,7 @@ module.exports.updateProfile = async (req, res, next) => {
   const information = req?.body?.location?.information;
   try {
     const profileUpdate = await User.findOneAndUpdate({ _id: req.user?._id }, {
-        firstName, lastName, email, phone, gender, birthDate, nickName, userInfo, phone, pic, location: { latitude, longitude, address, information }, geometry: { type: "Point", "coordinates": [Number(longitude), Number(latitude)] }
+      firstName, lastName, email, phone, gender, birthDate, nickName, userInfo, phone, pic, location: { latitude, longitude, address, information }, geometry: { type: "Point", "coordinates": [Number(longitude), Number(latitude)] }
     }, { new: true }).select("-password");
     const userData = {};
     userData.user = profileUpdate;
@@ -196,6 +197,13 @@ module.exports.userRegister = async (req, res, next) => {
       const options = {
         expires: date, httpOnly: true
       }
+      await GroupNotification.create({
+        receiver: user?._id,
+        type: 'group',
+        seen: false,
+        subject: `Hello ${user?.firstName}  ${user?.lastName} Congratulations! Registration Successfully`,
+        sender: user,
+      })
       return res.status(201).cookie('userCurrent', data, options).json({
         message: 'Registration Successfully',
         data: userData,
