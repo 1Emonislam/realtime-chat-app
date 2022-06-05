@@ -17,8 +17,17 @@ import { useNavigate } from 'react-router-dom';
 // import { MdGroupAdd } from "react-icons/md";
 import pic from "../../images/increase.png";
 import MessageNotificationBadge from '../Notification/MsgNotificationBadge';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { getGraphDahboardData } from '../../store/actions/graphActions';
 const DashBoardHome = ({ mode, handleSingleChat }) => {
     const navigate = useNavigate()
+    const dispatch = useDispatch()
+    const { auth,graphDash } = useSelector(state => state)
+    console.log(graphDash)
+    useEffect(() => {
+        dispatch(getGraphDahboardData(auth.user?.token))
+    }, [dispatch, auth.user?.token])
     return (
         <Container sx={{ py: "50px" }}>
             <Box>

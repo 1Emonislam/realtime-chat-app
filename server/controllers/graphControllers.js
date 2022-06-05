@@ -3,7 +3,7 @@ const ViewsChat = require("../models/ChatViewsModel");
 const JoinGroup = require("../models/JoinGroupModel");
 const Message = require("../models/messageModel");
 
-module.exports.messageCountWeak = async (req, res, next) => {
+module.exports.graphDahboard = async (req, res, next) => {
     try {
         const toWeek = new Date();
         toWeek.setDate(toWeek.getDate() - 23);
@@ -20,6 +20,8 @@ module.exports.messageCountWeak = async (req, res, next) => {
         //views chat
 
         const dashGraph = {
+            todayDate: new Date(),
+            weekDate: toWeek,
             today: {
                 msgCount: todayMsgCount,
                 joinGroupCount: todayJoinGroupCount,

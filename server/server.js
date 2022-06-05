@@ -47,13 +47,13 @@ connectedDb();
 //Use Routes
 
 app.use('/api', notificationRoutes)
-app.use("/graph",graphRoutes)
 app.use('/api/auth', userRoutes);
 app.use('/api/chat', chatRoutes)
 app.use('/api/note', noteRoutes);
 app.use('/api/friend', friendRoutes);
 app.use('/api/profile', profileRoutes);
 app.use('/api/message', messageRoutes);
+app.use("/api/graph", graphRoutes)
 
 app.get('/', (req, res) => {
     res.send('server connected')
@@ -126,7 +126,7 @@ io.on("connection", async (socket) => {
     socket.emit("online user", users)
     socket.on("online members", async (chat) => {
         const onlineMember = await Chat.findOne({ _id: chat }).populate("members", "_id pic firstName lastName online").select("-seen").select("-groupAdmin")
-        socket.emit("online member",onlineMember)
+        socket.emit("online member", onlineMember)
     })
 
 })

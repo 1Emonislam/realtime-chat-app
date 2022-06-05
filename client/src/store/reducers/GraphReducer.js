@@ -1,15 +1,38 @@
 const initState = {
-    toWeek: new Date(),
-    msgCount: 0,
+    todayDate: new Date(),
+    weekDate: new Date(),
+    today: {
+        msgCount: 0,
+        joinGroupCount: 0,
+        bizitorCount: 0,
+        createGroupCount: 0,
+    },
+    week: {
+        msgCount: 0,
+        joinGroupCount: 0,
+        bizitorCount: 0,
+        createGroupCount: 0,
+    },
+    loading: false
 }
-export const WEEK_MSG_COUNT = 'WEEK_MSG_COUNT'
+export const DASHBOARD_GRAPH = 'DASHBOARD_GRAPH'
+export const DASHBOARD_GRAPH_LOADING = 'DASHBOARD_GRAPH_LOADING'
 export const graphReducer = (state = initState, action) => {
     const { payload, type } = action;
-    if (type === WEEK_MSG_COUNT) {
+    if (type === DASHBOARD_GRAPH) {
         return {
             ...state,
-            msgCount: payload.msgCount,
-            toWeek: payload.toWeek,
+            todayDate: payload.todayDate,
+            weekDate: payload.weekDate,
+            today: payload.today,
+            week: payload.week,
+            loading: false
+        }
+    }
+    if (type === DASHBOARD_GRAPH_LOADING) {
+        return {
+            ...state,
+            loading: payload.loading
         }
     }
     return state

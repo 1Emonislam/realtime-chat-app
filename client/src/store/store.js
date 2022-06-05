@@ -15,6 +15,7 @@ import { myProfileReducer } from './reducers/profileReducer';
 import { notesReducer } from './reducers/notesReducer';
 import { mediaFileSearchReducer } from './reducers/mediaFileSearchReducer';
 import { paginationMembersReducer } from './reducers/paginationMembersReducer';
+import { graphReducer } from './reducers/GraphReducer';
 const rootReducer = combineReducers({
     theme: themeReducer,
     auth: authReducer,
@@ -31,7 +32,8 @@ const rootReducer = combineReducers({
     notes: notesReducer,
     write: writeReducer,
     updateMsg: updateMessageStoreReducer,
-    media: mediaFileSearchReducer
+    media: mediaFileSearchReducer,
+    graphDash: graphReducer
 });
 const middleware = [thunk];
 const store = createStore(rootReducer, compose(
