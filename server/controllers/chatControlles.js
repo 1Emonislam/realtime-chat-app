@@ -718,17 +718,15 @@ module.exports.groupAddTo = async (req, res, next) => {
             subject: ` ${req?.user?.firstName}  ${req.user?.lastName} from ${getChatMember?.chatName} Group  Added New Member ${addedUser?.firstName || ' '} ${addedUser?.lastName || ' '} `,
             text: ` ${added?.chatName} Member added ${addedUser?.firstName || ' '} ${addedUser?.lastName || ' '}`,
           })
-          await JoinGroup.create({
-            joinChatId: chatId,
-            userJoin: member
-          })
         }
       }
-    } else {
-      await JoinGroup.create({
-        joinChatId: chatId,
-        userJoin: userId
-      })
+    } else if (userId?.length) {
+      for (const user of userId) {
+        await JoinGroup.create({
+          joinChatId: chatId,
+          userJoin: user
+        })
+      }
     }
     const memberJoinedInfo = {
       joinMemberCount: chatCheck?.members?.length,
@@ -1278,19 +1276,19 @@ module.exports.groupMemberRemoveTo = async (req, res, next) => {
 module.exports.inviteCheck = async (req, res, next) => {
   const { shortCode } = req.body;
   try {
-    if(!req?.user?._id){
-return res.status(400).json({error:{invite:'Please Login Before Access this page!'}})
+    if (!req?.user?._id) {
+      return res.status(400).json({ error: { invite: 'Please Login Before Access this page!' } })
     }
-    const valided = await Invitation.findOne({ shortCode: shortCode }).populate("chat").populate('inviter','_id pic firstName lastName');
-      if(!valided){
-        return res.status(400).json({error:{invite:'Invitaion code is invalid!'}})
-      }
-      const resSend  =await valided?.toObject();
-      resSend.chat.membersCount =await resSend?.chat?.members?.length;
-      delete resSend?.chat?.members;
-      delete resSend?.chat?.groupAdmin;
-     delete resSend?.chat?.seen;
-      return res.status(200).json(resSend)
+    const valided = await Invitation.findOne({ shortCode: shortCode }).populate("chat").populate('inviter', '_id pic firstName lastName');
+    if (!valided) {
+      return res.status(400).json({ error: { invite: 'Invitaion code is invalid!' } })
+    }
+    const resSend = await valided?.toObject();
+    resSend.chat.membersCount = await resSend?.chat?.members?.length;
+    delete resSend?.chat?.members;
+    delete resSend?.chat?.groupAdmin;
+    delete resSend?.chat?.seen;
+    return res.status(200).json(resSend)
 
   }
   catch (error) {
