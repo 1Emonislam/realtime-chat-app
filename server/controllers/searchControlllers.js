@@ -123,7 +123,7 @@ module.exports.makeAdmin = async (req, res, next) => {
         // if (req?.user?.isAdmin !== true) {
         //     return res.status(400).json({ error: { admin: 'You can perform only Administrator' } })
         // }
-        const { userId, sort } = req.body;
+        const { userId, sort,role } = req.body;
         let { page = 1, limit = 10 } = req.query;
         limit = parseInt(limit)
         const keyword = req.query.search ? {
@@ -134,7 +134,7 @@ module.exports.makeAdmin = async (req, res, next) => {
                 { email: { $regex: req.query.search, $options: "i" } },
                 { username: { $regex: req.query.search, $options: "i" } },
                 { phone: { $regex: req.query.search, $options: "i" } },
-                { status: con || '' },
+                { status: sort || '' },
             ],
         } : { status: sort || '' };
         const user = await User.findOne({ _id: userId });
