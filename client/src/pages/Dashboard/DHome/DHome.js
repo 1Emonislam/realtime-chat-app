@@ -1,13 +1,7 @@
 import CallIcon from '@mui/icons-material/Call';
 import ForumIcon from '@mui/icons-material/Forum';
 import GroupIcon from '@mui/icons-material/Group';
-import { Box, Grid, IconButton, InputBase, Paper, Typography } from '@mui/material';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
+import { Box, Grid, Typography } from '@mui/material';
 import React from 'react';
 
 const Dhome = () => {
