@@ -1,8 +1,8 @@
 import GroupsIcon from '@mui/icons-material/Groups';
 import SettingsIcon from '@mui/icons-material/Settings';
-import { Box, Container, Grid, Paper, Typography } from '@mui/material';
+import { Box, Container, Grid, Paper, Tooltip, Typography } from '@mui/material';
 import React from 'react';
-import { AiOutlineArrowDown, AiOutlineArrowUp } from "react-icons/ai";
+// import { AiOutlineArrowDown, AiOutlineArrowUp } from "react-icons/ai";
 import {
     BsFillChatDotsFill,
     BsFillChatLeftFill,
@@ -25,7 +25,7 @@ const DashBoardHome = ({ mode, handleSingleChat }) => {
     const dispatch = useDispatch()
     const { auth, graphDash } = useSelector(state => state)
     const { today, totalMsg, week } = graphDash;
-    console.log(today)
+    // console.log(today)
     useEffect(() => {
         dispatch(getGraphDahboardData(auth.user?.token))
     }, [dispatch, auth.user?.token])
@@ -56,7 +56,9 @@ const DashBoardHome = ({ mode, handleSingleChat }) => {
                                     <Box sx={{ mr: "30px" }}>
                                         <Typography sx={{ mb: "13px" }} variant="subtitle2" component="div">Today</Typography>
                                         <Box sx={{ display: "flex", alignItems: "center" }} >
-                                            <Box sx={{ display: "inline-block", fontWeight: "bold" }}>  <span style={{ color: "green", fontWeight: "bold" }}>{today?.joinGroupCount}</span></Box>
+                                            <Box sx={{ display: "inline-block", fontWeight: "bold" }}> <Tooltip placement="top" title={today?.joinGroupCount} arrow>
+                                                <span style={{ color: "green", fontWeight: "bold" }}>{today?.joinGroupCount}</span>
+                                            </Tooltip></Box>
                                             <Box sx={{ ml: "12px", display: "flex", alignItems: "center" }}>
                                                 <img width="20" height="20" src={pic} alt="" />
                                             </Box>
@@ -69,7 +71,9 @@ const DashBoardHome = ({ mode, handleSingleChat }) => {
                                     <Box sx={{ fontWeight: "bold", display: "flex", alignItems: "center" }}>
                                         <Box sx={{ display: "flex", alignItems: "center" }}>
 
-                                            <img width="20" height="20" src={pic} style={{ marginLeft: '5px' }} alt="" />   <span style={{ color: "green", fontWeight: "bold", marginLeft: '10px' }}>{week?.joinGroupCount}</span>
+                                            <img width="20" height="20" src={pic} style={{ marginLeft: '5px' }} alt="" />   <Tooltip placement="top" title={today?.joinGroupCount} arrow>
+                                                <span style={{ color: "green", fontWeight: "bold", marginLeft: '10px' }}> {week?.joinGroupCount}</span>
+                                            </Tooltip>
                                         </Box>
                                     </Box>
                                 </Box>
@@ -138,24 +142,32 @@ const DashBoardHome = ({ mode, handleSingleChat }) => {
                                     <Box sx={{ fontSize: '24px' }}>
                                         <FcDoughnutChart />
                                     </Box>
-                                    <Typography variant="subtitle2" component="div" sx={{ display: "inline-block", ml: "5px", fontWeight: "bold", fontSize: '16px' }}>Charts</Typography>
+                                    <Typography variant="subtitle2" component="div" sx={{ display: "inline-block", ml: "5px", fontWeight: "bold", fontSize: '16px' }}>Chale</Typography>
                                 </Box>
                                 <Box sx={{ display: "flex", alignItems: "center", my: "30px" }}>
                                     <Box sx={{ mr: "30px" }}>
                                         <Typography sx={{ mb: "13px" }} variant="subtitle2" component="div">Today</Typography>
                                         <Box sx={{ display: "flex", alignItems: "center" }} >
-                                            <Box sx={{ display: "inline-block", fontWeight: "bold" }}> <span style={{ color: "green", fontWeight: "bold" }}>{totalMsg}</span></Box>
+                                            <Box sx={{ display: "inline-block", fontWeight: "bold" }}>
+                                                <Tooltip title={today?.msgCount} placement="top" arrow>
+                                                    <span style={{ color: "green", fontWeight: "bold" }}>{today?.msgCount}</span>
+                                                </Tooltip>
+                                            </Box>
                                             <Box sx={{ ml: "12px", display: "flex", alignItems: "center" }}>
-                                                <img width="20" height="20" src={pic} alt="" /> <span style={{ color: "green", fontWeight: "bold" }}>0.0%</span>
+                                                <img width="20" height="20" src={pic} alt="" /> <span style={{ color: "green", fontWeight: "bold" }}></span>
                                             </Box>
                                         </Box>
                                     </Box>
                                     <Box>
                                         <Typography sx={{ mb: "13px" }} variant="subtitle2" component="div">History</Typography>
                                         <Box sx={{ display: "flex", alignItems: "center" }} >
-                                            <Box sx={{ display: "inline-block", fontWeight: "bold" }}>0</Box>
+                                            <Box sx={{ display: "inline-block", fontWeight: "bold" }}>
+                                                <Tooltip title={totalMsg} placement="top" arrow>
+                                                    <span style={{ color: "green", fontWeight: "bold", marginLeft: '10px' }}>{totalMsg?.toString()?.slice(0, 15)}</span>
+                                                </Tooltip>
+                                            </Box>
                                             <Box sx={{ ml: "12px", display: "flex", alignItems: "center" }}>
-                                                <img width="20" height="20" src={pic} alt="" /> <span style={{ color: "green", fontWeight: "bold" }}>0.0%</span>
+                                                <img width="20" height="20" src={pic} style={{ marginLeft: '5px' }} alt="" />
                                             </Box>
                                         </Box>
                                     </Box>
@@ -163,12 +175,10 @@ const DashBoardHome = ({ mode, handleSingleChat }) => {
                                 <Box sx={{ display: "flex", alignItems: "center" }}>
                                     <Typography sx={{ mr: "3px" }}>Last <span>7</span> days </Typography>
                                     <Box sx={{ fontWeight: "bold", display: "flex", alignItems: "center" }}>
-                                        <Box sx={{ display: "flex", alignItems: "center" }}>
-                                            <AiOutlineArrowUp style={{ color: "green" }}></AiOutlineArrowUp> <span>0</span>
-                                        </Box>
-                                        <Box sx={{ display: "flex", alignItems: "center" }}>
-                                            <AiOutlineArrowDown style={{ color: "red" }}></AiOutlineArrowDown> <span>0</span>
-                                        </Box>
+                                        <img width="20" height="20" src={pic} style={{ marginLeft: '5px' }} alt="" />
+                                        <Tooltip title={week?.msgCount || ''} placement="top" arrow>
+                                            <span style={{ color: "green", fontWeight: "bold", marginLeft: '10px' }}>{week?.msgCount}</span>
+                                        </Tooltip>
                                     </Box>
                                 </Box>
                             </Paper>
@@ -192,7 +202,11 @@ const DashBoardHome = ({ mode, handleSingleChat }) => {
                                     <Box sx={{ mr: "30px" }}>
                                         <Typography sx={{ mb: "13px" }} variant="subtitle2" component="div">Today</Typography>
                                         <Box sx={{ display: "flex", alignItems: "center" }} >
-                                            <Box sx={{ display: "inline-block", fontWeight: "bold" }}> <span style={{ color: "green", fontWeight: "bold" }}>{today?.visitorCount}</span></Box>
+                                            <Box sx={{ display: "inline-block", fontWeight: "bold" }}>
+                                                <Tooltip title={today?.visitorCount} placement="top" arrow>
+                                                    <span style={{ color: "green", fontWeight: "bold" }}>{today?.visitorCount}</span>
+                                                </Tooltip>
+                                            </Box>
                                             <Box sx={{ ml: "12px", display: "flex", alignItems: "center" }}>
                                                 <img width="20" height="20" src={pic} alt="" /> <span style={{ color: "green", fontWeight: "bold" }}> </span>
                                             </Box>
@@ -202,7 +216,10 @@ const DashBoardHome = ({ mode, handleSingleChat }) => {
                                 </Box>
                                 <Box sx={{ display: "flex", alignItems: "center" }}>
                                     <Typography sx={{ mr: "3px" }}>Last <span>7</span> days </Typography>
-                                    <img width="20" height="20" src={pic} style={{ marginLeft: '5px' }} alt="" />   <span style={{ color: "green", fontWeight: "bold", marginLeft: '10px' }}>{week?.visitorCount}</span>
+                                    <img width="20" height="20" src={pic} style={{ marginLeft: '5px' }} alt="" />
+                                    <Tooltip title={week?.visitorCount} placement="top" arrow >
+                                        <span style={{ color: "green", fontWeight: "bold", marginLeft: '10px' }}>{week?.visitorCount}</span>
+                                    </Tooltip>
                                 </Box>
                             </Paper>
                         </Box>
@@ -226,7 +243,11 @@ const DashBoardHome = ({ mode, handleSingleChat }) => {
                                     <Box sx={{ mr: "30px" }}>
                                         <Typography sx={{ mb: "13px" }} variant="subtitle2" component="div">Today</Typography>
                                         <Box sx={{ display: "flex", alignItems: "center" }} >
-                                            <Box sx={{ display: "inline-block", fontWeight: "bold" }}><span style={{ color: "green", fontWeight: "bold" }}>{today?.createGroupCount}</span></Box>
+                                            <Box sx={{ display: "inline-block", fontWeight: "bold" }}>
+                                                <Tooltip title={today?.createGroupCount} placement="top" arrow>
+                                                    <span style={{ color: "green", fontWeight: "bold" }}>{today?.createGroupCount}</span>
+                                                </Tooltip>
+                                            </Box>
                                             <Box sx={{ ml: "12px", display: "flex", alignItems: "center" }}>
                                                 <img width="20" height="20" src={pic} alt="" /> <span style={{ color: "green", fontWeight: "bold" }}></span>
                                             </Box>
@@ -237,7 +258,10 @@ const DashBoardHome = ({ mode, handleSingleChat }) => {
                                 <Box sx={{ display: "flex", alignItems: "center" }}>
                                     <Typography sx={{ mr: "3px" }}>Last <span>7</span> days </Typography>
                                     <Box sx={{ fontWeight: "bold", display: "flex", alignItems: "center" }}>
-                                        <img width="20" height="20" src={pic} style={{ marginLeft: '5px' }} alt="" />   <span style={{ color: "green", fontWeight: "bold", marginLeft: '10px' }}>{week?.createGroupCount}</span>
+                                        <img width="20" height="20" src={pic} style={{ marginLeft: '5px' }} alt="" />
+                                        <Tooltip title={week?.createGroupCount} placement="top" arrow>
+                                            <span style={{ color: "green", fontWeight: "bold", marginLeft: '10px' }}>{week?.createGroupCount}</span>
+                                        </Tooltip>
                                     </Box>
                                 </Box>
                             </Paper>
