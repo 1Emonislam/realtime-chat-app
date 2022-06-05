@@ -33,6 +33,7 @@ module.exports.searchUsers = async (req, res, next) => {
         let { page = 1, limit = 10 } = req.query;
         limit = parseInt(limit)
         const keyword = req.query.search ? {
+            status: 'active',
             $or: [
                 { firstName: { $regex: req.query.search, $options: "i" } },
                 { lastName: { $regex: req.query.search, $options: "i" } },
@@ -40,7 +41,7 @@ module.exports.searchUsers = async (req, res, next) => {
                 { username: { $regex: req.query.search, $options: "i" } },
                 { phone: { $regex: req.query.search, $options: "i" } },
             ],
-        } : {};
+        } : { status: 'active' };
         const doc = await User.find(keyword).sort("-createdAt").find({ _id: { $ne: req.user?._id } }).limit(limit * 1)
             .skip((page - 1) * limit)
         const count = await User.find(keyword).sort("-createdAt").find({ _id: { $ne: req.user?._id } }).count()
@@ -59,6 +60,7 @@ module.exports.blockUsers = async (req, res, next) => {
         let { page = 1, limit = 10 } = req.query;
         limit = parseInt(limit)
         const keyword = req.query.search ? {
+            status: 'block',
             $or: [
                 { firstName: { $regex: req.query.search, $options: "i" } },
                 { lastName: { $regex: req.query.search, $options: "i" } },
@@ -66,7 +68,7 @@ module.exports.blockUsers = async (req, res, next) => {
                 { username: { $regex: req.query.search, $options: "i" } },
                 { phone: { $regex: req.query.search, $options: "i" } },
             ],
-        } : {};
+        } : { status: 'block' };
         const doc = await User.find(keyword).sort("-createdAt").find({ _id: { $ne: req.user?._id } }).limit(limit * 1)
             .skip((page - 1) * limit)
         const count = await User.find(keyword).sort("-createdAt").find({ _id: { $ne: req.user?._id } }).count()
