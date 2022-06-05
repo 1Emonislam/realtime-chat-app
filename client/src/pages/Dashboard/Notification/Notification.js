@@ -1,9 +1,9 @@
-import React from 'react';
-import { styled, alpha } from '@mui/material/styles';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { Badge, Box, Typography } from '@mui/material';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import { alpha, styled } from '@mui/material/styles';
+import React from 'react';
 
 const StyledMenu = styled((props) => (
     <Menu
@@ -94,11 +94,23 @@ const Notification = () => {
                 open={open}
                 onClose={handleClose}
             >
-                <Box sx={{ display: 'flex', justifyContent: 'space-between', p: '10px 15px', fontSize: '14px', cursor: 'pointer', }}>
+                <Box sx={{ display: 'flex', justifyContent: 'space-between', p: '10px 15px', fontSize: '14px', cursor: 'pointer', background: '#fff', color: 'rgb(33 33 33)' }}>
                     <Typography variant='p'>Notification</Typography>
                     <Typography sx={{ color: 'red', textTransform: 'uppercase' }} variant='p'>Clear All</Typography>
                 </Box>
-                <MenuItem sx={{ display: 'flex', py: 1, borderBottom: '1px solid #eef0f6' }} onClick={handleClose} disableRipple>
+                <MenuItem sx={{
+                    display: 'flex', py: 1,
+                    background: '#fff',
+                    color: 'rgb(33 33 33)',
+                    borderBottom: '1px solid #eef0f6',
+                    '&:hover': {
+                        background: '#fff',
+                        color: 'rgb(33 33 33)',
+                    }
+                }}
+                    onClick={handleClose}
+                    disableRipple
+                >
                     <Typography
                         sx={{ height: '41px', width: '41px', borderRadius: '30%', }}
                         component='img'
@@ -109,7 +121,19 @@ const Notification = () => {
                         <Typography sx={{ fontSize: '12px' }} variant='p'>4 Mins ago</Typography>
                     </Box>
                 </MenuItem>
-                <MenuItem sx={{ display: 'flex', py: 1, borderBottom: '1px solid #eef0f6' }} onClick={handleClose} disableRipple>
+                <MenuItem sx={{
+                    display: 'flex', py: 1,
+                    background: '#fff',
+                    color: 'rgb(33 33 33)',
+                    borderBottom: '1px solid #eef0f6',
+                    '&:hover': {
+                        background: '#fff',
+                        color: 'rgb(33 33 33)',
+                    }
+                }}
+                    onClick={handleClose}
+                    disableRipple
+                >
                     <Typography
                         sx={{ height: '41px', width: '41px', borderRadius: '30%', }}
                         component='img'
@@ -120,7 +144,19 @@ const Notification = () => {
                         <Typography sx={{ fontSize: '12px' }} variant='p'>4 Mins ago</Typography>
                     </Box>
                 </MenuItem>
-                <MenuItem sx={{ display: 'flex', py: 1, borderBottom: '1px solid #eef0f6' }} onClick={handleClose} disableRipple>
+                <MenuItem sx={{
+                    display: 'flex', py: 1,
+                    background: '#fff',
+                    color: 'rgb(33 33 33)',
+                    borderBottom: '1px solid #eef0f6',
+                    '&:hover': {
+                        background: '#fff',
+                        color: 'rgb(33 33 33)',
+                    }
+                }}
+                    onClick={handleClose}
+                    disableRipple
+                >
                     <Typography
                         sx={{ height: '41px', width: '41px', borderRadius: '30%', }}
                         component='img'
@@ -131,7 +167,19 @@ const Notification = () => {
                         <Typography sx={{ fontSize: '12px' }} variant='p'>4 Mins ago</Typography>
                     </Box>
                 </MenuItem>
-                <MenuItem sx={{ display: 'flex', py: 1, borderBottom: '1px solid #eef0f6' }} onClick={handleClose} disableRipple>
+                <MenuItem sx={{
+                    display: 'flex', py: 1,
+                    background: '#fff',
+                    color: 'rgb(33 33 33)',
+                    borderBottom: '1px solid #eef0f6',
+                    '&:hover': {
+                        background: '#fff',
+                        color: 'rgb(33 33 33)',
+                    }
+                }}
+                    onClick={handleClose}
+                    disableRipple
+                >
                     <Typography
                         sx={{ height: '41px', width: '41px', borderRadius: '30%', }}
                         component='img'
@@ -142,19 +190,8 @@ const Notification = () => {
                         <Typography sx={{ fontSize: '12px' }} variant='p'>4 Mins ago</Typography>
                     </Box>
                 </MenuItem>
-                <MenuItem sx={{ display: 'flex', py: 1, borderBottom: '1px solid #eef0f6' }} onClick={handleClose} disableRipple>
-                    <Typography
-                        sx={{ height: '41px', width: '41px', borderRadius: '30%', }}
-                        component='img'
-                        src='https://dreamschat-reactjs.dreamguystech.com/template2/e6604b3279586ece5009bf5ceadcb602.jpg'
-                    />
-                    <Box sx={{ ml: '10px', }}>
-                        <Typography sx={{ fontSize: '14px', display: 'block', width: '100px' }} variant='p'>Lorem ipsum, dolor sit amet</Typography>
-                        <Typography sx={{ fontSize: '12px' }} variant='p'>4 Mins ago</Typography>
-                    </Box>
-                </MenuItem>
-                <Box sx={{ py: 1, }}>
-                    <Typography sx={{ fontSize: '14px', textAlign: 'center', color: '#333333' }} variant='h6'>View all notification</Typography>
+                <Box sx={{ py: 0 }}>
+                    <Typography sx={{ fontSize: '14px', textAlign: 'center', background: '#fff', color: '#333333', py: 1, cursor: 'pointer' }} variant='h6'>View all notification</Typography>
                 </Box>
             </StyledMenu>
         </Box>
