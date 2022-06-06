@@ -25,7 +25,7 @@ const style = {
 };
 
 const AudioCall = ({ setAudioOpen, audioOpen, chat }) => {
-    console.log(chat)
+    // console.log(chat)
     return (
         <div>
             <Modal
