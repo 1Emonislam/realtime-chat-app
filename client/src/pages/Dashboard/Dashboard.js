@@ -14,7 +14,7 @@ const Dashboard = () => {
         if (auth?.user?.user?.role !== 'admin') {
             setTimeout(() => {
                 navigate('/login')
-            }, 2000)
+            }, 200)
         }
     }, [navigate, auth?.user?.user?.role])
     return (
