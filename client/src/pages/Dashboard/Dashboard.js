@@ -1,16 +1,22 @@
 import { Box } from '@mui/material';
-import React, { useState } from 'react';
-import { Outlet } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import { Outlet, useNavigate } from 'react-router-dom';
 import Header from './Header/Header';
 import MenuBar from './MenuBar/MenuBar';
 
 const Dashboard = () => {
-
+    const { auth } = useSelector(state => state)
     const [selected, setSelected] = useState(true);
     const [mouseOver, setMouseOver] = useState(false);
-
+    const navigate = useNavigate()
+    useEffect(() => {
+        if (auth?.user?.user?.role !== 'admin') {
+            navigate('/login')
+        }
+    }, [navigate, auth?.user?.user?.role])
     return (
-        <Box sx={{ background: 'white', height: '100vh'}}>
+        <Box sx={{ background: 'white', height: '100vh' }}>
             <Header selected={selected} setSelected={setSelected} />
             <Box
                 sx={

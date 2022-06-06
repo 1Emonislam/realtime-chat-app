@@ -145,12 +145,19 @@ export default function MessageFunc({ isSameSenderPermission, handleTyping, isTy
                 open={open}
                 anchorEl={anchorEl}
                 onClose={handleClose}
+                value={value}
                 anchorOrigin={{
-                    vertical: 'bottom',
-                    horizontal: 'left',
+                    vertical: 'top',
+                    horizontal: 'center',
+                }}
+                transformOrigin={{
+                    vertical: 'top',
+                    horizontal: 'center',
+                }}
+                PaperProps={{
+                    style: { width: '17%',  padding: '10px 10px 25px' },
                 }}
             >
-
                 {/* copy message */}
                 <Typography onClick={handleCopy} sx={{ cursor: 'pointer', '&:hover': { bgcolor: 'rgb(234, 234, 234, 0.5)' }, py: 1, px: 2, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                     <span style={{ fontSize: 14 }}>Copy </span>
