@@ -125,6 +125,7 @@ const ChatBodyPage = ({ handleSingleChat, chatActive }) => {
 
     useEffect(() => {
         if (!auth?.user?.token) {
+            window.localStorage.removeItem('userInfoCurrent')
             window.location.replace('/login')
         }
     }, [auth?.user?.token])

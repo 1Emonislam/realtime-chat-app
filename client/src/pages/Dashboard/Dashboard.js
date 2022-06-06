@@ -11,6 +11,7 @@ const Dashboard = () => {
     const [mouseOver, setMouseOver] = useState(false);
     const navigate = useNavigate()
     useEffect(() => {
+        if (!auth?.user?.user?.role) return
         if (auth?.user?.user?.role !== 'admin') {
             navigate('/login')
         }
