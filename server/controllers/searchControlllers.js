@@ -2,9 +2,9 @@ const User = require("../models/userModel");
 
 module.exports.searchUsers = async (req, res, next) => {
     try {
-        // if (req?.user?.role !== 'admin') {
-        //     return res.status(400).json({ error: { admin: 'You can perform only Admin' } })
-        // }
+        if (req?.user?.role !== 'admin') {
+            return res.status(400).json({ error: { admin: 'You can perform only Administrator' } })
+        }
         let { page = 1, limit = 10 } = req.query;
         limit = parseInt(limit)
         const keyword = req.query.search ? {
@@ -29,9 +29,9 @@ module.exports.searchUsers = async (req, res, next) => {
 
 module.exports.blockUsers = async (req, res, next) => {
     try {
-        // if (req?.user?.role !== 'admin') {
-        //     return res.status(400).json({ error: { admin: 'You can perform only Admin' } })
-        // }
+        if (req?.user?.role !== 'admin') {
+            return res.status(400).json({ error: { admin: 'You can perform only Administrator' } })
+        }
         let { page = 1, limit = 10 } = req.query;
         limit = parseInt(limit)
         const keyword = req.query.search ? {
