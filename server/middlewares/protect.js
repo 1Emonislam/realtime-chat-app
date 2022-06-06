@@ -13,7 +13,7 @@ const protect = async (req, res, next) => {
             const decoded = jwt.verify(token, process.env.JWT_SECRET);
             const user = await User.findOne({ _id: decoded.id }).select("-password");
             if (user?.status === 'block') {
-                return res.status(400).json({ error: { user: 'No permission Blocked User' } })
+                return res.status(400).json({ error: { user: 'permission Denied Blocked User' } })
             }
             // console.log(user)
             req.user = user;
