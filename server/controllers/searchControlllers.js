@@ -2,7 +2,7 @@ const User = require("../models/userModel");
 
 module.exports.searchUsers = async (req, res, next) => {
     try {
-        // if (req?.user?.isAdmin !== true) {
+        // if (req?.user?.role !== 'admin') {
         //     return res.status(400).json({ error: { admin: 'You can perform only Admin' } })
         // }
         let { page = 1, limit = 10 } = req.query;
@@ -29,7 +29,7 @@ module.exports.searchUsers = async (req, res, next) => {
 
 module.exports.blockUsers = async (req, res, next) => {
     try {
-        // if (req?.user?.isAdmin !== true) {
+        // if (req?.user?.role !== 'admin') {
         //     return res.status(400).json({ error: { admin: 'You can perform only Admin' } })
         // }
         let { page = 1, limit = 10 } = req.query;
@@ -56,9 +56,9 @@ module.exports.blockUsers = async (req, res, next) => {
 
 module.exports.reportUsers = async (req, res, next) => {
     try {
-        // if (req?.user?.isAdmin !== true) {
-        //     return res.status(400).json({ error: { admin: 'You can perform only Admin' } })
-        // }
+        if (req?.user?.role !== 'admin') {
+            return res.status(400).json({ error: { admin: 'You can perform only Admin' } })
+        }
         let { page = 1, limit = 10 } = req.query;
         limit = parseInt(limit)
         const keyword = req.query.search ? {
@@ -80,9 +80,9 @@ module.exports.reportUsers = async (req, res, next) => {
 }
 module.exports.actionUsers = async (req, res, next) => {
     try {
-        // if (req?.user?.isAdmin !== true) {
-        //     return res.status(400).json({ error: { admin: 'You can perform only Admin' } })
-        // }
+        if (req?.user?.role !== 'admin') {
+            return res.status(400).json({ error: { admin: 'You can perform only Admin' } })
+        }
         let { page = 1, limit = 10, } = req.query;
         const { userId, status } = req.body;
         limit = parseInt(limit)
@@ -116,9 +116,9 @@ module.exports.actionUsers = async (req, res, next) => {
 
 module.exports.makeAdmin = async (req, res, next) => {
     try {
-        // if (req?.user?.isAdmin !== true) {
-        //     return res.status(400).json({ error: { admin: 'You can perform only Administrator' } })
-        // }
+        if (req?.user?.role !== 'admin') {
+            return res.status(400).json({ error: { admin: 'You can perform only Administrator' } })
+        }
         const { userId, sort, role } = req.body;
         let { page = 1, limit = 10 } = req.query;
         limit = parseInt(limit)
