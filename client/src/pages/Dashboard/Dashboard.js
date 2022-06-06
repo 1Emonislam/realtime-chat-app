@@ -12,7 +12,9 @@ const Dashboard = () => {
     const navigate = useNavigate()
     useEffect(() => {
         if (auth?.user?.user?.role !== 'admin') {
-            navigate('/login')
+            setTimeout(() => {
+                navigate('/login')
+            }, 3000)
         }
     }, [navigate, auth?.user?.user?.role])
     return (
