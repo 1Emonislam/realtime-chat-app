@@ -78,14 +78,14 @@ const ChatBodyPage = ({ handleSingleChat, chatActive }) => {
         }
     }
     // Get the input field
-    // useEffect(() => {
-    //     if (!socket?.current) return;
-    //     if (groupMessage?.sendMsg?._id) {
-    //         socket?.current?.emit("new message", groupMessage?.sendMsg);
-    //     }
-    // }, [updateMsg.messageInfoStore?._id, groupMessage?.sendMsg, groupMessage?.sendMsg?._id]);
-    // console.log(socket?.current)
-    // console.log(socket?.current)
+    useEffect(() => {
+        if (auth.user?.user?.status === 'block') {
+            setTimeout(() => {
+                window.location.replace('/home')
+            }, 2000)
+        }
+    }, []);
+
 
     useEffect(() => {
         if (!socket?.current) return
