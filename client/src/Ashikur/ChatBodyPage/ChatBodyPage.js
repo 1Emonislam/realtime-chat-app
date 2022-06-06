@@ -81,6 +81,7 @@ const ChatBodyPage = ({ handleSingleChat, chatActive }) => {
     useEffect(() => {
         if (auth.user?.user?.status === 'block') {
             setTimeout(() => {
+                window.localStorage.removeItem('userInfoCurrent')
                 window.location.replace('/home')
             }, 2000)
         }
@@ -125,7 +126,6 @@ const ChatBodyPage = ({ handleSingleChat, chatActive }) => {
 
     useEffect(() => {
         if (!auth?.user?.token) {
-            window.localStorage.removeItem('userInfoCurrent')
             window.location.replace('/login')
         }
     }, [auth?.user?.token])
