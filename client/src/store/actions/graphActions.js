@@ -10,7 +10,7 @@ export const getGraphDahboardData = (token) => {
             }
         })
         try {
-            fetch('https://collaballapp.herokuapp.com/api/graph/dashboard', {
+            fetch('https://chalechat.herokuapp.com/api/graph/dashboard', {
                 method: 'GET',
                 headers: {
                     'Content-Type': "application/json",

@@ -39,7 +39,7 @@ export default function GroupInviteAccept() {
     useEffect(() => {
         if (!auth?.user?.token) return
         try {
-            fetch('https://collaballapp.herokuapp.com/api/chat/invite/', {
+            fetch('https://chalechat.herokuapp.com/api/chat/invite/', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'Application/json',

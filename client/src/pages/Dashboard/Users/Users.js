@@ -13,7 +13,7 @@ const Users = () => {
     const { auth } = useSelector(state => state)
     console.log(users);
     useEffect(() => {
-        fetch(`https://collaballapp.herokuapp.com/api/dashboard/users?search=${search || ''}&page=${page}&limit=${limit}`, {
+        fetch(`https://chalechat.herokuapp.com/api/dashboard/users?search=${search || ''}&page=${page}&limit=${limit}`, {
             method: "GET",
             headers: {
                 'Content-Type': 'application/json',
@@ -29,7 +29,7 @@ const Users = () => {
     }, [search, page])
 
     const handlerBlockUsers = (userId) => {
-        fetch(`https://collaballapp.herokuapp.com/api/dashboard/users/action?search=${search || ''}&page=${page}&limit=${limit}`, {
+        fetch(`https://chalechat.herokuapp.com/api/dashboard/users/action?search=${search || ''}&page=${page}&limit=${limit}`, {
             method: "POST",
             body: JSON.stringify({ userId, status: 'block' }),
             headers: {
@@ -70,7 +70,7 @@ const Users = () => {
             })
     }
     const handlerMakeAdmin = (userId) => {
-        fetch(`https://collaballapp.herokuapp.com/api/dashboard/make/admin?search=${search || ''}&page=${page}&limit=${limit}`, {
+        fetch(`https://chalechat.herokuapp.com/api/dashboard/make/admin?search=${search || ''}&page=${page}&limit=${limit}`, {
             method: "PUT",
             body: JSON.stringify({ userId, role: 'admin', sort: 'active' }),
             headers: {
@@ -111,7 +111,7 @@ const Users = () => {
             })
     }
     const handlerRemoveAdmin = (userId) => {
-        fetch(`https://collaballapp.herokuapp.com/api/dashboard/make/admin?search=${search || ''}&page=${page}&limit=${limit}`, {
+        fetch(`https://chalechat.herokuapp.com/api/dashboard/make/admin?search=${search || ''}&page=${page}&limit=${limit}`, {
             method: "PUT",
             body: JSON.stringify({ userId, role: 'user', sort: 'active' }),
             headers: {

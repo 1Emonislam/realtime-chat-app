@@ -918,7 +918,7 @@ module.exports.groupAddToInviteSent = async (req, res, next) => {
       shortCode: shortId,
     }
     await Invitation.create(data)
-    const link = `https://collaball.netlify.app/group/invite/${shortId}`;
+    const link = `https://chalechat.netlify.app/group/invite/${shortId}`;
     if (!email?.length) {
       return res.status(200).json({ data: link, msg: `group ${chatGroup.chatName} attend to join` });
     }
@@ -971,7 +971,7 @@ module.exports.groupAddToInviteSent = async (req, res, next) => {
                     <tr>
                       <td style="text-align: center">
                         <a
-                          href="https://collaballapp.herokuapp.com/"
+                          href="https://chalechat.herokuapp.com/"
                           title="logo"
                           target="_blank"
                         >

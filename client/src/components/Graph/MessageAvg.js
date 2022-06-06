@@ -10,7 +10,7 @@ function MessageAvg() {
                 'Content-Type': 'Application/json'
             }
         }
-        axios.get('https://collaballapp.herokuapp.com/graph/toWeekMessage', config).then(({ data }) => {
+        axios.get('https://chalechat.herokuapp.com/graph/toWeekMessage', config).then(({ data }) => {
             dispatch({
                 type: WEEK_MSG_COUNT,
                 payload: {

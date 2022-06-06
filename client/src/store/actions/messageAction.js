@@ -13,7 +13,7 @@ export const getMessage = (chatId, token, search) => {
             },
         })
         try {
-            fetch(`https://collaballapp.herokuapp.com/api/message/${chatId}?search=${search || ''}`, {
+            fetch(`https://chalechat.herokuapp.com/api/message/${chatId}?search=${search || ''}`, {
                 method: 'GET',
                 headers: {
                     "Content-Type": "application/json",
@@ -82,7 +82,7 @@ export const sendMessage = (data, chatId, token, audio) => {
         })
         try {
             //make sure all data array passing
-            fetch(`https://collaballapp.herokuapp.com/api/message`, {
+            fetch(`https://chalechat.herokuapp.com/api/message`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -161,7 +161,7 @@ export const sendAllUploadMessage = (data, chatId, token) => {
         })
         try {
             //make sure all data array passing
-            fetch(`https://collaballapp.herokuapp.com/api/message/all/upload/${chatId}`, {
+            fetch(`https://chalechat.herokuapp.com/api/message/all/upload/${chatId}`, {
                 method: 'POST',
                 headers: {
                     "Content-Type": "application/json",
@@ -251,7 +251,7 @@ export const editMessage = (data, chatId, messageId, token, messageEditHandle) =
             },
         })
         try {
-            fetch(`https://collaballapp.herokuapp.com/api/message`, {
+            fetch(`https://chalechat.herokuapp.com/api/message`, {
                 method: 'PUT',
                 headers: {
                     "Content-Type": "application/json",
@@ -333,8 +333,8 @@ export const reactionMessage = (reaction, chatId, messageId, token, messageEditH
             },
         })
         try {
-            // https://collaballapp.herokuapp.com
-            fetch(`https://collaballapp.herokuapp.com/api/message/reaction`, {
+            // https://chalechat.herokuapp.com
+            fetch(`https://chalechat.herokuapp.com/api/message/reaction`, {
                 method: 'PUT',
                 headers: {
                     "Content-Type": "application/json",
@@ -399,7 +399,7 @@ export const deleteMessage = (chatId, messageId, token) => {
             },
         })
         try {
-            fetch(`https://collaballapp.herokuapp.com/api/message`, {
+            fetch(`https://chalechat.herokuapp.com/api/message`, {
                 method: 'DELETE',
                 headers: {
                     "Content-Type": "application/json",
@@ -452,7 +452,7 @@ export const deleteAllMessage = (chatId, token) => {
             },
         })
         try {
-            fetch(`https://collaballapp.herokuapp.com/api/message/${chatId}`, {
+            fetch(`https://chalechat.herokuapp.com/api/message/${chatId}`, {
                 method: 'DELETE',
                 headers: {
                     "Content-Type": "application/json",
@@ -515,7 +515,7 @@ export const updateMessageStore = (data) => {
 export const noteCreate = (chatId, messageId, token) => {
     return async (dispatch) => {
         try {
-            fetch(`https://collaballapp.herokuapp.com/api/note`, {
+            fetch(`https://chalechat.herokuapp.com/api/note`, {
                 method: 'POST',
                 headers: {
                     "Content-Type": "application/json",

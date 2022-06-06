@@ -8,7 +8,7 @@ export const getGroupChatData = (token, status, page, limit, setPage, setCount) 
                 loading: true,
             }
         })
-        fetch(`https://collaballapp.herokuapp.com/api/chat?status=${status || ''}&page=${page || 1}&limit=${limit || 10}`, {
+        fetch(`https://chalechat.herokuapp.com/api/chat?status=${status || ''}&page=${page || 1}&limit=${limit || 10}`, {
             method: 'GET',
             headers: {
                 "Content-Type": "application/json",
@@ -48,7 +48,7 @@ export const postGroupChatData = (data, token, reset) => {
             }
         })
         try {
-            fetch('https://collaballapp.herokuapp.com/api/chat/group/create', {
+            fetch('https://chalechat.herokuapp.com/api/chat/group/create', {
                 method: 'POST',
                 headers: {
                     'Content-Type': "application/json",
@@ -99,7 +99,7 @@ export const groupInvite = (chatId, token, handleCopy, email) => {
             }
         })
         try {
-            fetch(`https://collaballapp.herokuapp.com/api/chat/group/invite/gen`, {
+            fetch(`https://chalechat.herokuapp.com/api/chat/group/invite/gen`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': "application/json",
@@ -145,7 +145,7 @@ export const groupInvite = (chatId, token, handleCopy, email) => {
 export const inviteLinkVerify = (chatId, userId, invitedPerson, token) => {
     return async (dispatch) => {
         try {
-            fetch(`https://collaballapp.herokuapp.com/api/chat/group/invite/verify/${token}`, {
+            fetch(`https://chalechat.herokuapp.com/api/chat/group/invite/verify/${token}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': "application/json",
@@ -190,7 +190,7 @@ export const inviteLinkVerify = (chatId, userId, invitedPerson, token) => {
 export const inviteLinkDeclined = (chatId, userId, invitedPerson, declined, token) => {
     return async (dispatch) => {
         try {
-            fetch(`https://collaballapp.herokuapp.com/api/chat/group/invite/verify/${token}`, {
+            fetch(`https://chalechat.herokuapp.com/api/chat/group/invite/verify/${token}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': "application/json",
@@ -228,7 +228,7 @@ export const groupMemberAdd = (chatId, userCollection, token, handleCopy) => {
             }
         })
         try {
-            fetch(`https://collaballapp.herokuapp.com/api/chat/group/addTo`, {
+            fetch(`https://chalechat.herokuapp.com/api/chat/group/addTo`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': "application/json",
@@ -284,7 +284,7 @@ export const groupMemberRemove = (chatId, userId, token, meLeave) => {
             }
         })
         try {
-            fetch(`https://collaballapp.herokuapp.com/api/chat/group/member/removeTo/`, {
+            fetch(`https://chalechat.herokuapp.com/api/chat/group/member/removeTo/`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': "application/json",
@@ -347,7 +347,7 @@ export const groupMemberRemove = (chatId, userId, token, meLeave) => {
 export const groupDelete = (chatId, token) => {
     return async (dispatch) => {
         try {
-            fetch(`https://collaballapp.herokuapp.com/api/chat/group/delete`, {
+            fetch(`https://chalechat.herokuapp.com/api/chat/group/delete`, {
                 method: 'Delete',
                 headers: {
                     'Content-Type': "application/json",
@@ -392,7 +392,7 @@ export const groupDelete = (chatId, token) => {
 export const groupUpdate = (data, token, reset) => {
     return async (dispatch) => {
         try {
-            fetch(`https://collaballapp.herokuapp.com/api/chat/`, {
+            fetch(`https://chalechat.herokuapp.com/api/chat/`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': "application/json",

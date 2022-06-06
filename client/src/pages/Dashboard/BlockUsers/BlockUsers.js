@@ -13,7 +13,7 @@ const BlockUsers = () => {
     const { auth } = useSelector(state => state)
     console.log(users);
     useEffect(() => {
-        fetch(`https://collaballapp.herokuapp.com/api/dashboard/users/blocks?search=${search || ''}&page=${page}&limit=${limit}`, {
+        fetch(`https://chalechat.herokuapp.com/api/dashboard/users/blocks?search=${search || ''}&page=${page}&limit=${limit}`, {
             method: "GET",
             headers: {
                 'Content-Type': 'application/json',
@@ -28,7 +28,7 @@ const BlockUsers = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [search, page])
     const handlerActiveUser = (userId) => {
-        fetch(`https://collaballapp.herokuapp.com/api/dashboard/users/action?search=${search || ''}&page=${page}&limit=${limit}`, {
+        fetch(`https://chalechat.herokuapp.com/api/dashboard/users/action?search=${search || ''}&page=${page}&limit=${limit}`, {
             method: "POST",
             body: JSON.stringify({ userId, status: 'active' }),
             headers: {

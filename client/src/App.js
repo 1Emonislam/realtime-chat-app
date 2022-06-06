@@ -97,7 +97,7 @@ export default function ToggleColorMode() {
     }
   }, [auth?.user?.user?.email])
   const socket = React.useRef();
-  const ENDPOINT = "https://collaballapp.herokuapp.com/";
+  const ENDPOINT = "https://chalechat.herokuapp.com/";
 
   React.useEffect(() => {
     socket.current = io(ENDPOINT, {

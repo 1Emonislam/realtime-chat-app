@@ -79,7 +79,7 @@ export default function PeopleOnline({ online }) {
     }
     const handleCurrentProfile = (id) => {
         if (id) {
-            fetch(`https://collaballapp.herokuapp.com/api/auth/single/profile/get/${id}`, {
+            fetch(`https://chalechat.herokuapp.com/api/auth/single/profile/get/${id}`, {
                 method: 'get',
                 headers: {
                     'Content-Type': "application/json",

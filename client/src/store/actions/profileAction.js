@@ -10,7 +10,7 @@ export const getMyProfile = (token) => {
             }
         })
         try {
-            fetch('https://collaballapp.herokuapp.com/api/auth/my/profile', {
+            fetch('https://chalechat.herokuapp.com/api/auth/my/profile', {
                 method: 'GET',
                 headers: {
                     'Content-Type': "application/json",
@@ -63,7 +63,7 @@ export const getMyProfile = (token) => {
 }
 export const singleProfileGet = (auth, id) => {
     return (dispatch) => {
-        fetch(`https://collaballapp.herokuapp.com/api/auth/single/profile/get/${id}`, {
+        fetch(`https://chalechat.herokuapp.com/api/auth/single/profile/get/${id}`, {
             method: 'get',
             headers: {
                 'Content-Type': "application/json",
@@ -101,7 +101,7 @@ export const singleProfileGet = (auth, id) => {
 }
 export const updateProfile = (auth, data) => {
     return (dispatch) => {
-        fetch(`https://collaballapp.herokuapp.com/api/auth/update`, {
+        fetch(`https://chalechat.herokuapp.com/api/auth/update`, {
             method: 'PUT',
             headers: {
                 'Content-Type': "application/json",
