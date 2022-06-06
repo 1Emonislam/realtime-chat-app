@@ -108,7 +108,8 @@ const DashBoardHome = ({ mode, handleSingleChat }) => {
                                 }}>
                                     {/* <IoIosNotifications style={{ fontSize: '28px' }}></IoIosNotifications>
                                     <Typography sx={{ textAlign: "center", fontSize: '14px' }} variant="h6" gutterBottom component="div">Notification</Typography> */}
-                                    <MessageNotificationBadge handleSingleChat={handleSingleChat} />
+                                    <MessageNotificationBadge handleSingleChat={handleSingleChat} style={{ position: 'relative', left: '50px' }} />
+                                    <Typography sx={{ textAlign: "center", fontSize: '14px' }} variant="h6" gutterBottom component="div">Notifications</Typography>
                                 </Box>
 
                             </Box>
