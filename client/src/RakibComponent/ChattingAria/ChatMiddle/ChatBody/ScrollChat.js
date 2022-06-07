@@ -334,70 +334,15 @@ function ScrollChat({ messages, user, handleTyping, isTyping }) {
                                     </div>
 
                                     {
-                                        !moment(m?.updatedAt)?.fromNow()?.includes('hours')
-                                        &&
-                                        <>
-                                            {
-                                                !moment(m?.updatedAt)?.fromNow()?.includes('hour')
-                                                &&
-                                                <>
-                                                    {
-                                                        !moment(m?.updatedAt)?.fromNow()?.includes('minutes')
-                                                        &&
-                                                        <>
-                                                            {
-                                                                !moment(m?.updatedAt)?.fromNow()?.includes('seconds')
-                                                                &&
-                                                                <Divider>
-                                                                    <Chip
-                                                                        variant='outlined'
-                                                                        size='small'
-                                                                        label={`
-                                                                ${(new Date(m?.updatedAt))?.toLocaleDateString('en-us', { weekday: "long" })
-                                                                            },
-                                                                
-                                                                ${(new Date(m?.updatedAt))?.toLocaleDateString('en-us', { month: "long" })
-                                                                            }
-                                                                ${(new Date(m?.updatedAt))?.toLocaleDateString('en-us', { day: "numeric" })
-                                                                            }${(parseInt((new Date(m?.updatedAt))?.toLocaleDateString('en-us', { day: "numeric" }))) === 31
-                                                                                ||
-                                                                                (parseInt((new Date(m?.updatedAt))?.toLocaleDateString('en-us', { day: "numeric" }))) === 21
-                                                                                ||
-                                                                                (parseInt((new Date(m?.updatedAt))?.toLocaleDateString('en-us', { day: "numeric" }))) === 1
-                                                                                ?
-                                                                                "st"
-                                                                                :
-                                                                                (parseInt((new Date(m?.updatedAt))?.toLocaleDateString('en-us', { day: "numeric" }))) === 22
-                                                                                    ||
-                                                                                    (parseInt((new Date(m?.updatedAt))?.toLocaleDateString('en-us', { day: "numeric" }))) === 2
-                                                                                    ?
-                                                                                    "nd"
-                                                                                    :
-                                                                                    (parseInt((new Date(m?.updatedAt))?.toLocaleDateString('en-us', { day: "numeric" }))) === 23
-                                                                                        ||
-                                                                                        (parseInt((new Date(m?.updatedAt))?.toLocaleDateString('en-us', { day: "numeric" }))) === 3
-                                                                                        ?
-                                                                                        "rd"
-                                                                                        :
-                                                                                        "th"
+                                        <Divider>
+                                            <Chip
+                                                variant='outlined'
+                                                size='small'
+                                                label={`
+                                                 ${moment(m?.updatedAt)?.format('dddd, MMM Do')} `} />
 
-                                                                            // condition style-1
-                                                                            // (31==d||21==d||1==d?"st":22==d||2==d?"nd":23==d||3==d?"rd":"th")
-                                                                            // condition style-2
-                                                                            // n>3&&n<21?"th":n%10==2?"nd":n%10==2?"nd":n%10==3?"rd":"th"
-                                                                            }
-                                                                `
-                                                                        }
-                                                                    />
-                                                                </Divider>
-                                                            }
-                                                        </>
-                                                    }
-                                                </>
-                                            }
-                                        </>
+                                        </Divider>
                                     }
-
                                 </span>
                             ))}
                             {uploads?.loading && <>
