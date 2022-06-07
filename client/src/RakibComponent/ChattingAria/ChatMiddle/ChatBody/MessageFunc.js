@@ -40,7 +40,6 @@ export default function MessageFunc({ isSameSenderPermission, handleTyping, isTy
 
     const handleNoteOpen = () => {
         setNoteOpen(true)
-        handleClose()
     };
     const handleNoteClose = () => {
         setNoteOpen(false)
