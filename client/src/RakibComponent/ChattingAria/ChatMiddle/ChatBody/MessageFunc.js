@@ -205,7 +205,7 @@ export default function MessageFunc({ isSameSenderPermission, handleTyping, isTy
                 {/* onClick={() => dispatch(noteCreate(messageInfo?._id, messageInfo?.chat?._id, auth.user?.token))} */}
                 {/* Add to Note Message */}
                 <Typography onClick={handleNoteOpen} sx={{ cursor: 'pointer', '&:hover': { bgcolor: 'rgb(234, 234, 234, 0.5)' }, py: 1, px: 2, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                    <span style={{ fontSize: 14 }}> add To Note </span>
+                    <span style={{ fontSize: 14 }}> Add To Note </span>
                     <span>
                         <img style={{ height: '20px', marginLeft: '10px' }} src={addNoteImg} alt='' />
                     </span>
