@@ -176,7 +176,6 @@ export default function MessageFunc({ isSameSenderPermission, handleTyping, isTy
                     <Typography onClick={() => {
                         messageEditHandle(true)
                         dispatch(updateMessageStore(messageInfo))
-                        handleClose()
                     }} sx={{ cursor: 'pointer', '&:hover': { bgcolor: 'rgb(234, 234, 234, 0.5)' }, fontSize: 14, py: 1, px: 2, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }} >
                         Edit
                         <span>
