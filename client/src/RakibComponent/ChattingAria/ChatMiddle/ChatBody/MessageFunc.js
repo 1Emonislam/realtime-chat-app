@@ -89,7 +89,6 @@ export default function MessageFunc({ isSameSenderPermission, handleTyping, isTy
         }
         if (condition === false) {
             setEditMessageOpen(false)
-            handleClose()
         }
     }
 
