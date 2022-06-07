@@ -87,7 +87,6 @@ export default function MessageFunc({ isSameSenderPermission, handleTyping, isTy
     const messageEditHandle = (condition) => {
         if (condition === true) {
             setEditMessageOpen(true)
-            handleClose()
         }
         if (condition === false) {
             setEditMessageOpen(false)
