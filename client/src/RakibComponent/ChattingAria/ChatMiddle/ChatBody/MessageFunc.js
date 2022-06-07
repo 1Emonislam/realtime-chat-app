@@ -22,15 +22,32 @@ import NoteAdd from './NoteAdd';
 
 export default function MessageFunc({ isSameSenderPermission, handleTyping, isTyping, message, messageInfo }) {
     const { theme, auth, groupMessage } = useSelector(state => state);
-    const dispatch = useDispatch()
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [noteOpen, setNoteOpen] = React.useState(false);
-    const handleNoteOpen = () => setNoteOpen(true);
-    const handleNoteClose = () => setNoteOpen(false);
-    // text to read
     const [enable, setEnbale] = React.useState(true)
     const [value, setValue] = React.useState(message);
     const { speak, cancel } = useSpeechSynthesis();
+    const dispatch = useDispatch()
+    const handleClick = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
+    const open = Boolean(anchorEl);
+    const id = open ? 'simple-popover' : undefined;
+
+    const handleNoteOpen = () => {
+        setNoteOpen(true)
+        handleClose()
+    };
+    const handleNoteClose = () => {
+        setNoteOpen(false)
+        handleClose()
+    };
+    // text to read
+
 
     const handleSpeechToRead = () => {
         setValue(message)
@@ -47,17 +64,9 @@ export default function MessageFunc({ isSameSenderPermission, handleTyping, isTy
             draggable: true,
             progress: undefined,
         });
+        handleClose()
     }
-    const handleClick = (event) => {
-        setAnchorEl(event.currentTarget);
-    };
 
-    const handleClose = () => {
-        setAnchorEl(null);
-    };
-
-    const open = Boolean(anchorEl);
-    const id = open ? 'simple-popover' : undefined;
 
     const handleCopy = () => {
         navigator.clipboard.writeText(message)
@@ -72,14 +81,17 @@ export default function MessageFunc({ isSameSenderPermission, handleTyping, isTy
             draggable: true,
             progress: undefined,
         });
+        handleClose()
     }
     const [editMessageOpen, setEditMessageOpen] = React.useState(false);
     const messageEditHandle = (condition) => {
         if (condition === true) {
             setEditMessageOpen(true)
+            handleClose()
         }
         if (condition === false) {
             setEditMessageOpen(false)
+            handleClose()
         }
     }
 
@@ -154,9 +166,6 @@ export default function MessageFunc({ isSameSenderPermission, handleTyping, isTy
                     vertical: 'top',
                     horizontal: 'center',
                 }}
-                PaperProps={{
-                    style: { width: '17%',  padding: '10px 10px 25px' },
-                }}
             >
                 {/* copy message */}
                 <Typography onClick={handleCopy} sx={{ cursor: 'pointer', '&:hover': { bgcolor: 'rgb(234, 234, 234, 0.5)' }, py: 1, px: 2, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -169,6 +178,7 @@ export default function MessageFunc({ isSameSenderPermission, handleTyping, isTy
                     <Typography onClick={() => {
                         messageEditHandle(true)
                         dispatch(updateMessageStore(messageInfo))
+                        handleClose()
                     }} sx={{ cursor: 'pointer', '&:hover': { bgcolor: 'rgb(234, 234, 234, 0.5)' }, fontSize: 14, py: 1, px: 2, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }} >
                         Edit
                         <span>
@@ -179,6 +189,7 @@ export default function MessageFunc({ isSameSenderPermission, handleTyping, isTy
                     {/* Delete message */}
                     {(auth?.user?.token) && <Typography onClick={() => {
                         dispatch(deleteMessage(messageInfo?.chat?._id, messageInfo?._id, auth?.user?.token))
+                        handleClose()
                     }} sx={{ cursor: 'pointer', '&:hover': { bgcolor: 'rgb(234, 234, 234, 0.5)' }, py: 1, px: 2, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                         <span style={{ fontSize: 14 }}> Delete </span>
                         {/* {messageInfo?.chat?._id && messageInfo?._id && auth?.user?.token 
@@ -210,6 +221,7 @@ export default function MessageFunc({ isSameSenderPermission, handleTyping, isTy
                         icon: `question?`
                     }
                     dispatch(reactionMessage(reaction, messageInfo?.chat?._id, messageInfo?._id, auth.user?.token))
+                    handleClose()
                 }} sx={{ cursor: 'pointer', '&:hover': { bgcolor: 'rgb(234, 234, 234, 0.5)' }, py: 1, px: 2, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                     <span style={{ fontSize: 14 }}>Question</span>
                     <span>
@@ -233,6 +245,7 @@ export default function MessageFunc({ isSameSenderPermission, handleTyping, isTy
                         icon: `don't understand!`
                     }
                     dispatch(reactionMessage(reaction, messageInfo?.chat?._id, messageInfo?._id, auth.user?.token))
+                    handleClose()
                 }} sx={{ cursor: 'pointer', '&:hover': { bgcolor: 'rgb(234, 234, 234, 0.5)' }, py: 1, px: 2, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                     <span style={{ fontSize: 14 }}> Don't Understand
                     </span>
@@ -264,6 +277,7 @@ export default function MessageFunc({ isSameSenderPermission, handleTyping, isTy
                         draggable: true,
                         progress: undefined,
                     });
+                    handleClose()
                 }} sx={{ cursor: 'pointer', '&:hover': { bgcolor: 'rgb(234, 234, 234, 0.5)' }, py: 1, px: 2, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                     <span style={{ fontSize: 14, color: '#dda248', fontWeight: '700' }}>Stop Read Message
 
