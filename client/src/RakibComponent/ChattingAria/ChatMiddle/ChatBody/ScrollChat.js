@@ -572,9 +572,9 @@ function ScrollChat({ messages, user, handleTyping, isTyping }) {
                                             </div>
                                             <span
                                                 style={{
-                                                    backgroundColor: `${m?.sender?._id === user?._id ? "#2f3136" : "darkslategray"
+                                                    backgroundColor: `${m?.sender?._id === user?._id ? "blue" : "white"
                                                         }`,
-                                                    color: `${m?.sender?._id === user?._id ? "white" : "powderblue"
+                                                    color: `${m?.sender?._id === user?._id ? "white" : "black"
                                                         }`,
                                                     marginLeft: isSameSenderMargin(messages, m, i, user?._id),
                                                     marginTop: isSameUser(messages, m, i, user._id) ? 3 : 10,
