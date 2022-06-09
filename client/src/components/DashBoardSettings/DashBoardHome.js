@@ -1,25 +1,24 @@
 import GroupsIcon from '@mui/icons-material/Groups';
 import SettingsIcon from '@mui/icons-material/Settings';
 import { Box, Container, Grid, Paper, Tooltip, Typography } from '@mui/material';
-import React from 'react';
+import React, { useEffect } from 'react';
 // import { AiOutlineArrowDown, AiOutlineArrowUp } from "react-icons/ai";
 import {
     BsFillChatDotsFill,
     BsFillChatLeftFill,
     BsFillPeopleFill
 } from "react-icons/bs";
+import { FcDoughnutChart } from "react-icons/fc";
 import {
     HiUserGroup
 } from "react-icons/hi";
-import { FcDoughnutChart } from "react-icons/fc";
 import { MdGroupAdd } from 'react-icons/md';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 // import { MdGroupAdd } from "react-icons/md";
 import pic from "../../images/increase.png";
-import MessageNotificationBadge from '../Notification/MsgNotificationBadge';
-import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { getGraphDahboardData } from '../../store/actions/graphActions';
+import MessageNotificationBadge from '../Notification/MsgNotificationBadge';
 const DashBoardHome = ({ mode, handleSingleChat }) => {
     const navigate = useNavigate()
     const dispatch = useDispatch()
@@ -120,7 +119,7 @@ const DashBoardHome = ({ mode, handleSingleChat }) => {
                                     <BsFillChatDotsFill style={{ transform: 'scaleX(-1)' }} />
                                     <Typography sx={{ textAlign: "center", fontSize: '14px' }} variant="h6" gutterBottom component="div">Notes</Typography>
                                 </Box>
-                                <Box sx={{ textAlign: "center", mb: "4px", fontSize: '20px', cursor: 'pointer' }} onClick={() => {
+                                <Box sx={{ textAlign: "center", marginRight: '20px', mb: "4px", fontSize: '20px', cursor: 'pointer' }} onClick={() => {
                                     navigate('/chat')
                                 }}>
                                     <GroupsIcon style={{ fontSize: '30px' }} />
