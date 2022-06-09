@@ -572,7 +572,7 @@ function ScrollChat({ messages, user, handleTyping, isTyping }) {
                                             </div>
                                             <span
                                                 style={{
-                                                    backgroundColor: `${m?.sender?._id === user?._id ? "blue" : "white"
+                                                    backgroundColor: `${m?.sender?._id === user?._id ? "#5865f2" : "#E8EFFF"
                                                         }`,
                                                     color: `${m?.sender?._id === user?._id ? "white" : "black"
                                                         }`,
