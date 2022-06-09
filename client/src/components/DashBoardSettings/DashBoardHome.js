@@ -113,7 +113,7 @@ const DashBoardHome = ({ mode, handleSingleChat }) => {
 
                             </Box>
                             <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between", px: "30px" }}>
-                                <Box sx={{ textAlign: "center", mb: "4px", fontSize: '20px', cursor: 'pointer' }} onClick={() => {
+                                <Box sx={{ textAlign: "center", mb: "4px", fontSize: '17px', cursor: 'pointer' }} onClick={() => {
                                     window?.location?.replace('/notes')
                                 }}>
                                     <BsFillChatDotsFill style={{ transform: 'scaleX(-1)' }} />
