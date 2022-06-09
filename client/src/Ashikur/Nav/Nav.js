@@ -29,10 +29,12 @@ const Nav = ({ handleSingleChat, children }) => {
   const theme = palette?.mode;
   const themeMode = () => {
     if (theme === "light") {
-      return 'mobile-menu light"';
+      // document.body.style.background = "#fefefe";
+      return  'mobile-menu'
     }
     if (theme === "dark") {
-      return "mobile-menu dark ";
+      // document.body.style.background = "#36393f";
+      return "mobile-menu";
     }
   };
 
@@ -229,7 +231,7 @@ const Nav = ({ handleSingleChat, children }) => {
             ></AddGroups>
             {/* <FontAwesomeSvgIcon icon={faEllipsisV} /> */}
             <Tooltip followCursor title='Notes' arrow>
-              <span onClick ={() =>{
+              <span onClick={() => {
                 window.location.replace('/notes')
               }}>
                 <ToggleButton value="seven">

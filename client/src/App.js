@@ -45,6 +45,8 @@ export const ThemeSelectContext = React.createContext();
 export const PaginationContext = React.createContext();
 const ColorModeContext = React.createContext({ toggleColorMode: () => { } });
 export default function ToggleColorMode() {
+  // const themeColor = document.getElementsByTagName('body')
+  // console.log(themeColor)
   const { auth, selectedChat } = useSelector(state => state);
   const [mode, setMode] = React.useState(
     window.localStorage.getItem("themeCurrent") ? JSON.parse(window.localStorage.getItem("themeCurrent")) : 'light');
@@ -58,7 +60,7 @@ export default function ToggleColorMode() {
     document.body.style.background = "#fefefe";
   }
   if (mode === "dark") {
-    document.body.style.background = " #111";
+    document.body.style.background = "#36393f";
   }
   const colorMode = React.useMemo(
     () => ({
@@ -214,7 +216,7 @@ export default function ToggleColorMode() {
                 <Route
                   path="/dashboard"
                   element={
-                    <UserDashboard mode={mode}handleSingleChat={handleSingleChat}>
+                    <UserDashboard mode={mode} handleSingleChat={handleSingleChat}>
                       <ThemeSwitch
                         onClick={colorMode.toggleColorMode}
                         style={{ fontSize: "20px" }}
