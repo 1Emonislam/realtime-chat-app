@@ -220,17 +220,17 @@ module.exports.changedPassword = async (req, res) => {
   const user = await User.findOne({ _id: req?.user?._id });
   const issue = {}
   if (!(password === password2)) {
-    issue.passowrd2 = 'New Password and Confirm Password are not the same!'
+    issue.password2 = 'New Password and Confirm Password are not the same!'
   }
   function checkPassword(password) {
     var re = /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
     return re.test(password);
   }
   if (!(checkPassword(password))) {
-    issue.passowrd = "Password should contain min 8 letter password, with at least a symbol, upper and lower case";
+    issue.password = "Password should contain min 8 letter password, with at least a symbol, upper and lower case";
   }
   if (!(oldPassword && (await user?.matchPassword(oldPassword)))) {
-    issue.passowrd = 'old password does not match!'
+    issue.password = 'old password does not match!'
   }
   if (Object.keys(issue)?.length) {
     return res.status(400).json({ error: issue })
@@ -644,31 +644,31 @@ module.exports.logOut = (req, res, next) => {
 };
 
 module.exports.resetPassword = async (req, res) => {
-  const { passowrd, passowrd2 } = req.body;
+  const { password, password2 } = req.body;
   const user = await User.findOne(req?.user?._id);
   // console.log(user)
   const issue = {};
   if (!user) {
     issue.email = 'user credentials invalid!'
   }
-  if (!passowrd) {
-    issue.passowrd = 'Invalid Password Please provide valid password'
+  if (!password) {
+    issue.password = 'Invalid Password Please provide valid password'
   }
-  if (!(passowrd === passowrd2)) {
-    issue.passowrd2 = 'Password does not match New Password And Confirm Password'
+  if (!(password === password2)) {
+    issue.password2 = 'Password does not match New Password And Confirm Password'
   }
   function checkPassword(password) {
     var re = /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
     return re.test(password);
   }
   if (!(checkPassword(password))) {
-    issue.passowrd = "Password should contain min 8 letter password, with at least a symbol, upper and lower case"
+    issue.password = "Password should contain min 8 letter password, with at least a symbol, upper and lower case"
   }
   if (Object.keys(issue)?.length) {
     return res.status(400).json({ error: issue })
   }
   if (user) {
-    user.password = passowrd;
+    user.password = password;
     const resetPass = await user.save();
     resetPass.save().then(savedDoc => {
       const userData = {};
