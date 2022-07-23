@@ -1,4 +1,5 @@
-# chat-app
+# chat-app only desktop version
+## Netlify Live: https://chale-chat.netlify.com 
 
 # back end api
 
